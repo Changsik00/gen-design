@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-없음
+- **phase-1** — Foundation (기반 셋업) — 3 spec — 다음: spec-1-003-design-token-pipeline
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -40,7 +40,7 @@
 <!-- sdd:queued:start -->
 | Phase | 제목 | 상태 |
 |---|---|---|
-| `phase-1` | [Foundation (기반 셋업)](phase-1.md) | Queued |
+| `phase-1` | [Foundation (기반 셋업)](phase-1.md) | **Active** |
 | `phase-2` | [Page Template 시스템](phase-2.md) | Queued |
 | `phase-3` | [App Blueprint](phase-3.md) | Queued |
 | `phase-4` | [협업 Flow 정의](phase-4.md) | Queued |

@@ -1,0 +1,104 @@
+{
+  "common": {
+    "nav": {
+      "signin": "로그인",
+      "signup": "회원가입",
+      "home": "홈",
+      "dashboard": "대시보드",
+      "settings": "설정"
+    },
+    "action": {
+      "submit": "제출",
+      "cancel": "취소",
+      "save": "저장",
+      "delete": "삭제",
+      "edit": "수정",
+      "close": "닫기",
+      "confirm": "확인",
+      "back": "뒤로"
+    },
+    "status": {
+      "loading": "로딩 중...",
+      "error": "오류가 발생했습니다",
+      "success": "성공",
+      "empty": "데이터가 없습니다"
+    }
+  },
+  "login": {
+    "title": "로그인",
+    "form": {
+      "email": {
+        "label": "이메일",
+        "placeholder": "이메일을 입력하세요"
+      },
+      "password": {
+        "label": "비밀번호",
+        "placeholder": "비밀번호를 입력하세요"
+      },
+      "remember": {
+        "label": "로그인 상태 유지"
+      },
+      "submit": {
+        "label": "로그인"
+      }
+    },
+    "social": {
+      "google": { "label": "Google로 계속하기" },
+      "apple": { "label": "Apple로 계속하기" },
+      "kakao": { "label": "카카오로 계속하기" }
+    },
+    "footer": {
+      "forgot": "비밀번호를 잊으셨나요?",
+      "signup": {
+        "prompt": "계정이 없으신가요?",
+        "link": "회원가입"
+      }
+    }
+  },
+  "signup": {
+    "title": "회원가입",
+    "form": {
+      "name": {
+        "label": "이름",
+        "placeholder": "이름을 입력하세요"
+      },
+      "email": {
+        "label": "이메일",
+        "placeholder": "이메일을 입력하세요"
+      },
+      "password": {
+        "label": "비밀번호",
+        "placeholder": "8자 이상 입력하세요"
+      },
+      "confirm": {
+        "label": "비밀번호 확인",
+        "placeholder": "비밀번호를 다시 입력하세요"
+      },
+      "terms": {
+        "label": "이용약관 및 개인정보처리방침에 동의합니다"
+      },
+      "submit": {
+        "label": "가입하기"
+      }
+    },
+    "footer": {
+      "login": {
+        "prompt": "이미 계정이 있으신가요?",
+        "link": "로그인"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "대시보드",
+    "stats": {
+      "revenue": { "label": "매출" },
+      "users": { "label": "사용자 수" },
+      "orders": { "label": "주문 수" },
+      "growth": { "label": "성장률" }
+    },
+    "activity": {
+      "title": "최근 활동",
+      "empty": "최근 활동이 없습니다"
+    }
+  }
+}

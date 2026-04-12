@@ -19,3 +19,11 @@ SDD 작업 시작 시 `/hk-align` 슬래시 커맨드를 호출하면 전체 거
 자세한 내용은 `agent/constitution.md` 와 `agent/agent.md` 참조.
 
 <!-- HARNESS-KIT:END -->
+
+## 개발 환경 (필수 준수)
+
+- **패키지 매니저**: `pnpm` 만 사용. `npm install`, `npm run` 등 npm 명령 사용 금지
+- **Node.js**: >= 24 (`.node-version` 참조)
+- **corepack**: `corepack enable` 으로 pnpm 활성화
+- **studio 프로젝트**: `cd studio && pnpm install` → `pnpm dev` / `pnpm build`
+- **토큰 빌드**: `pnpm tokens` (tokens.json → CSS 변수 자동 생성)

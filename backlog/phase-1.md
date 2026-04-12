@@ -9,7 +9,7 @@
 | 항목 | 값 |
 |---|---|
 | **Phase ID** | `phase-1` |
-| **상태** | Planning |
+| **상태** | In Progress |
 | **시작일** | TBD |
 | **목표 종료일** | TBD |
 | **소유자** | Dennis |
@@ -39,6 +39,9 @@ DESIGN.md 포맷(Stitch/awesome-design-md), 디자인 토큰 표준(W3C DTCG), H
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
+| `spec-1-001` | design-md-schema | P? | Active | `specs/spec-1-001-design-md-schema/` |
+| `spec-1-002` | react-project-setup | P? | Active | `specs/spec-1-002-react-project-setup/` |
+| `spec-1-003` | design-token-pipeline | P? | Active | `specs/spec-1-003-design-token-pipeline/` |
 <!-- sdd:specs:end -->
 
 ### spec-1-001 — DESIGN.md 포맷 분석 및 확장 정의
