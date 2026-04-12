@@ -1,73 +1,78 @@
-# React + TypeScript + Vite
+# Design Studio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+DESIGN.md 기반 디자인 시스템 산출물을 생성하고 검증하는 React 웹앱.
+이 앱 자체가 디자인 시스템을 사용하는 dogfooding 프로젝트.
 
-Currently, two official plugins are available:
+## 시작하기
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+```bash
+# 의존성 설치
+npm install
 
-## React Compiler
+# 개발 서버 (http://localhost:5173)
+npm run dev
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+# 프로덕션 빌드
+npm run build
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+# 빌드 미리보기
+npm run preview
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## 사용 패키지
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+| 패키지 | 버전 | 역할 |
+|--------|------|------|
+| React | 19 | UI 프레임워크 |
+| TypeScript | 5.8 | 타입 안정성 |
+| Vite | 8 | 빌드 도구 + HMR |
+| Tailwind CSS | v4 | 유틸리티 퍼스트 스타일링 |
+| shadcn/ui | latest | Radix 기반 컴포넌트 (코드 소유 모델) |
+| class-variance-authority (cva) | — | 컴포넌트 variant 타입 안전 정의 |
+| clsx + tailwind-merge | — | `cn()` 유틸 — 조건부 클래스 + 충돌 해결 |
+| tw-animate-css | — | 애니메이션 프리셋 |
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+## 디렉토리 구조
+
 ```
+src/
+├── components/
+│   └── ui/              ← shadcn/ui 컴포넌트 (Button, Input, Card, Dialog)
+├── lib/
+│   └── utils.ts         ← cn() 유틸 (clsx + tailwind-merge)
+├── App.tsx              ← 메인 앱
+├── main.tsx             ← 엔트리포인트
+└── index.css            ← Tailwind + shadcn/ui 테마 (CSS 변수)
+```
+
+## 테마 구조
+
+shadcn/ui가 생성한 CSS 변수 기반 테마 (`index.css`):
+
+```
+:root {
+  --primary          ← bg-primary, text-primary
+  --secondary        ← bg-secondary, text-secondary
+  --destructive      ← bg-destructive
+  --accent           ← bg-accent
+  --muted            ← bg-muted, text-muted-foreground
+  --border           ← border-border
+  --ring             ← ring-ring
+  --radius           ← rounded-*
+  ...
+}
+```
+
+이 CSS 변수들이 spec-1-003 (토큰 파이프라인)에서 `tokens.json`과 연결됩니다.
+
+## 컴포넌트 추가
+
+```bash
+# shadcn/ui 컴포넌트 추가
+npx shadcn@latest add [component-name]
+
+# 예시
+npx shadcn@latest add select checkbox tabs toast tooltip
+```
+
+추가된 컴포넌트는 `src/components/ui/`에 소스 코드로 복사됩니다 (npm 패키지가 아님).
