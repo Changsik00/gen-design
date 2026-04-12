@@ -117,7 +117,9 @@ Design/
 │       ├── i18n/             ← 다국어 텍스트 리소스
 │       └── tokens/           ← 디자인 토큰 JSON (W3C DTCG)
 ├── design-md-collection/     ← 66개 브랜드 DESIGN.md 레퍼런스
-├── docs/decisions/           ← ADR (아키텍처 결정 기록)
+├── docs/
+│   ├── decisions/            ← ADR (아키텍처 결정 기록)
+│   └── integrations/         ← 디자인 도구 연동 가이드 (Paper, Stitch, Figma)
 ├── agent/                    ← 에이전트 거버넌스 (harness-kit)
 ├── backlog/                  ← Phase별 백로그
 └── specs/                    ← Spec 산출물
