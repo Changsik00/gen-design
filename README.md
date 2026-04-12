@@ -119,6 +119,7 @@ Design/
 ├── design-md-collection/     ← 66개 브랜드 DESIGN.md 레퍼런스
 ├── docs/
 │   ├── decisions/            ← ADR (아키텍처 결정 기록)
+│   ├── guides/               ← 매핑 규칙, 변환 가이드
 │   └── integrations/         ← 디자인 도구 연동 가이드 (Paper, Stitch, Figma)
 ├── agent/                    ← 에이전트 거버넌스 (harness-kit)
 ├── backlog/                  ← Phase별 백로그
