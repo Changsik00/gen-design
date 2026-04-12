@@ -1,5 +1,8 @@
 # obsidian
 .obsidian/
 
+# dependencies
+node_modules/
+
 # harness-kit
 .claude/state/

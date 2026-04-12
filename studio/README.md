@@ -3,20 +3,38 @@
 DESIGN.md 기반 디자인 시스템 산출물을 생성하고 검증하는 React 웹앱.
 이 앱 자체가 디자인 시스템을 사용하는 dogfooding 프로젝트.
 
+## 환경 요구사항
+
+| 항목 | 버전 | 비고 |
+|------|------|------|
+| Node.js | >= 24 | `.node-version` 참조 (fnm/nvm 자동 감지) |
+| pnpm | >= 10 | `corepack enable`로 활성화. **npm/yarn 사용 금지** |
+
+```bash
+# corepack으로 pnpm 활성화 (최초 1회)
+corepack enable
+
+# Node 버전 확인
+node --version  # v24.x
+```
+
 ## 시작하기
 
 ```bash
-# 의존성 설치
-npm install
+# 의존성 설치 (pnpm 필수)
+pnpm install
 
 # 개발 서버 (http://localhost:5173)
-npm run dev
+pnpm dev
 
-# 프로덕션 빌드
-npm run build
+# 토큰 빌드만
+pnpm tokens
+
+# 프로덕션 빌드 (tokens → tsc → vite)
+pnpm build
 
 # 빌드 미리보기
-npm run preview
+pnpm preview
 ```
 
 ## 사용 패키지
