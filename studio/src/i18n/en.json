@@ -1,0 +1,104 @@
+{
+  "common": {
+    "nav": {
+      "signin": "Sign in",
+      "signup": "Sign up",
+      "home": "Home",
+      "dashboard": "Dashboard",
+      "settings": "Settings"
+    },
+    "action": {
+      "submit": "Submit",
+      "cancel": "Cancel",
+      "save": "Save",
+      "delete": "Delete",
+      "edit": "Edit",
+      "close": "Close",
+      "confirm": "Confirm",
+      "back": "Back"
+    },
+    "status": {
+      "loading": "Loading...",
+      "error": "An error occurred",
+      "success": "Success",
+      "empty": "No data available"
+    }
+  },
+  "login": {
+    "title": "Sign in",
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "remember": {
+        "label": "Remember me"
+      },
+      "submit": {
+        "label": "Sign in"
+      }
+    },
+    "social": {
+      "google": { "label": "Continue with Google" },
+      "apple": { "label": "Continue with Apple" },
+      "kakao": { "label": "Continue with Kakao" }
+    },
+    "footer": {
+      "forgot": "Forgot your password?",
+      "signup": {
+        "prompt": "Don't have an account?",
+        "link": "Sign up"
+      }
+    }
+  },
+  "signup": {
+    "title": "Sign up",
+    "form": {
+      "name": {
+        "label": "Name",
+        "placeholder": "Enter your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "Enter your email"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "At least 8 characters"
+      },
+      "confirm": {
+        "label": "Confirm password",
+        "placeholder": "Re-enter your password"
+      },
+      "terms": {
+        "label": "I agree to the Terms of Service and Privacy Policy"
+      },
+      "submit": {
+        "label": "Create account"
+      }
+    },
+    "footer": {
+      "login": {
+        "prompt": "Already have an account?",
+        "link": "Sign in"
+      }
+    }
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "stats": {
+      "revenue": { "label": "Revenue" },
+      "users": { "label": "Users" },
+      "orders": { "label": "Orders" },
+      "growth": { "label": "Growth" }
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "empty": "No recent activity"
+    }
+  }
+}
