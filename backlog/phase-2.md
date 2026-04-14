@@ -73,11 +73,17 @@ shadcn/ui는 Button, Card, Dialog 등 Primitive 수준의 컴포넌트를 제공
 - **방향성**: OverviewPage (StatCard, RecentActivity, Chart 영역). variant: full-page / sidebar-layout
 - **연관 모듈**: `studio/src/components/templates/`
 
-### spec-2-004 — 토큰/i18n 교체 검증
+### spec-2-004 — 토큰/i18n 교체 검증 + Paper 디자인 매칭
 
-- **요점**: Page Template의 토큰·i18n 교체로 브랜딩·언어가 바뀌는지 실증
+- **요점**: Page Template의 토큰·i18n 교체로 브랜딩·언어가 바뀌는지 실증 + Paper 디자인과의 스타일 일치
 - **방향성**: 브랜드 A 토큰 → 브랜드 B 토큰 교체 시 UI 변경 확인. 한국어 → 영어 i18n 교체 시 텍스트 변경 + 레이아웃 유지 확인. variant(page→modal) 전환 확인
 - **연관 모듈**: `studio/src/components/templates/`
+- **spec-2-002에서 발견된 이슈**:
+  - Paper "Login" 아트보드는 split-screen 풀 레이아웃 (다크 브랜딩 좌측 패널 + 우측 폼, 보라색 CTA, "or continue with" 구분선)
+  - Paper "LoginPage — DESIGN.md E2E Test" 아트보드는 카드 중앙 레이아웃 (현재 구현과 구조 동일)
+  - 현재 shadcn/ui 기본 사이즈가 compact (h-8 버튼, 작은 input, 400px Card) — Paper 디자인은 더 넉넉한 사이즈/패딩
+  - tokens.json 값이 shadcn 기본값이며 Paper 디자인에서 추출한 값이 아님 → Paper에서 컬러/사이즈/스페이싱 추출 후 tokens.json 반영 필요
+  - **결정 필요**: 어느 Paper 디자인을 기준으로 스타일 매칭할지 (split-screen vs 카드 중앙)
 
 ## 🧪 통합 테스트 시나리오 (간결)
 
