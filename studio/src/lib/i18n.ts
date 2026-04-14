@@ -13,7 +13,7 @@ export function getLoginPageTexts(locale: Locale = "ko"): LoginPageTexts {
   const t = localeMap[locale];
   return {
     title: t.login.title,
-    description: t.common.nav.signin,
+    description: t.login.description,
     emailLabel: t.login.form.email.label,
     emailPlaceholder: t.login.form.email.placeholder,
     passwordLabel: t.login.form.password.label,
@@ -32,7 +32,7 @@ export function getSignupPageTexts(locale: Locale = "ko"): SignupPageTexts {
   const t = localeMap[locale];
   return {
     title: t.signup.title,
-    description: t.common.nav.signup,
+    description: t.signup.description,
     nameLabel: t.signup.form.name.label,
     namePlaceholder: t.signup.form.name.placeholder,
     emailLabel: t.signup.form.email.label,

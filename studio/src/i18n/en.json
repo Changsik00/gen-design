@@ -26,6 +26,7 @@
   },
   "login": {
     "title": "Sign in",
+    "description": "Sign in to your account",
     "form": {
       "email": {
         "label": "Email",
@@ -57,6 +58,7 @@
   },
   "signup": {
     "title": "Sign up",
+    "description": "Create a new account",
     "form": {
       "name": {
         "label": "Name",
