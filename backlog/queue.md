@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-1** — Foundation (기반 셋업) — 3 spec — 다음: spec-1-003-design-token-pipeline
+- **phase-2** — Page Template 시스템 — 2 spec — 다음: spec-2-002-auth-templates
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -40,8 +40,8 @@
 <!-- sdd:queued:start -->
 | Phase | 제목 | 상태 |
 |---|---|---|
-| `phase-1` | [Foundation (기반 셋업)](phase-1.md) | **Active** |
-| `phase-2` | [Page Template 시스템](phase-2.md) | Queued |
+| `phase-1` | [Foundation (기반 셋업)](phase-1.md) | Done |
+| `phase-2` | [Page Template 시스템](phase-2.md) | **Active** |
 | `phase-3` | [App Blueprint](phase-3.md) | Queued |
 | `phase-4` | [협업 Flow 정의](phase-4.md) | Queued |
 | `phase-5` | [PoC 검증](phase-5.md) | Queued |
@@ -53,4 +53,5 @@
 
 <!-- sdd:done:start -->
 없음
+- **phase-1** — Foundation (기반 셋업) — completed 2026-04-14
 <!-- sdd:done:end -->
