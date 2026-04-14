@@ -1,5 +1,5 @@
 import type { ReactNode } from "react";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import {
   Dialog,
   DialogContent,
@@ -24,9 +24,7 @@ export function VariantWrapper({
   if (variant === "page") {
     return (
       <div className="min-h-screen flex items-center justify-center bg-background">
-        <Card className={className ?? "w-[400px]"}>
-          <CardContent className="space-y-4">{children}</CardContent>
-        </Card>
+        <Card className={className ?? "w-[400px]"}>{children}</Card>
       </div>
     );
   }
@@ -38,7 +36,7 @@ export function VariantWrapper({
           {triggerLabel}
         </DialogTrigger>
         <DialogContent className={className}>
-          <div className="space-y-4">{children}</div>
+          {children}
         </DialogContent>
       </Dialog>
     );
@@ -48,7 +46,7 @@ export function VariantWrapper({
   return (
     <div className="min-h-screen flex items-end justify-center bg-background">
       <Card className={className ?? "w-full max-w-[400px] rounded-b-none"}>
-        <CardContent className="space-y-4">{children}</CardContent>
+        {children}
       </Card>
     </div>
   );
