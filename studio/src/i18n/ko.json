@@ -92,6 +92,8 @@
   },
   "dashboard": {
     "title": "대시보드",
+    "searchPlaceholder": "검색...",
+    "nav": ["대시보드", "AI 채팅", "데이터베이스", "설정"],
     "stats": {
       "revenue": { "label": "매출" },
       "users": { "label": "사용자 수" },
@@ -100,6 +102,13 @@
     },
     "activity": {
       "title": "최근 활동",
+      "viewAll": "모두 보기 →",
+      "columns": {
+        "user": "사용자",
+        "action": "작업",
+        "status": "상태",
+        "time": "시간"
+      },
       "empty": "최근 활동이 없습니다"
     }
   }

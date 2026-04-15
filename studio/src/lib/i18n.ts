@@ -1,4 +1,4 @@
-import type { LoginPageTexts, SignupPageTexts } from "@/components/templates/types";
+import type { LoginPageTexts, SignupPageTexts, DashboardPageTexts } from "@/components/templates/types";
 import koJson from "@/i18n/ko.json";
 import enJson from "@/i18n/en.json";
 
@@ -45,5 +45,22 @@ export function getSignupPageTexts(locale: Locale = "ko"): SignupPageTexts {
     loginPrompt: t.signup.footer.login.prompt,
     loginLink: t.signup.footer.login.link,
     termsAgreement: t.signup.form.terms.label,
+  };
+}
+
+export function getDashboardPageTexts(locale: Locale = "ko"): DashboardPageTexts {
+  const t = localeMap[locale];
+  return {
+    title: t.dashboard.title,
+    searchPlaceholder: t.dashboard.searchPlaceholder,
+    navItems: t.dashboard.nav,
+    activityTitle: t.dashboard.activity.title,
+    activityViewAll: t.dashboard.activity.viewAll,
+    activityColumns: {
+      user: t.dashboard.activity.columns.user,
+      action: t.dashboard.activity.columns.action,
+      status: t.dashboard.activity.columns.status,
+      time: t.dashboard.activity.columns.time,
+    },
   };
 }
