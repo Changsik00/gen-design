@@ -6,12 +6,13 @@
 /* 토큰 파이프라인에서 자동 생성된 CSS 변수 */
 @import "./styles/_tokens-light.css";
 @import "./styles/_tokens-dark.css";
+@import "./styles/_tokens-brand-b.css";
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
-    --font-heading: var(--font-sans);
-    --font-sans: 'Geist Variable', sans-serif;
+    --font-heading: var(--font-heading);
+    --font-sans: var(--font-sans);
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
