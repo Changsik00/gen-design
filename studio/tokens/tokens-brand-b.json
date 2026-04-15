@@ -1,0 +1,81 @@
+{
+  "$schema": "https://design-tokens.org/schema.json",
+  "primitive": {
+    "$type": "color",
+    "neutral": {
+      "0": { "$value": "#FFFFFF" },
+      "50": { "$value": "#F8FAFC" },
+      "100": { "$value": "#F1F5F9" },
+      "200": { "$value": "#E2E8F0" },
+      "300": { "$value": "#CBD5E1" },
+      "400": { "$value": "#94A3B8" },
+      "500": { "$value": "#64748B" },
+      "600": { "$value": "#475569" },
+      "700": { "$value": "#334155" },
+      "800": { "$value": "#1E293B" },
+      "900": { "$value": "#0F172A" },
+      "950": { "$value": "#020617" }
+    },
+    "teal": {
+      "50": { "$value": "#F0FDFA" },
+      "100": { "$value": "#CCFBF1" },
+      "200": { "$value": "#99F6E4" },
+      "300": { "$value": "#5EEAD4" },
+      "400": { "$value": "#2DD4BF" },
+      "500": { "$value": "#14B8A6" },
+      "600": { "$value": "#0D9488" },
+      "700": { "$value": "#0F766E" }
+    },
+    "red": {
+      "400": { "$value": "#F87171" },
+      "500": { "$value": "#EF4444" }
+    }
+  },
+  "semantic": {
+    "color": {
+      "$type": "color",
+      "light": {
+        "background": { "$value": "#FAFAFA" },
+        "foreground": { "$value": "{primitive.neutral.950}" },
+        "card": { "$value": "{primitive.neutral.0}" },
+        "card-foreground": { "$value": "{primitive.neutral.950}" },
+        "popover": { "$value": "{primitive.neutral.0}" },
+        "popover-foreground": { "$value": "{primitive.neutral.950}" },
+        "primary": { "$value": "{primitive.teal.600}" },
+        "primary-foreground": { "$value": "{primitive.neutral.0}" },
+        "secondary": { "$value": "{primitive.teal.50}" },
+        "secondary-foreground": { "$value": "{primitive.teal.700}" },
+        "muted": { "$value": "{primitive.neutral.100}" },
+        "muted-foreground": { "$value": "{primitive.neutral.600}" },
+        "accent": { "$value": "{primitive.teal.50}" },
+        "accent-foreground": { "$value": "{primitive.teal.700}" },
+        "destructive": { "$value": "{primitive.red.500}" },
+        "border": { "$value": "{primitive.neutral.200}" },
+        "input": { "$value": "{primitive.neutral.200}" },
+        "ring": { "$value": "{primitive.teal.400}" },
+        "chart-1": { "$value": "{primitive.teal.500}" },
+        "chart-2": { "$value": "{primitive.teal.300}" },
+        "chart-3": { "$value": "{primitive.teal.700}" },
+        "chart-4": { "$value": "{primitive.neutral.400}" },
+        "chart-5": { "$value": "{primitive.red.500}" },
+        "sidebar": { "$value": "{primitive.neutral.900}" },
+        "sidebar-foreground": { "$value": "{primitive.neutral.100}" },
+        "sidebar-primary": { "$value": "{primitive.teal.500}" },
+        "sidebar-primary-foreground": { "$value": "{primitive.neutral.0}" },
+        "sidebar-accent": { "$value": "{primitive.neutral.800}" },
+        "sidebar-accent-foreground": { "$value": "{primitive.neutral.100}" },
+        "sidebar-border": { "$value": "{primitive.neutral.800}" },
+        "sidebar-ring": { "$value": "{primitive.teal.400}" }
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "base": { "$value": "0.75rem" }
+    },
+    "font": {
+      "$type": "fontFamily",
+      "sans": { "$value": "'Inter', system-ui, sans-serif" },
+      "heading": { "$value": "'Inter', system-ui, sans-serif" }
+    }
+  }
+}

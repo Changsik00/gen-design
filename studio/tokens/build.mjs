@@ -2,6 +2,7 @@ import StyleDictionary from "style-dictionary";
 import { readFileSync } from "fs";
 
 const tokens = JSON.parse(readFileSync(new URL("./tokens.json", import.meta.url), "utf-8"));
+const tokensBrandB = JSON.parse(readFileSync(new URL("./tokens-brand-b.json", import.meta.url), "utf-8"));
 
 // --- 커스텀 포맷: :root { } ---
 StyleDictionary.registerFormat({
@@ -91,7 +92,43 @@ const sdDark = new StyleDictionary({
   },
 });
 
+// --- Brand B 빌드 ---
+StyleDictionary.registerFormat({
+  name: "css/brand-b",
+  format: ({ dictionary }) => {
+    const vars = dictionary.allTokens
+      .map((token) => `  --${token.name}: ${token.$value ?? token.value};`)
+      .join("\n");
+    return `/* Auto-generated from tokens-brand-b.json — do not edit */\n.brand-b {\n${vars}\n}\n`;
+  },
+});
+
+const sdBrandB = new StyleDictionary({
+  tokens: tokensBrandB,
+  usesDtcg: true,
+  platforms: {
+    css: {
+      transforms: ["name/shadcn"],
+      buildPath: new URL("../src/styles/", import.meta.url).pathname,
+      files: [
+        {
+          destination: "_tokens-brand-b.css",
+          format: "css/brand-b",
+          filter: (token) => {
+            const p = token.path;
+            return (
+              p[0] === "semantic" &&
+              (p[2] === "light" || p[1] === "radius" || p[1] === "font")
+            );
+          },
+        },
+      ],
+    },
+  },
+});
+
 await sdLight.buildAllPlatforms();
 await sdDark.buildAllPlatforms();
+await sdBrandB.buildAllPlatforms();
 
-console.log("✅ 토큰 빌드 완료: src/styles/_tokens-light.css, _tokens-dark.css");
+console.log("✅ 토큰 빌드 완료: src/styles/_tokens-light.css, _tokens-dark.css, _tokens-brand-b.css");

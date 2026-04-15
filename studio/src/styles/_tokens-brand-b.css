@@ -1,0 +1,37 @@
+/* Auto-generated from tokens-brand-b.json — do not edit */
+.brand-b {
+  --background: #FAFAFA;
+  --foreground: #020617;
+  --card: #FFFFFF;
+  --card-foreground: #020617;
+  --popover: #FFFFFF;
+  --popover-foreground: #020617;
+  --primary: #0D9488;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F0FDFA;
+  --secondary-foreground: #0F766E;
+  --muted: #F1F5F9;
+  --muted-foreground: #475569;
+  --accent: #F0FDFA;
+  --accent-foreground: #0F766E;
+  --destructive: #EF4444;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #2DD4BF;
+  --chart-1: #14B8A6;
+  --chart-2: #5EEAD4;
+  --chart-3: #0F766E;
+  --chart-4: #94A3B8;
+  --chart-5: #EF4444;
+  --sidebar: #0F172A;
+  --sidebar-foreground: #F1F5F9;
+  --sidebar-primary: #14B8A6;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1E293B;
+  --sidebar-accent-foreground: #F1F5F9;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #2DD4BF;
+  --base: 0.75rem;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+}
