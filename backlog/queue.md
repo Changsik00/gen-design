@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-2** — Page Template 시스템 — 2 spec — 다음: spec-2-002-auth-templates
+- **phase-2** — Page Template 시스템 — 3 spec — 다음: spec-2-003-dashboard-template
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기

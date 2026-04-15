@@ -44,6 +44,7 @@ shadcn/ui는 Button, Card, Dialog 등 Primitive 수준의 컴포넌트를 제공
 |---|---|:---:|---|---|
 | `spec-2-001` | page-template-arch | P? | Active | `specs/spec-2-001-page-template-arch/` |
 | `spec-2-002` | auth-templates | P? | Active | `specs/spec-2-002-auth-templates/` |
+| `spec-2-003` | dashboard-template | P? | Active | `specs/spec-2-003-dashboard-template/` |
 <!-- sdd:specs:end -->
 
 ### spec-2-001 — Page Template 아키텍처 설계
