@@ -46,6 +46,9 @@ shadcn/ui는 Button, Card, Dialog 등 Primitive 수준의 컴포넌트를 제공
 | `spec-2-002` | auth-templates | P? | Active | `specs/spec-2-002-auth-templates/` |
 | `spec-2-003` | dashboard-template | P? | Active | `specs/spec-2-003-dashboard-template/` |
 | `spec-2-004` | token-i18n-verify | P? | Active | `specs/spec-2-004-token-i18n-verify/` |
+| `spec-2-005` | test-coverage | P? | Active | `specs/spec-2-005-test-coverage/` |
+| `spec-2-006` | bottom-sheet-style-match | P? | Active | `specs/spec-2-006-bottom-sheet-style-match/` |
+| `spec-2-007` | doc-cleanup | P? | Active | `specs/spec-2-007-doc-cleanup/` |
 <!-- sdd:specs:end -->
 
 ### spec-2-001 — Page Template 아키텍처 설계
@@ -86,6 +89,24 @@ shadcn/ui는 Button, Card, Dialog 등 Primitive 수준의 컴포넌트를 제공
   - 현재 shadcn/ui 기본 사이즈가 compact (h-8 버튼, 작은 input, 400px Card) — Paper 디자인은 더 넉넉한 사이즈/패딩
   - tokens.json 값이 shadcn 기본값이며 Paper 디자인에서 추출한 값이 아님 → Paper에서 컬러/사이즈/스페이싱 추출 후 tokens.json 반영 필요
   - **결정 필요**: 어느 Paper 디자인을 기준으로 스타일 매칭할지 (split-screen vs 카드 중앙)
+
+### spec-2-005 — 테스트 보강 (회고 대응)
+
+- **요점**: phase-2 회고에서 발견된 테스트 갭 전체 보강
+- **방향성**: variant 전환(page↔modal) 테스트, brand 교체(CSS 변수 변경) 테스트, i18n 교체(레이아웃 유지) 테스트, Composite 단독 렌더링 테스트, 통합 테스트 시나리오 3개 자동화
+- **연관 모듈**: `studio/src/components/`
+
+### spec-2-006 — bottom-sheet variant + Paper 스타일 매칭
+
+- **요점**: 성공 기준 #4의 bottom-sheet variant 구현 + Paper 디자인 사이즈/패딩 매칭
+- **방향성**: bottom-sheet variant 추가 (모바일 대응), Paper 디자인의 CTA 높이(44px), input 크기, 패딩, 폰트 사이즈 등 반영
+- **연관 모듈**: `studio/src/components/templates/`, `studio/tokens/`
+
+### spec-2-007 — 문서 정정 + 프로젝트 정리
+
+- **요점**: ADR-003 "Radix" → "Base UI" 정정, studio/.git 삭제 커밋, 기타 정리
+- **방향성**: ADR-003 내용 수정 (shadcn/ui가 Base UI 기반임을 반영), studio 중첩 .git 제거, phase-2 회고 결과 문서화
+- **연관 모듈**: `docs/decisions/`, `studio/`
 
 ## 🧪 통합 테스트 시나리오 (간결)
 
