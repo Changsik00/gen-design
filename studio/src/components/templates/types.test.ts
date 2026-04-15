@@ -67,4 +67,12 @@ describe("DashboardPageProps", () => {
     type TextsProp = DashboardPageProps["texts"];
     expectTypeOf<TextsProp>().toEqualTypeOf<DashboardPageTexts>();
   });
+
+  it("has dashboard-specific fields", () => {
+    expectTypeOf<DashboardPageTexts>().toHaveProperty("title");
+    expectTypeOf<DashboardPageTexts>().toHaveProperty("searchPlaceholder");
+    expectTypeOf<DashboardPageTexts>().toHaveProperty("navItems");
+    expectTypeOf<DashboardPageTexts>().toHaveProperty("activityTitle");
+    expectTypeOf<DashboardPageTexts>().toHaveProperty("activityColumns");
+  });
 });

@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { getLoginPageTexts, getSignupPageTexts } from "./i18n";
+import { getLoginPageTexts, getSignupPageTexts, getDashboardPageTexts } from "./i18n";
 
 describe("getLoginPageTexts", () => {
   it("returns Korean texts by default", () => {
@@ -64,5 +64,23 @@ describe("getSignupPageTexts", () => {
     expect(keys).toContain("termsAgreement");
     expect(keys).toContain("loginPrompt");
     expect(keys).toContain("loginLink");
+  });
+});
+
+describe("getDashboardPageTexts", () => {
+  it("returns Korean texts by default", () => {
+    const texts = getDashboardPageTexts();
+    expect(texts.title).toBe("대시보드");
+    expect(texts.searchPlaceholder).toBe("검색...");
+    expect(texts.activityTitle).toBe("최근 활동");
+    expect(texts.navItems).toContain("대시보드");
+    expect(texts.activityColumns.user).toBe("사용자");
+  });
+
+  it("returns English texts", () => {
+    const texts = getDashboardPageTexts("en");
+    expect(texts.title).toBe("Dashboard");
+    expect(texts.activityColumns.action).toBe("Action");
+    expect(texts.navItems).toContain("AI Chat");
   });
 });

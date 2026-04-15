@@ -53,12 +53,37 @@ export interface SignupPageTexts {
   termsAgreement: string;
 }
 
+/** StatCard 한 장에 필요한 데이터 */
+export interface StatCardData {
+  label: string;
+  value: string;
+  change: string;
+  trend: "up" | "down" | "stable";
+}
+
+/** Activity 한 행에 필요한 데이터 */
+export interface ActivityRowData {
+  userName: string;
+  initials: string;
+  action: string;
+  status: string;
+  statusColor: "green" | "blue" | "red" | "gray";
+  time: string;
+}
+
 /** DashboardPage에 필요한 텍스트 리소스 */
 export interface DashboardPageTexts {
   title: string;
-  welcomeMessage: string;
-  overviewSection: string;
-  recentActivitySection: string;
+  searchPlaceholder: string;
+  navItems: string[];
+  activityTitle: string;
+  activityViewAll: string;
+  activityColumns: {
+    user: string;
+    action: string;
+    status: string;
+    time: string;
+  };
 }
 
 // ---------------------------------------------------------------------------

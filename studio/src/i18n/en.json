@@ -92,6 +92,8 @@
   },
   "dashboard": {
     "title": "Dashboard",
+    "searchPlaceholder": "Search...",
+    "nav": ["Dashboard", "AI Chat", "Database", "Settings"],
     "stats": {
       "revenue": { "label": "Revenue" },
       "users": { "label": "Users" },
@@ -100,6 +102,13 @@
     },
     "activity": {
       "title": "Recent Activity",
+      "viewAll": "View all →",
+      "columns": {
+        "user": "User",
+        "action": "Action",
+        "status": "Status",
+        "time": "Time"
+      },
       "empty": "No recent activity"
     }
   }
