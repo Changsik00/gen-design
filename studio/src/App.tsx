@@ -1,10 +1,18 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { LoginPage, DashboardPage } from "@/components/templates";
-import { getLoginPageTexts, getDashboardPageTexts } from "@/lib/i18n";
-import type { StatCardData, ActivityRowData } from "@/components/templates/types";
+import {
+  getLoginPageTexts,
+  getDashboardPageTexts,
+} from "@/lib/i18n";
+import type {
+  StatCardData,
+  ActivityRowData,
+  PageTemplateVariant,
+} from "@/components/templates/types";
 
-const loginTexts = getLoginPageTexts("ko");
-const dashboardTexts = getDashboardPageTexts("ko");
+type Page = "login" | "dashboard";
+type Brand = "a" | "b";
+type Locale = "ko" | "en";
 
 const mockStats: StatCardData[] = [
   { label: "TOTAL USERS", value: "12,847", change: "12.5% from last month", trend: "up" },
@@ -20,33 +28,86 @@ const mockActivities: ActivityRowData[] = [
   { userName: "Minjun Choi", initials: "MJ", action: "Deleted record #4821", status: "Deleted", statusColor: "red", time: "28 min ago" },
 ];
 
-type Page = "login" | "dashboard";
-
 function App() {
-  const [page, setPage] = useState<Page>("dashboard");
+  const [page, setPage] = useState<Page>("login");
+  const [brand, setBrand] = useState<Brand>("a");
+  const [locale, setLocale] = useState<Locale>("ko");
+  const [variant, setVariant] = useState<PageTemplateVariant>("page");
+
+  useEffect(() => {
+    const root = document.documentElement;
+    if (brand === "b") {
+      root.classList.add("brand-b");
+    } else {
+      root.classList.remove("brand-b");
+    }
+  }, [brand]);
+
+  const loginTexts = getLoginPageTexts(locale);
+  const dashboardTexts = getDashboardPageTexts(locale);
 
   return (
     <>
-      <div className="fixed top-2 right-2 z-50 flex gap-1 rounded-lg bg-card p-1 ring-1 ring-foreground/10">
-        <button
-          onClick={() => setPage("login")}
-          className={`rounded-md px-3 py-1 text-xs font-medium ${
-            page === "login" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"
-          }`}
-        >
-          Login
-        </button>
-        <button
-          onClick={() => setPage("dashboard")}
-          className={`rounded-md px-3 py-1 text-xs font-medium ${
-            page === "dashboard" ? "bg-primary text-primary-foreground" : "text-muted-foreground hover:bg-muted"
-          }`}
-        >
-          Dashboard
-        </button>
+      {/* Control panel */}
+      <div className="fixed top-2 right-2 z-50 flex flex-col gap-2 rounded-lg bg-white p-3 shadow-lg ring-1 ring-black/10">
+        <div className="flex gap-1">
+          {(["login", "dashboard"] as const).map((p) => (
+            <button
+              key={p}
+              onClick={() => setPage(p)}
+              className={`rounded-md px-3 py-1 text-xs font-medium ${
+                page === p ? "bg-indigo-500 text-white" : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              {p}
+            </button>
+          ))}
+        </div>
+        <div className="flex gap-1">
+          {(["a", "b"] as const).map((b) => (
+            <button
+              key={b}
+              onClick={() => setBrand(b)}
+              className={`rounded-md px-3 py-1 text-xs font-medium ${
+                brand === b ? "bg-indigo-500 text-white" : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              Brand {b.toUpperCase()}
+            </button>
+          ))}
+        </div>
+        <div className="flex gap-1">
+          {(["ko", "en"] as const).map((l) => (
+            <button
+              key={l}
+              onClick={() => setLocale(l)}
+              className={`rounded-md px-3 py-1 text-xs font-medium ${
+                locale === l ? "bg-indigo-500 text-white" : "text-gray-500 hover:bg-gray-100"
+              }`}
+            >
+              {l.toUpperCase()}
+            </button>
+          ))}
+        </div>
+        {page === "login" && (
+          <div className="flex gap-1">
+            {(["page", "modal"] as const).map((v) => (
+              <button
+                key={v}
+                onClick={() => setVariant(v)}
+                className={`rounded-md px-3 py-1 text-xs font-medium ${
+                  variant === v ? "bg-indigo-500 text-white" : "text-gray-500 hover:bg-gray-100"
+                }`}
+              >
+                {v}
+              </button>
+            ))}
+          </div>
+        )}
       </div>
 
-      {page === "login" && <LoginPage variant="page" texts={loginTexts} />}
+      {/* Page content */}
+      {page === "login" && <LoginPage variant={variant} texts={loginTexts} />}
       {page === "dashboard" && (
         <DashboardPage
           variant="page"
