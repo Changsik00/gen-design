@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-2** — Page Template 시스템 — 3 spec — 다음: spec-2-003-dashboard-template
+- **phase-2** — Page Template 시스템 — 4 spec — 다음: spec-2-004-token-i18n-verify
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
