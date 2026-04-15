@@ -26,6 +26,7 @@
   },
   "login": {
     "title": "로그인",
+    "description": "계정에 로그인하세요",
     "form": {
       "email": {
         "label": "이메일",
@@ -57,6 +58,7 @@
   },
   "signup": {
     "title": "회원가입",
+    "description": "새 계정을 만드세요",
     "form": {
       "name": {
         "label": "이름",
