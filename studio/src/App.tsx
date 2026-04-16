@@ -91,7 +91,7 @@ function App() {
         </div>
         {page === "login" && (
           <div className="flex gap-1">
-            {(["page", "modal"] as const).map((v) => (
+            {(["page", "modal", "bottom-sheet"] as const).map((v) => (
               <button
                 key={v}
                 onClick={() => setVariant(v)}

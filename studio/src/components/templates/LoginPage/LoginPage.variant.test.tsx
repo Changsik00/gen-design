@@ -42,4 +42,19 @@ describe("LoginPage variant switching", () => {
     render(<LoginPage variant="modal" texts={texts} />);
     expect(screen.getByRole("button", { name: texts.title })).toBeInTheDocument();
   });
+
+  it("bottom-sheet variant renders form at bottom with drag handle", () => {
+    const { container } = render(<LoginPage variant="bottom-sheet" texts={texts} />);
+    // bottom-sheet: data-variant 속성 존재
+    const sheet = container.querySelector("[data-variant='bottom-sheet']");
+    expect(sheet).toBeTruthy();
+    // 폼 필드 렌더링
+    expect(screen.getByText("이메일")).toBeInTheDocument();
+    expect(screen.getByText("비밀번호")).toBeInTheDocument();
+  });
+
+  it("bottom-sheet variant has no split-screen branding", () => {
+    render(<LoginPage variant="bottom-sheet" texts={texts} />);
+    expect(screen.queryByText("Admin Console")).not.toBeInTheDocument();
+  });
 });

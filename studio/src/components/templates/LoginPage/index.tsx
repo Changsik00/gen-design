@@ -58,6 +58,21 @@ export function LoginPage({ variant, texts, className }: LoginPageProps) {
     );
   }
 
+  if (variant === "bottom-sheet") {
+    return (
+      <div className="min-h-screen flex items-end justify-center bg-background/80" data-variant="bottom-sheet">
+        <div className="w-full max-w-md rounded-t-2xl bg-card p-6 shadow-2xl ring-1 ring-foreground/10">
+          <div className="mx-auto mt-0 mb-4 h-1 w-10 rounded-full bg-muted-foreground/30" />
+          <div className="mb-4">
+            <h2 className="text-lg font-semibold">{texts.title}</h2>
+            <p className="text-sm text-muted-foreground">{texts.description}</p>
+          </div>
+          <LoginContent texts={texts} />
+        </div>
+      </div>
+    );
+  }
+
   // variant === "page" — split-screen layout (Paper "Login" design)
   return (
     <div className={`flex min-h-screen ${className ?? ""}`}>

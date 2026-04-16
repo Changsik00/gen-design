@@ -42,10 +42,11 @@ export function VariantWrapper({
     );
   }
 
-  // bottom-sheet: 향후 구현, 현재는 page fallback
+  // bottom-sheet variant
   return (
-    <div className="min-h-screen flex items-end justify-center bg-background">
-      <Card className={className ?? "w-full max-w-[400px] rounded-b-none"}>
+    <div className="min-h-screen flex items-end justify-center bg-background/80" data-variant="bottom-sheet">
+      <Card className={className ?? "w-full max-w-md rounded-b-none rounded-t-2xl shadow-2xl"}>
+        <div className="mx-auto mt-2 mb-4 h-1 w-10 rounded-full bg-muted-foreground/30" />
         {children}
       </Card>
     </div>

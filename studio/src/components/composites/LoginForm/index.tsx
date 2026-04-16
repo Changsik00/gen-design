@@ -18,16 +18,16 @@ export function LoginForm({
   submitButton,
 }: LoginFormProps) {
   return (
-    <form className="space-y-4" onSubmit={(e) => e.preventDefault()}>
-      <div className="space-y-2">
+    <form className="space-y-6" onSubmit={(e) => e.preventDefault()}>
+      <div className="space-y-1.5">
         <Label>{emailLabel}</Label>
-        <Input type="email" placeholder={emailPlaceholder} />
+        <Input type="email" placeholder={emailPlaceholder} className="h-11" />
       </div>
-      <div className="space-y-2">
+      <div className="space-y-1.5">
         <Label>{passwordLabel}</Label>
-        <Input type="password" placeholder={passwordPlaceholder} />
+        <Input type="password" placeholder={passwordPlaceholder} className="h-11" />
       </div>
-      <Button type="submit" className="w-full">
+      <Button type="submit" className="w-full h-11">
         {submitButton}
       </Button>
     </form>
