@@ -18,7 +18,7 @@ describe("LoginPage variant switching", () => {
   });
 
   it("modal variant renders a trigger button (no split-screen)", () => {
-    const { container } = render(<LoginPage variant="modal" texts={texts} />);
+    render(<LoginPage variant="modal" texts={texts} />);
     // modal: split-screen 없음
     expect(screen.queryByText("Admin Console")).not.toBeInTheDocument();
     // Dialog trigger 버튼 존재
