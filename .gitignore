@@ -4,5 +4,8 @@
 # dependencies
 node_modules/
 
+
 # harness-kit
+.harness-kit/
+.harness-backup-*/
 .claude/state/
