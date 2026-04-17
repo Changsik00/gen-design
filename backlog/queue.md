@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-2** — Page Template 시스템 — 7 spec — 다음: spec-2-006-bottom-sheet-style-match
+없음
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -41,7 +41,7 @@
 | Phase | 제목 | 상태 |
 |---|---|---|
 | `phase-1` | [Foundation (기반 셋업)](phase-1.md) | Done |
-| `phase-2` | [Page Template 시스템](phase-2.md) | **Active** |
+| `phase-2` | [Page Template 시스템](phase-2.md) | Done |
 | `phase-3` | [App Blueprint](phase-3.md) | Queued |
 | `phase-4` | [협업 Flow 정의](phase-4.md) | Queued |
 | `phase-5` | [PoC 검증](phase-5.md) | Queued |
@@ -52,6 +52,6 @@
 ## ✅ 완료
 
 <!-- sdd:done:start -->
-없음
 - **phase-1** — Foundation (기반 셋업) — completed 2026-04-14
+- **phase-2** — Page Template 시스템 — completed 2026-04-17
 <!-- sdd:done:end -->

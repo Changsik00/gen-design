@@ -9,7 +9,7 @@
 | 항목 | 값 |
 |---|---|
 | **Phase ID** | `phase-2` |
-| **상태** | In Progress |
+| **상태** | Done |
 | **시작일** | TBD |
 | **목표 종료일** | TBD |
 | **소유자** | Dennis |
@@ -42,13 +42,13 @@ shadcn/ui는 Button, Card, Dialog 등 Primitive 수준의 컴포넌트를 제공
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
-| `spec-2-001` | page-template-arch | P? | Active | `specs/spec-2-001-page-template-arch/` |
-| `spec-2-002` | auth-templates | P? | Active | `specs/spec-2-002-auth-templates/` |
-| `spec-2-003` | dashboard-template | P? | Active | `specs/spec-2-003-dashboard-template/` |
-| `spec-2-004` | token-i18n-verify | P? | Active | `specs/spec-2-004-token-i18n-verify/` |
-| `spec-2-005` | test-coverage | P? | Active | `specs/spec-2-005-test-coverage/` |
-| `spec-2-006` | bottom-sheet-style-match | P? | Active | `specs/spec-2-006-bottom-sheet-style-match/` |
-| `spec-2-007` | doc-cleanup | P? | Active | `specs/spec-2-007-doc-cleanup/` |
+| `spec-2-001` | page-template-arch | P? | Merged | `specs/spec-2-001-page-template-arch/` |
+| `spec-2-002` | auth-templates | P? | Merged | `specs/spec-2-002-auth-templates/` |
+| `spec-2-003` | dashboard-template | P? | Merged | `specs/spec-2-003-dashboard-template/` |
+| `spec-2-004` | token-i18n-verify | P? | Merged | `specs/spec-2-004-token-i18n-verify/` |
+| `spec-2-005` | test-coverage | P? | Merged | `specs/spec-2-005-test-coverage/` |
+| `spec-2-006` | bottom-sheet-style-match | P? | Merged | `specs/spec-2-006-bottom-sheet-style-match/` |
+| `spec-2-007` | doc-cleanup | P? | Merged | `specs/spec-2-007-doc-cleanup/` |
 <!-- sdd:specs:end -->
 
 ### spec-2-001 — Page Template 아키텍처 설계
@@ -147,11 +147,11 @@ shadcn/ui는 Button, Card, Dialog 등 Primitive 수준의 컴포넌트를 제공
 
 ## 🏁 Phase Done 조건
 
-- [ ] 모든 SPEC 이 merge
-- [ ] 통합 테스트 전 시나리오 PASS
-- [ ] 성공 기준 정량 측정 결과
-- [ ] ADR-003 작성 완료
-- [ ] 사용자 최종 승인
+- [x] 모든 SPEC 이 merge (7/7, PR #4~#10)
+- [x] 통합 테스트 전 시나리오 PASS (3/3)
+- [x] 성공 기준 정량 측정 결과 (5/5 PASS)
+- [x] ADR-003 작성 완료 (shadcn/ui Base UI 확정)
+- [x] 사용자 최종 승인 (2026-04-17)
 
 ## 📊 검증 결과 (phase-2 회고)
 
