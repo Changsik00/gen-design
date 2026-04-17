@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-2** — Page Template 시스템 — 7 spec — 다음: spec-2-005-test-coverage
+- **phase-2** — Page Template 시스템 — 7 spec — 다음: spec-2-006-bottom-sheet-style-match
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
