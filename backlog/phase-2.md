@@ -153,4 +153,31 @@ shadcn/ui는 Button, Card, Dialog 등 Primitive 수준의 컴포넌트를 제공
 - [ ] ADR-003 작성 완료
 - [ ] 사용자 최종 승인
 
-## 📊 검증 결과 (phase 완료 시 작성)
+## 📊 검증 결과 (phase-2 회고)
+
+### 성공 기준 달성 현황
+
+| # | 기준 | 결과 |
+|---|---|---|
+| 1 | 3계층 아키텍처 설계 문서 | ✅ ARCHITECTURE.md |
+| 2 | ADR-003 작성 | ✅ shadcn/ui(Base UI) 확정 (Radix→Base UI 정정 완료) |
+| 3 | Page Template 3종 | ✅ LoginPage, SignupPage, DashboardPage |
+| 4 | variant 3종 지원 | ✅ page, modal, bottom-sheet |
+| 5 | 토큰/i18n 교체 동작 | ✅ Brand A↔B + ko↔en 전환 검증 |
+
+### 테스트 현황
+
+- 총 63개 테스트, 12 파일
+- Composite 단독 테스트 4종, variant/i18n 전환 테스트, 통합 시나리오 3개 자동화
+- 회고 시점(28개)에서 +125% 증가
+
+### 회고에서 발견된 이슈 및 대응
+
+| 이슈 | 대응 | 반영 위치 |
+|---|---|---|
+| 테스트 부족 (렌더링만) | spec-2-005에서 보강 (28→63) | 완료 |
+| bottom-sheet 미구현 | spec-2-006에서 구현 | 완료 |
+| ADR-003 "Radix"→"Base UI" | spec-2-007에서 정정 | 완료 |
+| i18n/tokens studio 종속 | phase-3 spec-3-003에 기록 | 이관 |
+| DESIGN.md↔컴포넌트 연결 없음 | phase-3 spec-3-003에 기록 | 이관 |
+| studio/.git 중첩 | 사용자가 수동 삭제 완료 | 완료 |
