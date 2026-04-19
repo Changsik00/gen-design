@@ -1,0 +1,312 @@
+# {{appName}} — Design System
+
+> Blueprint 질의서(`schema/blueprint-protocol.md`) 와 디자인 도구(Paper/Figma 등) 에서 추출한 시각 디자인 명세.
+> 스키마: `schema/design-md-schema.md` (14 섹션).
+> `{{placeholder}}` 는 질의 결과 또는 디자인 도구 추출 값으로 치환됩니다.
+> 시각 디자인 섹션(1~9) 중 일부는 디자인 도구에서 값이 들어오기 전까지 `TODO` 로 표기됩니다.
+
+| 항목 | 값 |
+|---|---|
+| **앱 이름** | {{appName}} |
+| **기본 테마** | {{defaultTheme}} |
+| **지원 테마** | {{supportedThemes}} |
+| **토큰 리소스** | `templates/assets/tokens/` |
+| **i18n 리소스** | `templates/assets/i18n/` |
+
+---
+
+## 1. Visual Theme & Atmosphere
+
+<!-- 디자인 도구에서 추출한 분위기 설명. Paper get_screenshot + 서술. -->
+
+{{visualTheme.description}}
+
+### Key Characteristics
+
+{{#each visualTheme.keyCharacteristics}}
+- {{this}}
+{{/each}}
+
+---
+
+## 2. Color Palette & Roles
+
+### Primary
+
+{{#each colors.primary}}
+- **{{name}}** (`{{hex}}`): `{{cssVar}}`. {{usage}}
+{{/each}}
+
+### Neutral Scale
+
+{{#each colors.neutral}}
+- **{{name}}** (`{{hex}}`): `{{cssVar}}`. {{usage}}
+{{/each}}
+
+### Status
+
+{{#each colors.status}}
+- **{{name}}** (`{{hex}}`): `{{cssVar}}`. {{usage}}
+{{/each}}
+
+> 전체 토큰 정의: `templates/assets/tokens/tokens.json`
+
+---
+
+## 3. Typography Rules
+
+### Font Family
+
+- **Primary**: {{typography.fontFamily.primary}}
+- **Monospace**: {{typography.fontFamily.monospace}}
+
+### Hierarchy
+
+| Role | Font | Size | Weight | Line Height | Letter Spacing |
+|------|------|------|--------|-------------|----------------|
+{{#each typography.hierarchy}}
+| {{role}} | {{font}} | {{size}} | {{weight}} | {{lineHeight}} | {{letterSpacing}} |
+{{/each}}
+
+---
+
+## 4. Component Stylings
+
+<!-- Composite 컴포넌트별 variant 스타일. Phase 2 Page Template 에서 구현되는 항목. -->
+
+{{#each componentStylings}}
+### {{name}}
+
+{{#each variants}}
+**{{variantName}}**
+- Background: `{{background}}`
+- Text: `{{text}}`
+- Padding: {{padding}}
+- Radius: {{radius}}
+- Shadow: `{{shadow}}`
+
+{{/each}}
+{{/each}}
+
+---
+
+## 5. Layout Principles
+
+### Spacing System
+
+- **Base unit**: {{layout.spacing.baseUnit}}
+- **Scale**: {{layout.spacing.scale}}
+
+### Grid & Container
+
+- **Max width**: {{layout.grid.maxWidth}}
+- **Columns**: {{layout.grid.columns}}
+
+---
+
+## 6. Depth & Elevation
+
+| Level | Treatment | Use |
+|-------|-----------|-----|
+{{#each elevation}}
+| {{level}} | `{{treatment}}` | {{use}} |
+{{/each}}
+
+---
+
+## 7. Do's and Don'ts
+
+### Do
+{{#each doRules}}
+- {{this}}
+{{/each}}
+
+### Don't
+{{#each dontRules}}
+- {{this}}
+{{/each}}
+
+---
+
+## 8. Responsive Behavior
+
+### Breakpoints
+
+| Name | Width | Primary Change |
+|------|-------|----------------|
+{{#each breakpoints}}
+| {{name}} | {{width}} | {{change}} |
+{{/each}}
+
+### Collapsing Strategy
+
+{{responsive.collapsingStrategy}}
+
+---
+
+## 9. Agent Prompt Guide
+
+### Quick Color Reference
+
+{{#each quickColors}}
+- **{{name}}**: `{{hex}}`
+{{/each}}
+
+### Example Component Prompts
+
+{{#each examplePrompts}}
+- {{this}}
+{{/each}}
+
+---
+
+## 10. Naming Convention
+
+### Hierarchy
+
+```
+Page > Section > Block > Element
+```
+
+### Page Map
+
+| Page | Route | Description |
+|------|-------|-------------|
+{{#each pages}}
+| {{name}} | {{route}} | {{description}} |
+{{/each}}
+
+---
+
+## 11. Page Specifications
+
+> Blueprint 질의서 Step 2~3 의 결과가 이 섹션을 채웁니다.
+> 각 페이지의 Section / Block 구조는 Phase 2 Page Template 의 composites 와 매핑됩니다.
+> 매핑 규칙: `schema/design-component-mapping.md` §11.
+
+{{#each pages}}
+
+### {{name}}
+
+- **Route**: `{{route}}`
+- **Variant**: {{variant}}
+- **Layout**: {{layout}}
+
+| Section | Block | Description |
+|---------|-------|-------------|
+{{#each sections}}
+| {{section}} | {{block}} | {{description}} |
+{{/each}}
+
+---
+
+{{/each}}
+
+## 12. Composite Components
+
+> 재사용 Composite 정의. Phase 2 의 `studio/src/components/composites/` 에서 구현됩니다.
+> 매핑 규칙: `schema/design-component-mapping.md` §12.
+
+{{#each composites}}
+
+### {{name}}
+
+- **Type**: Composite
+- **Reusable**: {{reusable}}
+- **Variants**: {{variants}}
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+{{#each elements}}
+| {{element}} | {{type}} | {{required}} | {{props}} |
+{{/each}}
+
+---
+
+{{/each}}
+
+## 13. Token Mapping
+
+> 디자인 값 → 코드 참조의 완전한 매핑.
+> 실제 토큰 값: `templates/assets/tokens/tokens.json` (기본), `tokens.dark.json`, `tokens.semantic.json`.
+> 매핑 규칙: `schema/design-component-mapping.md` §13.
+
+### Color Tokens
+
+| Design Name | Hex | CSS Variable | Tailwind Class |
+|-------------|-----|-------------|----------------|
+{{#each tokenMapping.colors}}
+| {{designName}} | `{{hex}}` | `{{cssVar}}` | `{{tailwindClass}}` |
+{{/each}}
+
+### Typography Tokens
+
+| Role | CSS Variable | Tailwind Class |
+|------|-------------|----------------|
+{{#each tokenMapping.typography}}
+| {{role}} | `{{cssVar}}` | `{{tailwindClass}}` |
+{{/each}}
+
+### Spacing Tokens
+
+| Name | Value | CSS Variable | Tailwind Class |
+|------|-------|-------------|----------------|
+{{#each tokenMapping.spacing}}
+| {{name}} | {{value}} | `{{cssVar}}` | `{{tailwindClass}}` |
+{{/each}}
+
+### Radius Tokens
+
+| Name | Value | CSS Variable | Tailwind Class |
+|------|-------|-------------|----------------|
+{{#each tokenMapping.radius}}
+| {{name}} | {{value}} | `{{cssVar}}` | `{{tailwindClass}}` |
+{{/each}}
+
+---
+
+## 14. i18n References
+
+> UI 텍스트 키 네임스페이스.
+> 실제 리소스: `templates/assets/i18n/{locale}.json` — 기본 언어 `{{defaultLocale}}`, 지원 언어 `{{supportedLocales}}`.
+> 매핑 규칙: `schema/design-component-mapping.md` §14.
+
+### Namespace Convention
+
+```
+{page}.{section}.{element}.{property}
+```
+
+Example: `login.form.email.placeholder` → "이메일을 입력하세요"
+
+### Key Map
+
+| Key | Default ({{defaultLocale}}) | Context |
+|-----|-----------------------------|---------|
+{{#each i18nKeys}}
+| `{{key}}` | {{defaultText}} | {{context}} |
+{{/each}}
+
+---
+
+## 참고: LoginPage 예시 (채워진 모습)
+
+> 이 블록은 템플릿 사용자를 위한 참고용. 실제 DESIGN.md 에서는 삭제합니다.
+
+```markdown
+## 11. Page Specifications
+
+### LoginPage
+- Route: /login
+- Variant: modal
+- Layout: centered-card
+
+| Section | Block | Description |
+|---------|-------|-------------|
+| BrandSection | LogoBlock | 앱 로고 |
+| FormSection | CredentialBlock | 이메일/비밀번호 |
+| FormSection | SocialAuthBlock | 소셜 로그인 |
+```
+
+→ 이 구조는 `studio/src/components/templates/LoginPage/` 와 1:1 대응합니다
+(`BrandHeader`, `LoginForm`, `SocialAuthBlock` composite).

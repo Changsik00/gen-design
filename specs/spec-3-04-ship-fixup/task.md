@@ -29,14 +29,13 @@
 ## Task 2: C1 — DESIGN.md.template 신설
 
 ### 2-1. 템플릿 파일 추가
-- [ ] `templates/DESIGN.md.template` 신설
-  - Section 1: Visual System (palette / typography / spacing)
-  - Section 2: Component Stylings (design-component-mapping §11 대응)
-  - Section 3: Page Specifications (LoginPage 예시 포함, §12~13 대응)
-  - Section 4: Design Tokens (`templates/assets/tokens/` 참조 안내)
-  - Header: `{{appName}}`, `{{defaultTheme}}` placeholder
-- [ ] `README.md:114` 디렉토리 트리와 일치 확인
-- [ ] Commit: `docs(spec-3-04): add DESIGN.md.template (C1)`
+- [x] `templates/DESIGN.md.template` 신설 — design-md-schema 14섹션 전부 포함
+  - Section 1~9: 기존 DESIGN.md 9섹션 (Visual / Color / Typography / Component Stylings / Layout / Elevation / Do's & Don'ts / Responsive / Agent Prompt)
+  - Section 10~14: 확장 (Naming / Page Specs / Composites / Token Mapping / i18n References)
+  - Header: `{{appName}}` / `{{defaultTheme}}` / `{{supportedThemes}}` / assets 경로 안내
+  - LoginPage 참고 예시 블록 포함
+- [x] `README.md:114` 디렉토리 트리 일치 확인 예정 (Task 6 에서 README 정리 시)
+- [x] Commit: `docs(spec-3-04): add DESIGN.md.template (C1)`
 
 ---
 
