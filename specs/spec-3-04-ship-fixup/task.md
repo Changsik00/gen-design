@@ -71,15 +71,16 @@
 
 ## Task 5: C2-1 — 파일 이주 (studio → templates/assets)
 
-### 5-1. 파일 복사 + 원본 제거
-- [ ] `studio/src/i18n/ko.json` → `templates/assets/i18n/ko.json`
-- [ ] `studio/src/i18n/en.json` → `templates/assets/i18n/en.json`
-- [ ] `studio/tokens/tokens.json` → `templates/assets/tokens/tokens.json`
-- [ ] `studio/tokens/tokens.dark.json` → `templates/assets/tokens/tokens.dark.json`
-- [ ] `studio/tokens/tokens.semantic.json` → `templates/assets/tokens/tokens.semantic.json`
-- [ ] `studio/src/i18n/` 디렉토리 제거 (빈 상태), `studio/tokens/` 도 동일 (빈 상태면 제거)
-- [ ] `.gitkeep` 파일 정리
-- [ ] Commit: `refactor(spec-3-04): migrate i18n/tokens to templates/assets (C2)`
+### 5-1. 파일 이주 (git mv)
+- [x] `studio/src/i18n/ko.json` → `templates/assets/i18n/ko.json`
+- [x] `studio/src/i18n/en.json` → `templates/assets/i18n/en.json`
+- [x] `studio/tokens/tokens.json` → `templates/assets/tokens/tokens.json`
+- [x] `studio/tokens/tokens-brand-b.json` → `templates/assets/tokens/tokens-brand-b.json`
+  (※ plan 의 `tokens.dark.json`/`tokens.semantic.json` 은 실제 파일명과 달랐음 — 실제로는 `tokens-brand-b.json` 만 추가 토큰)
+- [x] `studio/tokens/build.mjs` 는 이주하지 않음 (studio 전용 빌드 스크립트) — 경로 수정은 Task 6
+- [x] `studio/src/i18n/` 빈 디렉토리 제거
+- [x] `templates/assets/i18n/.gitkeep`, `templates/assets/tokens/.gitkeep` 제거 (실제 파일 추가됨)
+- [x] Commit: `refactor(spec-3-04): migrate i18n/tokens to templates/assets (C2)`
 
 ---
 
