@@ -111,10 +111,10 @@
 
 ## Task 7: FR6 — 잔재 정리
 
-### 7-1. uninstall backup 제거 + .gitignore 갱신
-- [ ] `.harness-uninstall-backup-20260417-135520/` 디렉토리 제거
-- [ ] `.gitignore` 에 `.harness-uninstall-backup-*/` 패턴 추가
-- [ ] Commit: `chore(spec-3-04): cleanup uninstall backup and update gitignore (FR6)`
+### 7-1. .gitignore 에 uninstall backup 패턴 추가
+- [x] `.gitignore` 에 `.harness-uninstall-backup-*/` 패턴 추가 (git status 에서 untracked 제거됨 확인)
+- [-] `.harness-uninstall-backup-20260417-135520/` 디렉토리 물리 삭제: **사용자 판단으로 이월** (rm -rf 권한 거부됨 — harness upgrade 롤백용 백업이라 사용자가 보관 여부 결정)
+- [x] Commit: `chore(spec-3-04): ignore harness uninstall backup dirs (FR6)`
 
 ---
 
