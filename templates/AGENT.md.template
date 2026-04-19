@@ -1,0 +1,104 @@
+# {{appName}} — AI Agent Guide
+
+> AI 에이전트가 이 프로젝트에서 코드를 생성할 때 따라야 할 지침.
+> DESIGN.md(시각), REQUIREMENTS.md(기능)과 함께 3종 세트로 사용됩니다.
+
+---
+
+## 1. 프로젝트 개요
+
+| 항목 | 값 |
+|---|---|
+| **앱 이름** | {{appName}} |
+| **앱 유형** | {{appType}} |
+| **기술 스택** | {{techStack}} |
+| **패키지 매니저** | {{packageManager}} |
+
+## 2. 아키텍처 규칙
+
+### 컴포넌트 계층 (3-Layer)
+
+```
+templates/          Layer 3: Page Template (페이지 단위)
+    ↓ uses
+composites/         Layer 2: Composite (기능 단위)
+    ↓ uses
+ui/                 Layer 1: Primitive (shadcn/ui)
+```
+
+- **계층 의존 방향**: templates → composites → ui (역방향 금지)
+- **Primitive 수정 금지**: `ui/` 컴포넌트는 shadcn/ui CLI로만 관리
+- **슬롯 필수**: 모든 Page Template은 `texts`, `variant` prop을 반드시 받는다
+
+### 디렉토리 구조
+
+```
+src/components/
+├── ui/                    # Layer 1: Primitive
+├── composites/            # Layer 2: Composite
+└── templates/             # Layer 3: Page Template
+    ├── {{PageName}}/
+    │   ├── index.tsx
+    │   └── {{PageName}}.test.tsx
+    ├── types.ts           # 공통 슬롯 타입
+    └── index.ts           # re-export
+```
+
+## 3. 코드 생성 규칙
+
+### 스타일링
+
+- **Tailwind CSS 유틸리티만 사용** — 인라인 스타일, CSS 모듈 금지
+- **토큰 직접 참조 금지** — hex/oklch 값 하드코딩 대신 Tailwind 클래스 (`bg-primary`, `text-foreground`)
+- **CSS 변수 참조** — `tokens.json → _tokens-*.css → Tailwind` 파이프라인
+
+### i18n
+
+- **텍스트 하드코딩 금지** — 모든 사용자 대면 텍스트는 `texts` prop에서 가져옴
+- **i18n 키 형식**: `{page}.{section}.{element}.{property}`
+- **리소스 위치**: `templates/assets/i18n/{locale}.json`
+
+### 테스트
+
+- **TDD 원칙**: 테스트 먼저 작성 → 실패 확인 → 구현 → 통과
+- **테스트 대상**: 렌더링, variant 전환, i18n 교체, 토큰 교체
+- **명령**: `{{testCommand}}`
+
+## 4. Page Template 참조
+
+> REQUIREMENTS.md의 Page Specifications와 DESIGN.md의 확장 섹션(11~14)을 참조하여 구현합니다.
+
+### 구현 시 체크리스트
+
+1. REQUIREMENTS.md에서 해당 페이지의 variant, 필수/선택 섹션 확인
+2. DESIGN.md 섹션 11 (Page Specifications)에서 Section → Block 구조 확인
+3. DESIGN.md 섹션 12 (Composite Components)에서 재사용 Composite 확인
+4. DESIGN.md 섹션 13 (Token Mapping)에서 디자인 토큰 매핑 확인
+5. DESIGN.md 섹션 14 (i18n References)에서 텍스트 키 확인
+6. `schema/design-component-mapping.md`에서 DESIGN.md → 코드 매핑 참조
+
+### Template 매핑
+
+| REQUIREMENTS.md 페이지 | 코드 컴포넌트 | Template 상태 |
+|---|---|---|
+{{#each pages}}
+| {{id}} | `{{componentPath}}` | {{templateStatus}} |
+{{/each}}
+
+## 5. 커밋 규칙
+
+- **형식**: `<type>({{specId}}): <설명>` (모두 소문자)
+- **타입**: feat, fix, refactor, test, docs, chore, style, perf
+- **One Task = One Commit**
+
+## 6. 참조 문서
+
+| 문서 | 위치 | 역할 |
+|---|---|---|
+| DESIGN.md | 프로젝트 루트 | 시각 디자인 명세 |
+| REQUIREMENTS.md | 프로젝트 루트 | 기능 요구사항 |
+| Page Catalog | `schema/page-catalog.md` | 페이지 유형 카탈로그 |
+| Blueprint Protocol | `schema/blueprint-protocol.md` | 앱 기획 질의서 |
+| Design Schema | `schema/design-md-schema.md` | DESIGN.md 작성 규격 |
+| Component Mapping | `schema/design-component-mapping.md` | DESIGN.md → 코드 매핑 |
+| Architecture | `src/components/ARCHITECTURE.md` | 3계층 아키텍처 가이드 |
