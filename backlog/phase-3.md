@@ -46,6 +46,7 @@ Phase 2에서 Page Template이 완성되면, 새 앱을 만들 때 "어떤 페�
 | `spec-3-01` | page-catalog | P? | Merged | `specs/spec-3-01-page-catalog/` |
 | `spec-3-02` | blueprint-questionnaire | P? | Merged | `specs/spec-3-02-blueprint-questionnaire/` |
 | `spec-3-03` | template-set | P? | Merged | `specs/spec-3-03-template-set/` |
+| `spec-3-04` | ship-fixup | P? | Active | `specs/spec-3-04-ship-fixup/` |
 <!-- sdd:specs:end -->
 
 ### spec-3-001 — 페이지 카탈로그 정의
