@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-3** — App Blueprint — 4 spec — 다음: spec-3-04-ship-fixup
+- **phase-3** — App Blueprint — 4 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
