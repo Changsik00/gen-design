@@ -87,22 +87,25 @@
 ## Task 6: C2-2 — Vite alias + tsconfig + import 경로 변경
 
 ### 6-1. 빌드 설정 수정
-- [ ] `studio/vite.config.ts` 에 `@assets` alias 추가 (→ `../templates/assets`)
-- [ ] `studio/tsconfig.app.json` (또는 `tsconfig.json`) `paths` 에 `"@assets/*"` 추가
-- [ ] `pnpm tokens` 스크립트가 `templates/assets/tokens/` 를 읽도록 경로 수정 (필요시)
+- [x] `studio/vite.config.ts` 에 `@assets` alias 추가 (→ `../templates/assets`)
+- [x] `studio/vitest.config.ts` 에 동일 alias 추가 (테스트 일관성)
+- [x] `studio/tsconfig.app.json` + `tsconfig.json` paths 에 `"@assets/*"` 추가
+- [x] `studio/tokens/build.mjs` — `readFileSync` 경로를 `../../templates/assets/tokens/` 로 수정 (Node 스크립트는 alias 미적용, 상대 경로)
 
-### 6-2. 소스 import 경로 일괄 변경
-- [ ] `studio/src/**/*.{ts,tsx}` 의 i18n import → `@assets/i18n/*`
-- [ ] 토큰 JSON import → `@assets/tokens/*`
+### 6-2. 소스 import 경로 변경
+- [x] `studio/src/lib/i18n.ts`: `@/i18n/{ko,en}.json` → `@assets/i18n/{ko,en}.json` (i18n 참조 파일은 이 하나뿐)
+- [x] 토큰 JSON 은 TS import 없음 (build.mjs 에서만 읽음 — 6-1 에서 처리)
 
 ### 6-3. templates/assets/README.md 정리
-- [ ] "studio 참조 방식 (향후)" 섹션의 3-옵션 나열 → **Vite alias 단일 결정** 으로 교체 (symlink / 빌드 복사 기각 근거 포함 또는 삭제)
-- [ ] "현재 상태" 블록 문구를 "본 spec(spec-3-04) 에서 완료" 로 갱신, 경로 표에 `✓ 완료` 표기
+- [x] "studio 참조 방식 (향후)" 3-옵션 나열 제거
+- [x] Vite alias 단일 결정으로 교체 + 기각 근거 (symlink / 빌드 복사) 표로 보존
+- [x] 이주 상태 표에 `✓` 완료 표기, studio 실제 설정 snippet 포함
 
 ### 6-4. 빌드/테스트 검증
-- [ ] `pnpm --dir studio build` PASS 확인
-- [ ] `pnpm --dir studio test` PASS 확인
-- [ ] Commit: `refactor(spec-3-04): studio references templates/assets via @assets alias (C2)`
+- [x] `pnpm --dir studio tokens` PASS
+- [x] `pnpm --dir studio build` PASS (vite 149ms, 1906 modules)
+- [x] `pnpm -s exec vitest run` PASS (12 files / 63 tests)
+- [x] Commit: `refactor(spec-3-04): studio references templates/assets via @assets alias (C2)`
 
 ---
 

@@ -1,6 +1,6 @@
 import type { LoginPageTexts, SignupPageTexts, DashboardPageTexts } from "@/components/templates/types";
-import koJson from "@/i18n/ko.json";
-import enJson from "@/i18n/en.json";
+import koJson from "@assets/i18n/ko.json";
+import enJson from "@assets/i18n/en.json";
 
 type Locale = "ko" | "en";
 
