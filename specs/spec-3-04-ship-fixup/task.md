@@ -52,19 +52,20 @@
 
 ## Task 4: C4 — Schema 정합 (질의서 YAML 에 12필드 추가)
 
-### 4-1. blueprint-protocol.md Step 3 YAML 보강
-- [ ] Step 3 출력 YAML 예시에 누락 12필드 추가:
-  - `meta.appName`, `meta.name`, `meta.pageCount`
-  - `auth.method`, `auth.socialProviders`, `auth.sessionStrategy`
-  - `i18n.defaultLocale`, `i18n.supportedLocales`
-  - `theme.defaultTheme`, `theme.supportedThemes`
-  - `pages[].category`, `pages[].componentPath`
-- [ ] 매핑 표 (질의서 응답 ↔ placeholder) 에 12 행 추가
-- [ ] `REQUIREMENTS.md.template` / `AGENT.md.template` placeholder 와 1:1 매칭 grep 검증
+### 4-1. blueprint-protocol.md schema 확장
+- [x] Step 1 출력에 `meta.name` (slug) 추가
+- [x] **Step 1.5 비기능 요구사항** 신설 (auth / i18n / theme 3 질문)
+- [x] Step 3 출력을 **최종 통합 구조** 로 교체 (meta/auth/i18n/theme/finalPages)
+- [x] finalPages 에 `name`, `category`, `componentPath` 추가
+- [x] 자동 유도 필드 규칙 + DESIGN.md 전용 확장 필드 규칙 추가
+- [x] 매핑 규칙 표 확장 (schema key ↔ placeholder 전체 21행) + 자동 주입/외부 소스 표 추가
 
-### 4-2. 템플릿 placeholder 불일치 수정
-- [ ] `REQUIREMENTS.md.template` / `AGENT.md.template` 에서 schema 와 어긋난 placeholder 조정 (필요시)
-- [ ] Commit: `docs(spec-3-04): align schema with template placeholders (C4)`
+### 4-2. 템플릿 placeholder nested 정합
+- [x] `REQUIREMENTS.md.template` — 모든 placeholder 를 nested 접근으로 (`{{meta.appName}}`, `{{auth.method}}`, `{{theme.defaultTheme}}`, `{{#each finalPages}}`, `{{templateMapping.template}}`) 
+- [x] `AGENT.md.template` — 동일 원칙 (schema 기반은 nested, 외부 주입은 literal 유지)
+- [x] `DESIGN.md.template` — 헤더 meta/theme/i18n 를 nested 로, `{{#each pages}}` → `{{#each finalPages}}`
+- [x] grep 검증: 세 템플릿의 모든 placeholder 가 schema 또는 자동 주입/literal 목록에 포함됨 확인
+- [x] Commit: `docs(spec-3-04): align schema with template placeholders (C4)`
 
 ---
 

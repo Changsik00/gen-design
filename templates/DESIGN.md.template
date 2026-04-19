@@ -1,17 +1,19 @@
-# {{appName}} — Design System
+# {{meta.appName}} — Design System
 
 > Blueprint 질의서(`schema/blueprint-protocol.md`) 와 디자인 도구(Paper/Figma 등) 에서 추출한 시각 디자인 명세.
 > 스키마: `schema/design-md-schema.md` (14 섹션).
-> `{{placeholder}}` 는 질의 결과 또는 디자인 도구 추출 값으로 치환됩니다.
-> 시각 디자인 섹션(1~9) 중 일부는 디자인 도구에서 값이 들어오기 전까지 `TODO` 로 표기됩니다.
+> Placeholder 소스:
+> - `{{meta.*}}`, `{{theme.*}}`, `{{i18n.*}}`, `{{#each finalPages}}` ← Blueprint Step 3 출력 YAML
+> - `{{visualTheme.*}}`, `{{colors.*}}`, `{{typography.*}}`, `{{tokenMapping.*}}`, `{{i18nKeys}}` 등 ← 디자인 도구 추출 (Phase 4~7)
+> - 디자인 도구 값이 들어오기 전까지 시각 디자인 섹션은 `TODO` 로 표기
 
 | 항목 | 값 |
 |---|---|
-| **앱 이름** | {{appName}} |
-| **기본 테마** | {{defaultTheme}} |
-| **지원 테마** | {{supportedThemes}} |
-| **토큰 리소스** | `templates/assets/tokens/` |
-| **i18n 리소스** | `templates/assets/i18n/` |
+| **앱 이름** | {{meta.appName}} |
+| **기본 테마** | {{theme.defaultTheme}} |
+| **지원 테마** | {{theme.supportedThemes}} |
+| **토큰 리소스** | `templates/assets/tokens/` (studio alias: `@assets/tokens/*`) |
+| **i18n 리소스** | `templates/assets/i18n/` (studio alias: `@assets/i18n/*`) |
 
 ---
 
@@ -172,7 +174,7 @@ Page > Section > Block > Element
 
 | Page | Route | Description |
 |------|-------|-------------|
-{{#each pages}}
+{{#each finalPages}}
 | {{name}} | {{route}} | {{description}} |
 {{/each}}
 
@@ -184,7 +186,7 @@ Page > Section > Block > Element
 > 각 페이지의 Section / Block 구조는 Phase 2 Page Template 의 composites 와 매핑됩니다.
 > 매핑 규칙: `schema/design-component-mapping.md` §11.
 
-{{#each pages}}
+{{#each finalPages}}
 
 ### {{name}}
 
@@ -268,7 +270,7 @@ Page > Section > Block > Element
 ## 14. i18n References
 
 > UI 텍스트 키 네임스페이스.
-> 실제 리소스: `templates/assets/i18n/{locale}.json` — 기본 언어 `{{defaultLocale}}`, 지원 언어 `{{supportedLocales}}`.
+> 실제 리소스: `templates/assets/i18n/{locale}.json` — 기본 언어 `{{i18n.defaultLocale}}`, 지원 언어 `{{i18n.supportedLocales}}`.
 > 매핑 규칙: `schema/design-component-mapping.md` §14.
 
 ### Namespace Convention
