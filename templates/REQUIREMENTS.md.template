@@ -1,0 +1,90 @@
+# {{appName}} Requirements
+
+> Blueprint 질의서(`schema/blueprint-protocol.md`)의 결과로 생성된 프로젝트 요구사항.
+> `{{placeholder}}`는 질의 결과로 자동 치환됩니다.
+
+## 메타
+
+| 항목 | 값 |
+|---|---|
+| **앱 이름** | {{appName}} |
+| **앱 유형** | {{appType}} |
+| **생성일** | {{date}} |
+| **총 페이지 수** | {{pageCount}} |
+
+---
+
+## Page Specifications
+
+> 각 페이지는 `schema/page-catalog.md`의 ID를 사용합니다.
+> variant, 섹션 구성은 Blueprint 질의서 Step 2~3의 결과입니다.
+
+{{#each pages}}
+
+### {{id}} — {{name}}
+
+| 항목 | 값 |
+|---|---|
+| **카테고리** | {{category}} |
+| **variant** | {{variant}} |
+| **Template** | {{templateName}} {{templateStatus}} |
+
+**필수 섹션**:
+{{#each requiredSections}}
+- {{this}}
+{{/each}}
+
+**선택 섹션**:
+{{#each optionalSections}}
+- {{this}}
+{{/each}}
+
+---
+
+{{/each}}
+
+## Template 매핑 표
+
+> ✅ = Phase 2에서 구현 완료, ⬜ = 미구현 (향후 Phase에서 구현)
+
+| 페이지 | Template | 상태 | variant |
+|---|---|---|---|
+{{#each pages}}
+| {{id}} | {{templateName}} | {{templateStatus}} | {{variant}} |
+{{/each}}
+
+## 비기능 요구사항
+
+### 인증
+
+| 항목 | 값 |
+|---|---|
+| 인증 방식 | {{authMethod}} |
+| 소셜 로그인 | {{socialProviders}} |
+| 세션 관리 | {{sessionStrategy}} |
+
+### 다국어 (i18n)
+
+| 항목 | 값 |
+|---|---|
+| 기본 언어 | {{defaultLocale}} |
+| 지원 언어 | {{supportedLocales}} |
+| 리소스 위치 | `templates/assets/i18n/` |
+
+### 브랜딩 (Tokens)
+
+| 항목 | 값 |
+|---|---|
+| 기본 테마 | {{defaultTheme}} |
+| 지원 테마 | {{supportedThemes}} |
+| 토큰 위치 | `templates/assets/tokens/` |
+
+---
+
+## 다음 단계
+
+- [ ] DESIGN.md 작성 (시각 디자인 명세 — `schema/design-md-schema.md` 참조)
+- [ ] AGENT.md 작성 (AI 에이전트 프로젝트 지침)
+- [ ] 미구현 Template 우선순위 결정
+- [ ] tokens.json 디자인 추출 및 반영
+- [ ] i18n 리소스 작성
