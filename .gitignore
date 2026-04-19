@@ -8,4 +8,5 @@ node_modules/
 # harness-kit
 .harness-kit/
 .harness-backup-*/
+.harness-uninstall-backup-*/
 .claude/state/
