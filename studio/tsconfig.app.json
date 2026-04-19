@@ -25,7 +25,8 @@
     /* Alias */
     "baseUrl": ".",
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["./src/*"],
+      "@assets/*": ["../templates/assets/*"]
     },
     "ignoreDeprecations": "6.0"
   },

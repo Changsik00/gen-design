@@ -1,8 +1,9 @@
 import StyleDictionary from "style-dictionary";
 import { readFileSync } from "fs";
 
-const tokens = JSON.parse(readFileSync(new URL("./tokens.json", import.meta.url), "utf-8"));
-const tokensBrandB = JSON.parse(readFileSync(new URL("./tokens-brand-b.json", import.meta.url), "utf-8"));
+const tokensDir = new URL("../../templates/assets/tokens/", import.meta.url);
+const tokens = JSON.parse(readFileSync(new URL("tokens.json", tokensDir), "utf-8"));
+const tokensBrandB = JSON.parse(readFileSync(new URL("tokens-brand-b.json", tokensDir), "utf-8"));
 
 // --- 커스텀 포맷: :root { } ---
 StyleDictionary.registerFormat({

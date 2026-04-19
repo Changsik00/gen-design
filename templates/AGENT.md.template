@@ -1,4 +1,4 @@
-# {{appName}} — AI Agent Guide
+# {{meta.appName}} — AI Agent Guide
 
 > AI 에이전트가 이 프로젝트에서 코드를 생성할 때 따라야 할 지침.
 > DESIGN.md(시각), REQUIREMENTS.md(기능)과 함께 3종 세트로 사용됩니다.
@@ -9,8 +9,9 @@
 
 | 항목 | 값 |
 |---|---|
-| **앱 이름** | {{appName}} |
-| **앱 유형** | {{appType}} |
+| **앱 이름** | {{meta.appName}} |
+| **패키지명** | `{{meta.name}}` |
+| **앱 유형** | {{meta.appType}} |
 | **기술 스택** | {{techStack}} |
 | **패키지 매니저** | {{packageManager}} |
 
@@ -44,6 +45,9 @@ src/components/
     └── index.ts           # re-export
 ```
 
+> 위 트리의 `{{PageName}}` 은 **예시 placeholder** 입니다 (literal, 치환 대상 아님).
+> 실제 페이지 이름은 아래 Template 매핑 표를 참조하세요.
+
 ## 3. 코드 생성 규칙
 
 ### 스타일링
@@ -51,12 +55,14 @@ src/components/
 - **Tailwind CSS 유틸리티만 사용** — 인라인 스타일, CSS 모듈 금지
 - **토큰 직접 참조 금지** — hex/oklch 값 하드코딩 대신 Tailwind 클래스 (`bg-primary`, `text-foreground`)
 - **CSS 변수 참조** — `tokens.json → _tokens-*.css → Tailwind` 파이프라인
+- **토큰 소스**: `templates/assets/tokens/` (Vite alias: `@assets/tokens/*`)
 
 ### i18n
 
 - **텍스트 하드코딩 금지** — 모든 사용자 대면 텍스트는 `texts` prop에서 가져옴
 - **i18n 키 형식**: `{page}.{section}.{element}.{property}`
-- **리소스 위치**: `templates/assets/i18n/{locale}.json`
+- **리소스 위치**: `templates/assets/i18n/{locale}.json` (Vite alias: `@assets/i18n/*`)
+- **기본 언어**: {{i18n.defaultLocale}}
 
 ### 테스트
 
@@ -81,8 +87,8 @@ src/components/
 
 | REQUIREMENTS.md 페이지 | 코드 컴포넌트 | Template 상태 |
 |---|---|---|
-{{#each pages}}
-| {{id}} | `{{componentPath}}` | {{templateStatus}} |
+{{#each finalPages}}
+| {{id}} | `{{componentPath}}` | {{templateMapping.status}} |
 {{/each}}
 
 ## 5. 커밋 규칙
