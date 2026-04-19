@@ -42,11 +42,11 @@
 ## Task 3: C3 — 변환 실행 주체 (Fill Executor) 명시
 
 ### 3-1. blueprint-protocol.md §3.5 추가
-- [ ] `schema/blueprint-protocol.md` 에 "변환 실행 주체 (Fill Executor)" 섹션 추가
-  - 기본 주체: AI-direct-fill
-  - `{{var}}`, `{{#each list}}...{{/each}}`, nested `{{obj.field}}` 해석 규칙 (각 1 예시)
-  - 대체 주체: Handlebars CLI 실행 예시 1 케이스
-- [ ] Commit: `docs(spec-3-04): specify fill executor in blueprint-protocol (C3)`
+- [x] `schema/blueprint-protocol.md` 에 "변환 실행 주체 (Fill Executor)" 섹션 추가
+  - 기본 주체: AI-direct-fill + 실행 순서 5단계
+  - `{{var}}`, `{{obj.field}}`, `{{#each list}}...{{/each}}` 해석 규칙 각 1 예시 + 실제 입출력 쌍
+  - 대체 주체: Handlebars CLI 실행 예시 1 케이스 + 선택 기준 표
+- [x] Commit: `docs(spec-3-04): specify fill executor in blueprint-protocol (C3)`
 
 ---
 

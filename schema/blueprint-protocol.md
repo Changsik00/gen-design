@@ -300,6 +300,113 @@ finalPages:
 
 ---
 
+## 변환 실행 주체 (Fill Executor)
+
+> Step 3 의 출력 YAML 로 `templates/*.template` 파일들을 채우는 **실행 주체**를 정의한다.
+> 템플릿은 `{{var}}`, `{{#each list}}...{{/each}}`, `{{obj.field}}` 형식의 placeholder 를 사용한다 (Handlebars 문법 하위 집합).
+
+### 기본 주체: AI 에이전트 direct-fill
+
+사람 개입 없이 AI 에이전트가 질의 결과 YAML 을 읽고 placeholder 를 직접 치환한다.
+외부 런타임 / 스크립트가 필요 없고, AI 에이전트의 구조적 파싱 능력에 의존한다.
+
+#### placeholder 해석 규칙
+
+**1) 단순 치환: `{{var}}`**
+- 현재 컨텍스트(루트 또는 `{{#each}}` 블록 내부) 에서 `var` 키를 찾아 그 값으로 치환한다.
+- 값이 스칼라(string/number/boolean) 이면 그대로, 배열이면 쉼표 구분 문자열로 직렬화한다.
+
+```yaml
+# 입력
+appName: "SaaS Dashboard"
+defaultTheme: "light"
+```
+```markdown
+# 템플릿
+# {{appName}} — Design System
+기본 테마: {{defaultTheme}}
+```
+```markdown
+# 출력
+# SaaS Dashboard — Design System
+기본 테마: light
+```
+
+**2) 중첩 접근: `{{obj.field}}`**
+- 점 표기법으로 중첩 객체 필드에 접근한다.
+
+```yaml
+# 입력
+typography:
+  fontFamily:
+    primary: "Inter, sans-serif"
+```
+```markdown
+# 템플릿
+Primary: {{typography.fontFamily.primary}}
+```
+```markdown
+# 출력
+Primary: Inter, sans-serif
+```
+
+**3) 반복 블록: `{{#each list}}...{{/each}}`**
+- `list` 가 배열이면 각 요소를 새 컨텍스트로 삼아 블록을 반복 렌더링한다.
+- 블록 내부에서 `{{field}}` 는 "현재 요소의 field", `{{this}}` 는 "현재 요소 전체" 를 의미한다.
+
+```yaml
+# 입력
+pages:
+  - id: auth-login
+    variant: modal
+  - id: dash-overview
+    variant: page
+```
+```markdown
+# 템플릿
+{{#each pages}}
+- {{id}} ({{variant}})
+{{/each}}
+```
+```markdown
+# 출력
+- auth-login (modal)
+- dash-overview (page)
+```
+
+#### direct-fill 실행 순서
+
+1. 템플릿 파일을 읽고 placeholder 를 스캔한다.
+2. Step 3 출력 YAML 의 최상위 키와 placeholder 를 매칭한다.
+3. 누락 키가 있으면 **즉시 사용자에게 질문** (fail fast — 빈 값으로 진행 금지).
+4. 치환 결과를 `DESIGN.md`, `REQUIREMENTS.md`, `AGENT.md` 로 저장한다.
+5. placeholder 해석이 모호한 경우(nested `{{#each}}` 중첩 3단계 이상 등) → 대체 주체로 폴백.
+
+### 대체 주체: Handlebars CLI (선택)
+
+placeholder 복잡도가 높거나 대량 배치 생성이 필요하면 `handlebars` CLI 로 실행할 수 있다.
+
+```bash
+# YAML 을 JSON 으로 변환 후 템플릿 렌더링
+npx js-yaml output.yaml > output.json
+npx handlebars templates/DESIGN.md.template --data output.json > DESIGN.md
+```
+
+- 장점: 결정론적 출력, 대량 처리.
+- 단점: 런타임 설치 필요, YAML 키 오타 시 빈 치환으로 통과.
+- **권장**: PoC 단계(Phase 5)에서 정확도 벤치마크가 필요할 때만 사용. 평상시에는 direct-fill.
+
+### Fill Executor 선택 기준
+
+| 상황 | 권장 주체 |
+|---|---|
+| 단일 앱 생성 (대화 흐름 내) | **AI-direct-fill** |
+| 여러 앱 배치 생성 | Handlebars CLI |
+| placeholder 변환 정확도 검증 | Handlebars CLI (결정론적) |
+| 누락 필드 있는 초기 기획 | **AI-direct-fill** (대화로 보완) |
+
+---
+
 ## 프로토콜 실행 요약
 
 ```
