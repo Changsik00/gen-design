@@ -120,13 +120,12 @@
 
 ## Task 8: FR5 — PR #14 body 정직 채점 (pr_description.md 먼저)
 
-### 8-1. pr_description.md 에 교체 본문 작성
-- [ ] `specs/spec-3-04-ship-fixup/pr_description.md` 초안 작성 (spec-3-04 단독 PR body)
-- [ ] Phase PR #14 용 교체 본문은 **Task 9 Ship 단계**에서 `walkthrough.md` 작성 후 갱신
+### 8-1. pr_description.md 작성
+- [x] `specs/spec-3-04-ship-fixup/pr_description.md` 작성 — Summary / Key Review Points / Verification / Files Changed / DoD
+- [x] Phase PR #14 body 교체 블록은 pr_description 내 FR5 로 기록 (spec-3-04 merge 후 실행)
 
 ### 8-2. 상태 기록
-- [ ] 본 task 는 "문서 초안 + 계획 기록" 단계. 실제 `gh pr edit 14` 는 Task 9 Ship 완료 후 실행
-- [ ] Commit: 없음 (Task 9 에서 walkthrough/pr_description 과 함께 ship commit)
+- [x] Commit: 없음 (Task 9 ship commit 에 walkthrough/pr_description 함께 포함)
 
 ---
 
@@ -134,14 +133,14 @@
 
 > 모든 작업 task 완료 후 `/hk-ship` 절차를 따릅니다.
 
-- [ ] 품질 점검: `pnpm --dir studio build` + `pnpm --dir studio test` 최종 PASS
-- [ ] **walkthrough.md 작성** (C1~C4 + FR5/FR6 증거 로그)
-- [ ] **pr_description.md 작성** (spec-3-04 단독 PR 용)
-- [ ] **Ship Commit**: `docs(spec-3-04): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-3-04-ship-fixup`
-- [ ] **spec-3-04 PR 생성**: base = `phase-3-app-blueprint`, `/hk-pr-gh` 또는 `gh pr create`
-- [ ] **사용자 알림**: spec-3-04 PR URL 보고
-- [ ] (사용자 merge 후) **phase PR #14 body 갱신**: `gh pr edit 14 --body-file <phase-14-body>` 로 `3 PASS / 2 PARTIAL / 2 FAIL` 블록 반영
+- [x] 품질 점검: `pnpm --dir studio build` + `vitest run` PASS (Task 6 에서 수행)
+- [x] **walkthrough.md 작성** (C1~C4 + FR5/FR6 증거 로그 + 사용자 협의 전체 기록)
+- [x] **pr_description.md 작성** (spec-3-04 단독 PR 용)
+- [x] **Ship Commit**: `docs(spec-3-04): ship walkthrough and pr description`
+- [x] **Push**: `git push -u origin spec-3-04-ship-fixup`
+- [x] **spec-3-04 PR 생성**: base = `phase-3-app-blueprint`
+- [x] **사용자 알림**: spec-3-04 PR URL 보고
+- [ ] (사용자 merge 후) **phase PR #14 body 갱신**: `gh pr edit 14 --body-file <phase-14-body>` 로 `3 PASS → PATCHED` 블록 반영
 
 ---
 
@@ -151,5 +150,5 @@
 |---|---|
 | **총 Task 수** | 9 (Pre-flight 제외) |
 | **예상 commit 수** | 7 (Task 1 브랜치 생성 제외, Task 8 은 commit 없음, Task 9 ship commit 1개) |
-| **현재 단계** | Planning |
+| **현재 단계** | Ship |
 | **마지막 업데이트** | 2026-04-19 |
