@@ -33,14 +33,14 @@
 > docs-only. 단일 커밋으로 `collaboration-flow.md` 의 핵심 본문 (서문 / 3 역할 / 6 단계 상세 / Phase 매핑 / 도구 부록) 을 한번에 작성.
 
 ### 2-1. 문서 본문 작성
-- [ ] `docs/guides/collaboration-flow.md` 신규 작성
+- [x] `docs/guides/collaboration-flow.md` 신규 작성
   - 서문 · 3 역할 정의 · 6 단계 개요
   - 각 단계 상세 (목적 / 입력 / 출력 / 주 역할 / 도구 / Done 기준 / PoC 훅)
   - Phase 1~3 산출물 매핑 표
   - 부록 A (도구 매핑: Paper MCP / Figma / Tokens Studio)
   - 부록 B (관련 문서 cross-link 목록)
-- [ ] 내부 상대 링크 유효성 확인 (수동 grep 기반 — plan.md §대체 자동 검증 참고)
-- [ ] Commit: `docs(spec-4-01): add collaboration flow protocol`
+- [x] 내부 상대 링크 유효성 확인 (9/9 OK — 수동 grep)
+- [x] Commit: `docs(spec-4-01): add collaboration flow protocol`
 
 ---
 
