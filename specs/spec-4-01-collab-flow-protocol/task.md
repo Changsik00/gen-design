@@ -62,13 +62,14 @@
 > 모든 작업 task 완료 후 `/hk-ship` 절차를 따릅니다.
 
 ### 4-1. 품질 점검
-- [ ] 링크 유효성 재확인 (`grep -Eo "\]\([^)]+\.md[^)]*\)" docs/guides/collaboration-flow.md`)
-- [ ] Markdown 렌더링 이상 없음 (GitHub preview 또는 로컬 VSCode preview)
-- [ ] Integration test — 해당 없음 (docs-only)
+- [x] 링크 유효성 재확인 (9/9 유효)
+- [x] Markdown 렌더링 이상 없음 (mermaid · 표 · admonition 정상)
+- [x] Integration test — 해당 없음 (docs-only)
+- [x] `sdd ship --check` — ✅ 검증 통과
 
 ### 4-2. Ship artifacts
-- [ ] `walkthrough.md` 작성 (증거 로그 — 각 단계에서 작성된 내용 요약 + 수동 검증 시나리오 결과)
-- [ ] `pr_description.md` 작성 (템플릿 준수, base = `phase-4-collab-flow`)
+- [x] `walkthrough.md` 작성 (결정 7 건 / 사용자 협의 3 건 / 수동 검증 5 시나리오)
+- [x] `pr_description.md` 작성 (base = `phase-4-collab-flow`)
 - [ ] Ship Commit: `docs(spec-4-01): ship walkthrough and pr description`
 
 ### 4-3. Push + PR
@@ -84,5 +85,5 @@
 |---|---|
 | **총 Task 수** | 4 (브랜치+스캐폴드 / 본문 작성 / cross-link / Ship) |
 | **예상 commit 수** | 4 (스캐폴드 1 + 본문 1 + cross-link 1 + ship 1) |
-| **현재 단계** | Execution (Task 1 진행 중) |
+| **현재 단계** | Ship (push 대기) |
 | **마지막 업데이트** | 2026-04-21 |
