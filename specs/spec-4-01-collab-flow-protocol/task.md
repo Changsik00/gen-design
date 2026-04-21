@@ -49,11 +49,11 @@
 > 기존 3 개 문서 상단에 본 프로토콜 참조 노트 추가.
 
 ### 3-1. cross-link 적용
-- [ ] `docs/integrations/paper-mcp.md` 상단 `> [!NOTE]` 추가 (Stage 2 Extract / Stage 5 Render 인용)
-- [ ] `docs/integrations/figma-sync.md` 상단 `> [!NOTE]` 추가 (Stage 2 Extract / Stage 6 Iterate 인용)
-- [ ] `docs/guides/e2e-demo-loginpage.md` 상단 `> [!NOTE]` 추가 (본 프로토콜의 E2E 구현 사례 명시)
-- [ ] 3 개 파일의 링크 유효성 수동 확인
-- [ ] Commit: `docs(spec-4-01): cross-link integrations and e2e demo to flow protocol`
+- [x] `docs/integrations/paper-mcp.md` 상단 `> [!NOTE]` 추가 (Stage 2 Extract / Stage 5 Render 인용)
+- [x] `docs/integrations/figma-sync.md` 상단 `> [!NOTE]` 추가 (Stage 2 Extract / Stage 6 Iterate 인용)
+- [x] `docs/guides/e2e-demo-loginpage.md` 상단 `> [!NOTE]` 추가 (본 프로토콜의 E2E 구현 사례 명시)
+- [x] 3 개 파일의 링크 유효성 수동 확인
+- [x] Commit: `docs(spec-4-01): cross-link integrations and e2e demo to flow protocol`
 
 ---
 
