@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-3** — App Blueprint — 4 spec — 다음: (spec 없음)
+- **phase-4** — 협업 Flow 정의 — 0/0 spec — base branch: `phase-4-collab-flow` — 다음: 첫 spec 생성 대기
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -42,8 +42,8 @@
 |---|---|---|
 | `phase-1` | [Foundation (기반 셋업)](phase-1.md) | Done |
 | `phase-2` | [Page Template 시스템](phase-2.md) | Done |
-| `phase-3` | [App Blueprint](phase-3.md) | Queued |
-| `phase-4` | [협업 Flow 정의](phase-4.md) | Queued |
+| `phase-3` | [App Blueprint](phase-3.md) | Done |
+| `phase-4` | [협업 Flow 정의](phase-4.md) | Active |
 | `phase-5` | [PoC 검증](phase-5.md) | Queued |
 | `phase-6` | [Studio v1](phase-6.md) | Queued |
 | `phase-7` | [디자인 도구 연동 심화](phase-7.md) | Queued |
@@ -54,4 +54,5 @@
 <!-- sdd:done:start -->
 - **phase-1** — Foundation (기반 셋업) — completed 2026-04-14
 - **phase-2** — Page Template 시스템 — completed 2026-04-17
+- **phase-3** — App Blueprint — completed 2026-04-21
 <!-- sdd:done:end -->

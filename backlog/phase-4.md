@@ -8,11 +8,11 @@
 | 항목 | 값 |
 |---|---|
 | **Phase ID** | `phase-4` |
-| **상태** | Planning |
-| **시작일** | TBD |
+| **상태** | In Progress |
+| **시작일** | 2026-04-21 |
 | **목표 종료일** | TBD |
 | **소유자** | Dennis |
-| **Base Branch** | 없음 |
+| **Base Branch** | `phase-4-collab-flow` |
 
 ## 🎯 배경 및 목표
 
