@@ -59,15 +59,17 @@
 ## Task 4: 실험 B — Cross-artboard 비교
 
 ### 4-1. 1AX-0 구조 + 스타일 추출
-- [ ] `get_tree_summary(1AX-0, depth=3)`
-- [ ] `1AX-0` 에서 Card / Input / Button / Text 노드 식별 (레이어명 힌트)
-- [ ] `get_computed_styles` — 식별된 노드에서 동일 토큰 추출
-- [ ] 실험 로그에 기록
+- [x] `get_tree_summary(1AX-0, depth=5)` — 구조 확인 (Card outer frame + CardHeader + Form + SubmitButton + Social 가로 3 + SignupPrompt)
+- [x] 1AX-0 의 Card / Input / Button / Text 노드 식별 (1AY-0, 1B5-0, 1BB-0, 1BC-0, 1BE-0, 1B0-0, 1B1-0, 1B4-0)
+- [x] `get_computed_styles` batch 8 노드
+- [x] 실험 로그 §B-1 기록
 
 ### 4-2. 대조표
-- [ ] 15 토큰 중 `1AX-0` 에 존재하는 subset 에 대해 `1BN-0` vs `1AX-0` 비교표
-- [ ] 차이 항목 원인 추정 (다른 날 / 다른 의사결정 / MCP 동작 차이)
-- [ ] Commit: `docs(spec-4-03): run cross-artboard comparison experiment`
+- [x] 15 토큰 subset 대조 — 14/15 exact match, 1 (fontFamily) 는 구현자 선택 차이
+- [x] RQ2 PASS (강한 형태) — 2 독립 세션에서 의미→저장 결정론 확인
+- [x] RQ3 최종 진단 표 (spec-4-02 / 실험 A / 실험 B 각각의 tautology 해소 기여)
+- [x] RQ4 Stage 6 증거 평가 — Paper 측 핵심 전제 3 건 충족
+- [x] Commit: `docs(spec-4-03): run cross-artboard comparison experiment`
 
 ---
 

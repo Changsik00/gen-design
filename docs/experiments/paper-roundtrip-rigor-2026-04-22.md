@@ -91,3 +91,78 @@ update_styles([
 
 → `1BN-0` 는 spec-4-02 PoC 상태로 완전 복구.
 
+---
+
+## 실험 B: Cross-artboard 비교
+
+### B-1 `1AX-0` 구조 탐색
+
+`get_tree_summary(1AX-0, depth=5)`:
+- `1AX-0` (1440×900) 루트
+  - `1AY-0` (400×456) — Card 역할 outer frame
+    - `1AZ-0` CardHeader → `1B0-0` Title "로그인" / `1B1-0` Description
+    - `1B2-0` Form 컨테이너 → `1B3-0/1B7-0` Email/Password field (label + Input)
+    - `1BB-0` SubmitButton → `1BC-0` Text "로그인"
+    - `1BD-0` Social 가로 레이아웃 → `1BE-0/1BG-0/1BI-0` 3 버튼 (Google/Apple/Kakao)
+    - `1BK-0` SignupPrompt
+
+**1BN-0 와의 구조 차이** (의사결정 수준):
+| 항목 | 1BN-0 | 1AX-0 |
+|---|---|---|
+| Card width | 380px | 400px |
+| Divider "or continue with" | 있음 | **없음** |
+| Social 레이아웃 | 세로 3 개 | **가로 3 개 (flexGrow)** |
+| 주 폰트 | Inter | **Geist** |
+| lineHeight title | 32px | 30px |
+| lineHeight body | 20px | 18px |
+
+→ 두 아트보드는 **다른 구현자 / 다른 세션 / 다른 의사결정** 의 산물. Paper 저장 결정론 비교에 적합.
+
+### B-2 공통 토큰 15 중 추출 가능한 subset 비교
+
+| # | 계열 | 토큰 의미 | 1BN-0 | 1AX-0 | 일치 | 비고 |
+|---|:---:|---|---|---|:---:|---|
+| 1 | color | --primary (Button bg) | `#171717` (1C1-0) | `#171717` (1BB-0) | ✅ | **exact** |
+| 2 | color | --primary-foreground (Button text) | `#FAFAFA` (1C2-0) | `#FAFAFA` (1BC-0) | ✅ | **exact** |
+| 3 | color | --card (Card bg) | `#FFFFFF` (1BO-0) | `#FFFFFF` (1AY-0) | ✅ | **exact** |
+| 4 | color | --border | `#E5E5E5` (1BO-0, 1BV-0, 1C8-0) | `#E5E5E5` (1AY-0, 1B5-0, 1BE-0) | ✅ | **exact across 6 노드 / 2 artboard** |
+| 5 | color | --muted-foreground (Description) | `#737373` (1BR-0) | `#737373` (1B1-0) | ✅ | **exact** |
+| 6 | color | --foreground (Title/Label) | `#0A0A0A` (1BQ-0, 1BU-0) | `#0A0A0A` (1B0-0, 1B4-0) | ✅ | **exact** |
+| 7 | typography | font-family 주 | `"Inter"...` | `"Geist"...` | ⚠ 다름 | 구현자 선택 차이. shadcn 기본값 유효 |
+| 8 | typography | 14px (label/body) | `14px` | `14px` | ✅ | |
+| 9 | typography | 24px (title) | `24px` | `24px` | ✅ | |
+| 10 | typography | fontWeight 500/600 | `500/600` | `500/600` | ✅ | |
+| 11 | spacing | padding 32px (card) | `paddingBlock/Inline: 32px` | `paddingBlock/Inline: 32px` | ✅ | **exact 표기** |
+| 12 | spacing | Card gap (24px) / Form gap (16px) | Card `gap: 24px` (1BO-0), Form `gap: 16px` (1BS-0) | Card `gap: 24px` (1AY-0), Form 구조 다름 | ✅ (Card gap) / N/A (Form) | 구조 차이 |
+| 13 | radius | 5px (Input/Button) | `5px` (여러 노드) | `5px` (여러 노드) | ✅ | **exact** |
+| 14 | radius | 8.75px (Card) | `8.75px` (1BO-0) | `8.75px` (1AY-0) | ✅ | **exact** |
+| 15 | shadow | Card | `#0000001A 0px 1px 3px` | `#0000001A 0px 1px 3px` | ✅ | **exact 표기** (drop-shadow 8-hex alpha 포함) |
+
+### B-3 결론 (RQ2)
+
+**PASS — 강한 형태로**. 2 주 간격 + 다른 구현자 의사결정에도 불구하고 **shadcn 기본 토큰 세트는 동일한 저장 표기** (#hex / px / 8-hex alpha) 로 귀결. 즉 Paper 의 **표기 정규화는 결정론적** — 같은 의미 입력이 들어오면 저장 표기는 불변.
+
+유일한 차이 (fontFamily, lineHeight 미세 조정, 레이아웃) 는 **구현자의 선택** 이지 **Paper 의 저장 문제** 가 아님.
+
+### B-4 Tautology 진단 최종 (RQ3)
+
+| 실험 | 관찰 | Tautology 해소 기여 |
+|---|---|---|
+| spec-4-02 | 같은 session write → read: 100% | 없음 (자기 echo) |
+| 실험 A (Mutation) | 같은 session write → update(다른 값) → read: 정확 반영 + 불변 오염 0 | 중간. "Paper 가 임의 값에 대해 충실히 저장" 확인. 단일 데이터 포인트 우연 배제. |
+| 실험 B (Cross-artboard) | 2 주 간격 독립 write → read: 공통 의미 토큰 exact match | **높음**. Paper 의 **의미→저장표기 매핑이 결정론적** 임을 2 개 독립 세션으로 증명. |
+
+**종합 결론**: "Paper MCP 의 저장 결정론" 은 이제 강하게 증명됨. 그러나 "원본 디자인 의도 보존" 은 **여전히 미증명** — 의도를 Paper 밖에서 가져오지 않았기 때문. Phase 5 에서 실제 Designer 입력 (또는 독립적으로 쓰여진 참조 DESIGN.md) 과 비교해야 비로소 "왕복 충실도" 주장 가능.
+
+### B-5 Stage 6 Iterate 증거 평가 (RQ4)
+
+| 조건 | 충족 | 근거 |
+|---|:---:|---|
+| 부분 업데이트 안정성 | ✅ | 실험 A |
+| 토큰 격리 (수정 안 한 것은 불변) | ✅ | 실험 A 13/13 |
+| 다른 세션 결정론 | ✅ | 실험 B |
+| 실제 Iterate 사이클 (DESIGN.md 수정 → Paper 반영 → 코드 재생성) | ⚠ 부분 | Paper 부분만. 코드 / DESIGN.md 3 축 동기화는 phase-5 |
+| Designer 피드백 루프 | ✗ | 실험 C (사용자 조작) 제외 — Standard 티어 결정 |
+
+→ Stage 6 의 **Paper 측 핵심 전제 3 건 충족**. 완전 증명은 phase-5 PoC.
+
