@@ -63,9 +63,10 @@ Paper, Stitch, Figma와의 양방향 연동을 안정화하고, 디자인 도구
 ### spec-7-004 — Figma Variables 동기화 안정화 (phase-4 이월 흡수)
 
 - **요점**: Figma Variables ↔ tokens.json 양방향 동기화
-- **이월 컨텍스트** (2026-04-22): 원래 phase-4 의 `spec-4-003` 으로 계획되었으나, Figma Enterprise Variables API / Tokens Studio 접근 환경 미준비로 phase-7 에 흡수. Paper MCP 왕복 (spec-4-02) 에서 확인된 **자동 정규화 패턴** (oklch↔hex / rgba↔8-hex) 을 Figma 에도 동일하게 적용 가능한지 검증이 첫 단계.
-- **선행 증거**: [`specs/spec-4-02-paper-mcp-roundtrip/report.md`](../../specs/spec-4-02-paper-mcp-roundtrip/report.md) — Paper 왕복 100% 결과를 Figma 에 재적용 가능성 평가의 기준점.
-- **방향성**: Figma REST API 또는 Tokens Studio. 배치 처리, 충돌 해결. 환경 확보 시 PoC 부터 재수행 (spec-4-02 를 템플릿으로 복제 가능).
+- **이월 컨텍스트** (2026-04-22): 원래 phase-4 의 `spec-4-003` 으로 계획되었으나, Figma Enterprise Variables API / Tokens Studio 접근 환경 미준비로 phase-7 에 흡수.
+- **선행 증거**: [`specs/spec-4-02-paper-mcp-roundtrip/report.md`](../../specs/spec-4-02-paper-mcp-roundtrip/report.md) + [`specs/spec-4-03-paper-roundtrip-rigor/report.md`](../../specs/spec-4-03-paper-roundtrip-rigor/report.md). Paper 에서 관찰된 **표기 정규화 패턴** (oklch↔hex / rgba↔8-hex / padding 단일↔Block+Inline / fontFamily fallback) 의 Figma 재적용성 검증.
+- **중요 단서** (spec-4-03 반영): Paper 왕복 PoC 는 **저장 결정론** 은 증명했으나 **"원본 의도 보존"** 은 미증명. Figma PoC 설계 시 spec-4-02 의 self-echo 함정 (정방향에서 쓴 값을 역방향에서 읽음) 을 반복하지 않고, **독립 source-of-truth** (디자이너가 Figma UI 에서 직접 만든 Variables, 또는 참조 tokens.json 파일) 를 기준으로 측정.
+- **방향성**: Figma REST API 또는 Tokens Studio. 배치 처리, 충돌 해결. 환경 확보 시 PoC 부터 재수행 (spec-4-02/03 의 2 단계 — 저장 결정론 + 의도 보존 — 모두 측정 필수).
 - **참조**: [`docs/integrations/figma-sync.md`](../../docs/integrations/figma-sync.md)
 - **연관 모듈**: `templates/assets/tokens/`
 

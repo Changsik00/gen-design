@@ -98,10 +98,10 @@
 - [x] Commit: `docs(spec-4-03): rewrite phase-4 verification with caveats`
 
 ### 6-2. phase-5.md / phase-7.md / collaboration-flow.md 완화
-- [ ] `phase-5.md` spec-5-001 — "왕복 100% 유지" → "왕복 drift 측정"
-- [ ] `phase-7.md` spec-7-004 — "동일하게 적용 가능한지 검증" → "패턴의 Figma 재적용성 검증 (값 보존 ≠ 의도 보존 단서 포함)"
-- [ ] `docs/guides/collaboration-flow.md` hook-paper-extract / hook-paper-render 앵커 — spec-4-03 링크 + 단서 포함
-- [ ] Commit: `docs(spec-4-03): soften overclaim language in downstream phases`
+- [x] `phase-5.md` spec-5-001 — "왕복 100% 유지" → "왕복 drift 측정 + 원본 의도 보존 검증 (최우선)"
+- [x] `phase-7.md` spec-7-004 — "동일 패턴 적용 가능한지" → "저장 결정론 + 의도 보존 2 단계 측정 필수" + spec-4-03 self-echo 함정 경고
+- [x] `docs/guides/collaboration-flow.md` hook-paper-extract / hook-paper-render 앵커 — spec-4-03 링크 + 단서 포함
+- [x] Commit: `docs(spec-4-03): soften overclaim language in downstream phases`
 
 ### 6-3. Icebox 부채 등재
 - [ ] `backlog/queue.md` Icebox 에 W4 (One Task = One Commit 위반) + C4 (phase-ship.md 템플릿 부재) 추가
