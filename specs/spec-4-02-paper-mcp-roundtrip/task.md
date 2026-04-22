@@ -92,10 +92,10 @@
   - 후속 spec 권장: spec-4-03 / variant 확장 / Dashboard / paper-normalizer
 - [x] Commit: `docs(spec-4-02): add research report with go/no-go recommendation`
 
-### 6-2. (조건부) 프로토콜 피드백
-- [ ] `docs/guides/collaboration-flow.md` Stage 2 / Stage 5 Done 기준 갱신 여부 결정
-- [ ] 수정 필요 시 commit: `docs(spec-4-02): refine collaboration-flow Done criteria from roundtrip findings`
-- [ ] 수정 불필요 시 스킵 (`[-]` 로 passed 표시 + 이유 명시)
+### 6-2. 프로토콜 피드백
+- [x] `docs/guides/collaboration-flow.md` Stage 2 Done 기준에 색공간 정규화 주석 + hook-paper-extract 앵커에 검증 결과 링크
+- [x] Stage 5 Done 기준에 폰트 가용성 사전 확인 + Review Checkpoint 6 항 + hook-paper-render 앵커에 검증 결과 링크
+- [x] Commit: `docs(spec-4-02): refine collaboration-flow Done criteria from roundtrip findings`
 
 ---
 
