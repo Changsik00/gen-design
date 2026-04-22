@@ -35,6 +35,12 @@
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
 
+### phase-4 이월 follow-ups (2026-04-22 등재)
+
+- **paper-normalizer 유틸리티** — Paper MCP 와 DESIGN.md 사이의 표기 정규화 함수 라이브러리 (oklch↔hex, rgba↔8-hex, padding 단일↔paddingBlock/paddingInline, fontFamily fallback 정리). spec-4-02 에서 4 종 표기 drift 확인. Studio v1 (phase-6) 에서 실제 코드 자동 생성 시 필요하면 spec-x 또는 phase-6 spec 으로 승격.
+- **대량 변환 배치 전략 탐색** — spec-4-02 RQ5-5. 페이지 N 개 동시 처리 시 MCP 호출 수 / 속도 이슈. phase-5 앱 A 생성 시 실감 후 검토.
+- **harness-kit follow-up** — phase-3 에서 stash 된 `.gitignore` 중복 정리 + `.claude/commands/hk-align.md` 플레이스홀더 포맷 수정. spec-x 로 분리 처리 (아직 원복/커밋 전 상태).
+
 ## 📋 대기 Phase
 
 <!-- sdd:queued:start -->
