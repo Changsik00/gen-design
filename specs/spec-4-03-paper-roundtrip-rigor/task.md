@@ -104,8 +104,12 @@
 - [x] Commit: `docs(spec-4-03): soften overclaim language in downstream phases`
 
 ### 6-3. Icebox 부채 등재
-- [ ] `backlog/queue.md` Icebox 에 W4 (One Task = One Commit 위반) + C4 (phase-ship.md 템플릿 부재) 추가
-- [ ] Commit: `docs(spec-4-03): register phase-4 retrospective debt to icebox`
+- [x] `backlog/queue.md` Icebox 에 신규 섹션 "거버넌스 부채 — phase-4 회고 발견" 추가:
+  - W4 One Task 위반 재발 방지 (spec-4-03 이 9 commit 엄격 준수로 해소)
+  - C4 phase-ship.md 템플릿 부재 (harness-kit upstream 기여 대상)
+  - W2 4 단계 미실측 (Phase 5 PoC 에 흡수)
+  - A4 자기참조 검증 / critique 미실행 (Phase 5 Research spec 에서 강제)
+- [x] Commit: `docs(spec-4-03): register phase-4 retrospective debt to icebox`
 
 ---
 
