@@ -28,21 +28,20 @@
 ## Task 2: 실험 A — Mutation Fidelity 실행
 
 ### 2-1. Baseline 확인
-- [ ] `get_computed_styles(["1C1-0","1BV-0","1BZ-0","1C8-0","1CA-0","1CC-0"])` — mutation 대상 노드 현재 값 재확인
-- [ ] 실험 로그 `docs/experiments/paper-roundtrip-rigor-2026-04-22.md` 초기화 + baseline 기록
+- [x] `get_computed_styles` 6 노드 — baseline 값이 spec-4-02 와 일치 확인
+- [x] 실험 로그 초기화 + baseline 표 기록
 
 ### 2-2. Mutation 적용
-- [ ] `update_styles([{nodeIds:["1C1-0"], styles:{backgroundColor:"#D01A3F"}}])` — SubmitButton bg → 빨강
-- [ ] `update_styles([{nodeIds:["1BV-0","1BZ-0","1C8-0","1CA-0","1CC-0"], styles:{borderColor:"#999999"}}])` — 5 개 border → 중간 회색
-- [ ] `get_screenshot(1BO-0)` — mutation 후 시각 증거
-- [ ] 실험 로그에 각 호출 기록
+- [x] `update_styles` 배치 호출 — SubmitButton bg `#D01A3F`, 5 border `#999999` (6 노드 일괄)
+- [x] `get_screenshot(1BO-0)` — SubmitButton 빨강 + border 진해짐 시각 확인
+- [x] 실험 로그에 호출 기록
 
 ### 2-3. 재추출 + delta 검증
-- [ ] `get_computed_styles` 15 토큰 대응 9 노드 재조회 (spec-4-02 와 동일 배치)
-- [ ] 대조 표: {노드, 속성, mutation 전, mutation 후, 기대, 판정}
-- [ ] 변경 의도 2 토큰 — 새 값 일치 확인 (아니면 RQ1 FAIL)
-- [ ] 불변 13 토큰 — 기존 값과 exact match 확인 (아니면 Stage 6 위험 발견)
-- [ ] Commit: `docs(spec-4-03): run mutation fidelity experiment`
+- [x] `get_computed_styles` 9 노드 재조회 (spec-4-02 와 동일 배치)
+- [x] 대조 표 2 개 (mutation 2/2 PASS + 불변 13/13 PASS)
+- [x] RQ1 PASS — 부분 업데이트가 주변 토큰 오염 0
+- [x] Stage 6 Iterate 핵심 전제 조건 충족 (완전 증거는 아님)
+- [x] Commit: `docs(spec-4-03): run mutation fidelity experiment`
 
 ---
 
