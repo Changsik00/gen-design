@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-4** — 협업 Flow 정의 — 2/2 spec Merged — 다음: spec-4-03 생성 대기 또는 phase 조기 완료 검토
+- **phase-4** — 협업 Flow 정의 — 3 spec — 다음: spec-4-03-paper-roundtrip-rigor
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
