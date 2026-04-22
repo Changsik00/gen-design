@@ -76,13 +76,15 @@
 ## Task 5: Research 보고서
 
 ### 5-1. report.md 작성
-- [ ] `specs/spec-4-03-paper-roundtrip-rigor/report.md` 신규
-  - 결론 한 줄 — spec-4-02 결과 재해석
-  - RQ1~RQ4 답변
-  - tautology 진단 최종 결론
-  - Stage 6 Iterate 증거 평가
-  - phase-4.md 결론 재작성 초안
-- [ ] Commit: `docs(spec-4-03): add research report reframing spec-4-02 findings`
+- [x] `specs/spec-4-03-paper-roundtrip-rigor/report.md` 7 섹션
+  - 1 spec-4-02 재해석 (증명한 것 / 증명 안 한 것 / 본 spec 추가 증명 / 여전히 미증명)
+  - 2 RQ1~RQ4 답변
+  - 3 phase-4 성공 기준 재평가
+  - 4 하류 표현 완화 제안 (phase-5/7/flow)
+  - 5 거버넌스 부채 (Icebox)
+  - 6 Recommendation (Go 유지, 단서 포함)
+  - 7 메타
+- [x] Commit: `docs(spec-4-03): add research report reframing spec-4-02 findings`
 
 ---
 
