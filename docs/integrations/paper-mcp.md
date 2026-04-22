@@ -2,6 +2,9 @@
 
 > Paper는 Anthropic의 전문 디자인 도구. MCP(Model Context Protocol)를 통해 AI 에이전트가 디자인을 읽고 쓸 수 있다.
 
+> [!NOTE]
+> 본 가이드는 [협업 Flow 프로토콜](../guides/collaboration-flow.md) 의 **Stage 2 Extract** ([`hook-paper-extract`](../guides/collaboration-flow.md#stage-extract)) 와 **Stage 5 Render** ([`hook-paper-render`](../guides/collaboration-flow.md#stage-render)) 의 구현체 reference 다.
+
 ## 연결 상태
 
 - **MCP 연결**: 활성 (Claude Code에서 자동 연결)

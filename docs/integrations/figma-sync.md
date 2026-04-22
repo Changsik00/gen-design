@@ -2,6 +2,9 @@
 
 > Figma Variables ↔ 디자인 토큰 동기화 및 컴포넌트 변환. Phase 4에서 PoC 후 상세 작성 예정.
 
+> [!NOTE]
+> 본 가이드는 [협업 Flow 프로토콜](../guides/collaboration-flow.md) 의 **Stage 2 Extract** ([`hook-extract-tool`](../guides/collaboration-flow.md#stage-extract)) 와 **Stage 6 Iterate** ([`hook-figma-token-sync`](../guides/collaboration-flow.md#stage-iterate)) 에서 토큰 동기화 루트로 참조된다. 실제 왕복 정확도 검증은 `spec-4-03` 에서 진행.
+
 ## 연결 상태
 
 - **MCP 연결**: 미확인 (조사 필요)

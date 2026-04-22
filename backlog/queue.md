@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-4** — 협업 Flow 정의 — 0/0 spec — base branch: `phase-4-collab-flow` — 다음: 첫 spec 생성 대기
+- **phase-4** — 협업 Flow 정의 — 1 spec — 다음: spec-4-01-collab-flow-protocol
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
