@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-4** — 협업 Flow 정의 — 3 spec — 다음: spec-4-03-paper-roundtrip-rigor
+- **phase-4** — 협업 Flow 정의 — 3/3 spec Merged (rigor 반영) — 다음: Phase PR #18 재오픈 검토
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
