@@ -91,10 +91,11 @@
 ## Task 6: 하류 Phase 표현 정리
 
 ### 6-1. phase-4.md §검증 결과 재작성
-- [ ] "15/15 100% match" → "표기 정규화 범위 내에서 안정 저장 + spec-4-03 rigor 결과 반영"
-- [ ] 실측/미실측 단계 표 명확화
-- [ ] spec-4-03 결과 링크
-- [ ] Commit: `docs(spec-4-03): rewrite phase-4 verification with caveats`
+- [x] "15/15 100% match" → "표기 정규화 범위 내 안정 저장 + spec-4-03 rigor 결과" 로 다운그레이드
+- [x] 6 단계 중 실측 / 미실측 표 명확화
+- [x] "완전 왕복 (의도 보존) = Phase 5 이월" 명시
+- [x] "핵심 가설 재평가" 섹션 — 증명됨 / 미증명 / Phase 5 이월 3 분
+- [x] Commit: `docs(spec-4-03): rewrite phase-4 verification with caveats`
 
 ### 6-2. phase-5.md / phase-7.md / collaboration-flow.md 완화
 - [ ] `phase-5.md` spec-5-001 — "왕복 100% 유지" → "왕복 drift 측정"
