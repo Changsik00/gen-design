@@ -29,12 +29,12 @@
 ## Task 2: 픽스처 준비
 
 ### 2-1. LoginPage DESIGN.md 픽스처 작성
-- [ ] `specs/spec-4-02-paper-mcp-roundtrip/fixtures/LoginPage.DESIGN.md` 신규 작성
+- [x] `specs/spec-4-02-paper-mcp-roundtrip/fixtures/LoginPage.DESIGN.md` 신규 작성
   - 14 섹션 구조 (§1~§14, 본 PoC 에선 §2/§3/§5/§6/§11 중심)
   - `e2e-demo-loginpage.md` 의 LoginPage 명세 재구성
   - 15 측정 토큰 (plan.md §측정 토큰) 모두 명시적으로 포함
-- [ ] 토큰 값이 Phase 2 studio/src/components/templates/LoginPage/ 실제 구현과 일치 확인 (수동)
-- [ ] Commit: `docs(spec-4-02): add LoginPage DESIGN.md fixture`
+- [x] 토큰 값이 Phase 2 studio/src/components/templates/LoginPage/ 실제 구현과 일치 확인 (수동 대조)
+- [x] Commit: `docs(spec-4-02): add LoginPage DESIGN.md fixture`
 
 ---
 
