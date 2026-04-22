@@ -43,17 +43,18 @@
 > ⚠ **실제 Paper 환경 쓰기 작업**. Plan Accept 시점에 사용자가 승인한 작업 위치 사용.
 
 ### 3-1. 환경 확인
-- [ ] Paper MCP `get_basic_info` 실행 → 파일명 / 사용 가능 폰트 확인
-- [ ] 작업 페이지 존재 여부 확인 → 없으면 `create_artboard` 이전 단계에서 사용자 안내
+- [x] Paper MCP `get_basic_info` 실행 → "Welcome to Paper" / Inter/Geist/JetBrains Mono
+- [x] 작업 페이지 확인 → 단일 Page 1. Paper MCP 에 page 생성 도구 부재 → 새 아트보드로 격리 (RQ5-1)
 
 ### 3-2. 아트보드 생성 + 렌더링
-- [ ] `get_font_family_info` — 픽스처 폰트 사용 가능 여부 확인
-- [ ] `create_artboard` — 새 아트보드 생성 (격리 영역)
-- [ ] `write_html` — LoginPage HTML 을 Tailwind 클래스 기반으로 주입
-- [ ] `update_styles` — 필요 시 토큰 대응 조정
-- [ ] `get_screenshot` — 렌더링 결과 스크린샷 획득 (증거)
-- [ ] 각 MCP 호출 입력/출력을 `docs/experiments/paper-roundtrip-2026-04-22.md` 에 시간순 기록
-- [ ] Commit: `docs(spec-4-02): execute forward render proof of concept`
+- [x] `get_font_family_info(["Inter","Geist"])` — Inter 선택 (500/600 weight 존재)
+- [x] `create_artboard` → `1BN-0` (1440×900, bg oklch(1 0 0), fontFamily Inter)
+- [x] `write_html` × 6 — Card / CardHeader / LoginForm / Divider / SocialAuthBlock / SignupPrompt
+- [x] `update_styles` — 해당 없음 (inline style 로 첫 write 시 확정)
+- [x] `get_screenshot` — 중간 + 최종 2 회. Review Checkpoint PASS
+- [x] `finish_working_on_nodes([1BN-0])` — working indicator 해제
+- [x] 실험 로그 `docs/experiments/paper-roundtrip-2026-04-22.md` 시간순 기록
+- [x] Commit: `docs(spec-4-02): execute forward render proof of concept`
 
 ---
 
