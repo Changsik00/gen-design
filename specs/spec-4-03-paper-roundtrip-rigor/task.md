@@ -116,12 +116,12 @@
 ## Task 7: Ship
 
 ### 7-1. 품질 점검
-- [ ] `sdd ship --check` 통과
-- [ ] 모든 수정 파일의 링크 유효성
+- [x] `sdd ship --check` ✓ 통과
+- [x] 링크 유효성 (spec-4-03 report / spec-4-02 report / collaboration-flow 상호 참조)
 
 ### 7-2. Ship artifacts
-- [ ] walkthrough.md — 결정 기록 / 사용자 협의 / 실험 결과 요약
-- [ ] pr_description.md — Research 결과 + phase-4 재평가 맥락
+- [x] walkthrough.md — 결정 7 건 / 협의 3 건 / 수동 검증 4 건 / 발견 4 건 / 이월 5 건
+- [x] pr_description.md — Research + phase-4 재평가 + 6 Key Review Points
 - [ ] Commit: `docs(spec-4-03): ship walkthrough and pr description`
 
 ### 7-3. Push + PR
