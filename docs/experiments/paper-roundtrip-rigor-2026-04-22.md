@@ -80,3 +80,14 @@ update_styles([
 
 **Stage 6 Iterate 증거 (RQ4 부분)**: 부분 업데이트 안정성 확인. 토큰 1 개 변경 → 주변 토큰 오염 0 은 실제 Stage 6 루프의 "DESIGN 일부 수정 → Paper 반영 → 코드 재생성" 흐름의 핵심 전제 조건. **본 실험이 Stage 6 의 완전 증거는 아니지만 핵심 조건을 충족**.
 
+### A-5 원복 검증
+
+`update_styles` 로 2 토큰을 baseline 값으로 재적용:
+- 1C1-0 backgroundColor → `#171717`
+- 1BV-0, 1BZ-0, 1C8-0, 1CA-0, 1CC-0 borderColor → `#E5E5E5`
+
+`get_computed_styles(["1C1-0","1BV-0"])` 재조회 — 2 노드 모두 원본 복구 확인 ✓
+`get_screenshot(1BO-0)` — 시각적으로 spec-4-02 Task 3 최종 상태와 동일
+
+→ `1BN-0` 는 spec-4-02 PoC 상태로 완전 복구.
+

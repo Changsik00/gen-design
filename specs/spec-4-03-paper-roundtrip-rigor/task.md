@@ -48,12 +48,11 @@
 ## Task 3: `1BN-0` 원복
 
 ### 3-1. 원복 실행
-- [ ] `update_styles([{nodeIds:["1C1-0"], styles:{backgroundColor:"#171717"}}])`
-- [ ] `update_styles([{nodeIds:["1BV-0","1BZ-0","1C8-0","1CA-0","1CC-0"], styles:{borderColor:"#E5E5E5"}}])`
-- [ ] `get_screenshot(1BO-0)` — 원복 후 증거
-- [ ] `get_computed_styles` 2 노드만 재확인 — 원본 복구 검증
-- [ ] 실험 로그에 기록
-- [ ] Commit: `docs(spec-4-03): restore 1BN-0 to baseline after mutation`
+- [x] `update_styles` 배치로 `#171717` + `#E5E5E5` 재적용 (6 노드 일괄)
+- [x] `get_screenshot(1BO-0)` — 시각 복구 확인 (spec-4-02 최종과 동일)
+- [x] `get_computed_styles(["1C1-0","1BV-0"])` — 2 노드 원본 값 복구 검증 ✓
+- [x] 실험 로그 §A-5 에 기록
+- [x] Commit: `docs(spec-4-03): restore 1BN-0 to baseline after mutation`
 
 ---
 
