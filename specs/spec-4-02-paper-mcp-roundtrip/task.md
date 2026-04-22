@@ -102,12 +102,12 @@
 ## Task 7: Ship
 
 ### 7-1. 품질 점검
-- [ ] `sdd ship --check` 통과
-- [ ] 실험 로그 링크 유효성 확인
+- [x] `sdd ship --check` — ✅ 통과
+- [x] 실험 로그 링크 유효성 확인 (report.md / collaboration-flow.md 상호 링크)
 
 ### 7-2. Ship artifacts
-- [ ] `walkthrough.md` 작성 (결정 / 사용자 협의 / 수동 검증 결과)
-- [ ] `pr_description.md` 작성 (Research DoD 기반)
+- [x] `walkthrough.md` 작성 (결정 7건 / 사용자 협의 3건 / 수동 검증 6항 / 발견 5항 / 이월 4항)
+- [x] `pr_description.md` 작성 (Research DoD 기반, base = phase-4-collab-flow)
 - [ ] Ship Commit: `docs(spec-4-02): ship walkthrough and pr description`
 
 ### 7-3. Push + PR
@@ -123,5 +123,5 @@
 |---|---|
 | **총 Task 수** | 7 (브랜치+스캐폴드 / 픽스처 / 정방향 / 역방향 / diff / 보고 / Ship) |
 | **예상 commit 수** | 7 ~ 8 (6-2 조건부) |
-| **현재 단계** | Planning (Plan Accept 대기) |
+| **현재 단계** | Ship (push 대기) |
 | **마지막 업데이트** | 2026-04-22 |
