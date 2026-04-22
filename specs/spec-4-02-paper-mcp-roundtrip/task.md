@@ -83,14 +83,14 @@
 ## Task 6: Research 보고서 작성 + 프로토콜 피드백
 
 ### 6-1. `report.md` 작성
-- [ ] `specs/spec-4-02-paper-mcp-roundtrip/report.md` 신규
-  - 결론 한 줄 (Go/No-Go)
-  - Trade-off (정방향 vs 역방향)
-  - 자동화 경계 서술
-  - RQ1~RQ5 답변
-  - MCP 도구 커버리지 갭
-  - 후속 spec 권장사항
-- [ ] Commit: `docs(spec-4-02): add research report with go/no-go recommendation`
+- [x] `specs/spec-4-02-paper-mcp-roundtrip/report.md` 신규 (8 섹션)
+  - 결론: **Go** — LoginPage 스코프에서 왕복 자동화 가능 (단서: 다른 variant / 상호작용은 후속)
+  - Trade-off: 역방향이 5× 효율적 (호출 11 vs 2)
+  - 자동화 경계 (자동 / 수동 보정 / 미결)
+  - RQ1~RQ5 답변 (모두 긍정)
+  - MCP 도구 커버리지 갭 5 개 (모두 낮음/중간 심각도)
+  - 후속 spec 권장: spec-4-03 / variant 확장 / Dashboard / paper-normalizer
+- [x] Commit: `docs(spec-4-02): add research report with go/no-go recommendation`
 
 ### 6-2. (조건부) 프로토콜 피드백
 - [ ] `docs/guides/collaboration-flow.md` Stage 2 / Stage 5 Done 기준 갱신 여부 결정
