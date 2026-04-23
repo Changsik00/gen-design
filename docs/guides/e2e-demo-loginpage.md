@@ -3,6 +3,9 @@
 > 2026-04-12 실행. DESIGN.md 토큰 기반으로 Paper에 LoginPage 시안을 생성하고,
 > 구조가 shadcn/ui 컴포넌트와 1:1 대응되는지 검증한 실험 기록.
 
+> [!NOTE]
+> 본 문서는 [협업 Flow 프로토콜](./collaboration-flow.md) 의 **구체 E2E 구현 사례** 이다. 프로토콜 자체 (역할 / 6 단계 / Done 기준) 의 정의는 collaboration-flow.md 를 참조. 본 실험은 주로 **Stage 2 Extract** 와 **Stage 5 Render** 를 LoginPage 라는 구체 대상으로 수행했다.
+
 ## 목적
 
 핵심 가설 검증: **"DESIGN.md에 정의된 토큰과 컴포넌트 명세로 Paper 시안을 만들면, 그 구조가 React/shadcn/ui 코드와 1:1 매핑된다"**
