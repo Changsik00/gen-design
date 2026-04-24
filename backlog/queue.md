@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-4** — 협업 Flow 정의 — 3/3 spec Merged (rigor 반영) — 다음: Phase PR #18 재오픈 검토
+(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -68,4 +68,5 @@
 - **phase-1** — Foundation (기반 셋업) — completed 2026-04-14
 - **phase-2** — Page Template 시스템 — completed 2026-04-17
 - **phase-3** — App Blueprint — completed 2026-04-21
+- **phase-4** — 협업 Flow 정의 — completed 2026-04-24
 <!-- sdd:done:end -->
