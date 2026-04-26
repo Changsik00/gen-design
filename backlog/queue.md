@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+- **phase-5** — PoC 검증 (End-to-End) — 1 spec — 다음: spec-5-01-app-a-blueprint
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -56,8 +56,8 @@
 | `phase-1` | [Foundation (기반 셋업)](phase-1.md) | Done |
 | `phase-2` | [Page Template 시스템](phase-2.md) | Done |
 | `phase-3` | [App Blueprint](phase-3.md) | Done |
-| `phase-4` | [협업 Flow 정의](phase-4.md) | Active |
-| `phase-5` | [PoC 검증](phase-5.md) | Queued |
+| `phase-4` | [협업 Flow 정의](phase-4.md) | Done |
+| `phase-5` | [PoC 검증](phase-5.md) | Active |
 | `phase-6` | [Studio v1](phase-6.md) | Queued |
 | `phase-7` | [디자인 도구 연동 심화](phase-7.md) | Queued |
 <!-- sdd:queued:end -->
