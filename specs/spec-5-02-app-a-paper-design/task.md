@@ -93,13 +93,10 @@
 
 ### 4-1. 원본 의도 메모 작성
 
-- [ ] `poc/app-a/intent-preservation.md` 신규 작성
-- [ ] §1 "Settings 원본 의도" — Designer 가 그릴 항목 사전 선언:
-  - 컴포넌트 5 종 이상 (Toggle / Select / Slider / Section header / Group list)
-  - 토큰 자극 의도 (예: `--space-md` 그룹 간격 / `--radius-md` 각 row / state color 4 종 toggle on/off)
-  - i18n 키 후보 ≥ 5 개
-- [ ] §2 "추출 결과 비교" — 빈 표 (의도 항목 / AI 추출 / 일치 여부)
-- [ ] Commit: `docs(spec-5-02): write Settings intent memo before manual paper drawing`
+- [x] `poc/app-a/intent-preservation.md` 신규 작성
+- [x] §1 "Settings 원본 의도" — 페이지 톤 한 줄 + 컴포넌트 6 종 (Toggle/Select/Slider/Group header/Group list/Danger Button) + 토큰 자극 의도 (color 4 카테고리 / spacing 2 / radius 2 / typography 2) + i18n 키 16 (DESIGN.md §14 와 1:1) + 명시적으로 피하려는 패턴 4 종
+- [x] §2 "추출 결과 비교" — 빈 표 3 종 (컴포넌트 매핑 / 토큰 자극 매핑 / i18n 키 매핑) + 손실 패턴 요약 + 결론 (32 점 만점)
+- [x] Commit: `docs(spec-5-02): write Settings intent memo before manual paper drawing`
 
 ### 4-2. 사용자 직접 그림 STOP
 
