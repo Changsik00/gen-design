@@ -207,6 +207,7 @@ Page > Section > Block > Element
 | 회원가입 | `/signup` | 풀페이지, 이름/이메일/비밀번호 + 약관 동의 + 소셜 |
 | 대시보드 개요 | `/` | 사이드바 + StatCardGrid + ActivityTable + QuickActions |
 | 마이페이지 | `/me` | 프로필 카드 + 활동 요약 + 아바타 업로드 |
+| 설정 | `/settings` | 사용자 환경 설정 — 알림 / 외관 / 언어 / 계정 (Toggle / Select / Slider / Group) |
 | 에러 (404/500) | `/*` (catch-all) | 에러 아이콘 + 메시지 + 홈으로 이동 |
 
 ---
@@ -279,6 +280,21 @@ Page > Section > Block > Element
 
 ---
 
+### 설정 (settings-overview)
+
+- **Route**: `/settings`
+- **Variant**: page
+- **Layout**: shell (sidebar + main)
+
+| Section | Block | Description |
+|---------|-------|-------------|
+| ChromeSection | Sidebar | 공통 사이드바 (활성 항목: Settings) |
+| HeaderSection | SettingsHeader | "Settings" 제목 + (선택 ON) 검색 input |
+| MainSection | NotificationGroup | 알림 그룹 — 이메일 / 푸시 / 주간 요약 / 멘션 4 종 Toggle 행 |
+| MainSection | AppearanceGroup | 외관 그룹 — 테마 (light/dark/system) Select + 글자 크기 Slider |
+| MainSection | LanguageGroup | 언어 / 시간대 그룹 — Language Select + Timezone Select |
+| MainSection | AccountGroup | 계정 그룹 — Email 표시 + "Change password" Secondary Button + "Delete account" Danger Button |
+
 ### 에러 (common-error)
 
 - **Route**: `/*` (catch-all)
@@ -332,7 +348,54 @@ Page > Section > Block > Element
 | Value | Text (Atom) | yes | role=display |
 | TrendIndicator | Icon + Text | no | direction, delta |
 
-> 추가 Composite (DashboardHeader / Sidebar / ActivityTable / ProfileHeader / ProfileInfoCard / ActivitySummary / AvatarUpload / ErrorIcon / ErrorMessage / HomeButton) 는 spec-5-03 React 구현 단계에서 정의.
+### SettingsGroup
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| GroupTitle | Text (Atom) | yes | role=h3 |
+| GroupDescription | Text (Atom) | no | role=caption |
+| Rows | Array<SettingsToggleRow / SettingsSelectRow / SettingsSliderRow> | yes | items |
+
+### SettingsToggleRow
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| Label | Text (Atom) | yes | role=body |
+| HelperText | Text (Atom) | no | role=caption |
+| Toggle | Switch (Atom) | yes | checked, onChange |
+
+### SettingsSelectRow
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| Label | Text (Atom) | yes | role=body |
+| Select | Select (Atom) | yes | options, value, onChange |
+
+### SettingsSliderRow
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| Label | Text (Atom) | yes | role=body |
+| ValueDisplay | Text (Atom) | no | role=caption |
+| Slider | Slider (Atom) | yes | min, max, value, onChange |
+
+> 추가 Composite (DashboardHeader / Sidebar / ActivityTable / ProfileHeader / ProfileInfoCard / ActivitySummary / AvatarUpload / SettingsHeader / ErrorIcon / ErrorMessage / HomeButton) 는 spec-5-03 React 구현 단계에서 정의.
 
 ---
 
@@ -439,6 +502,22 @@ Example: `login.form.email.placeholder` → "Enter your email"
 | `mypage.summary.comments` | "Comments" | 요약: 댓글 수 |
 | `mypage.summary.completion` | "Completion Rate" | 요약: 완료율 |
 | `mypage.avatar.upload` | "Change avatar" | 아바타 변경 |
+| `settings.title` | "Settings" | 설정 제목 |
+| `settings.notifications.title` | "Notifications" | 알림 그룹 제목 |
+| `settings.notifications.email` | "Email notifications" | 알림: 이메일 |
+| `settings.notifications.push` | "Push notifications" | 알림: 푸시 |
+| `settings.notifications.weeklyDigest` | "Weekly digest" | 알림: 주간 요약 |
+| `settings.notifications.mentions` | "Mention alerts" | 알림: 멘션 |
+| `settings.appearance.title` | "Appearance" | 외관 그룹 제목 |
+| `settings.appearance.theme` | "Theme" | 외관: 테마 |
+| `settings.appearance.fontSize` | "Font size" | 외관: 글자 크기 |
+| `settings.language.title` | "Language & Region" | 언어/지역 그룹 제목 |
+| `settings.language.language` | "Language" | 언어 |
+| `settings.language.timezone` | "Time zone" | 시간대 |
+| `settings.account.title` | "Account" | 계정 그룹 제목 |
+| `settings.account.email` | "Email address" | 계정: 이메일 |
+| `settings.account.changePassword` | "Change password" | 계정: 비밀번호 변경 |
+| `settings.account.deleteAccount` | "Delete account" | 계정: 삭제 |
 | `error.404.title` | "Page not found" | 404 제목 |
 | `error.404.message` | "We couldn't find the page you're looking for." | 404 본문 |
 | `error.500.title` | "Something went wrong" | 500 제목 |

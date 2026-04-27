@@ -35,14 +35,12 @@
 
 ### 2-1. Settings 페이지 정의 작성
 
-- [ ] §10 Page Map 에 행 추가: `| 설정 | /settings | 토글/선택/슬라이더 등 사용자 환경 설정 |`
-- [ ] §11 Page Specifications 에 `### 설정 (settings-overview)` 섹션 추가:
-  - Route: `/settings`, Variant: `page`, Layout: `shell (sidebar + main)`
-  - Section / Block 표 (Toggle / Select / Slider / Section header / Group list 5 종 이상 컴포넌트 포함)
-- [ ] §12 Composite Components 에 SettingsToggleRow / SettingsSelectRow / SettingsSliderRow / SettingsGroup 추가 (Element 표 포함)
-- [ ] §14 i18n References 에 `settings.*` 키 추가 (제목 / 그룹 / 항목 라벨)
-- [ ] §10 의 Page Map 에 본 행과 함께 기존 `nav.settings` 링크가 정상 라우팅 되도록 일관성 확인
-- [ ] Commit: `docs(spec-5-02): add Settings page spec to DESIGN.md`
+- [x] §10 Page Map 에 행 추가: `| 설정 | /settings | 사용자 환경 설정 — 알림 / 외관 / 언어 / 계정 (Toggle / Select / Slider / Group) |`
+- [x] §11 Page Specifications 에 `### 설정 (settings-overview)` 섹션 추가 — `shell` 레이아웃, ChromeSection / HeaderSection / MainSection (Notification / Appearance / Language / Account 4 그룹) 으로 구성
+- [x] §12 Composite Components 에 SettingsGroup / SettingsToggleRow / SettingsSelectRow / SettingsSliderRow 4 종 추가
+- [x] §14 i18n References 에 `settings.*` 키 16 개 추가 (제목 + 4 그룹 × 평균 4 항목)
+- [x] §10 의 Page Map 행과 기존 `nav.settings` (Sidebar) 라우팅 일관성 확인 — `/settings` 로 일관
+- [x] Commit: `docs(spec-5-02): add Settings page spec to DESIGN.md`
 
 ---
 
