@@ -50,36 +50,40 @@
 
 ### 3-1. Paper MCP 사전 점검
 
-- [ ] `get_basic_info` — 기존 artboard 와 폰트 / 토큰 환경 확인
-- [ ] `get_font_family_info` — Inter / JetBrains Mono 사용 가능 여부
-- [ ] (선택) `get_guide({ topic: "paper-mcp-instructions" })` — 세션 첫 사용 시
+- [x] `get_basic_info` — 기존 12 artboard + 폰트(Inter/JetBrains Mono/Geist) 확인
+- [x] `get_font_family_info(["Inter", "JetBrains Mono"])` — 100~900 weight + Italic 모두 가용
+- [x] `get_guide({ topic: "paper-mcp-instructions" })` — 세션 첫 사용
 
 ### 3-2. Login artboard 작성
 
-- [ ] `create_artboard` (또는 `write_html`) — DESIGN.md §11 의 auth-login 정의 그대로
-- [ ] `get_screenshot` 으로 검수
-- [ ] `finish_working_on_nodes`
-- [ ] artboard URL 메모
+- [x] `create_artboard` "TaskFlow — Login" (artboard `1CH-0`, 1440×900, 백드롭 `#0F172A`) + 480px modal
+- [x] BrandSection (LogoBlock + Title + Subtitle) → CredentialBlock (Email/Password focus state + Submit) → Divider → SocialAuthBlock (Google/GitHub) → SignupPrompt
+- [x] `get_screenshot` 검수 — modal 중앙, vertical lane 일관, indigo CTA 가시성 OK
+- [x] artboard 메타 (ID `1CH-0`) — 실제 공유 URL 은 walkthrough 단계에서 사용자가 추가
 
 ### 3-3. Signup artboard 작성
 
-- [ ] DESIGN.md §11 의 auth-signup 정의 그대로
-- [ ] 검수 + URL 메모
+- [x] `create_artboard` "TaskFlow — Signup" (artboard `1DR-0`, 1440×900, split-screen)
+- [x] BrandPanel (좌측 560px, indigo `#4338CA`, LogoBlock + BrandPitch "A calmer way to ship work." + BrandFooter) + FormPanel (FormHeader → SignupForm Name/Email/Password+Confirm 2-column → TermsAgreement → SubmitButton 48px → Divider → SocialAuthBlock → LoginPrompt)
+- [x] `get_screenshot` 검수 — 2-column password row vertical lane OK, brand pitch 36px display 위계 OK
 
 ### 3-4. Dashboard artboard 작성
 
-- [ ] DESIGN.md §11 의 dash-overview 정의 그대로
-- [ ] 검수 + URL 메모
+- [x] `create_artboard` "TaskFlow — Dashboard" (artboard `1FI-0`, 1440×900, shell)
+- [x] Sidebar (240px `1FJ-0`, LogoBlock + NavGroup Home/Tasks badge=12/Settings + UserCard) + MainSection (DashboardHeader Title+Subtitle / SearchInput+QuickActionNewTask) + StatCardGrid 4 카드 (Active/Done/Overdue/Members, 컬러 status 차별) + ActivityCard (Header+TableHeaderRow + 4 Row, status badge 4 종 In progress/Done/Overdue/Backlog)
+- [x] `get_screenshot` 검수 — vertical lane (avatar/badge/Updated) 일관, status badge 4 종 색 톤 분리 OK, 하단 빈 공간은 스크롤 영역 가정
 
 ### 3-5. MyPage artboard 작성
 
-- [ ] DESIGN.md §11 의 profile-mypage 정의 그대로
-- [ ] 검수 + URL 메모
+- [x] `create_artboard` "TaskFlow — MyPage" (artboard `1J5-0`, 1440×900, shell)
+- [x] Sidebar 는 `1FJ-0` 를 `<x-paper-clone>` 으로 clone (`1J6-0`) — 토큰 절약
+- [x] MainSection — ProfileHeader (80px avatar + 이름 + Product Lead chip + Design Systems · Seoul + Change avatar/Edit profile actions) + ContentRow (ProfileInfoCard Email/Joined/Team + ActivitySummaryCard Tasks 142/Comments 87/Completion 93% + ProgressBar) + AvatarUploadCard (64px preview + 안내문 + Upload new/Remove)
+- [x] `get_screenshot` 검수 — 2-column 카드 폭 일관, ProgressBar 토큰 자극 OK
 
 ### 3-6. Commit
 
-- [ ] Commit: `docs(spec-5-02): create 4 paper artboards (login/signup/dashboard/mypage) via AI`
-  - artboard 자체는 Paper 클라우드에 저장되므로 commit 본문에 URL 4 개 명시.
+- [x] Commit: `docs(spec-5-02): create 4 paper artboards (login/signup/dashboard/mypage) via AI`
+  - 4 페이지 artboard ID 인라인 기록. 실제 공유 URL 은 walkthrough 작성 시 사용자가 추가.
 
 ---
 
