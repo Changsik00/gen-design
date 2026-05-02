@@ -45,6 +45,7 @@
     },
     "social": {
       "google": { "label": "Continue with Google" },
+      "github": { "label": "Continue with GitHub" },
       "apple": { "label": "Continue with Apple" },
       "kakao": { "label": "Continue with Kakao" }
     },
@@ -59,6 +60,10 @@
   "signup": {
     "title": "Sign up",
     "description": "Create a new account",
+    "social": {
+      "google": { "label": "Continue with Google" },
+      "github": { "label": "Continue with GitHub" }
+    },
     "form": {
       "name": {
         "label": "Name",
