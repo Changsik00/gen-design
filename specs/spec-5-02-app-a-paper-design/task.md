@@ -147,16 +147,16 @@
 
 ### 6-1. 토큰 합의값 추출
 
-- [ ] §2 Color Palette: Primary / Primary-hover / Primary-active / Accent / Status 4 종 hex 채움
-- [ ] §3 Typography: Display / H1~3 / Body / Caption / Mono 의 정확 px / line-height / letter-spacing 채움
-- [ ] §4 Component Stylings: Button / Input / Card / Modal 의 정확 padding / radius / 그림자값 채움
-- [ ] §6 Depth & Elevation: elevation-card / elevation-modal 의 정확 box-shadow 값 채움
-- [ ] §13 Token Mapping: Color Tokens 표 의 hex 컬럼 채움
+- [x] §2 Color Palette: Primary `#4F46E5` / Primary-hover `#4338CA` / Primary-active `#3730A3` / Accent `#0EA5B7` / Status (Success `#16A34A`+bg+strong / Error `#DC2626`+bg+strong+5 변주 / Warning·Info 미관찰 명시)
+- [x] §3 Typography: 본문 표가 이미 정확값 포함 — 안내문 갱신 (Settings 16/600 group header 는 위계 차이 의도)
+- [x] §4 Component Stylings: 본문이 정확값 포함 — 안내문 갱신 + Switch/Select trigger/Slider/Danger zone 신규 도입 명시
+- [x] §6 Depth & Elevation: elevation-card 단일 stop / elevation-modal 2-stop / avatar-glow / knob / handle 5 단계로 확장
+- [x] §13 Token Mapping: Color Tokens 표 hex 컬럼 모두 채움 — Primary 4 변주 + Text 4 단계 + Surface 2 단계 + Status 4 종 (Warning/Info 미관찰 명시)
 
 ### 6-2. 검증 + commit
 
-- [ ] `grep -c "TODO(spec-5-02)" poc/app-a/DESIGN.md` → 0
-- [ ] Commit: `docs(spec-5-02): fill DESIGN.md TODO markers with paper-extracted values`
+- [x] `grep -c "TODO(spec-5-02)" poc/app-a/DESIGN.md` → 0 (메타 안내문 2 곳도 마커 표기 자체를 한국어로 풀어 PASS)
+- [x] Commit: `docs(spec-5-02): fill DESIGN.md TODO markers with paper-extracted values`
 
 ---
 
