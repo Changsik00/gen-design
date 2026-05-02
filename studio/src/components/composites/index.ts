@@ -1,7 +1,11 @@
+export { ActivitySummary } from "./ActivitySummary";
 export { ActivityTable } from "./ActivityTable";
+export { AvatarUpload } from "./AvatarUpload";
 export { BrandHeader } from "./BrandHeader";
 export { DashboardHeader } from "./DashboardHeader";
 export { LoginForm } from "./LoginForm";
+export { ProfileHeader } from "./ProfileHeader";
+export { ProfileInfoCard } from "./ProfileInfoCard";
 export { Sidebar } from "./Sidebar";
 export { SignupForm } from "./SignupForm";
 export { SocialAuthBlock } from "./SocialAuthBlock";
