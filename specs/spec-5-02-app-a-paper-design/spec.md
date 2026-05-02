@@ -30,7 +30,9 @@
 
 ### 해결 방안 (요약)
 
-5 개 페이지의 Paper artboard 를 작성하되, **4 개 기존 페이지는 AI 자동 생성**, **Settings 신설 페이지는 Designer 가 직접 그린 후 AI 추출** 방식으로 분리한다. 각 페이지에서 추출한 `design-extract/*.md` 를 DESIGN.md 와 대조해 항목별 drift 표를 만들고, DESIGN.md 의 `TODO(spec-5-02)` 마커를 Paper 추출값으로 채운다.
+5 개 페이지의 Paper artboard 를 모두 **AI 자동 생성**으로 작성한다. Settings 신설 페이지는 **Radix UI Settings 패턴** (Switch / Select / Slider / Section + divider / Danger zone) 을 reference 로 활용해 토큰·컴포넌트 자극 폭을 확보한다. 각 페이지에서 추출한 `design-extract/*.md` 를 DESIGN.md 와 대조해 항목별 drift 표를 만들고, DESIGN.md 의 `TODO(spec-5-02)` 마커를 Paper 추출값으로 채운다.
+
+**원본 의도 보존 검증** 의 *원본* 정의 — Settings 의 경우 *AI 입력 의도* (DESIGN.md §11/§12 의 Settings 정의 + Radix UI Settings 패턴 reference) 가 AI 생성 → AI 재추출 사이클을 통과해 보존되는지를 측정한다 (사용자 결정 2026-05-02: AI 베이스 시스템 일관성 위해 Designer 인적 단계 제거).
 
 ## 📊 개념도
 
@@ -53,10 +55,10 @@ flowchart LR
 1. **Paper artboard 작성 (5 페이지)**: `auth-login` / `auth-signup` / `dash-overview` / `profile-mypage` / 신설 `settings-overview` 를 Paper MCP 로 작성. 각 페이지의 artboard URL 을 walkthrough 에 기록.
 2. **신설 Settings 페이지의 정의 보강**: spec-5-01 DESIGN.md 의 Page Map (L204) 와 Page Specifications (L214~) 에 Settings 페이지 (`settings-overview`, `/settings`) 를 추가. Section / Block / Composite / i18n 키까지 schema 준수.
 3. **AI 자동 생성 (4 페이지)**: DESIGN.md 입력 → Paper MCP 로 Login / Signup / Dashboard / MyPage artboard 생성. 결과를 사람이 시각 검수하되 의도적 보정은 최소화 (drift 의 자연 측정).
-4. **Designer 직접 그림 (Settings 1 페이지)**: Designer 가 Paper 에서 직접 SettingsPage 를 그린다. Toggle / Select / Slider / Section header / Group list 등 다양한 입력·구성 컴포넌트를 의도적으로 포함.
+4. **AI Radix-based 자동 생성 (Settings 1 페이지)**: AI 가 **Radix UI Settings 패턴** (Switch / Select / Slider / Section + divider / Danger zone, label 좌·control 우, group header + description) 을 reference 로 Paper 에 SettingsPage 를 작성. Toggle / Select / Slider / Section header / Group list / Danger Button 등 다양한 입력·구성 컴포넌트를 의도적으로 포함.
 5. **AI 추출 (5 페이지)**: 모든 artboard 를 AI 가 `poc/app-a/design-extract/{page}.md` 로 추출. schema (`schema/design-md-schema.md`) 준수.
 6. **DESIGN.md TODO 채우기**: 추출 결과로 색 hex / 그림자 / 정확한 size 단위를 DESIGN.md 에 반영. `TODO(spec-5-02)` 마커는 모두 제거.
-7. **원본 의도 보존 사이클 비교 (Settings)**: Designer 가 그린 의도 (Settings 의 Section / Block / 컴포넌트 / 토큰) 를 사전에 메모로 작성 → AI 추출 결과와 항목별 일치 / 부분 일치 / 불일치 표 작성. `poc/app-a/findings.md` 또는 별도 `poc/app-a/intent-preservation.md` 에 기록.
+7. **원본 의도 보존 사이클 비교 (Settings)**: AI 입력 의도 (DESIGN.md Settings 정의 + Radix UI Settings 패턴 reference) 를 사전에 메모로 명시 → AI 가 Paper 에 작성 → AI 추출 결과와 항목별 일치 / 부분 일치 / 불일치 표 작성. `poc/app-a/intent-preservation.md` 에 기록.
 8. **drift 측정 결과 표**: 5 페이지 × N 항목의 drift 표 (Section / Block / 컴포넌트 / 토큰 / i18n 키 단위) 를 `poc/app-a/drift-report.md` 로 작성.
 
 ### Non-Functional Requirements

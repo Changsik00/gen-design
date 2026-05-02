@@ -87,9 +87,9 @@
 
 ---
 
-## Task 4: Settings 원본 의도 메모 + Designer 직접 그림
+## Task 4: Settings 입력 의도 메모 + AI Radix-based 자동 생성
 
-> 본 task 는 사용자 (Dennis) 의 직접 작업이 필요. 에이전트는 의도 메모 작성 → 사용자 작업 대기 → 완료 신호 받기까지.
+> 2026-05-02 변경 (사용자 결정): AI 베이스 시스템 일관성을 위해 Designer 인적 단계 제거. AI 가 Radix UI Settings 패턴을 reference 로 활용해 Paper 에 작성.
 
 ### 4-1. 원본 의도 메모 작성
 
@@ -98,11 +98,16 @@
 - [x] §2 "추출 결과 비교" — 빈 표 3 종 (컴포넌트 매핑 / 토큰 자극 매핑 / i18n 키 매핑) + 손실 패턴 요약 + 결론 (32 점 만점)
 - [x] Commit: `docs(spec-5-02): write Settings intent memo before manual paper drawing`
 
-### 4-2. 사용자 직접 그림 STOP
+### 4-2. AI Radix-based Settings artboard 작성
 
-- [ ] 사용자에게 "Paper 에서 Settings artboard 직접 그려주세요" 알림
-- [ ] 사용자 완료 신호 ("그렸어" / artboard URL 전달) 수신 → 다음 task 로
-- [ ] Commit: 없음 (인적 작업 단계)
+- [ ] `create_artboard` "TaskFlow — Settings" (1440×900, shell)
+- [ ] Sidebar 는 `1FJ-0` 를 `<x-paper-clone>` 으로 clone
+- [ ] MainSection — SettingsHeader + 4 그룹 (Notifications / Appearance / Language / Account)
+  - Radix UI Settings 패턴 차용: row 단위 label 좌 / control 우, divider 로 분리, group header + description, danger zone 마지막
+  - 컴포넌트: Toggle × 4 / Select × 3 / Slider × 1 / Group header × 4 / Group list / Danger Button × 1
+  - 토큰: DESIGN.md TaskFlow indigo / slate / radius / spacing 그대로
+- [ ] `get_screenshot` 검수 — 6 컴포넌트 종류 모두 가시성 확인
+- [ ] Commit: `docs(spec-5-02): create Settings artboard via AI with Radix UI reference`
 
 ---
 

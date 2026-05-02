@@ -14,11 +14,12 @@
 > - [ ] **Settings 페이지 신설 결정 (2026-04-27 사용자 결정)**: 기존 4 페이지 + Settings 1 페이지로 본 spec 범위 확정. spec-5-01 DESIGN.md 의 Page Map 에 추가됨.
 > - [ ] **Phase 4 이월 과제 분할 처리 (2026-04-27 사용자 결정)**: 원본 의도 보존 사이클은 spec-5-02 흡수, LoginPage variant / DashboardPage drift 는 Icebox 이전.
 > - [ ] **DESIGN.md 의 직접 수정 허용**: spec-5-01 산출물인 `poc/app-a/DESIGN.md` 를 본 spec 에서 수정 (Settings 추가 + TODO 채우기). spec 산출물의 "확장" 이지 "재작성" 이 아님을 명시.
+> - [ ] **AI 베이스 일관성 — Designer 인적 단계 제거 (2026-05-02 사용자 결정)**: Settings 도 AI 자동 생성. *원본* 정의를 *Designer 의도* → *AI 입력 의도 (DESIGN.md + Radix UI reference)* 로 변경. 측정 본질 (입력→출력→재추출 보존도) 은 유지.
 
 > [!WARNING]
 > - [ ] **단일 PR 부담**: 5 페이지 + drift 표 + 의도 보존 표 + DESIGN.md 보강. 수행 도중 부담이 명백해지면 첫 측정 후 분할 (예: Settings + Login 1차, 나머지 2차) 을 사용자와 재정렬.
 > - [ ] **Paper MCP 의존**: 본 spec 은 Paper MCP 가 안정 동작한다는 전제. 안정성 이슈 발생 시 즉시 STOP → 사용자 보고.
-> - [ ] **Designer 직접 그림 단계의 인적 의존**: Settings 의 "Designer 직접 그림" 은 사용자(Dennis) 의 직접 작업이 필요. 에이전트는 그 작업 전후의 의도 메모 / 추출 / 비교만 담당.
+> - [ ] **Radix reference 의 외부성**: Radix UI Settings 패턴은 외부 reference. AI 가 토큰을 그대로 베끼지 않고 DESIGN.md 의 TaskFlow 토큰을 적용하는지가 핵심 — Radix 의 *layout/구조 패턴* 만 흡수하고 *토큰* 은 DESIGN.md 를 따라야 함.
 
 ## 🎯 핵심 전략 (Core Strategy)
 
@@ -38,11 +39,9 @@ sequenceDiagram
   A->>P: artboard 생성 (Signup)
   A->>P: artboard 생성 (Dashboard)
   A->>P: artboard 생성 (MyPage)
-  Note over A: Phase 3: Settings — 사용자 직접
-  U->>A: "Settings 의도 메모 작성해줘"
-  A->>FS: intent-preservation.md (원본 의도 메모)
-  U->>P: Settings artboard 직접 그림
-  U->>A: "그렸어, 추출해줘"
+  Note over A: Phase 3: Settings — AI Radix-based 자동 생성
+  A->>FS: intent-preservation.md (AI 입력 의도 = DESIGN.md + Radix reference)
+  A->>P: Settings artboard 작성 (Radix UI Settings 패턴 기반)
   Note over A: Phase 4: AI 추출 + 비교
   A->>P: 5 페이지 export / get_jsx
   A->>FS: design-extract/*.md (5 개)
@@ -56,7 +55,8 @@ sequenceDiagram
 | 컴포넌트 | 전략 | 이유 |
 |:---:|:---|:---|
 | **Settings 정의** | spec-5-01 DESIGN.md 의 Page Map 에 직접 추가 (별도 파일 X) | 단일 진실 원천 유지. 추후 spec-5-03 에서 React 구현 시 같은 DESIGN.md 만 보면 됨. |
-| **자동 생성 vs 직접 그림** | 4 페이지는 자동, Settings 만 직접 | drift 의 자연 측정 (자동) + 원본 의도 보존 (직접) 을 한 spec 에서 둘 다 검증. |
+| **모두 AI 자동 생성** | 4 페이지 + Settings 모두 AI 자동 생성 | AI 베이스 시스템 일관성. *원본* 정의를 *Designer* → *AI 입력 의도 (DESIGN.md + Radix reference)* 로 재정의. drift 측정 + 원본 의도 보존 모두 AI 사이클 안에서 측정 (2026-05-02 사용자 결정). |
+| **Settings reference** | Radix UI Settings 패턴 (Switch / Select / Slider / Section + divider / Danger zone) | 외부 layout 패턴만 흡수, 토큰은 DESIGN.md TaskFlow 그대로. 컴포넌트 폭 자극은 Radix 패턴이 명확. |
 | **추출 schema** | `schema/design-md-schema.md` 14 섹션 그대로 | 기존 추출 패턴 재사용. Phase 4 의 추출 정합성을 그대로 활용. |
 | **표기 정규화** | drift 표에서 정규화 후 비교 | oklch / hex 등 형식 차이는 본질적 drift 가 아님. paper-normalizer 코드화는 phase-6 으로 이월. |
 | **DESIGN.md TODO 채우기** | 추출 결과 중 합의된 값 (4 / 5 페이지에서 일관) 만 채움 | 페이지마다 색이 다르면 그것 자체가 drift 신호. 모순값은 finding 으로만 기록. |
