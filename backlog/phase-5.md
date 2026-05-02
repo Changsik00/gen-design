@@ -41,8 +41,8 @@ Phase 1~4에서 Foundation, Page Template, Blueprint, 협업 Flow가 완성되�
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
-| `spec-5-01` | app-a-blueprint | P1 | Active | `specs/spec-5-01-app-a-blueprint/` |
-| `spec-5-02` | app-a-paper-design | P1 | Backlog | (예정) |
+| `spec-5-01` | app-a-blueprint | P1 | Merged | `specs/spec-5-01-app-a-blueprint/` |
+| `spec-5-02` | app-a-paper-design | P1 | Active | `specs/spec-5-02-app-a-paper-design/` |
 | `spec-5-03` | app-a-react-impl | P1 | Backlog | (예정) |
 | `spec-5-04` | app-b-reusability | P2 | Backlog | (예정) |
 | `spec-5-05` | pipeline-retro | P2 | Backlog | (예정) |
@@ -59,16 +59,17 @@ Phase 1~4에서 Foundation, Page Template, Blueprint, 협업 Flow가 완성되�
 - **검증 포인트**: Blueprint → DESIGN.md 변환의 누락 / 모호성 측정 (Phase 3 협업 Flow Stage 2 ~ 3 실측)
 - **연관 모듈**: `poc/app-a/`
 
-### spec-5-02 — 앱 A Paper 시안 + 원본 의도 보존 검증
+### spec-5-02 — 앱 A Paper 시안 + Settings 신설 + 원본 의도 보존 검증
 
-- **요점**: spec-5-01 의 DESIGN.md 를 입력으로 Paper MCP 디자인 시안 생성 + Phase 4 이월 핵심 과제 흡수
-- **방향성**: AI 자동 생성 + Designer 수동 보정. 생성 후 다시 DESIGN.md 로 추출 → 왕복 drift 측정.
-- **spec-4-02/03 이월 흡수** (Phase 4 회고 W2 / W4 / A4 대응):
-  - **원본 의도 보존 검증 (최우선)** — Designer 가 직접 Paper 에서 그린 LoginPage 를 AI 추출 DESIGN.md 와 대조. 의도 → 저장 → 복원 완전 사이클.
-  - LoginPage **variant 확장** — modal / bottom-sheet variant 왕복 drift 측정 (spec-4-02 는 page variant 만 부분 검증).
-  - **DashboardPage 왕복 drift** — 데이터 집약 페이지에서 표기 정규화 패턴 유지 여부.
-- **산출물**: Paper artboard URL + `poc/app-a/design-extract/*.md`, drift 측정 결과 표
+- **요점**: spec-5-01 의 DESIGN.md 를 입력으로 Paper MCP 디자인 시안 생성 (5 페이지: Login / Signup / Dashboard / MyPage + **신설 Settings**) + 원본 의도 보존 사이클 검증
+- **방향성**: 4 개 기존 페이지는 **AI 자동 생성** 으로 진행, **Settings 신설 페이지**는 Designer 가 직접 Paper 에서 그린 후 AI 추출 → 원본 의도 보존 측정. Settings 는 Toggle / Select / Slider / Section / Group list 등 다양한 입력·구성 컴포넌트로 토큰(spacing / radius / state color) 광폭 자극.
+- **핵심 검증** (Phase 4 W2 부분 흡수):
+  - **원본 의도 보존 검증 (최우선)** — Designer 가 직접 그린 Settings 를 AI 추출 DESIGN.md 와 대조. 의도 → 저장 → 복원 완전 사이클.
+  - **새 페이지·컴포넌트·토큰 폭 확장** — 기존 4 페이지에서 부족한 form-heavy 컴포넌트군을 Settings 에서 한꺼번에 자극.
+  - **DESIGN.md TODO(spec-5-02) 채우기** — 색 hex / 그림자값 / 정확한 size 단위.
+- **산출물**: Paper artboard URL + `poc/app-a/design-extract/*.md` (5 페이지) + DESIGN.md Settings 섹션 보강 + drift 측정 결과 표
 - **연관 모듈**: `poc/app-a/`, Paper MCP
+- **Icebox 이전 결정 (2026-04-27)**: LoginPage variant 확장 / DashboardPage 왕복 drift — 사용자 방향 전환("기존 페이지 재활용 ❌, 새 페이지에서 검증") 에 따라 `backlog/queue.md` Icebox 로 보류. 추후 필요 시 spec-x 또는 phase-6 으로 승격.
 
 ### spec-5-03 — 앱 A React 구현 및 시각적 일치도 검증
 

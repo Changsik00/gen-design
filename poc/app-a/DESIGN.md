@@ -5,7 +5,7 @@
 >
 > **스키마**: `schema/design-md-schema.md` (14 섹션).
 >
-> **TODO 표기 규칙**: `TODO(spec-5-02)` 는 Paper MCP 에서 추출 예정, `TODO(spec-5-03)` 는 React 구현 단계에서 확정 예정.
+> **마커 표기 규칙**: spec-5-02 마커 (이전 표기: `TODO` + `(spec-5-02)`) 는 Paper MCP 에서 추출하여 모두 채워졌음 (2026-05-02 완료). spec-5-03 마커는 React 구현 단계에서 확정 예정. 추출 원본은 `poc/app-a/design-extract/*.md` (5 파일).
 
 | 항목 | 값 |
 |---|---|
@@ -30,7 +30,7 @@ TaskFlow 의 시각 분위기는 **차분한 인디고 베이스 + 청록 액센
 - 일러스트나 화려한 그라디언트 없음 — 작업 도구의 정직함 / 기능성 우선
 - Status 색은 의미 (success / warning / error / info) 에 맞게 4 종 — 액센트 청록과 충돌하지 않도록 sat 낮춤
 
-> 정확한 hex 값과 hsla 표기는 `TODO(spec-5-02)` — Paper 시안에서 추출.
+> Paper 시안 추출 결과로 채워짐 (2026-05-02). Primary `#4F46E5` (Indigo 600) / Accent `#0EA5B7` (Cyan 600) 가 5 페이지 일관 사용. 자세한 내역은 §2 / §13.
 
 ---
 
@@ -38,13 +38,13 @@ TaskFlow 의 시각 분위기는 **차분한 인디고 베이스 + 청록 액센
 
 ### Primary
 
-- **Indigo / Primary** (`TODO(spec-5-02)` 정확 hex): `--color-primary`. CTA, 활성 메뉴, Focus 링.
-- **Indigo / Primary-hover** (`TODO(spec-5-02)`): `--color-primary-hover`. 호버 상태.
-- **Indigo / Primary-active** (`TODO(spec-5-02)`): `--color-primary-active`. 눌림 상태.
+- **Indigo / Primary** (`#4F46E5`): `--color-primary`. CTA, 활성 메뉴, Focus 링.
+- **Indigo / Primary-hover** (`#4338CA`): `--color-primary-hover`. 호버 상태 + Brand-deep variant (Signup BrandPanel / MyPage ProfileAvatar bg).
+- **Indigo / Primary-active** (`#3730A3`): `--color-primary-active`. 눌림 상태 (Indigo 800, 추출 단계 미관찰 — Indigo 700 보다 한 단계 짙게 추정).
 
 ### Accent
 
-- **Teal / Accent** (`TODO(spec-5-02)`): `--color-accent`. Secondary CTA, 그래프 보조선, 태그.
+- **Teal / Accent** (`#0EA5B7`): `--color-accent`. Avatar bg (UserCard / Activity assignee), trending text. Secondary CTA / 태그 용도는 React 구현 시 (spec-5-03) 검증 예정.
 
 ### Neutral Scale
 
@@ -57,10 +57,10 @@ TaskFlow 의 시각 분위기는 **차분한 인디고 베이스 + 청록 액센
 
 ### Status
 
-- **Success** (`TODO(spec-5-02)`): `--color-success`. 완료 상태, 배지.
-- **Warning** (`TODO(spec-5-02)`): `--color-warning`. 경고 / 마감 임박.
-- **Error**   (`TODO(spec-5-02)`): `--color-error`. 폼 에러, 삭제.
-- **Info**    (`TODO(spec-5-02)`): `--color-info`. 안내, 일반 알림.
+- **Success** (`#16A34A` / bg `#DCFCE7` / strong `#166534`): `--color-success` / `-bg` / `-strong`. Done badge, +12% trend.
+- **Warning** (추출 단계 미관찰 — 5 페이지에 warning 컬러 미사용): `--color-warning`. 본 spec 에서는 미정. 마감 임박 / 경고 사용처 발생 시 spec-5-03 또는 후속 spec 에서 정의.
+- **Error**   (`#DC2626` / bg `#FEE2E2` / strong `#991B1B` / soft-bg `#FEF2F2` / soft-border `#FECACA` / soft-fg `#B91C1C`): `--color-error` 외 5 변주. 폼 에러 / Overdue badge / Delete account zone.
+- **Info**    (추출 단계 미관찰 — 5 페이지에 info 컬러 미사용): `--color-info`. 본 spec 에서는 미정. 안내 / 일반 알림 사용처 발생 시 후속 spec 에서 정의.
 
 > 전체 토큰 정의: `poc/app-a/tokens.json` (spec-5-03 생성).
 
@@ -86,14 +86,14 @@ TaskFlow 의 시각 분위기는 **차분한 인디고 베이스 + 청록 액센
 | Caption | Inter | 12px | 400 | 1.4 | 0.005em |
 | Mono | JetBrains Mono | 13px | 400 | 1.5 | 0 |
 
-> 정확한 size 단위 (px vs rem) 와 line-height 은 `TODO(spec-5-02)` — Paper 추출 후 확정.
+> Paper 추출 결과 (2026-05-02): 모든 size 는 px / line-height 은 px or `round(up, %, 1px)` (Paper export 표기) 로 사용. letter-spacing 은 em 단위. 본 표의 값과 추출 결과 일치 — 검증 PASS. (참고: Settings 그룹 헤더는 표의 H3 18px 보다 작은 16px / -0.005em 로 사용 — 페이지 내 위계 차이 의도, drift 신호 아님.)
 
 ---
 
 ## 4. Component Stylings
 
-> 본 섹션의 정확한 값(background hex, exact padding 등) 은 `TODO(spec-5-02)`.
-> spec-5-01 단계에서는 컴포넌트별 variant 종류만 선언한다.
+> Paper 추출 결과 (2026-05-02) 정확값으로 채워짐. variant 종류는 spec-5-01 단계 선언 그대로.
+> 추가 컴포넌트 (Switch / Select trigger / Slider / Danger zone) 는 Settings 페이지에서 신규 도입 — §12 참조.
 
 ### Button
 
@@ -137,10 +137,13 @@ TaskFlow 의 시각 분위기는 **차분한 인디고 베이스 + 청록 액센
 | Level | Treatment | Use |
 |-------|-----------|-----|
 | 0 | 그림자 없음 | 기본 surface |
-| 1 (`elevation-card`) | `0 1px 2px rgba(15, 23, 42, 0.06), 0 1px 3px rgba(15, 23, 42, 0.04)` (TODO 검증) | Card / Dropdown |
-| 2 (`elevation-modal`) | `0 12px 32px rgba(15, 23, 42, 0.12)` (TODO 검증) | Modal / Popover |
+| 1 (`elevation-card`) | `0 1px 2px rgba(15, 23, 42, 0.04)` | Card / Dropdown (StatCard / ActivityCard / ProfileInfoCard / ActivitySummaryCard / AvatarUploadCard) |
+| 2 (`elevation-modal`) | `0 12px 32px rgba(15, 23, 42, 0.18), 0 2px 6px rgba(15, 23, 42, 0.08)` | Modal / Popover (LoginModal — 2-stop) |
+| custom (`elevation-avatar-glow`) | `0 1px 2px rgba(15, 23, 42, 0.06), 0 4px 12px rgba(67, 56, 202, 0.18)` | MyPage ProfileAvatar 80px (brand glow) |
+| custom (`elevation-knob`) | `0 1px 2px rgba(15, 23, 42, 0.2)` | Switch knob (Settings) |
+| custom (`elevation-handle`) | `0 1px 3px rgba(15, 23, 42, 0.12)` | Slider handle (Settings) |
 
-> 정확 그림자값은 `TODO(spec-5-02)` — Paper 의 export 와 일치 검증.
+> Paper 추출 결과 (2026-05-02): elevation-card 는 단일 stop (spec-5-01 의 2-stop 추정과 차이) 으로 합의. elevation-modal 은 2-stop. 추가 3 종 (avatar-glow / knob / handle) 은 본 spec 에서 신규 도입 — control affordance 강조 용도.
 
 ---
 
@@ -178,8 +181,8 @@ Dashboard 의 좌측 Sidebar 는 `md` 에서 아이콘 only, `sm` 에서 햄버�
 
 ### Quick Color Reference
 
-- **Primary**: 인디고 (`TODO(spec-5-02)` hex)
-- **Accent**: 청록 (`TODO(spec-5-02)` hex)
+- **Primary**: 인디고 (`#4F46E5`)
+- **Accent**: 청록 (`#0EA5B7`)
 - **Body Text**: Slate-900 (`#0F172A`)
 - **Background**: White (`#FFFFFF`)
 
@@ -207,6 +210,7 @@ Page > Section > Block > Element
 | 회원가입 | `/signup` | 풀페이지, 이름/이메일/비밀번호 + 약관 동의 + 소셜 |
 | 대시보드 개요 | `/` | 사이드바 + StatCardGrid + ActivityTable + QuickActions |
 | 마이페이지 | `/me` | 프로필 카드 + 활동 요약 + 아바타 업로드 |
+| 설정 | `/settings` | 사용자 환경 설정 — 알림 / 외관 / 언어 / 계정 (Toggle / Select / Slider / Group) |
 | 에러 (404/500) | `/*` (catch-all) | 에러 아이콘 + 메시지 + 홈으로 이동 |
 
 ---
@@ -279,6 +283,21 @@ Page > Section > Block > Element
 
 ---
 
+### 설정 (settings-overview)
+
+- **Route**: `/settings`
+- **Variant**: page
+- **Layout**: shell (sidebar + main)
+
+| Section | Block | Description |
+|---------|-------|-------------|
+| ChromeSection | Sidebar | 공통 사이드바 (활성 항목: Settings) |
+| HeaderSection | SettingsHeader | "Settings" 제목 + (선택 ON) 검색 input |
+| MainSection | NotificationGroup | 알림 그룹 — 이메일 / 푸시 / 주간 요약 / 멘션 4 종 Toggle 행 |
+| MainSection | AppearanceGroup | 외관 그룹 — 테마 (light/dark/system) Select + 글자 크기 Slider |
+| MainSection | LanguageGroup | 언어 / 시간대 그룹 — Language Select + Timezone Select |
+| MainSection | AccountGroup | 계정 그룹 — Email 표시 + "Change password" Secondary Button + "Delete account" Danger Button |
+
 ### 에러 (common-error)
 
 - **Route**: `/*` (catch-all)
@@ -332,26 +351,82 @@ Page > Section > Block > Element
 | Value | Text (Atom) | yes | role=display |
 | TrendIndicator | Icon + Text | no | direction, delta |
 
-> 추가 Composite (DashboardHeader / Sidebar / ActivityTable / ProfileHeader / ProfileInfoCard / ActivitySummary / AvatarUpload / ErrorIcon / ErrorMessage / HomeButton) 는 spec-5-03 React 구현 단계에서 정의.
+### SettingsGroup
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| GroupTitle | Text (Atom) | yes | role=h3 |
+| GroupDescription | Text (Atom) | no | role=caption |
+| Rows | Array<SettingsToggleRow / SettingsSelectRow / SettingsSliderRow> | yes | items |
+
+### SettingsToggleRow
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| Label | Text (Atom) | yes | role=body |
+| HelperText | Text (Atom) | no | role=caption |
+| Toggle | Switch (Atom) | yes | checked, onChange |
+
+### SettingsSelectRow
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| Label | Text (Atom) | yes | role=body |
+| Select | Select (Atom) | yes | options, value, onChange |
+
+### SettingsSliderRow
+
+- **Type**: Composite
+- **Reusable**: yes
+- **Variants**: default
+
+| Element | Type | Required | Props |
+|---------|------|:---:|-------|
+| Label | Text (Atom) | yes | role=body |
+| ValueDisplay | Text (Atom) | no | role=caption |
+| Slider | Slider (Atom) | yes | min, max, value, onChange |
+
+> 추가 Composite (DashboardHeader / Sidebar / ActivityTable / ProfileHeader / ProfileInfoCard / ActivitySummary / AvatarUpload / SettingsHeader / ErrorIcon / ErrorMessage / HomeButton) 는 spec-5-03 React 구현 단계에서 정의.
 
 ---
 
 ## 13. Token Mapping
 
-> 디자인 값 → 코드 참조. 정확한 값 입력은 `TODO(spec-5-02)` (Paper 추출) 또는 `TODO(spec-5-03)` (실 구현 시 확정).
-> 실제 토큰 값: `poc/app-a/tokens.json` (spec-5-03 에서 생성).
+> 디자인 값 → 코드 참조. Paper 추출 결과 (2026-05-02) 로 hex 컬럼 채워짐. 실제 토큰 값 파일: `poc/app-a/tokens.json` (spec-5-03 에서 생성 예정).
 
 ### Color Tokens
 
 | Design Name | Hex | CSS Variable | Tailwind Class |
 |-------------|-----|--------------|----------------|
-| Primary | TODO | `--color-primary` | `bg-primary` |
-| Primary-hover | TODO | `--color-primary-hover` | `hover:bg-primary-hover` |
-| Accent | TODO | `--color-accent` | `bg-accent` |
+| Primary | `#4F46E5` | `--color-primary` | `bg-primary` |
+| Primary-hover | `#4338CA` | `--color-primary-hover` | `hover:bg-primary-hover` |
+| Primary-active | `#3730A3` | `--color-primary-active` | `active:bg-primary-active` |
+| Primary-subtle | `#EEF2FF` | `--color-primary-subtle` | `bg-primary-subtle` |
+| Accent | `#0EA5B7` | `--color-accent` | `bg-accent` |
 | Text | `#0F172A` | `--color-text` | `text-foreground` |
+| Text Secondary | `#334155` | `--color-text-secondary` | `text-muted-foreground` |
+| Text Tertiary | `#64748B` | `--color-text-tertiary` | `text-muted` |
+| Text Placeholder | `#94A3B8` | `--color-text-placeholder` | `placeholder:text-muted` |
 | Surface | `#FFFFFF` | `--color-surface` | `bg-surface` |
+| Surface Alt | `#F8FAFC` | `--color-surface-alt` | `bg-surface-alt` |
+| Divider Soft | `#F1F5F9` | `--color-divider-soft` | `border-divider-soft` |
 | Border | `#E2E8F0` | `--color-border` | `border-border` |
-| Success / Warning / Error / Info | TODO | `--color-{status}` | `bg-{status}` |
+| Success / fg / bg / strong | `#16A34A` / `#DCFCE7` / `#166534` | `--color-success-{fg,bg,strong}` | `bg-success-{fg,bg,strong}` |
+| Error / fg / bg / strong | `#DC2626` / `#FEE2E2` / `#991B1B` | `--color-error-{fg,bg,strong}` | `bg-error-{fg,bg,strong}` |
+| Error soft (Danger zone) | bg `#FEF2F2` / border `#FECACA` / fg-strong `#B91C1C` | `--color-error-soft-{bg,border,fg}` | — |
+| Warning / Info | (추출 단계 미관찰 — 본 spec 페이지에 미사용) | `--color-{warning,info}` | — |
 
 ### Typography Tokens
 
@@ -439,6 +514,22 @@ Example: `login.form.email.placeholder` → "Enter your email"
 | `mypage.summary.comments` | "Comments" | 요약: 댓글 수 |
 | `mypage.summary.completion` | "Completion Rate" | 요약: 완료율 |
 | `mypage.avatar.upload` | "Change avatar" | 아바타 변경 |
+| `settings.title` | "Settings" | 설정 제목 |
+| `settings.notifications.title` | "Notifications" | 알림 그룹 제목 |
+| `settings.notifications.email` | "Email notifications" | 알림: 이메일 |
+| `settings.notifications.push` | "Push notifications" | 알림: 푸시 |
+| `settings.notifications.weeklyDigest` | "Weekly digest" | 알림: 주간 요약 |
+| `settings.notifications.mentions` | "Mention alerts" | 알림: 멘션 |
+| `settings.appearance.title` | "Appearance" | 외관 그룹 제목 |
+| `settings.appearance.theme` | "Theme" | 외관: 테마 |
+| `settings.appearance.fontSize` | "Font size" | 외관: 글자 크기 |
+| `settings.language.title` | "Language & Region" | 언어/지역 그룹 제목 |
+| `settings.language.language` | "Language" | 언어 |
+| `settings.language.timezone` | "Time zone" | 시간대 |
+| `settings.account.title` | "Account" | 계정 그룹 제목 |
+| `settings.account.email` | "Email address" | 계정: 이메일 |
+| `settings.account.changePassword` | "Change password" | 계정: 비밀번호 변경 |
+| `settings.account.deleteAccount` | "Delete account" | 계정: 삭제 |
 | `error.404.title` | "Page not found" | 404 제목 |
 | `error.404.message` | "We couldn't find the page you're looking for." | 404 본문 |
 | `error.500.title` | "Something went wrong" | 500 제목 |
@@ -455,7 +546,7 @@ Example: `login.form.email.placeholder` → "Enter your email"
 
 | TODO 출처 | 채우는 단계 | 항목 |
 |---|---|---|
-| `TODO(spec-5-02)` | Paper 시안 추출 | 색상 정확 hex, 그림자값, 정확한 size 단위 |
+| spec-5-02 마커 | Paper 시안 추출 | **완료 (2026-05-02)** — 색상 정확 hex, 그림자값, 정확한 size 단위 모두 채움. 추출 원본은 `poc/app-a/design-extract/*.md`. |
 | `TODO(spec-5-03)` | React 구현 | tokens.json, i18n/en.json, 추가 Composite (DashboardHeader 등) |
 
 > 본 DESIGN.md 는 spec-5-01 의 Blueprint 단계 산출물이며, **시각 디자인 정확값은 spec-5-02 에서 채워진다**.

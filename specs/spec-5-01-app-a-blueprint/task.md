@@ -99,10 +99,10 @@
 
 - [x] **walkthrough.md 작성** (증거 로그 — Task 7 자기검증 결과 + 산출물 요약)
 - [x] **pr_description.md 작성** (템플릿 준수)
-- [ ] **Ship Commit**: `docs(spec-5-01): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-5-01-app-a-blueprint`
-- [ ] **PR 생성**: `/hk-pr-gh` (사용자 승인 후)
-- [ ] **사용자 알림**: 푸시 완료 + PR URL 보고
+- [x] **Ship Commit**: `docs(spec-5-01): ship walkthrough and pr description` (`4d16f74`)
+- [x] **Push**: `git push -u origin spec-5-01-app-a-blueprint`
+- [x] **PR 생성**: https://github.com/Changsik00/gen-design/pull/20
+- [x] **사용자 알림**: 푸시 완료 + PR URL 보고
 
 ---
 

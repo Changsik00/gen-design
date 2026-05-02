@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-5** — PoC 검증 (End-to-End) — 1 spec — 다음: spec-5-01-app-a-blueprint
+- **phase-5** — PoC 검증 (End-to-End) — 2 spec — 다음: spec-5-02-app-a-paper-design
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -40,6 +40,11 @@
 - **paper-normalizer 유틸리티** — Paper MCP 와 DESIGN.md 사이의 표기 정규화 함수 라이브러리 (oklch↔hex, rgba↔8-hex, padding 단일↔paddingBlock/paddingInline, fontFamily fallback 정리). spec-4-02 에서 4 종 표기 drift 확인. Studio v1 (phase-6) 에서 실제 코드 자동 생성 시 필요하면 spec-x 또는 phase-6 spec 으로 승격.
 - **대량 변환 배치 전략 탐색** — spec-4-02 RQ5-5. 페이지 N 개 동시 처리 시 MCP 호출 수 / 속도 이슈. phase-5 앱 A 생성 시 실감 후 검토.
 - **harness-kit follow-up** — phase-3 에서 stash 된 `.gitignore` 중복 정리 + `.claude/commands/hk-align.md` 플레이스홀더 포맷 수정. spec-x 로 분리 처리 (아직 원복/커밋 전 상태).
+
+### phase-5 이월 follow-ups (2026-04-27 등재)
+
+- **LoginPage variant 확장 (modal / bottom-sheet)** — spec-5-02 정의에서 이월. 사용자가 spec-5-02 를 "새 페이지 검증" 방향으로 선회 ("기존 페이지 재활용 ❌") 함에 따라 보류. spec-4-02 가 page variant 만 부분 검증해 modal / bottom-sheet 왕복 drift 는 미측정 상태로 남음. 추후 필요 시 spec-x 또는 phase-6 spec 으로 승격.
+- **DashboardPage 왕복 drift** — 동일 이유로 이월. 데이터 집약 페이지에서 표기 정규화 패턴 유지 여부 미측정. spec-5-02 의 Settings 페이지 drift 측정으로 form-heavy 패턴 일부는 대체 가능하나 데이터 집약 케이스는 보존되지 않음. 필요 시 spec-x 또는 phase-6 spec 으로 승격.
 
 ### 거버넌스 부채 — phase-4 회고 발견 (2026-04-22 등재)
 
