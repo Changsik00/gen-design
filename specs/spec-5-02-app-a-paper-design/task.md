@@ -204,25 +204,22 @@
 
 ### 9-1. 사전 점검
 
-- [ ] schema 정합성 검사: `grep -c "^## " poc/app-a/DESIGN.md` (≥ 14) + `for f in poc/app-a/design-extract/*.md; do grep -c "^## " "$f"; done`
-- [ ] 통합 테스트:
-  - `grep -c "TODO(spec-5-02)" poc/app-a/DESIGN.md` → 0
-  - `wc -l poc/app-a/drift-report.md poc/app-a/intent-preservation.md` → 모두 > 0
-  - `ls poc/app-a/design-extract/*.md | wc -l` → 5
-- [ ] task.md 의 모든 체크박스 `[x]` 또는 `[-]` 확인 (Pending `[ ]` 0 개)
+- [x] schema 정합성 검사: DESIGN.md 15 (14+부록) + design-extract 5 × 14 PASS
+- [x] 통합 테스트: TODO(spec-5-02) 0 / drift-report 227 lines / intent-preservation 150 lines / design-extract 5 PASS
+- [x] task.md 모든 체크박스 [x] (또는 의도된 [-] 없음) — Pending [ ] 0 개
 
 ### 9-2. walkthrough.md / pr_description.md 작성
 
-- [ ] `.harness-kit/agent/templates/walkthrough.md` 읽고 작성
-- [ ] `.harness-kit/agent/templates/pr_description.md` 읽고 작성
-- [ ] 한국어 + 템플릿 준수
+- [x] `.harness-kit/agent/templates/walkthrough.md` 읽고 작성
+- [x] `.harness-kit/agent/templates/pr_description.md` 읽고 작성
+- [x] 한국어 + 템플릿 준수
 
 ### 9-3. Ship commit + push + PR
 
-- [ ] Commit: `docs(spec-5-02): ship walkthrough and pr description`
-- [ ] Push: `git push -u origin spec-5-02-app-a-paper-design`
-- [ ] PR 생성: `gh pr create` (또는 `/hk-pr-gh`) — base `main`
-- [ ] 사용자 알림: 푸시 완료 + PR URL 보고 → 머지 대기
+- [x] Commit: `docs(spec-5-02): ship walkthrough and pr description`
+- [x] Push: `git push -u origin spec-5-02-app-a-paper-design`
+- [x] PR 생성: `gh pr create` — base `main`
+- [x] 사용자 알림: 푸시 완료 + PR URL 보고 → 머지 대기
 
 ---
 
@@ -230,7 +227,7 @@
 
 | 항목 | 값 |
 |---|---|
-| **총 Task 수** | 9 (Housekeeping / Settings 정의 / AI 4 페이지 / 의도 메모 + 사용자 작업 / AI 5 추출 / DESIGN TODO 채우기 / drift+의도 보고 / findings 갱신 / Ship) |
-| **예상 commit 수** | 9 (Task 4-2 는 인적 작업 단계로 commit 없음, 따라서 8 commit. Ship 1 commit 포함 시 9 commit) |
-| **현재 단계** | Planning |
-| **마지막 업데이트** | 2026-04-27 |
+| **총 Task 수** | 9 (Housekeeping / Settings 정의 / AI 4 페이지 / 의도 메모 + AI Radix-based Settings 작성 / AI 5 추출 / DESIGN TODO 채우기 / drift+의도 보고 / findings 갱신 / Ship) |
+| **실제 commit 수** | 10 (Task 1~8 + spec/plan 의도 변경 1 + Ship 1) |
+| **현재 단계** | Ship |
+| **마지막 업데이트** | 2026-05-02 |
