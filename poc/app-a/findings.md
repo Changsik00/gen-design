@@ -1,8 +1,10 @@
-# spec-5-01 Findings — Blueprint Pipeline 실측 결과
+# Findings — Pipeline 실측 결과 (spec-5-01 / spec-5-02 누적)
 
-> 본 spec 산출물 4 종 (`blueprint-session.md`, `REQUIREMENTS.md`, `DESIGN.md`, `AGENT.md`) 을 작성하면서 발견한 Blueprint 프로토콜 / 템플릿 / 스키마의 결함 / 모호성 / 과대 명세 / placeholder 불일치 항목.
+> 각 spec 의 산출물 작성 / 추출 단계에서 발견한 프로토콜 / 템플릿 / 스키마의 결함 / 모호성 / 과대 명세 / placeholder 불일치 / Studio v1 (phase-6) 입력 항목.
 >
-> **범위 규칙**: 본 spec 에서는 결함을 *수정하지 않고 기록만* 한다. 수정은 spec-5-05 (회고) 또는 phase-6 (Studio v1) 에서 일괄 처리.
+> **범위 규칙**: 결함은 *수정하지 않고 기록만* 한다. 수정은 spec-5-05 (회고) 또는 phase-6 (Studio v1) 에서 일괄 처리.
+>
+> **누적 (2026-05-02)**: spec-5-01 (F-01 ~ F-07) + spec-5-02 (F-08 ~ F-10).
 >
 > **분류 태그**:
 > - `gap` — 명세 자체가 비어있음 (있어야 할 규칙이 없음)
@@ -78,16 +80,62 @@
 
 ---
 
+---
+
+# spec-5-02 Findings — Paper 추출 / drift / 의도 보존 측정
+
+> Paper artboard 5 페이지 작성 / 추출 / DESIGN.md TODO 채우기 / drift report / intent preservation 사이클을 거치며 발견한 항목.
+
+## F-08 — paper-normalizer 함수 라이브러리 후보 (`phase-6 입력`)
+
+- **발견 위치**: `poc/app-a/drift-report.md` §2 표기 정규화 비교 5 카테고리
+- **현상**: Paper export 와 일반 React/CSS 표기 사이에 의미 동일하지만 표기가 다른 5 카테고리 발견.
+  - `normalizeHexAlpha(hex8: string): string` — `#0F172A2E` → `rgba(15, 23, 42, 0.18)` (8자리 hex 의 마지막 2자리 = `0x2E / 0xFF` ≈ 0.18 변환)
+  - `normalizePadding(block: string, inline: string): string` — `paddingBlock + paddingInline` → `padding` shorthand
+  - `normalizeLineHeight(roundExpr: string): number | string` — `round(up, 130%, 1px)` → `1.3` (배수 표기)
+  - `normalizeFontFallback(family: string, target: "react" | "tailwind"): string` — Paper export 의 짧은 fallback chain 을 DESIGN.md §3 의 풀 chain (`Inter, ui-sans-serif, system-ui, sans-serif`) 으로 확장
+  - `normalizeBorder(width, style, color): string` — `borderWidth + borderStyle + borderColor` 3 분리 표기 → `border: 1px solid #E2E8F0` shorthand
+- **영향**: phase-6 Studio v1 의 자동 코드 생성 단계에서 매번 ad-hoc 변환을 수행하면 일관성 / 유지보수 부담. 단일 함수 라이브러리로 분리하면 모든 Paper → React 변환에 동일 규칙 적용 가능.
+- **처리 제안**: phase-6 의 첫 spec 으로 promote (`paper-normalizer` 라이브러리 단독 spec) — 입력은 본 spec 의 `poc/app-a/design-extract/*.md` 5 파일 + drift-report.md §2.
+
+## F-09 — DESIGN.md §12 Composite 보강 필요 (`gap`)
+
+- **발견 위치**: `poc/app-a/design-extract/profile-mypage.md` §12 / `settings-overview.md` §12 / `auth-signup.md` §12
+- **현상**: 5 페이지 추출 결과에서 DESIGN.md §12 미정의 Composite 패턴 다수 발견.
+  - **Signup**: `BrandPanel` (page-level 좌측 인디고 패널) / `Checkbox` (Atom — 18×18 indigo bg, radius 4)
+  - **MyPage**: `ProfileChip` (height 22 / radius 6 / bg indigo-subtle) / `ProgressBar` (6px track + fill / radius 999) / `OutlineDangerButton` (white bg + red border + red text) / `AvatarUploadCard` (preview + description + actions)
+  - **Settings**: `SettingsInfoRow` (label + inline button) / `SettingsActionRow` (동일 형태) / `DangerZone` (tinted bg + border + DangerButton)
+- **영향**: spec-5-03 React 구현 시 Composite 정의 부재로 ad-hoc 컴포넌트 생성 위험. 앱 B (spec-5-04) 의 재사용성 측정에 노이즈.
+- **처리 제안**: spec-5-03 첫 task 로 DESIGN.md §12 보강 (Composite 9 종 추가) 후 React 구현 진입. 또는 spec-5-02b 로 분리 (DESIGN.md §12 단독 보강) — 부담 적은 쪽 선택.
+
+## F-10 — i18n 키 모델 확장 필요 (`gap`)
+
+- **발견 위치**: `poc/app-a/design-extract/*.md` 5 페이지 모두의 §14, `poc/app-a/drift-report.md` §3.2 패턴 2
+- **현상**: DESIGN.md §14 의 i18n 키는 *기본 카피* 만 정의 (`login.title` / `settings.notifications.email` 등). 실제 페이지에는 helper / value enum / action label 등 *컨텍스트 부가어* 가 다수 — 5 페이지 합산 NEW 70+ 키 발견.
+  - 예: `settings.notifications.email` (DESIGN.md) → 추출은 `.email.label` + `.email.helper` 2 슬롯으로 분리.
+  - 예: `mypage.avatar.upload` (DESIGN.md 단일 키) → 추출은 `.changeAvatar` / `.uploadNew` / `.remove` 3 종 action.
+- **영향**: i18n 키 모델이 *flat 카피* 에서 *구조화 슬롯* (key + helper + value + action) 으로 확장되지 않으면 spec-5-04 (앱 B 토큰/i18n 교체) 시 카피 재정의에 부담. 또한 한국어 i18n 추가 시 슬롯 단위 매핑 규칙이 없으면 인적 작업 큼.
+- **처리 제안**: spec-5-03 또는 phase-6 에서 i18n schema 확장. 권장 키 패턴: `{page}.{section}.{element}.{slot}` 4-part hierarchy + `slot` enum (`label` / `helper` / `placeholder` / `value` / `action` / `description`).
+
+---
+
 ## 항목 요약
 
-| ID | 분류 | 한 줄 요약 |
-|---|---|---|
-| F-01 | gap | spec.md 가 protocol Step 1.5 (NFR) 를 누락 |
-| F-02 | placeholder-mismatch | DESIGN.md 시각 필드는 Blueprint 출력만으로 채울 수 없음 |
-| F-03 | gap | route / layout 기본값 규칙은 있으나 YAML 키 없음 (fail-fast 와 충돌) |
-| F-04 | placeholder-mismatch | Template status 어휘 (✅ / implemented / 구현 완료) 3 종 불일치 |
-| F-05 | ambiguity | optionalSections 빈 배열 표시 규약 부재 |
-| F-06 | ambiguity | 미구현 Template 이름 유추 규칙 없음 |
-| F-07 | gap | Phase 2 Template 의 PoC 재사용 / 복제 정책 없음 |
+| ID | spec | 분류 | 한 줄 요약 |
+|---|---|---|---|
+| F-01 | 5-01 | gap | spec.md 가 protocol Step 1.5 (NFR) 를 누락 |
+| F-02 | 5-01 | placeholder-mismatch | DESIGN.md 시각 필드는 Blueprint 출력만으로 채울 수 없음 |
+| F-03 | 5-01 | gap | route / layout 기본값 규칙은 있으나 YAML 키 없음 (fail-fast 와 충돌) |
+| F-04 | 5-01 | placeholder-mismatch | Template status 어휘 (✅ / implemented / 구현 완료) 3 종 불일치 |
+| F-05 | 5-01 | ambiguity | optionalSections 빈 배열 표시 규약 부재 |
+| F-06 | 5-01 | ambiguity | 미구현 Template 이름 유추 규칙 없음 |
+| F-07 | 5-01 | gap | Phase 2 Template 의 PoC 재사용 / 복제 정책 없음 |
+| **F-08** | **5-02** | **phase-6 입력** | **paper-normalizer 함수 5 카테고리 (color alpha / padding / lineHeight / font fallback / border)** |
+| **F-09** | **5-02** | **gap** | **DESIGN.md §12 Composite 9 종 미정의 (BrandPanel / ProfileChip / DangerZone 등)** |
+| **F-10** | **5-02** | **gap** | **i18n 키 모델 확장 — flat 카피 → 구조화 슬롯 (label/helper/value/action)** |
 
-> 본 7 항목은 spec-5-05 (파이프라인 회고) 와 phase-6 (Studio v1) 의 입력으로 활용된다.
+> spec-5-01 의 7 항목 + spec-5-02 의 3 항목 = 누적 10 항목.
+> 처리 채널:
+> - spec-5-03 (React 구현) — F-09 / F-10 흡수 또는 spec-5-02b 로 분리
+> - spec-5-05 (파이프라인 회고) — F-01 ~ F-07
+> - phase-6 (Studio v1) — F-08 + 누적 항목 통합 처리

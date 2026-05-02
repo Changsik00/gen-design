@@ -186,12 +186,15 @@
 
 ## Task 8: findings.md 갱신 (phase-6 입력)
 
-### 8-1. paper-normalizer 함수 후보 추가
+### 8-1. paper-normalizer 함수 후보 + 누적 finding 추가
 
-- [ ] `poc/app-a/findings.md` 의 "phase-6 입력" 섹션 (없으면 신규 생성) 에 추가:
-  - drift / 정규화 작업 중 발견된 반복 패턴 → 함수 후보 ≥ 1 개
-  - 예: `normalizeOklchToHex(oklch: string): string` / `normalizePadding(padding: string | object): { block, inline }`
-- [ ] Commit: `docs(spec-5-02): record paper-normalizer function candidates for phase-6`
+- [x] `poc/app-a/findings.md` 의 머리말 갱신 (spec-5-01 + 5-02 누적 10 항목)
+- [x] F-08 paper-normalizer 함수 5 카테고리 (color alpha / padding / lineHeight / font fallback / border) — 함수 시그니처 + 변환 예시 명시
+- [x] F-09 DESIGN.md §12 Composite 9 종 미정의 — Signup / MyPage / Settings 페이지별 분류
+- [x] F-10 i18n 키 모델 확장 — flat 카피 → 구조화 슬롯 (`{page}.{section}.{element}.{slot}` 패턴 + slot enum)
+- [x] 항목 요약 표 갱신 (spec / 분류 / 한 줄 요약 — 10 항목)
+- [x] 처리 채널 명시 (spec-5-03 / spec-5-05 / phase-6)
+- [x] Commit: `docs(spec-5-02): record paper-normalizer function candidates for phase-6`
 
 ---
 
