@@ -100,14 +100,14 @@
 
 ### 4-2. AI Radix-based Settings artboard 작성
 
-- [ ] `create_artboard` "TaskFlow — Settings" (1440×900, shell)
-- [ ] Sidebar 는 `1FJ-0` 를 `<x-paper-clone>` 으로 clone
-- [ ] MainSection — SettingsHeader + 4 그룹 (Notifications / Appearance / Language / Account)
-  - Radix UI Settings 패턴 차용: row 단위 label 좌 / control 우, divider 로 분리, group header + description, danger zone 마지막
-  - 컴포넌트: Toggle × 4 / Select × 3 / Slider × 1 / Group header × 4 / Group list / Danger Button × 1
-  - 토큰: DESIGN.md TaskFlow indigo / slate / radius / spacing 그대로
-- [ ] `get_screenshot` 검수 — 6 컴포넌트 종류 모두 가시성 확인
-- [ ] Commit: `docs(spec-5-02): create Settings artboard via AI with Radix UI reference`
+- [x] `create_artboard` "TaskFlow — Settings" (artboard `1LR-0`, 1440×fit-content, shell) — 처음 1100px 로 시작했으나 danger row 가 잘려 `update_styles` 로 fit-content 전환
+- [x] Sidebar 는 `1FJ-0` 를 `<x-paper-clone>` 으로 clone (`1LS-0`)
+- [x] MainSection (`1MP-0`) — SettingsHeader + 4 그룹 (Notifications / Appearance / Language / Account)
+  - Radix UI Settings 패턴 차용: 그룹 헤더 좌측 220px + rows 우측 flex / row 단위 label 좌 + control 우 / divider 로 분리 / danger zone 은 tinted background + red border + Danger Button 으로 명확히 분리
+  - 컴포넌트 6 종 모두 포함: Toggle × 4 (NotificationGroup, on 3 / off 1) / Select × 3 (Theme / Language / Timezone) / Slider × 1 (Font size, 14px @ 45%) / Group header × 4 / Group list (박스 X, surface 직접) / Danger Button × 1 (Delete account)
+  - 토큰: DESIGN.md TaskFlow indigo `#4F46E5` / slate `#0F172A`/`#64748B`/`#E2E8F0` / radius 6/8 / spacing 12/16/24/32 / Inter 600/500/400 그대로 — Radix 의 layout 만 흡수, 토큰 미차용
+- [x] `get_screenshot` 검수 — 6 컴포넌트 종류 모두 가시성 확인. Spacing / Typography / Contrast / Alignment / Repetition 모두 OK
+- [x] Commit: `docs(spec-5-02): create Settings artboard via AI with Radix UI reference`
 
 ---
 
