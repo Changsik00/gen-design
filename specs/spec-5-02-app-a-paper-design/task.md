@@ -115,29 +115,29 @@
 
 ### 5-1. Login 추출
 
-- [ ] `get_jsx` / `get_computed_styles` / `get_fill_image` 등 활용
-- [ ] `poc/app-a/design-extract/auth-login.md` 작성 (schema 14 섹션 준수)
+- [x] `get_computed_styles` batch (1CH-0 / 1CI-0 / 1CL-0 / 1CO-0 / 1CT-0 / 1CZ-0 / 1D1-0 / 1D8-0)
+- [x] `poc/app-a/design-extract/auth-login.md` 작성 (14 섹션, modal 480 / radius 16 / shadow 2-stop / focus ring `#4F46E52E 0 0 0 3px`)
 
 ### 5-2. Signup 추출
 
-- [ ] `poc/app-a/design-extract/auth-signup.md`
+- [x] `poc/app-a/design-extract/auth-signup.md` (split-screen / brand panel `#4338CA` / 36px Display / Submit 48 / Checkbox 18 radius 4)
 
 ### 5-3. Dashboard 추출
 
-- [ ] `poc/app-a/design-extract/dash-overview.md`
+- [x] `poc/app-a/design-extract/dash-overview.md` (shell / Sidebar 240 / NavItem active `#EEF2FF` / StatCard radius 12 + elevation-card / Status badge 4 종 / Activity vertical lane 2-1-110-100)
 
 ### 5-4. MyPage 추출
 
-- [ ] `poc/app-a/design-extract/profile-mypage.md`
+- [x] `poc/app-a/design-extract/profile-mypage.md` (shell / ProfileAvatar 80 + brand glow combined shadow / 2-column ContentRow / ProgressBar 6 / outline-danger Remove)
 
 ### 5-5. Settings 추출
 
-- [ ] `poc/app-a/design-extract/settings-overview.md`
+- [x] `poc/app-a/design-extract/settings-overview.md` (shell / GroupHeader 220 + GroupRows flex / Switch 38×22 + knob shadow / Select trigger 200×36 / Slider 4 track + 16 handle / Danger zone tinted)
 
 ### 5-6. Commit
 
-- [ ] schema 정합성 검사: `for f in poc/app-a/design-extract/*.md; do echo "$f:"; grep -c "^## " "$f"; done` — 각 파일 ≥ 14
-- [ ] Commit: `docs(spec-5-02): extract 5 paper artboards into design-extract/`
+- [x] schema 정합성 검사: `for f in poc/app-a/design-extract/*.md; do grep -c "^## " "$f"; done` — 모두 14 섹션 PASS
+- [x] Commit: `docs(spec-5-02): extract 5 paper artboards into design-extract/`
 
 ---
 
