@@ -25,8 +25,7 @@ function LoginContent({ texts }: { texts: LoginPageProps["texts"] }) {
       </div>
       <SocialAuthBlock
         googleLabel={texts.socialGoogle}
-        appleLabel={texts.socialApple}
-        kakaoLabel={texts.socialKakao}
+        githubLabel={texts.socialGithub}
       />
       <p className="text-center text-sm">
         <span className="text-muted-foreground">{texts.signupPrompt} </span>
@@ -45,7 +44,9 @@ export function LoginPage({ variant, texts, className }: LoginPageProps) {
         <DialogTrigger render={<Button variant="outline" />}>
           {texts.title}
         </DialogTrigger>
-        <DialogContent className={className}>
+        <DialogContent
+          className={`sm:max-w-[480px] rounded-2xl shadow-[0_12px_32px_rgba(15,23,42,0.18),0_2px_6px_rgba(15,23,42,0.08)] ${className ?? ""}`}
+        >
           <div className="space-y-4 p-2">
             <div>
               <h2 className="text-lg font-semibold">{texts.title}</h2>
