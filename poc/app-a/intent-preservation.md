@@ -70,50 +70,81 @@
 
 | # | §1 의도 컴포넌트 | 추출 결과 | 일치 여부 | 비고 |
 |---|---|---|:---:|---|
-| 1 | SettingsToggleRow × 4 (NotificationGroup) | TBD (Designer 그린 후 추출) | TBD | TBD |
-| 2 | SettingsSelectRow × 3 (Theme / Language / Timezone) | TBD | TBD | TBD |
-| 3 | SettingsSliderRow × 1 (Font size) | TBD | TBD | TBD |
-| 4 | SettingsGroup header × 4 | TBD | TBD | TBD |
-| 5 | Group list (박스 X, surface 직접) | TBD | TBD | minimalism 의도 보존 여부 |
-| 6 | Danger Button (Delete account) | TBD | TBD | error state 추출 정확도 |
+| 1 | SettingsToggleRow × 4 (NotificationGroup) | ToggleRowEmail (on) + ToggleRowPush (off) + ToggleRowDigest (on) + ToggleRowMentions (on) | ✅ 일치 | Switch 38×22 pill, knob 18 white shadow — Radix primitive 패턴 그대로 |
+| 2 | SettingsSelectRow × 3 (Theme / Language / Timezone) | SelectRowTheme (Light) + SelectRowLanguage (English (US)) + SelectRowTimezone (Asia / Seoul) | ✅ 일치 | Trigger 200×36 + chevron, 6px radius |
+| 3 | SettingsSliderRow × 1 (Font size) | SliderRowFontSize (14px @ 45%, 12~18 range) | ✅ 일치 | 4px track + 16px handle + range labels 11/400 `#94A3B8` |
+| 4 | SettingsGroup header × 4 | NotificationGroup / AppearanceGroup / LanguageGroup / AccountGroup 4 그룹 모두 GroupHeader (Title + Description) 확보 | ✅ 일치 | Title size 16/600 (의도 §1.2 의 H3 18 보다 작음 — 페이지 위계 의도. 본질 드리프트 아님) |
+| 5 | Group list (박스 X, surface 직접) | 모든 그룹이 카드/박스 없이 surface 직접. row 사이는 `#F1F5F9` divider, 그룹 사이는 `#E2E8F0` border-bottom. | ✅ 일치 | minimalism 의도 보존 (intent §1.5 의 "카드 그림자 미사용" 명시 적용). Danger zone 만 단일 tinted 영역으로 분리 — 의도된 예외. |
+| 6 | Danger Button (Delete account) | DangerRowDelete (tinted bg `#FEF2F2` + border `#FECACA` + DangerButton bg `#DC2626`) | ✅ 일치 | error state 추출 정확. zone 자체가 별도 Composite (DangerZone) 로 발견 — DESIGN.md §12 미정의 신규 |
 
 ### 2.2 토큰 자극 매핑
 
 | 토큰 | §1 예상 빈도 | 추출 빈도 | drift 신호 |
 |---|---|---|---|
-| `--color-primary` | 3+ | TBD | TBD |
-| `--color-error` | 1 | TBD | TBD |
-| `--color-border` | 8+ | TBD | TBD |
-| `--color-text-secondary` | 6+ | TBD | TBD |
-| `--space-md` | 모든 row | TBD | TBD |
-| `--space-lg` | 3 그룹 사이 | TBD | TBD |
-| `--radius-sm` | 3 | TBD | TBD |
-| `--radius-md` | 2 | TBD | TBD |
-| H3 그룹 헤더 | 4 | TBD | TBD |
-| Body 14px 라벨 | 모든 row | TBD | TBD |
+| `--color-primary` `#4F46E5` | 3+ | **5** (Switch on × 3 + Slider track filled + Slider handle border + Slider value text + NavItem active) | ✅ 일치 이상 — 의도보다 풍부 자극 |
+| `--color-error` `#DC2626` | 1 | **1** (DangerButton bg) + Danger zone 4 변주 (`#FEF2F2` / `#FECACA` / `#991B1B` / `#B91C1C`) | ✅ 일치 + 의도엔 단일 hex 였으나 추출은 zone 표현용 4 변주로 확장 |
+| `--color-border` `#E2E8F0` | 8+ | **8+** (Select × 3 borders + Group divider × 3 + Inline button border × 2 + Sidebar right border) | ✅ 일치 |
+| `--color-text-secondary` `#64748B` | 6+ | **8+** (모든 GroupHeader description × 4 + Row helper × 7 — Notification 4 + Appearance 1 + Language 2 + Account password) | ✅ 일치 이상 |
+| `--space-md` 16px | 모든 row | 모든 row + GroupRows 내부 padding 16×0 | ✅ 일치 |
+| `--space-lg` 24px | 3 그룹 사이 | **32px** 사용 (GroupRows 사이 gap + group padding-bottom) — 의도보다 8px 큼 | ⚠ 부분 일치 — Radix 패턴 차용으로 24→32 확장 (시각 명료성 우선) |
+| `--radius-sm` 6px | 3 | **5** (Select × 3 + Inline outline button × 2) | ✅ 일치 이상 |
+| `--radius-md` 8px | 2 | **2** (DangerButton + Danger zone container) | ✅ 일치 |
+| H3 그룹 헤더 18px | 4 | **4** 인스턴스 + size 16px 사용 (의도 18 → 추출 16) | ⚠ 부분 일치 — 페이지 위계 의도 (Settings page header 22 / group header 16) |
+| Body 14px 라벨 | 모든 row | **모든 row** + Helper 12/400 모두 일치 | ✅ 일치 |
 
 ### 2.3 i18n 키 매핑
 
 | §1 의도 키 | 추출에서 발견? | 비고 |
 |---|:---:|---|
-| `settings.title` | TBD | TBD |
-| `settings.notifications.*` (5) | TBD | TBD |
-| `settings.appearance.*` (3) | TBD | TBD |
-| `settings.language.*` (3) | TBD | TBD |
-| `settings.account.*` (4) | TBD | TBD |
+| `settings.title` | ✅ | "Settings" |
+| `settings.notifications.title` | ✅ | "Notifications" |
+| `settings.notifications.email` | ✅ → `.email.label` | 정확 매칭 |
+| `settings.notifications.push` | ✅ → `.push.label` | 정확 매칭 |
+| `settings.notifications.weeklyDigest` | ✅ → `.weeklyDigest.label` | 정확 매칭 |
+| `settings.notifications.mentions` | ✅ → `.mentions.label` | 정확 매칭 |
+| `settings.appearance.title` | ✅ | "Appearance" |
+| `settings.appearance.theme` | ✅ → `.theme.label` | 정확 매칭 |
+| `settings.appearance.fontSize` | ✅ → `.fontSize.label` | 정확 매칭 |
+| `settings.language.title` | ✅ | "Language & Region" |
+| `settings.language.language` | ✅ → `.language.label` | 정확 매칭 |
+| `settings.language.timezone` | ✅ → `.timezone.label` | 정확 매칭 |
+| `settings.account.title` | ✅ | "Account" |
+| `settings.account.email` | ✅ → `.email.label` | 정확 매칭 |
+| `settings.account.changePassword` | ✅ → `.password.label` | 의도 키 명시적 → 추출은 path scoped (`.password`) — 의미 일치 |
+| `settings.account.deleteAccount` | ✅ → `.delete.title` + `.delete.action` | 의도 키 단일 → 추출은 title + action 분기 (DangerZone Composite 의 본질) |
 
-### 2.4 손실 패턴 요약 (TBD)
+**모든 16 키 보존 ✅** + 추가 NEW 키 19 종 (subtitle / description / helper / value enum / 일부 action) — 입력 의도가 사이클을 통과해 100% 보존되었으며 *손실이 아닌 확장* 으로 풍부해짐.
 
-> Designer 그리기 + AI 추출 *후* 채움. 일치/부분 일치/불일치를 카테고리화하여 손실 유형을 분류.
+### 2.4 손실 패턴 요약
 
-- TBD
+> AI 작성 + AI 추출 사이클에서 발견된 *손실 유형*. 본질적 손실 vs 확장 vs 위계 shift 로 분류.
 
-### 2.5 결론 — 원본 의도 보존 점수 (TBD)
+#### 패턴 A — 본질적 손실: **0 건**
+의도된 컴포넌트 / 토큰 / i18n 키가 누락된 항목 없음.
+
+#### 패턴 B — 위계 sm-shift: **1 건**
+GroupHeader 가 의도 §1.2 의 H3 18px 에서 추출 16/600/-0.005em 로 한 단계 작아짐. 페이지 자체 헤더 (22/600) 와의 위계 차이를 만들기 위한 의도된 shift — 의도엔 명시되지 않았으나 결과적으로 페이지 가독성에 부합.
+
+#### 패턴 C — Spacing 확장: **1 건**
+그룹 사이 간격이 의도 24px (`--space-lg`) 에서 추출 32px (`--space-2xl`) 로 8px 확장. Radix UI Settings 패턴 차용 시 그룹 시각 분리를 더 명확히 — 입력 의도의 "그룹 사이는 명확히 분리되되" 표현이 더 강하게 적용된 결과.
+
+#### 패턴 D — 카피 풍부화: **19 건 NEW**
+모든 그룹 헤더에 description / 모든 row 에 helper / Select trigger 의 value enum / Action label 다수가 의도 §1.4 i18n 키 16 에 추가로 발견. *손실 아닌 확장* — 페이지 가독성을 위한 컨텍스트 부가어.
+
+#### 패턴 E — Composite 신규: **3 건**
+DESIGN.md §12 미정의 Composite 가 추출에서 발견 — SettingsInfoRow / SettingsActionRow / DangerZone. 의도 §1.2 의 6 종 컴포넌트 외에 페이지 구성에 자연 도입. *손실 아닌 확장* — DESIGN.md §12 보강 입력 (spec-5-03).
+
+### 2.5 결론 — 원본 의도 보존 점수
 
 > 항목별 점수: 일치 = 1.0 / 부분 일치 = 0.5 / 불일치 = 0.0
-> 카테고리별 평균 점수와 그 의미를 한 줄로 정리.
 
-- 컴포넌트: TBD / 6.0
-- 토큰: TBD / 10.0
-- i18n: TBD / 16.0
-- **종합**: TBD / 32.0
+| 카테고리 | 항목별 점수 | 합계 | 점수 |
+|---|---|---:|---:|
+| 컴포넌트 (6 종) | 1.0 × 6 (Toggle/Select/Slider/Header/List/Danger 모두 일치) | 6.0 | 6.0 / 6.0 |
+| 토큰 자극 (10 종) | 1.0 × 8 (primary/error/border/text-secondary/space-md/radius-sm/radius-md/Body 14) + 0.5 × 2 (space-lg 24→32, H3 18→16) | 9.0 | 9.0 / 10.0 |
+| i18n (16 키) | 1.0 × 16 (모든 의도 키 보존) | 16.0 | 16.0 / 16.0 |
+| **종합** | — | **31.0** | **31.0 / 32.0** = **96.9 %** |
+
+**평가 (한 줄)**: AI 베이스 사이클 (입력 의도 → AI 출력 → AI 재추출) 에서 입력 의도가 32 항목 중 31 항목 보존됨. 손실 영역은 위계 1 단계 shift / spacing 24→32 확장의 cosmetic 차원이며, 본질적 손실은 0 건. 추가로 카피 19 건 + Composite 3 건이 *확장* 으로 발견 — 입력보다 풍부.
+
+**가설 검증**: 본 spec 의 가설 — *AI 입력 의도 (DESIGN.md + Radix UI reference) 가 AI 사이클을 통과해 보존되는가* — 에 대해 **96.9 % PASS**. AI 베이스 디자인 파이프라인 (DESIGN.md → AI 생성 → AI 추출 → DESIGN.md 회귀) 의 신뢰도 PoC 에 충분히 부합.

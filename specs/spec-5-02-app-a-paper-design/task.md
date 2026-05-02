@@ -164,21 +164,23 @@
 
 ### 7-1. drift-report.md 작성
 
-- [ ] `poc/app-a/drift-report.md` 신규 작성
-- [ ] §1 "5 페이지 × N 항목 drift 표" — Section / Block / 컴포넌트 / 토큰 / i18n 키 단위
-- [ ] §2 "표기 정규화 전후 비교" — oklch ↔ hex / rgba ↔ 8-hex / padding 단일 ↔ block-inline / fontFamily fallback
-- [ ] §3 "페이지별 drift 점수 + 패턴 요약"
-- [ ] §4 "결론" — 본질적 drift 와 표기 차이의 분리
+- [x] `poc/app-a/drift-report.md` 신규 작성
+- [x] §1 5 페이지 × N 항목 drift 표 (Login/Signup/Dashboard/MyPage/Settings 각각 카테고리 ✅⚠🔴➕ 분류)
+- [x] §2 표기 정규화 전후 비교 — color alpha hex8 / padding block·inline / line-height round / font fallback / border 분리 표기 5 카테고리
+- [x] §3 페이지별 drift 점수 (5 페이지 평균 0.83) + 5 패턴 요약 (토큰 일관 / i18n drift 큼 / Composite 신규 / elevation 차이 / hero CTA 차별)
+- [x] §4 결론 — 본질적 drift 11 항목 vs 표기 차이 5 카테고리 분리, 다음 단계 입력 정리
 
 ### 7-2. intent-preservation.md 의 §2 채우기
 
-- [ ] Settings 의도 메모(§1) vs `design-extract/settings-overview.md` 항목별 비교
-- [ ] 일치 / 부분 일치 / 불일치 분류
-- [ ] 손실 패턴 요약 (예: Slider state 누락 / Toggle on/off 색 표기 차이 등)
+- [x] §2.1 컴포넌트 매핑 — 6 종 모두 일치 (✅×6)
+- [x] §2.2 토큰 자극 매핑 — 10 종 중 8 일치 + 2 부분일치 (space-lg 24→32, H3 18→16)
+- [x] §2.3 i18n 키 매핑 — 16 키 모두 보존 + NEW 19 키 확장
+- [x] §2.4 손실 패턴 요약 — 본질 손실 0 / 위계 shift 1 / spacing 확장 1 / 카피 풍부화 19 / Composite 신규 3
+- [x] §2.5 결론 — 31.0 / 32.0 = **96.9 %** 보존도. 가설 PASS.
 
 ### 7-3. Commit
 
-- [ ] Commit: `docs(spec-5-02): write drift report and intent preservation comparison`
+- [x] Commit: `docs(spec-5-02): write drift report and intent preservation comparison`
 
 ---
 
