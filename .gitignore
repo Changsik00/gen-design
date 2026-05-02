@@ -11,3 +11,4 @@ node_modules/
 # harness-kit
 .harness-backup-*/
 .claude/state/
+.claude/settings.local.json
