@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-5** — PoC 검증 (End-to-End) — 2 spec — 다음: (spec 없음)
+- **phase-5** — PoC 검증 (End-to-End) — 3 spec — 다음: spec-5-03-app-a-react-impl
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
