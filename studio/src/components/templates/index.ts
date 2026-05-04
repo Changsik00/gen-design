@@ -25,3 +25,4 @@ export { LoginPage } from "./LoginPage";
 export { SignupPage } from "./SignupPage";
 export { MyPage } from "./MyPage";
 export { SettingsPage } from "./SettingsPage";
+export { ErrorPage } from "./ErrorPage";
