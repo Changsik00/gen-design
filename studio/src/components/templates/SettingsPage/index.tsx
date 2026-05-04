@@ -54,24 +54,24 @@ export function SettingsPage({
             <SettingsToggleRow
               label={texts.notificationsEmail}
               checked={notifications.email}
-              onCheckedChange={(next) => onNotificationChange?.("email", next)}
+              onCheckedChange={(next: boolean) => onNotificationChange?.("email", next)}
             />
             <SettingsToggleRow
               label={texts.notificationsPush}
               checked={notifications.push}
-              onCheckedChange={(next) => onNotificationChange?.("push", next)}
+              onCheckedChange={(next: boolean) => onNotificationChange?.("push", next)}
             />
             <SettingsToggleRow
               label={texts.notificationsWeeklyDigest}
               checked={notifications.weeklyDigest}
-              onCheckedChange={(next) =>
+              onCheckedChange={(next: boolean) =>
                 onNotificationChange?.("weeklyDigest", next)
               }
             />
             <SettingsToggleRow
               label={texts.notificationsMentions}
               checked={notifications.mentions}
-              onCheckedChange={(next) => onNotificationChange?.("mentions", next)}
+              onCheckedChange={(next: boolean) => onNotificationChange?.("mentions", next)}
             />
           </SettingsGroup>
 
