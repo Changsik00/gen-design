@@ -30,10 +30,9 @@ describe("시나리오 1: Auth Page Template 렌더링", () => {
     expect(screen.getByText("이메일")).toBeInTheDocument();
     expect(screen.getByText("비밀번호")).toBeInTheDocument();
 
-    // Composite: SocialAuthBlock 요소
+    // Composite: SocialAuthBlock 요소 (DESIGN.md §11 auth-login: google + github)
     expect(screen.getByText("Google로 계속하기")).toBeInTheDocument();
-    expect(screen.getByText("Apple로 계속하기")).toBeInTheDocument();
-    expect(screen.getByText("카카오로 계속하기")).toBeInTheDocument();
+    expect(screen.getByText("GitHub로 계속하기")).toBeInTheDocument();
 
     // Template 레벨: 네비게이션 링크
     expect(screen.getByText("회원가입")).toBeInTheDocument();

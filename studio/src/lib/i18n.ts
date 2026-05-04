@@ -23,6 +23,7 @@ export function getLoginPageTexts(locale: Locale = "ko"): LoginPageTexts {
     signupPrompt: t.login.footer.signup.prompt,
     signupLink: t.login.footer.signup.link,
     socialGoogle: t.login.social.google.label,
+    socialGithub: t.login.social.github.label,
     socialApple: t.login.social.apple.label,
     socialKakao: t.login.social.kakao.label,
   };
@@ -45,6 +46,8 @@ export function getSignupPageTexts(locale: Locale = "ko"): SignupPageTexts {
     loginPrompt: t.signup.footer.login.prompt,
     loginLink: t.signup.footer.login.link,
     termsAgreement: t.signup.form.terms.label,
+    socialGoogle: t.signup.social.google.label,
+    socialGithub: t.signup.social.github.label,
   };
 }
 

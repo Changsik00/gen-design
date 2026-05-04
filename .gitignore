@@ -12,3 +12,7 @@ node_modules/
 .harness-backup-*/
 .claude/state/
 .claude/settings.local.json
+
+# build artifacts
+dist/
+**/.tmp/
