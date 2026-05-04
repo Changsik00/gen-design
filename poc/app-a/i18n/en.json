@@ -1,0 +1,144 @@
+{
+  "$comment": "DESIGN.md (poc/app-a/DESIGN.md) §14 Key Map. namespace: {page}.{section}.{element}.{property}. default 영어.",
+  "app": {
+    "name": "TaskFlow"
+  },
+  "nav": {
+    "home": "Home",
+    "tasks": "Tasks",
+    "settings": "Settings"
+  },
+  "auth": {
+    "user": {
+      "signOut": "Sign out"
+    }
+  },
+  "login": {
+    "title": "Sign in to TaskFlow",
+    "description": "Sign in to your TaskFlow account",
+    "form": {
+      "email": {
+        "label": "Email",
+        "placeholder": "you@company.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "Enter your password"
+      },
+      "submit": "Sign in"
+    },
+    "social": {
+      "google": "Continue with Google",
+      "github": "Continue with GitHub"
+    },
+    "forgot": "Forgot password?",
+    "signupPrompt": "Don't have an account? Sign up"
+  },
+  "signup": {
+    "title": "Create your TaskFlow account",
+    "description": "Get started with TaskFlow",
+    "form": {
+      "name": {
+        "label": "Full name",
+        "placeholder": "Your name"
+      },
+      "email": {
+        "label": "Email",
+        "placeholder": "you@company.com"
+      },
+      "password": {
+        "label": "Password",
+        "placeholder": "At least 8 characters"
+      },
+      "passwordConfirm": {
+        "label": "Confirm password",
+        "placeholder": "Re-enter your password"
+      },
+      "submit": "Create account"
+    },
+    "social": {
+      "google": "Continue with Google",
+      "github": "Continue with GitHub"
+    },
+    "terms": "I agree to the Terms of Service",
+    "loginPrompt": "Already have an account? Sign in"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "search": {
+      "placeholder": "Search tasks…"
+    },
+    "stats": {
+      "activeTasks": "Active Tasks",
+      "done": "Done This Week",
+      "overdue": "Overdue",
+      "members": "Team Members"
+    },
+    "activity": {
+      "title": "Recent Activity",
+      "viewAll": "View all",
+      "column": {
+        "task": "Task",
+        "assignee": "Assignee",
+        "status": "Status",
+        "updated": "Updated"
+      }
+    },
+    "quickAction": {
+      "newTask": "+ New Task"
+    }
+  },
+  "mypage": {
+    "title": "My Page",
+    "info": {
+      "email": "Email",
+      "joinedAt": "Joined",
+      "team": "Team"
+    },
+    "summary": {
+      "tasks": "Tasks",
+      "comments": "Comments",
+      "completion": "Completion Rate"
+    },
+    "avatar": {
+      "upload": "Change avatar"
+    }
+  },
+  "settings": {
+    "title": "Settings",
+    "notifications": {
+      "title": "Notifications",
+      "email": "Email notifications",
+      "push": "Push notifications",
+      "weeklyDigest": "Weekly digest",
+      "mentions": "Mention alerts"
+    },
+    "appearance": {
+      "title": "Appearance",
+      "theme": "Theme",
+      "fontSize": "Font size"
+    },
+    "language": {
+      "title": "Language & Region",
+      "language": "Language",
+      "timezone": "Time zone"
+    },
+    "account": {
+      "title": "Account",
+      "email": "Email address",
+      "changePassword": "Change password",
+      "deleteAccount": "Delete account"
+    }
+  },
+  "error": {
+    "404": {
+      "title": "Page not found",
+      "message": "We couldn't find the page you're looking for."
+    },
+    "500": {
+      "title": "Something went wrong",
+      "message": "Please try again in a moment."
+    },
+    "home": "Back to Home"
+  }
+}
