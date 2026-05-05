@@ -62,7 +62,7 @@
 | `phase-2` | [Page Template 시스템](phase-2.md) | Done |
 | `phase-3` | [App Blueprint](phase-3.md) | Done |
 | `phase-4` | [협업 Flow 정의](phase-4.md) | Done |
-| `phase-5` | [PoC 검증](phase-5.md) | Active |
+| `phase-5` | [PoC 검증](phase-5.md) | Done |
 | `phase-6` | [Studio v1](phase-6.md) | Queued |
 | `phase-7` | [디자인 도구 연동 심화](phase-7.md) | Queued |
 <!-- sdd:queued:end -->
