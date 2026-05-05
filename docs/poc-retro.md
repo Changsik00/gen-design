@@ -258,9 +258,38 @@ flowchart TB
 
 ## §4. Phase-4 회고 부채 평결
 
-> W2/W4/C4/A4 각 항목에 phase-5 결과로 평결 (yes/absorbed/transformed/open).
+> phase-4 회고에서 4 부채 (W2/W4/C4/A4) 가 phase-5 로 이월됨 (P4-DEBT).
+> 각 항목을 phase-5 결과로 평결.
 
-(Task 5 에서 채움)
+### 4.1 평결 라벨 정의
+
+- **absorbed**: phase-5 활동에서 부채가 해소되어 더 이상 추적 불필요
+- **partial**: 일부 해소, 잔여는 phase-6/7 로 이월 (구체적 잔여 명시)
+- **open**: phase-5 에서 다뤄지지 않음, 부채 그대로
+- **transformed**: 부채의 형태가 변하여 새 항목 (§2 카탈로그) 으로 등재됨
+
+### 4.2 평결 표
+
+| ID | 원본 부채 (P4-DEBT) | phase-5 결과 | 평결 | 근거 |
+|---|---|---|---|---|
+| **W2** | 6 단계 프로토콜 4 단계 미실측 (Stage 1 제외 Stage 2~6 중 Stage 3 Blueprint / Stage 4 Compose 만 PoC 흡수 측정) | Stage 3 (spec-5-01 Blueprint) + Stage 4 (spec-5-02 Paper / spec-5-03 React 구현) 흡수 측정. Stage 5 (review) + Stage 6 (handoff) 미측정 | **partial** | spec-5-01 ~ spec-5-03 의 walkthrough 가 Stage 3/4 의 구체 측정 (시간/결정/drift) 포함. Stage 5/6 는 phase-5 scope 밖 → §3 TODO-08 로 phase-7 보존 |
+| **W4** | One Task = One Commit 위반 재발 방지 (spec-4-02 commit `2242e89` 가 Task 4+5 통합) | spec-5-01 ~ spec-5-04 모두 엄격 준수 — 총 58 commit 분리, Task 통합 0 건 | **absorbed** | `git log --oneline spec-1-001-design-md-schema..main \| grep "spec-5-0[1-4]"` 결과 58 commit, walkthrough 의 Task ↔ Commit 1:1 매핑 확인. spec-5-04 task.md 머리에 명시 ("phase-4 W4 부채의 직접적 후속 — 본 spec 도 엄격 준수") |
+| **C4** | `phase-ship.md` 템플릿이 harness-kit 0.5.0 부재 — constitution §3.1 은 명시하나 `.harness-kit/agent/templates/` 에 파일 없음 | harness-kit 0.6.2 의 `.harness-kit/agent/templates/` 에 `phase-ship.md` 가 존재 — upstream 기여 또는 자연 추가로 해소 | **absorbed** | `ls .harness-kit/agent/templates/` 결과 `phase-ship.md` 포함 (phase.md, plan.md, pr_description.md, queue.md 와 함께). phase-4 시점 (0.5.0) → phase-5 시점 (0.6.2) 사이 추가됨 |
+| **A4** | 자기참조적 검증 — critique 미실행 (spec-4-01/02/03 모두). 조치: Phase 5 Research spec 은 critique 기본 수행 (최소 Research 타입은 강제) | spec-5-01 / 5-02 / 5-03 / 5-04 모두 Critique 미실행 — 각 spec.md 의 §Critique 결과 섹션이 모두 "미실행" 또는 "권장" (실행 0/4). 단 spec-5-03 / 5-04 는 명문화만 진보 ("권장" 명시) | **open** | A4 의 *조치 약속* (Research spec critique 강제) 이 phase-5 에서 이행되지 않음. 4 spec 모두 critique 자체 효용 낮다 또는 시간 제약으로 회피 — 동일 패턴이 phase-4 와 phase-5 양쪽에서 반복. § 권장: phase-6 부터 critique 호출을 hk-align hook 에서 강제 (또는 spec 템플릿에 `critique 미실행 사유` 필수 필드) |
+
+### 4.3 평결 요약
+
+| 라벨 | 개수 | 항목 |
+|---|---:|---|
+| absorbed | 2 | W4, C4 |
+| partial | 1 | W2 (Stage 5/6 잔여 → TODO-08) |
+| open | 1 | A4 (phase-6 강제 메커니즘 필요) |
+| transformed | 0 | (해당 없음) |
+
+### 4.4 phase-6 입력으로 전달되는 잔여 부채
+
+1. **A4-잔여** (open): phase-6 부터 critique 호출 강제 메커니즘 — `hk-align` hook 추가 또는 spec 템플릿에 `critique 미실행 사유` 필수 필드 도입. 본 spec-5-05 자체도 critique 미실행 (회고 문서 단일 산출물 — 외부 critique 가치 낮다고 판단), 즉 phase-5 → phase-6 사이에서도 동일 패턴.
+2. **W2-잔여** (partial): Stage 5 (review) + Stage 6 (handoff) 측정 spec — phase-7 보존 (§3 TODO-08).
 
 ---
 
