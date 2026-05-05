@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-5** — PoC 검증 (End-to-End) — 4 spec — 다음: spec-5-04-app-b-reusability
+- **phase-5** — PoC 검증 (End-to-End) — 4 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
