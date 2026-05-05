@@ -45,15 +45,50 @@
 > 각 단계별 "잘된 점 / 깨진 점 / 다음 액션" 컬럼.
 > Foundation / Token / Page Template / Blueprint / 협업 Flow 5 단계.
 
-(Task 2 에서 채움)
+### 1.1 Foundation (pnpm workspace + vite + tooling)
 
-| 단계 | 잘된 점 | 깨진 점 | 다음 액션 |
-|---|---|---|---|
-| Foundation | _TBD_ | _TBD_ | _TBD_ |
-| Token | _TBD_ | _TBD_ | _TBD_ |
-| Page Template | _TBD_ | _TBD_ | _TBD_ |
-| Blueprint | _TBD_ | _TBD_ | _TBD_ |
-| 협업 Flow | _TBD_ | _TBD_ | _TBD_ |
+| 잘된 점 | 깨진 점 | 다음 액션 |
+|---|---|---|
+| pnpm workspace 3-package 구조 (`studio` + `poc/app-a` + `poc/app-b`) — 새 앱 추가 시 1 줄 등록 (S4-WALK Task 1) | studio 의 `@/` self-reference alias 가 across-package import 에서 약함 — vite alias array + regex 로 우회 (S3-WALK §발견) | studio 가 Node `imports` field (`#components/*`) 사용 검토 — phase-6 todo 후보 |
+| vite 8 + React 19 + Tailwind 4 + base-ui + react-router 7 stack 통합 PASS, 빌드 시간 < 200ms | studio source 가 다른 패키지 컨텍스트에서 contextual type 손실 (`(next) => ...` 의 implicit any) — explicit `(next: boolean)` 으로 명시 (S3-WALK) | TS strict mode + cross-package usage 시 contextual type 보전 가이드라인 정립 |
+| TDD Red/Green 패턴 + One Task = One Commit 모두 phase-5 4 spec 에서 엄격 준수 (phase-4 W4 부채 absorb) | 자동 visual regression 미도입 — Paper PNG ↔ React PNG 비교는 사람 눈만 (S3-WALK §발견 9~10) | Playwright + paper-mcp screenshot 으로 자동화 평가 (phase-6) |
+| `pnpm -r build` / `pnpm -r test` 단일 명령으로 monorepo 전체 검증 — studio 115 + app-a 5 + app-b 5 (S4-WALK §3.1) | Paper MCP `get_screenshot` 이 base64 응답 — 디스크 저장 ad-hoc (S3-WALK §발견) | paper-mcp 자체 개선 또는 wrapper 유틸 — phase-6 todo |
+
+### 1.2 Token (DTCG + style-dictionary 5 + CSS 변수)
+
+| 잘된 점 | 깨진 점 | 다음 액션 |
+|---|---|---|
+| `tokens.json` (DTCG) → style-dictionary → `_tokens.css` → React `@theme inline` 자동 파이프라인 구축 (S3-WALK Task 5, S4-WALK Task 3) | Paper ↔ tokens.json 양방향 동기화 부재 — 디자이너가 hex 손으로 옮겨 적음 (회고 자체 발견) | paper-tokens-sync 도구 평가 — phase-6 todo (ROI 큼) |
+| `pnpm --filter app-X tokens` 1 명령으로 토큰 변경 즉시 반영 — color-only 변경으로 새 제품 부팅 검증 (S4-REUSE §3.3) | Sidebar `w-56` (224px) vs Paper 240px — 16px magic number, 토큰화 안 됨 (S3-WALK §발견) | studio Sidebar width 토큰화 (`--sidebar-width`) — phase-6 todo |
+| 50 토큰 중 13 만 변경 (color 만, 26%) 으로 다른 브랜드 부팅 — radius/spacing/font/elevation 100% 보존 (S4-REUSE §3) | `bg-background` 가 `#FFFFFF` 인데 Paper 는 page ground `#F8FAFC` (surface-alt) — 토큰 매핑 미흡 (S3-WALK §발견) | `body { @apply bg-surface-alt }` 매핑 — phase-6 todo |
+| `--radius-sm` 자체 참조 같은 사용처 없는 dead code 는 있으나 빌드 영향 없음 (Task 3 검증) | DESIGN.md → tokens.json 수동 transcribe — hex / size / shadow 모두 손으로 (F-02, F-08) | `paper-normalizer` 라이브러리 단독 spec 으로 promote (F-08) — phase-6 P1 |
+
+### 1.3 Page Template (12 composites + 3 templates + texts props)
+
+| 잘된 점 | 깨진 점 | 다음 액션 |
+|---|---|---|
+| `texts` props pattern 으로 i18n 격리 — 컴포넌트 코드 변경 0 으로 한국어/영어 모두 가능 (S4-WALK §3.4) | studio MyPage / SettingsPage 의 `appName = "TaskFlow"` 기본값 hardcode 2 건 (S4-REUSE §2) | default 제거 → required prop 으로 강제 (phase-6 P1) |
+| 12 composites + 3 templates (LoginPage / SignupPage / DashboardPage / MyPage / SettingsPage / ErrorPage) Phase 2 산출물 그대로 재활용 | DashboardPage `ActivityRowData` 의 의미 모델 drift — user/action (Phase 2) vs task/assignee (DESIGN.md, app-a/b) (S3-WALK §발견 + S3-VIS) | `ActivityRowData` 의미 정합 또는 generic 4-column 으로 명시 (phase-6) |
+| spec-5-04 의 169 LOC (App.tsx/main.tsx/useTexts/login/signup/error) 가 app-a/b 사이 사실상 동일 — 추출 가능 신호 (S4-REUSE §1.2) | `SocialAuthBlock` 4 props 인터페이스가 앱 별 provider 셋 표현에 어색 — `providers: Array<{provider, label}>` 가 더 generic (S3-WALK §발견) | SocialAuthBlock providers 배열 patterned API — phase-6 |
+| ErrorPage / SettingsPage / MyPage 신규 추가 (spec-5-03) — 기존 4 페이지에서 부족한 form-heavy 컴포넌트 자극 | DESIGN.md §12 Composite 9 종 미정의 (BrandPanel / ProfileChip / DangerZone 등) — F-09 (S2-FIND) | DESIGN.md §12 보강 또는 schema 자체 개선 (phase-6) |
+
+### 1.4 Blueprint (DESIGN.md SSOT + REQUIREMENTS.md)
+
+| 잘된 점 | 깨진 점 | 다음 액션 |
+|---|---|---|
+| DESIGN.md 14 섹션 schema (visual-theme / color / typography / spacing / radius / shadow / icon / motion / state / page-map / page-spec / composite / token-map / i18n-key) 가 안정적으로 유지됨 (S1-WALK) | DESIGN.md placeholder 가 Blueprint 출력만으로는 채워지지 않음 — 50%+ placeholder 가 디자인 도구 추출에 의존 (F-02) | DESIGN.md 를 `DESIGN.intent.md` + `DESIGN.visual.md` 로 분할 검토 (phase-6) |
+| REQUIREMENTS.md 의 페이지 카탈로그 + Template 매핑이 spec-5-03 React 구현 단계 입력으로 즉시 활용됨 | `route` / `layout` 기본값 규칙은 있으나 출력 YAML 키 부재 — fail-fast 와 충돌 (F-03) | Step 3 출력 YAML 에 `finalPages[].route/layout` 명시 필드 추가 (phase-6) |
+| Blueprint protocol 의 Step 1 / 1.5 / 2 / 3 모두 spec-5-01 에서 실측 (F-01 모순 발견 직후 즉시 보강) | spec.md 가 protocol Step 1.5 (NFR) 누락 — F-01 (S2-FIND) | spec 템플릿에 protocol 단계 체크리스트 추가 (phase-6) |
+| DESIGN.md §14 i18n 키 모델 — page.section.element.property hierarchy 가 73 키 1:1 영/한 매핑에 충분 (S4-REUSE §4) | i18n 키 모델이 flat 카피 — 추출 결과 70+ 새 키 (helper / value / action) 발견, 4-part hierarchy 로 확장 필요 — F-10 | i18n schema 4-part `{page}.{section}.{element}.{slot}` 확장 (phase-6) |
+
+### 1.5 협업 Flow (Paper MCP + DESIGN.md + AI 에이전트)
+
+| 잘된 점 | 깨진 점 | 다음 액션 |
+|---|---|---|
+| Paper artboard 5 페이지 작성 → design-extract MD 5 본 추출 → DESIGN.md TODO 채우기 → React 구현 4 단계 사이클 완주 (S2-WALK + S3-WALK) | Paper ↔ tokens 단방향 — tokens.json 변경 시 Paper artboard 자동 갱신 안 됨 (회고 자체 발견) | paper-tokens-sync 또는 Paper Variable 자동 업데이트 평가 (phase-6 P1 후보) |
+| Paper → DESIGN.md → tokens.json → React 의 단방향 흐름은 자동화 잘 됨 (style-dictionary 부분만 자동, 나머지는 사람) | Paper 시안 ↔ DESIGN.md 사이 표기 정규화 (hex alpha / padding / lineHeight / font fallback / border) ad-hoc — F-08 | `paper-normalizer` 라이브러리 단독 spec — phase-6 P1 |
+| 의도 보존 사이클 검증 — Designer 가 직접 그린 Settings 페이지 → AI 추출 → DESIGN.md 보강 → React 구현 (drift 측정 가능) (S2-WALK + S2-DRIFT) | Phase 2 Template 의 PoC 재사용/복제 정책 부재 — F-07 (S2-FIND) | phase-5.md / phase-6.md 에 Template 활용 정책 명시 |
+| Phase 4 의 6 단계 프로토콜 중 Stage 3 Blueprint / Stage 4 Compose 는 PoC 에 흡수 측정 (P4-DEBT W2 partial) | Stage 5 (review) / Stage 6 (handoff) 는 미측정 — phase-4 W2 부채 부분 잔존 | phase-6 또는 phase-7 에서 Stage 5/6 측정 spec 검토 |
 
 ---
 
