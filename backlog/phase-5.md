@@ -45,7 +45,7 @@ Phase 1~4에서 Foundation, Page Template, Blueprint, 협업 Flow가 완성되�
 | `spec-5-02` | app-a-paper-design | P1 | Merged | `specs/spec-5-02-app-a-paper-design/` |
 | `spec-5-03` | app-a-react-impl | P? | Merged | `specs/spec-5-03-app-a-react-impl/` |
 | `spec-5-04` | app-b-reusability | P? | Merged | `specs/spec-5-04-app-b-reusability/` |
-| `spec-5-05` | pipeline-retro | P2 | Backlog | (예정) |
+| `spec-5-05` | pipeline-retro | P? | Active | `specs/spec-5-05-pipeline-retro/` |
 <!-- sdd:specs:end -->
 
 > **재구성 이력 (2026-04-26)**: 원안 spec-5-001 (앱 A 전 과정) 을 단일 PR 단위로 분할.
