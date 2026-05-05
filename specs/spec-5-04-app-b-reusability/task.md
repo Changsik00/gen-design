@@ -40,26 +40,26 @@
 
 ## Task 3: tokens.json (emerald + amber)
 
-- [ ] `poc/app-b/tokens.json` — color 만 변경 (primary emerald, accent amber). 나머지 동일
-- [ ] `pnpm --filter app-b tokens` PASS
-- [ ] Commit: `feat(spec-5-04): write tokens.json for app-b (emerald + amber)`
+- [x] `poc/app-b/tokens.json` — color 만 변경 (primary emerald, accent amber). 나머지 동일
+- [x] `pnpm --filter app-b tokens` PASS
+- [x] Commit: `feat(spec-5-04): write tokens.json for app-b (emerald + amber)`
 
 ---
 
 ## Task 4: i18n/ko.json (한국어 번역)
 
-- [ ] `poc/app-b/i18n/ko.json` — DESIGN.md §14 의 60+ 키 모두 한국어
-- [ ] en.json 과 키 1:1 정합
-- [ ] Commit: `feat(spec-5-04): write i18n/ko.json for app-b`
+- [x] `poc/app-b/i18n/ko.json` — DESIGN.md §14 의 60+ 키 모두 한국어 (73 개)
+- [x] en.json 과 키 1:1 정합
+- [x] Commit: `feat(spec-5-04): write i18n/ko.json for app-b`
 
 ---
 
 ## Task 5: 페이지 + 라우팅 (app-a 복제)
 
-- [ ] `poc/app-b/src/hooks/useTexts.ts` — i18n source 를 ko.json 으로
-- [ ] `poc/app-b/src/pages/*.tsx` (6 종) — app-a 복제 + mock 한국어로
-- [ ] `poc/app-b/src/App.tsx` — 동일 6 라우트
-- [ ] Commit: `feat(spec-5-04): wire 6 pages from app-a with ko mocks`
+- [x] `poc/app-b/src/hooks/useTexts.ts` — i18n source 를 ko.json 으로
+- [x] `poc/app-b/src/pages/*.tsx` (6 종) — app-a 복제 + mock 한국어로
+- [x] `poc/app-b/src/App.tsx` — 동일 6 라우트
+- [x] Commit: `feat(spec-5-04): wire 6 pages from app-a with ko mocks`
 
 ---
 
@@ -67,32 +67,32 @@
 
 ### 6-1. routes test
 
-- [ ] `poc/app-b/src/__tests__/routes.test.tsx` — 한국어 텍스트 검증
-- [ ] `pnpm --filter app-b test` PASS
-- [ ] Commit: `test(spec-5-04): add routes smoke test for app-b in korean`
+- [x] `poc/app-b/src/__tests__/routes.test.tsx` — 한국어 텍스트 검증
+- [x] `pnpm --filter app-b test` PASS (5/5)
+- [x] Commit: `test(spec-5-04): add routes smoke test for app-b in korean`
 
 ### 6-2. 빌드 검증
 
-- [ ] `pnpm -r build` PASS (3 패키지)
-- [ ] `pnpm -r test` PASS
-- [ ] Commit: 없음 (검증만)
+- [x] `pnpm -r build` PASS (3 패키지)
+- [x] `pnpm -r test` PASS (studio 115 + app-a 5 + app-b 5)
+- [x] Commit: 없음 (검증만)
 
 ---
 
 ## Task 7: reuse-report.md (LOC 측정)
 
-- [ ] `find` + `wc -l` 으로 studio / app-a / app-b LOC 측정
-- [ ] 공유 비율 계산, 80%+ 충족 여부
-- [ ] 발견 hardcode 목록
-- [ ] `poc/app-b/reuse-report.md` 작성
-- [ ] Commit: `docs(spec-5-04): write reuse report with LOC measurement`
+- [x] `find` + `wc -l` 으로 studio / app-a / app-b LOC 측정
+- [x] 공유 비율 계산, 80%+ 충족 (코드만 87.1% / 데이터 포함 79.8%)
+- [x] 발견 hardcode 목록 (2 건)
+- [x] `poc/app-b/reuse-report.md` 작성
+- [x] Commit: `docs(spec-5-04): write reuse report with LOC measurement`
 
 ---
 
 ## Task 8: Ship
 
-- [ ] `pnpm -r {build,test}` PASS
-- [ ] **walkthrough.md** + **pr_description.md** 작성
+- [x] `pnpm -r {build,test}` PASS
+- [x] **walkthrough.md** + **pr_description.md** 작성
 - [ ] Ship commit
 - [ ] Push (사용자 confirm 1 회)
 - [ ] `gh pr create --base main`
