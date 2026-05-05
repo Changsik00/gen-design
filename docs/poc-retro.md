@@ -101,8 +101,10 @@
 
 | # | 출처 | 분류 | 위치 | 영향 | 권장 액션 | 우선순위 (근거) |
 |---|---|---|---|---|---|---|
-| **C-01** | S4-REUSE §2 | hardcode | `studio/src/components/templates/MyPage/index.tsx:23` `appName = "TaskFlow"` | app-b 가 prop 누락 시 사이드바에 "TaskFlow" 누수 | default 제거 → required prop | **P1** (다른 제품 누수 즉발 위험) |
-| **C-02** | S4-REUSE §2 | hardcode | `studio/src/components/templates/SettingsPage/index.tsx:34` `appName = "TaskFlow"` | C-01 과 동일 (SettingsPage 사이드바) | C-01 과 동일 | **P1** (C-01 과 한 spec 으로 묶음) |
+| **C-01a** | S4-REUSE §2 | hardcode | `studio/src/components/templates/MyPage/index.tsx:23` `appName = "TaskFlow"` | app-b 가 prop 누락 시 사이드바에 "TaskFlow" 누수 | default 제거 → required prop | **P1** (다른 제품 누수 즉발 위험) |
+| **C-01b** | S4-REUSE §2 | hardcode | `studio/src/components/templates/SettingsPage/index.tsx:34` `appName = "TaskFlow"` | C-01a 와 동일 (SettingsPage 사이드바) | C-01a 와 동일 | **P1** (C-01a 와 한 spec 으로 묶음) |
+| **C-01c** | 감사 보고 (2026-05-05) | hardcode | `studio/src/components/templates/DashboardPage/index.tsx:15` `appName = "Admin"` | DashboardPage 가 prop 미수신 시 "Admin" 누수 — *다른 default 값* 이라 C-01a/b 와 별개 위험 | default 제거 → required prop | **P1** (회고가 식별 못한 누수, TaskFlow 만 grep 한 결과) |
+| **C-01d** | 감사 보고 (2026-05-05) | hardcode | `studio/src/components/templates/VariantWrapper.tsx:20` `triggerLabel = "Open"` | VariantWrapper 가 prop 미수신 시 영문 "Open" 노출 — i18n 격리 깨짐 | default 제거 → required prop, 또는 `texts.openLabel` 로 i18n 합류 | **P1** (i18n 격리 가설 위반 케이스) |
 | **C-03** | S4-REUSE §1.2 / §1.3 | duplication | `poc/app-a/src/{App,main}.tsx`, `useTexts.ts`, `pages/{login,signup,error}.tsx` 와 `poc/app-b/` 의 동일 위치 — 169 LOC 사실상 동일 | 새 앱 추가 시 169 LOC 복제 의무 — N 앱이면 169 × N | shared template 또는 codegen 추출 — ROI 평가 후 결정 | **P2** (현재 N=2, ROI 모호; N=3 시 재평가) |
 | **C-04** | S3-WALK §발견 / S3-VIS | drift | `studio/src/components/molecules/ActivityTable/types.ts` 의 `ActivityRowData` (user/action/status/time) vs `poc/app-a/DESIGN.md §14` (task/assignee/status/updated) | 같은 4-column 구조의 의미 모델 차이 — 데이터 매핑 시 매번 인지 부담 | generic 4-column 으로 명시 + 의미는 앱별 i18n 라벨에 위임 | **P2** (운영 영향 작지만 학습 곡선) |
 | **C-05** | S3-WALK §발견 | hardcode | `studio/src/components/composites/Sidebar/index.tsx:13` `w-56` (224px) vs Paper 240px | 16 px magic number — 토큰 미적용 | `--sidebar-width` 토큰 또는 prop | **P3** (시각 영향 작음) |
@@ -118,21 +120,23 @@
 
 | 분류 | 개수 | 항목 |
 |---|---:|---|
-| hardcode | 4 | C-01, C-02, C-05, C-06 |
+| hardcode | 6 | C-01a, C-01b, C-01c, C-01d, C-05, C-06 |
 | duplication | 1 | C-03 |
 | drift | 1 | C-04 |
 | gap (schema/protocol) | 4 | C-08, C-09, C-10, C-11 |
 | gap (도구/자동화) | 2 | C-07, C-12 |
-| **합계** | **12** | |
+| **합계** | **14** | |
 
 ### 2.3 우선순위 분포
 
 | 우선순위 | 개수 | 항목 |
 |---|---:|---|
-| **P1** | 5 | C-01, C-02, C-07, C-10, C-12 |
+| **P1** | 7 | C-01a, C-01b, C-01c, C-01d, C-07, C-10, C-12 |
 | **P2** | 4 | C-03, C-04, C-08, C-09 |
 | **P3** | 3 | C-05, C-06, C-11 |
-| **합계** | **12** | |
+| **합계** | **14** | |
+
+> **갱신 이력**: 2026-05-05 비판적 감사 결과 hardcode 가 2 건 (C-01/02) → 4 건 (C-01a/b/c/d) 으로 확장. DashboardPage `appName="Admin"` (다른 default 값) + VariantWrapper `triggerLabel="Open"` (영문 default, i18n 격리 위반) 추가 발견. 회고 작성 시 "TaskFlow" 만 grep 하고 끝낸 결과의 누락 — 향후 회고 spec 에 "studio default literal 전수 grep" 의무 항목 추가 권장.
 
 > P1 의 공통 특징: (a) 다른 제품/사용자에게 즉시 누수, (b) phase-6 자동화의 입력 또는 (c) 디자이너 작업 비용 직격.
 > P3 는 시각/구조 영향이 작거나 현재 우회 동작 — 다음 phase 입력 정도.
