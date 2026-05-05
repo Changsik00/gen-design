@@ -141,9 +141,118 @@
 
 ## §3. Phase-6 todo 리스트
 
-> §2 의 권장 액션을 phase-6 단위 작업으로 묶고 ROI 추정.
+> §2 의 12 항목을 phase-6 단위 작업으로 묶고 ROI 추정.
+> 각 todo 의 우선순위는 본 spec 의 *권장* — 최종 확정은 phase-6 alignment 시 사용자 결정.
 
-(Task 4 에서 채움)
+### 3.1 todo 일람
+
+#### **TODO-01: Studio API 정합화 (hardcode 제거 + drift 정리)**
+
+- **포함 카탈로그 항목**: C-01, C-02, C-05, C-06 (4 hardcode)
+- **동기**: studio 가 "다른 제품에 누수 없이 재사용 가능" 한 라이브러리가 되려면 모든 product-specific default 제거 필요. C-01/02 는 phase-6 시작 직후 즉시 해결되어야 함 (다음 PoC 가 또 다른 누수 발견하기 전에).
+- **예상 산출물**: studio MyPage / SettingsPage 의 `appName` required, Sidebar `--sidebar-width` 토큰화, app-a body bg `surface-alt` 매핑
+- **예상 spec 수**: 1 spec
+- **의존성**: 없음 (즉시 시작 가능)
+- **ROI 권장 우선순위**: **P1** — 변경 폭 작고, 다른 P1 자동화 (TODO-02/03) 의 전제 조건
+
+#### **TODO-02: paper-normalizer 라이브러리 단독 spec**
+
+- **포함 카탈로그 항목**: C-07 (F-08)
+- **동기**: phase-6 의 자동 코드 생성에서 모든 Paper → React 변환이 동일 규칙으로 동작하려면 단일 함수 라이브러리 필수. F-08 의 5 카테고리 (`normalizeHexAlpha`, `normalizePadding`, `normalizeLineHeight`, `normalizeFontFallback`, `normalizeBorder`) 가 시드.
+- **예상 산출물**: `studio/src/lib/paper-normalizer/` (5+ 함수 + 단위 테스트), spec-5-02 의 design-extract 5 파일을 회귀 fixture 로
+- **예상 spec 수**: 1 spec
+- **의존성**: 없음 (입력 fixture 는 spec-5-02 산출물이 이미 있음)
+- **ROI 권장 우선순위**: **P1** — phase-6 의 다른 자동화 (TODO-04, TODO-05) 의 빌딩 블록
+
+#### **TODO-03: Paper ↔ tokens 자동 동기화 평가**
+
+- **포함 카탈로그 항목**: C-12 (단방향성 + screenshot 도구 한계)
+- **동기**: 현재 tokens.json → React 만 자동, Paper 시안은 수동 갱신. 새 브랜드 / 토큰 변경 시 디자이너 비용 직격 (회고 §1.5). 평가 결과에 따라 phase-7 으로 미룰 수 있음.
+- **예상 산출물**: 평가 보고서 (`docs/paper-tokens-sync-eval.md`) — Paper Variable API 실용성 + tokens.json → Paper 동기화 가능성. 가능하면 PoC 도구 1 개 작성.
+- **예상 spec 수**: 1 spec (평가만) 또는 2 spec (평가 + PoC)
+- **의존성**: TODO-02 (paper-normalizer) 가 일부 사용 가능 — 토큰 표기 정규화 공유
+- **ROI 권장 우선순위**: **P1** — 디자이너 비용 직격, phase-7 의 협업 자동화 핵심
+
+#### **TODO-04: Blueprint protocol 정합화**
+
+- **포함 카탈로그 항목**: C-10 (F-01 ~ F-07)
+- **동기**: 7 개 protocol gap (NFR 누락 / placeholder mismatch / route 기본값 / status 어휘 / optional 빈 배열 / Template 이름 유추 / Phase 2 활용 정책) 모두 다음 Blueprint 작성 시 ad-hoc 결정 부담. 한 번에 정합 처리.
+- **예상 산출물**: `schema/blueprint-protocol.md` 개정 v2, `templates/*.template` 갱신, 새 Blueprint 작성 가이드
+- **예상 spec 수**: 1 ~ 2 spec (schema + template 개정)
+- **의존성**: 없음 (다음 PoC 또는 production app 작성 전에 완료되어야 가치)
+- **ROI 권장 우선순위**: **P1** — 다음 모든 Blueprint 작성에 효과 누적
+
+#### **TODO-05: DESIGN.md schema 보강 (§12 Composite + §14 i18n 4-part)**
+
+- **포함 카탈로그 항목**: C-08, C-09 (F-09, F-10)
+- **동기**: §12 Composite 9 종 미정의 → React 구현 시 ad-hoc 컴포넌트 / §14 flat i18n → 슬롯 매핑 인적 부담. 두 schema 변경은 모두 DESIGN.md 본문 영향이 커서 묶어 처리.
+- **예상 산출물**: `templates/DESIGN.md.template` v2, 9 종 Composite 정의 부록, i18n slot enum
+- **예상 spec 수**: 1 spec
+- **의존성**: TODO-04 와 일부 중첩 (template 개정) — 함께 또는 직후
+- **ROI 권장 우선순위**: **P2** — 영향은 크나 즉발 위험 없음 (현재 ad-hoc 으로 동작)
+
+#### **TODO-06: studio API 모듈 경계 (Node imports field)**
+
+- **포함 카탈로그 항목**: C-11
+- **동기**: studio `@/` self-reference 가 across-package import 에 약함. 현재 vite alias array regex 로 우회 가능하나 이상적이지 않음. 새 PoC 추가 시 동일 우회 반복 부담.
+- **예상 산출물**: `studio/package.json` `imports` field 추가, alias 우회 코드 제거, 가이드 갱신
+- **예상 spec 수**: 1 spec
+- **의존성**: TODO-01 과 함께 처리 가능 (studio 변경)
+- **ROI 권장 우선순위**: **P3** — 현재 우회 동작, 마이그레이션 비용 있음. TODO-01 묶을 때만 P2 격상
+
+#### **TODO-07: 169 LOC 중복 ROI 평가**
+
+- **포함 카탈로그 항목**: C-03
+- **동기**: app-a/b 의 169 LOC 동일 — 추출 가치 / 비용 평가. 현재 N=2 라 ROI 모호하나, N=3 시 506 LOC 가 됨. 평가만 본 todo 에서, 추출 자체는 결과에 따라.
+- **예상 산출물**: `docs/duplication-roi-eval.md` 또는 phase-6 의 spec 형태로
+- **예상 spec 수**: 1 spec (평가 + 권장)
+- **의존성**: TODO-01 (`appName` required) 완료 후 — required prop 패턴이 추출 가능 형태에 영향
+- **ROI 권장 우선순위**: **P2** — 즉발 위험 없으나 N 증가 시 부담 가중
+
+#### **TODO-08: Phase 4 W2/A4 잔여 측정**
+
+- **포함 카탈로그 항목**: 없음 (phase-4 부채 §4 평결 결과 입력)
+- **동기**: phase-4 W2 의 Stage 5/6 (review/handoff) 미측정 + A4 critique 미실행 잔존. phase-6 또는 phase-7 에서 측정 spec 으로 처리.
+- **예상 산출물**: phase-6 또는 phase-7 의 1 spec (측정 보고서)
+- **예상 spec 수**: 0 (이번 phase-6 가 아닌 후속 phase) — 본 todo 는 *기록* 용
+- **의존성**: phase-6 의 협업 자동화 (TODO-03 등) 완료 후
+- **ROI 권장 우선순위**: **P3** — phase-7 후보로 보존
+
+### 3.2 의존 관계 그래프
+
+```mermaid
+flowchart TB
+  T01[TODO-01<br/>Studio API 정합화<br/>P1]
+  T02[TODO-02<br/>paper-normalizer<br/>P1]
+  T03[TODO-03<br/>Paper ↔ tokens 동기화<br/>P1]
+  T04[TODO-04<br/>Blueprint protocol 정합화<br/>P1]
+  T05[TODO-05<br/>DESIGN.md schema 보강<br/>P2]
+  T06[TODO-06<br/>imports field<br/>P3]
+  T07[TODO-07<br/>169 LOC ROI 평가<br/>P2]
+  T08[TODO-08<br/>Phase 4 W2/A4 잔여<br/>P3 / phase-7]
+
+  T01 --> T07
+  T01 -. 묶음 가능 .-> T06
+  T02 --> T03
+  T04 --> T05
+  T03 -. phase-7 까지 미룰 수 있음 .-> T08
+```
+
+### 3.3 phase-6 권장 진행 순서
+
+**1 차 라운드 (P1 묶음, 약 4 spec)**:
+1. TODO-01 (studio API 정합화) — 즉시
+2. TODO-02 (paper-normalizer) — TODO-01 과 병렬 가능
+3. TODO-04 (Blueprint protocol) — TODO-02 와 병렬 가능
+4. TODO-03 (Paper ↔ tokens 동기화 평가) — TODO-02 산출물 활용
+
+**2 차 라운드 (P2, 1~2 spec)**:
+5. TODO-05 (DESIGN.md schema) — TODO-04 직후
+6. TODO-07 (169 LOC ROI) — TODO-01 직후
+
+**phase-7 보존 (P3)**:
+7. TODO-06 (imports field) — TODO-01 묶음 시 동시 처리 가능
+8. TODO-08 (W2/A4 잔여) — phase-7
 
 ---
 
