@@ -36,6 +36,7 @@ export function SettingsRoute() {
     <SettingsPage
       variant="page"
       texts={getSettingsTexts()}
+      appName="플로우데스크"
       navItems={getNavItems()}
       notifications={notifications}
       theme={theme}

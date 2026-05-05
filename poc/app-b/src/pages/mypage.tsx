@@ -21,6 +21,7 @@ export function MyPageRoute() {
     <MyPage
       variant="page"
       texts={getMyPageTexts()}
+      appName="플로우데스크"
       profile={profile}
       summary={summary}
       navItems={getNavItems()}
