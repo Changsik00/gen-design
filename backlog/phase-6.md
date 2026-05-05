@@ -12,7 +12,7 @@
 | **시작일** | TBD |
 | **목표 종료일** | TBD |
 | **소유자** | Dennis |
-| **Base Branch** | 없음 |
+| **Base Branch** | `phase-6-studio-v1` (phase-6 부터 base branch 모드 회귀 — 사용자 메모리 `feedback_phase_branch.md` 정책) |
 
 ## 🎯 배경 및 목표
 
@@ -26,11 +26,28 @@ Blueprint 질의서, DESIGN.md 편집, 디자인 토큰 편집, 미리보기 기
 
 ### 성공 기준 (Success Criteria) — 정량 우선
 
+> **2 트랙 구성**: phase-5 회고 (`docs/poc-retro.md` §3) 의 P1 todo 4 건이 Studio 웹앱의 *전제 조건* 으로 식별됨. 두 트랙은 phase-6 alignment 시 우선순위 / 직렬화 결정.
+
+#### Track A — Studio 웹앱 (원안)
+
 1. Blueprint 질의서 UI — 질문→응답→REQUIREMENTS.md 생성
 2. DESIGN.md 편집 UI — Schema 섹션별 폼 입력 + 마크다운 미리보기
 3. 디자인 토큰 편집기 — 색상 피커, 타이포 설정, 실시간 미리보기
 4. Studio UI가 자체 컴포넌트 라이브러리로 구성 (dogfooding 비율 90%+)
 5. 산출물 내보내기: DESIGN.md + REQUIREMENTS.md + AGENT.md + assets/ 번들
+
+#### Track B — phase-5 회고 P1 정합 (전제 조건)
+
+> 출처: `docs/poc-retro.md` §3.3 권장 1 차 라운드 + 2026-05-05 비판적 감사
+
+6. **Studio API 정합화** (TODO-01 + 감사 A2): hardcode 4 건 제거 + Sidebar/body bg 토큰 매핑 — DashboardPage `appName="Admin"`, MyPage `appName="TaskFlow"`, SettingsPage `appName="TaskFlow"`, VariantWrapper `triggerLabel="Open"` 모두 default 제거 → required prop 또는 `texts.*` 합류
+7. **paper-normalizer 라이브러리** (TODO-02 / F-08): 5 카테고리 정규화 함수 (`normalizeHexAlpha` / `normalizePadding` / `normalizeLineHeight` / `normalizeFontFallback` / `normalizeBorder`) — `studio/src/lib/paper-normalizer/`
+8. **Blueprint protocol 정합화** (TODO-04 / F-01~F-07): NFR 누락, placeholder mismatch, route/layout 기본값, status 어휘, optional 빈 배열 등 7 gap 일괄 처리
+9. **Paper ↔ tokens 자동 동기화 평가** (TODO-03 / C-12): tokens.json → Paper 자동 적용 + Paper screenshot 도구 wrapper. 평가 결과 따라 phase-6 내 PoC 또는 phase-7 보존
+
+#### Track C — 시각 회귀 자동화 (감사 W3)
+
+10. **Playwright + Paper screenshot 자동 visual regression**: phase-5 의 시각 일치도 측정 정의 (5/6 ⚠️ 부분일치인데 PASS 처리) 의 객관화. 회귀 자동화 자체가 다른 모든 Track 의 검증 토대 — phase-6 alignment 시 우선순위 재고 후보
 
 ## 🧩 작업 단위 (SPECs)
 
