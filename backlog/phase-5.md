@@ -8,7 +8,7 @@
 | 항목 | 값 |
 |---|---|
 | **Phase ID** | `phase-5` |
-| **상태** | Planning |
+| **상태** | Done (2026-05-05) |
 | **시작일** | TBD |
 | **목표 종료일** | TBD |
 | **소유자** | Dennis |
@@ -123,9 +123,55 @@ Phase 1~4에서 Foundation, Page Template, Blueprint, 협업 Flow가 완성되�
 
 ## 🏁 Phase Done 조건
 
-- [ ] 모든 SPEC 이 merge
-- [ ] 통합 테스트 전 시나리오 PASS
-- [ ] 성공 기준 정량 측정 결과
-- [ ] 사용자 최종 승인
+- [x] 모든 SPEC 이 merge — 5/5 (spec-5-01 PR #19 / 5-02 PR #21 / 5-03 PR #22 / 5-04 PR #23 / 5-05 PR #24)
+- [x] 통합 테스트 전 시나리오 PASS — 시나리오 1 (앱 A E2E): spec-5-01~03 전 과정 완주, 시나리오 2 (토큰 교체 재사용): spec-5-04 검증
+- [x] 성공 기준 정량 측정 결과 — `poc/app-b/reuse-report.md` (87.1% 코드 재사용, 토큰 26% 변경, i18n 73 키 1:1)
+- [x] 사용자 최종 승인 — 2026-05-05 (PR #24 머지 + `sdd phase done 5` 사용자 confirm)
 
 ## 📊 검증 결과 (phase 완료 시 작성)
+
+### Success Criteria 검증
+
+| # | 기준 | 결과 | 증거 |
+|:---:|---|:---:|---|
+| 1 | 앱 A: Blueprint → DESIGN.md → Paper 시안 → React 코드 전 과정 완료 | ✅ | `poc/app-a/{REQUIREMENTS,DESIGN,AGENT}.md`, `poc/app-a/design-extract/*.md` (5), `poc/app-a/src/` (6 라우트) |
+| 2 | 앱 B: 동일 구조 + 토큰/i18n 만 교체로 다른 브랜딩·언어 렌더링 | ✅ | `poc/app-b/` (FlowDesk / 플로우데스크), `poc/app-b/reuse-report.md` §3 |
+| 3 | 앱 A↔B 공유 코드 비율 80%+ | ✅ | `poc/app-b/reuse-report.md` §1.3 — 코드만 87.1% / 데이터 포함 79.8% |
+| 4 | 디자인 시안 ↔ React 시각 일치도 검증 | ⚠️ PASS (제한적) | `poc/app-a/visual-comparison.md` — 6 페이지 중 5 페이지 ⚠️ 부분일치 (Sidebar 16px / page bg / brand panel / MyPage 2col→1col / SettingsGroup Card wrapper drift). 자동 visual regression 부재. **phase-6 의 측정 정의 객관화 필요** |
+| 5 | 협업 Flow 전 단계 실행 완료 (디자인→추출→생성→리뷰→수정→승인) | ⚠️ partial | Stage 3 (Blueprint, spec-5-01) + Stage 4 (Compose, spec-5-02/03) 흡수 측정. Stage 5 (review) / Stage 6 (handoff) 미측정 → phase-7 보존 (`docs/poc-retro.md` §4.4) |
+| 6 | 파이프라인 개선 포인트 목록 작성 (→ Phase 6 입력) | ✅ | `docs/poc-retro.md` §3 — 8 todo (TODO-01~08) + ROI 우선순위 |
+
+### 통합 테스트 시나리오 결과
+
+| # | 시나리오 | 결과 | 증거 |
+|:---:|---|:---:|---|
+| 1 | 앱 A End-to-End (Blueprint 응답 → DESIGN.md → Paper → React) | ✅ PASS | spec-5-01 ~ spec-5-03 모두 Merged. studio 115 + app-a 5 tests PASS. visual-comparison 정성 표 작성 |
+| 2 | 토큰 교체 재사용 (앱 A 코드 → tokens.json + i18n JSON 교체 → 앱 B) | ✅ PASS | spec-5-04 Merged. `poc/app-b/` 6 라우트 모두 한국어 + emerald primary 렌더링. studio 코드 변경 0 |
+
+### Stats
+
+- **Files changed**: 145 (5 spec 누적)
+- **Lines**: +12,500 / -800 (대부분 신규 — studio 컴포넌트 12, app-a/b 페이지 12, design-extract 5, 회고 1)
+- **Test suites**: 32 (studio 30 + app-a 1 + app-b 1) — 125 checks total (115 + 5 + 5)
+- **Specs**: 5 / 5 완료, 0 이연
+- **Commits to main (first-parent)**: 11 (5 spec PR merges + 6 chore syncs)
+
+### 회고 / Follow-up
+
+전체 회고: `docs/poc-retro.md` (357 줄, 4 섹션 + 인용 인덱스)
+- §2 카탈로그 12 항목 (P1 5 / P2 4 / P3 3)
+- §3 phase-6 todo 8 개 (TODO-01 ~ TODO-08)
+- §4 phase-4 부채 평결 (W4/C4 absorbed, W2 partial, A4 open)
+
+추가 비판적 감사 (2026-05-05, 독립 Opus 감사자): Critical 6 + Warning 8 + Blind Spot 10 발견. 주요 결과:
+- 회고 카탈로그의 hardcode 가 2 건이 아니라 **4 건** (DashboardPage `appName="Admin"`, VariantWrapper `triggerLabel="Open"` 추가)
+- F-09 (DESIGN.md §12 9 composite) 가 spec-5-03 첫 task 약속이었으나 *조용히 누락* → DESIGN.md §12 가 SSOT 역할 부분 실패
+- spec-5-05 자체가 §5.3 (Premature Execution) Zero Tolerance 위반의 산물 (본문 7 commit 후 spec/plan/task retroactive 추가)
+- 본 phase done 직전에 phase-ship.md 템플릿 미사용 → 본 갱신으로 사후 보강
+
+Phase-6 시작 전 처리 완료 항목 (이번 갱신 시점):
+1. **A4** 본 phase-5.md Phase Done 4 체크박스 + 검증 결과 (이 commit)
+2. **A5** queue.md phase-5 행 정정 (다음 commit)
+3. **A2** docs/poc-retro.md §2 카탈로그 hardcode 4 건으로 갱신 (다음 commit)
+4. **A6** phase-6.md success criteria 갱신 (다음 commit)
+5. **A3** F-09 9 composite 누락을 phase-6 입력 메모로 명시 (다음 commit)
