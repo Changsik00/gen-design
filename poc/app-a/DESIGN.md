@@ -400,6 +400,8 @@ Page > Section > Block > Element
 
 > 추가 Composite (DashboardHeader / Sidebar / ActivityTable / ProfileHeader / ProfileInfoCard / ActivitySummary / AvatarUpload / SettingsHeader / ErrorIcon / ErrorMessage / HomeButton) 는 spec-5-03 React 구현 단계에서 정의.
 
+> ⚠️ **F-09 미해결 약속** (2026-05-05 비판적 감사 발견): spec-5-02 walkthrough §🚧 이월 항목은 다음 9 종 composite 의 본 §12 보강을 *spec-5-03 첫 task* 로 약속했으나 spec-5-03 어디에도 반영되지 않음 — DESIGN.md 가 SSOT 역할 부분 실패. 누락 9 종: **BrandPanel** (Signup 좌측 인디고 패널) / **Checkbox** (18×18, indigo bg, radius 4) / **ProfileChip** (height 22, radius 6, bg indigo-subtle) / **ProgressBar** (6px track + fill, radius 999) / **OutlineDangerButton** (white bg + red border + red text) / **AvatarUploadCard** (preview + description + actions) / **SettingsInfoRow** / **SettingsActionRow** / **DangerZone** (tinted bg + border + DangerButton). phase-6 입력으로 이관 — Track B (TODO-05 DESIGN.md schema 보강) 의 첫 작업으로 처리 필요. 출처: `poc/app-a/findings.md` F-09, `specs/spec-5-02-app-a-paper-design/walkthrough.md` §🚧, `docs/poc-retro.md` §2 C-08, 2026-05-05 감사 BS-4.
+
 ---
 
 ## 13. Token Mapping
