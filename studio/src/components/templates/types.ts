@@ -208,6 +208,7 @@ export interface SettingsOption {
 
 /** SettingsPage props */
 export interface SettingsPageProps extends BaseTemplateProps<SettingsPageTexts> {
+  appName: string;
   notifications: SettingsNotifications;
   /** 외관 */
   theme: string;

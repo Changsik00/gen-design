@@ -26,6 +26,7 @@ const texts: SettingsPageTexts = {
 
 const baseProps: SettingsPageProps = {
   variant: "page",
+  appName: "TestApp",
   texts,
   navItems: ["Home", "Tasks", "Settings"],
   notifications: { email: true, push: false, weeklyDigest: true, mentions: true },
