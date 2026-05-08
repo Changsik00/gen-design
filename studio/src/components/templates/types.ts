@@ -157,6 +157,7 @@ export interface MyPageSummaryData {
 
 /** MyPage props */
 export interface MyPageProps extends BaseTemplateProps<MyPageTexts> {
+  appName: string;
   profile: MyPageProfileData;
   summary: MyPageSummaryData;
   /** Sidebar nav items (DashboardPage 와 동일 컨셉) */
