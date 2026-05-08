@@ -5,14 +5,13 @@ import { ActivityTable } from "@/components/composites/ActivityTable";
 import type { DashboardPageProps, StatCardData, ActivityRowData } from "../types";
 
 interface DashboardPageFullProps extends DashboardPageProps {
-  appName?: string;
   stats: StatCardData[];
   activities: ActivityRowData[];
 }
 
 export function DashboardPage({
   texts,
-  appName = "Admin",
+  appName,
   stats,
   activities,
 }: DashboardPageFullProps) {

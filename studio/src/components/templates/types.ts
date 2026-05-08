@@ -115,7 +115,9 @@ export type LoginPageProps = BaseTemplateProps<LoginPageTexts>;
 export type SignupPageProps = BaseTemplateProps<SignupPageTexts>;
 
 /** DashboardPage props */
-export type DashboardPageProps = BaseTemplateProps<DashboardPageTexts>;
+export interface DashboardPageProps extends BaseTemplateProps<DashboardPageTexts> {
+  appName: string;
+}
 
 // ---------------------------------------------------------------------------
 // MyPage (DESIGN.md §11 profile-mypage)
