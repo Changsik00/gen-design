@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+- **phase-6** — Studio v1 — 1 spec — 다음: spec-6-01-studio-api-alignment
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
