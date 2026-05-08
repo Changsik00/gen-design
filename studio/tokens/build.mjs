@@ -39,6 +39,9 @@ StyleDictionary.registerTransform({
     if (parts[0] === "semantic" && parts[1] === "radius") {
       return parts.slice(2).join("-");
     }
+    if (parts[0] === "semantic" && parts[1] === "size") {
+      return parts.slice(2).join("-");
+    }
     if (parts[0] === "semantic" && parts[1] === "font") {
       return "font-" + parts.slice(2).join("-");
     }
@@ -62,7 +65,7 @@ const sdLight = new StyleDictionary({
             const p = token.path;
             return (
               p[0] === "semantic" &&
-              (p[2] === "light" || p[1] === "radius" || p[1] === "font")
+              (p[2] === "light" || p[1] === "radius" || p[1] === "size" || p[1] === "font")
             );
           },
         },
@@ -119,7 +122,7 @@ const sdBrandB = new StyleDictionary({
             const p = token.path;
             return (
               p[0] === "semantic" &&
-              (p[2] === "light" || p[1] === "radius" || p[1] === "font")
+              (p[2] === "light" || p[1] === "radius" || p[1] === "size" || p[1] === "font")
             );
           },
         },

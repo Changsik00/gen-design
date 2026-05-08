@@ -37,4 +37,11 @@ describe("Sidebar", () => {
     render(<Sidebar appName="Admin" navItems={navItems} />);
     expect(screen.getByText("Menu")).toBeInTheDocument();
   });
+
+  it("uses tokenized sidebar width (w-sidebar → --sidebar-width: 240px)", () => {
+    const { container } = render(<Sidebar appName="Admin" navItems={navItems} />);
+    const aside = container.querySelector("aside");
+    expect(aside).toBeTruthy();
+    expect(aside?.className).toContain("w-sidebar");
+  });
 });
