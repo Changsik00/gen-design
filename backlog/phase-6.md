@@ -56,35 +56,67 @@ Blueprint 질의서, DESIGN.md 편집, 디자인 토큰 편집, 미리보기 기
 |---|---|:---:|---|---|
 <!-- sdd:specs:end -->
 
-### spec-6-001 — Studio 앱 셋업 (dogfooding)
+> **순서 원칙**: Track B (전제 조건) → Track A (Studio 본체) → Track C (회귀 자동화). Track B 의 paper sync 평가 (TODO-03) 만 토큰 편집기 이후가 자연스러워 Track A 뒤로 배치.
+
+### spec-6-001 — Studio API 정합화 (Track B / TODO-01, 감사 A2)
+
+- **요점**: hardcode 4 건 제거 + Sidebar/body bg 토큰 매핑
+- **방향성**: DashboardPage `appName="Admin"`, MyPage `appName="TaskFlow"`, SettingsPage `appName="TaskFlow"`, VariantWrapper `triggerLabel="Open"` 의 default 모두 제거 → required prop 또는 `texts.*` 합류. Sidebar 와 body 배경 토큰 매핑 정리
+- **연관 모듈**: `studio/src/components/`, `studio/src/data/`
+
+### spec-6-002 — paper-normalizer 라이브러리 (Track B / TODO-02, F-08)
+
+- **요점**: Paper ↔ DESIGN.md 사이 5 카테고리 정규화 함수
+- **방향성**: `normalizeHexAlpha` (oklch↔hex, rgba↔8-hex), `normalizePadding` (단일↔paddingBlock/paddingInline), `normalizeLineHeight`, `normalizeFontFallback`, `normalizeBorder` 함수 + 단위 테스트
+- **연관 모듈**: `studio/src/lib/paper-normalizer/`
+
+### spec-6-003 — Blueprint protocol 정합화 (Track B / TODO-04, F-01~F-07)
+
+- **요점**: Blueprint 7 gap 일괄 처리
+- **방향성**: NFR 누락, placeholder mismatch, route/layout 기본값, status 어휘, optional 빈 배열 등 7 gap 을 protocol 정의에 반영. spec-6-005 (질의서 UI) 의 데이터 모델 토대
+- **연관 모듈**: `agent/blueprint/`, `studio/src/features/blueprint/`
+
+### spec-6-004 — Studio 앱 셋업 (Track A / dogfooding)
 
 - **요점**: 자체 컴포넌트 라이브러리 기반 Studio 앱 초기 구조
-- **방향성**: Phase 1에서 셋업한 프로젝트 확장. 자체 DESIGN.md 작성(dogfooding). 라우팅, 레이아웃 구성
+- **방향성**: Phase 1 에서 셋업한 프로젝트 확장. 자체 DESIGN.md 작성 (dogfooding). 라우팅, 레이아웃 구성
 - **연관 모듈**: `studio/`
 
-### spec-6-002 — Blueprint 질의서 UI
+### spec-6-005 — Blueprint 질의서 UI (Track A)
 
 - **요점**: 구조화된 질의서를 웹 폼으로 제공
-- **방향성**: Step-by-step 위저드 UI. 앱유형→페이지→variant 선택. 결과를 REQUIREMENTS.md로 내보내기
+- **방향성**: Step-by-step 위저드 UI. 앱유형 → 페이지 → variant 선택. 결과를 REQUIREMENTS.md 로 내보내기
 - **연관 모듈**: `studio/src/features/blueprint/`
 
-### spec-6-003 — DESIGN.md 편집기
+### spec-6-006 — DESIGN.md 편집기 (Track A)
 
 - **요점**: Schema 섹션별 폼 입력 + 마크다운 미리보기
-- **방향성**: 각 섹션(색상, 타이포, 컴포넌트 등)을 구조화된 폼으로 입력. 실시간 DESIGN.md 미리보기
+- **방향성**: 각 섹션 (색상, 타이포, 컴포넌트 등) 을 구조화된 폼으로 입력. 실시간 DESIGN.md 미리보기
 - **연관 모듈**: `studio/src/features/editor/`
 
-### spec-6-004 — 토큰 편집기 + 미리보기
+### spec-6-007 — 토큰 편집기 + 미리보기 (Track A)
 
 - **요점**: 디자인 토큰 시각적 편집 + 컴포넌트 실시간 미리보기
 - **방향성**: 색상 피커, 타이포 슬라이더, 간격/반경 조절. 변경 시 컴포넌트 미리보기 실시간 반영
 - **연관 모듈**: `studio/src/features/tokens/`
 
-### spec-6-005 — 산출물 내보내기
+### spec-6-008 — 산출물 내보내기 (Track A)
 
 - **요점**: 편집 결과를 프로젝트 파일 세트로 내보내기
 - **방향성**: DESIGN.md + REQUIREMENTS.md + AGENT.md + assets/ (tokens.json, i18n/, images/) ZIP 다운로드 또는 디렉토리 생성
 - **연관 모듈**: `studio/src/features/export/`
+
+### spec-6-009 — Paper ↔ tokens 자동 동기화 PoC (Track B / TODO-03, C-12)
+
+- **요점**: tokens.json → Paper 자동 적용 + Paper screenshot 도구 wrapper 평가
+- **방향성**: Research-style PoC. 동기화 가능성 측정 후 phase-7 이월 여부 결정 (Go/No-Go)
+- **연관 모듈**: `studio/src/lib/paper-sync/` (PoC), `scripts/research/`
+
+### spec-6-010 — Playwright + Paper visual regression (Track C / W3)
+
+- **요점**: 시각 회귀 자동화 파이프라인
+- **방향성**: phase-5 의 시각 일치도 측정 정의 객관화. Playwright + Paper screenshot 비교 자동화. CI 통합
+- **연관 모듈**: `studio/`, CI workflows
 
 ## 🧪 통합 테스트 시나리오 (간결)
 
