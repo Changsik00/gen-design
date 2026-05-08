@@ -73,6 +73,7 @@ flowchart LR
 ## 🚫 Out of Scope
 
 - `poc/app-a/src/index.css` 의 body 배경 (회고가 가리키는 C-06 의 다른 적용 위치) — Q3 결정 (a) 따라 studio 본체만 적용. poc/app-a 는 phase-5 archive 단계에서 별도 처리.
+- **C-06 의 시맨틱 토큰 정리** (`bg-surface-alt` 신규 정의) — Task 6 진행 중 발견: studio 의 `--background` 값 (`#F8FAFC`) 이 이미 Paper page ground 와 *값 측면* 으로 일치하나, `surface-alt` 토큰 자체가 시스템에 미정의. 시맨틱 토큰 정리는 별도 spec 으로 분리 (queue.md Icebox 등재). 본 spec 에서 Task 7 [-] Passed.
 - 시각 회귀 자동화 (Playwright + Paper) — `spec-6-10`.
 - 새 토큰 카테고리 추가 (`sidebar.width` 만 추가; 다른 magic number 들은 별도 spec).
 - 컴포넌트 인벤토리 확장 (LoginPage variant, DashboardPage variant 등) — 본 spec 은 *정합화* 만.
@@ -85,7 +86,7 @@ flowchart LR
 
 ## ✅ Definition of Done
 
-- [ ] 6 정합화 항목 모두 적용 (C-01a/b/c/d, C-05, C-06)
+- [ ] 5 정합화 항목 적용 (C-01a/b/c/d, C-05) + C-06 [-] Passed (값 측면 이미 정합, 시맨틱 토큰 정리는 Icebox)
 - [ ] 모든 단위 테스트 PASS (`pnpm test`)
 - [ ] TypeScript 통과 (`pnpm typecheck` 또는 `tsc --noEmit`)
 - [ ] `pnpm tokens` 빌드 성공 + 자동 생성 CSS 변수 commit
