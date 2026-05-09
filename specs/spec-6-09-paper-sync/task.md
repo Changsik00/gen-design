@@ -39,9 +39,9 @@
 
 ## Task 3: PoC 실행 + poc-report.md
 
-- [ ] Paper MCP 도구로 토큰 적용 테스트 (get_basic_info → update_styles → get_screenshot)
-- [ ] `specs/spec-6-09-paper-sync/poc-report.md` 작성 (결과 + Go/No-Go)
-- [ ] Commit: `docs(spec-6-09): add poc-report with go/no-go evaluation`
+- [x] Paper MCP 도구로 토큰 적용 테스트 (get_basic_info → update_styles → get_screenshot)
+- [x] `specs/spec-6-09-paper-sync/poc-report.md` 작성 (결과 + Go/No-Go)
+- [x] Commit: `docs(spec-6-09): add poc-report with go/no-go evaluation`
 
 ---
 
