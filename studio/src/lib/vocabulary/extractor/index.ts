@@ -17,8 +17,10 @@ import * as path from "node:path";
 import * as ts from "typescript";
 import type { ExtractedComponent, ExtractorPlugin } from "./plugins/types";
 import { cvaPlugin } from "./plugins/cva-plugin";
+import { manualPlugin } from "./plugins/manual-plugin";
 
-const PLUGINS: ExtractorPlugin[] = [cvaPlugin];
+// 우선순위: cvaPlugin → manualPlugin (cva 가 안 매칭된 파일을 manualPlugin 이 fallback 처리)
+const PLUGINS: ExtractorPlugin[] = [cvaPlugin, manualPlugin];
 
 /** 단일 .tsx 파일에서 어휘 추출. */
 export function extractFromFile(filePath: string): ExtractedComponent[] {

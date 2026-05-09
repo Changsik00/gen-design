@@ -63,11 +63,23 @@ describe("extractFromSource — 합성 케이스", () => {
     });
   });
 
-  it("cva 호출 없는 파일 → 빈 결과", () => {
+  it("cva 호출 없는 파일 → manual 패턴으로 등재 (axes 비어있음)", () => {
     const source = `
       export function PlainComponent() { return null; }
     `;
-    expect(extractFromSource(source, "test/Plain.tsx")).toEqual([]);
+    const result = extractFromSource(source, "test/Plain.tsx");
+    expect(result).toHaveLength(1);
+    expect(result[0].name).toBe("PlainComponent");
+    expect(result[0].pattern).toBe("manual");
+    expect(result[0].axes).toEqual([]);
+  });
+
+  it("PascalCase export 가 전혀 없는 파일 → 빈 결과", () => {
+    const source = `
+      const helper = () => null;
+      const someValue = 42;
+    `;
+    expect(extractFromSource(source, "test/util.tsx")).toEqual([]);
   });
 
   it("variants 만 있고 defaultVariants 없음", () => {

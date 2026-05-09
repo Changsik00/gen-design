@@ -59,12 +59,12 @@
 
 ## Task 5: 3-tier 카탈로그 자동 생성
 
-- [ ] `studio/src/lib/vocabulary/catalog/index.ts` — `buildCatalog()` (3 tier 통합)
-- [ ] ui/ + composites/ + templates/ 자동 스캔 (glob)
-- [ ] catalog JSON 생성 + 결정성 (deterministic) 검증
-- [ ] `studio/src/lib/vocabulary/catalog/catalog.json` 자동 생성 (수동 편집 금지 마커)
-- [ ] 단위 테스트: 26 컴포넌트 모두 카탈로그에 포함 + axis 추출
-- [ ] Commit: `feat(spec-7-01): build 3-tier catalog from local components`
+- [x] `studio/src/lib/vocabulary/catalog/index.ts` — `buildCatalog()` (3 tier 통합) + buildLookup + allComponentNames
+- [x] manual 패턴 plugin 추가 — composites/templates 가 cva 안 써도 카탈로그 등재 가능
+- [x] 결정성 (deterministic) 검증 통과 — 같은 입력 → 동일 JSON
+- [x] 단위 테스트: 7 case + 기존 manual case 1 = 8 추가, 총 38 case PASS
+- [-] catalog.json 파일 자동 출력 — Task 11 (CLI) 에 흡수 (build 시점에 생성)
+- [x] Commit: `feat(spec-7-01): build 3-tier catalog from local components`
 
 ---
 
