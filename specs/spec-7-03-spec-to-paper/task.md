@@ -83,11 +83,11 @@
 
 ## Task 6: CLI spec-paper
 
-- [ ] `cli/spec-paper.ts` — argv parse + compileToPaper + stdout 또는 --output
-- [ ] `studio/package.json` scripts.spec-paper
-- [ ] 단위 테스트: 함수 직접 호출 (스냅샷)
-- [ ] 수동 검증: `pnpm --filter studio spec-paper /Users/.../spec/login-page.spec.md` → HTML stdout
-- [ ] Commit: `feat(spec-7-03): CLI spec-paper entry`
+- [x] `cli/spec-paper.ts` — argv parse (file / --payload / --output / --no-tailwind) + compileToPaper
+- [x] `studio/package.json` scripts.spec-paper (with `--tsconfig tsconfig.app.json` for JSX runtime)
+- [x] 단위 테스트 8 case (parseArgs 5 + runCompile 3 — fragment/full/no-tailwind)
+- [x] 수동 검증: `pnpm --filter studio spec-paper <fixture> --output /tmp/x.html` → 7.6KB DOCTYPE + Tailwind + body
+- [x] Commit: `feat(spec-7-03): CLI spec-paper entry`
 
 ---
 
