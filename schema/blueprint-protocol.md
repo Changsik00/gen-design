@@ -457,6 +457,8 @@ placeholder 는 nested 접근(`{{obj.field}}`) 을 사용한다 (Fill Executor �
 
 Blueprint 질의로 수집되지 않지만 템플릿에 등장하는 placeholder 는 다음 소스에서 주입한다.
 
+> **Placeholder 기원 분류 (F-02)**: 모든 placeholder 의 기원 (B/D/I/M/R) 은 `schema/blueprint-placeholder-map.md` 에 표 형태로 정리되어 있다. Studio Blueprint UI (`spec-6-05`) 와 agent prompt 가 본 분류표를 기준으로 입력 폼·추출 흐름을 구성한다.
+
 | Placeholder | 소스 | 주입 시점 |
 |---|---|---|
 | `{{date}}` | 시스템 시각 | Fill 시 현재 날짜로 자동 치환 |

@@ -2,10 +2,15 @@
 
 > Blueprint 질의서(`schema/blueprint-protocol.md`) 와 디자인 도구(Paper/Figma 등) 에서 추출한 시각 디자인 명세.
 > 스키마: `schema/design-md-schema.md` (14 섹션).
-> Placeholder 소스:
-> - `{{meta.*}}`, `{{theme.*}}`, `{{i18n.*}}`, `{{#each finalPages}}` ← Blueprint Step 3 출력 YAML
-> - `{{visualTheme.*}}`, `{{colors.*}}`, `{{typography.*}}`, `{{tokenMapping.*}}`, `{{i18nKeys}}` 등 ← 디자인 도구 추출 (Phase 4~7)
-> - 디자인 도구 값이 들어오기 전까지 시각 디자인 섹션은 `TODO` 로 표기
+>
+> **Placeholder 기원 분류** (F-02 — 정확한 분류는 `schema/blueprint-placeholder-map.md` 참조):
+> - `B` Blueprint 출력: `{{meta.*}}`, `{{theme.*}}`, `{{i18n.*}}`, `{{#each finalPages}}` 의 `{{name}}` / `{{variant}}` / `{{route}}` / `{{layout}}` 등
+> - `D` 디자인 도구 추출 (Paper/Figma): `{{visualTheme.*}}`, `{{colors.*}}`, `{{typography.*}}`, `{{tokenMapping.*}}`, `{{#each composites}}`, `{{#each elevation}}`, `{{#each breakpoints}}` 등
+> - `I` i18n 리소스: `{{#each i18nKeys}}` 의 `{{key}}` / `{{defaultText}}` / `{{context}}`
+> - `M` 수동 입력: `{{#each doRules}}` / `{{#each dontRules}}` / `{{#each examplePrompts}}`
+> - `R` Runtime: `{{date}}`, `{{techStack}}` 등 (AGENT.md 측 다수)
+>
+> 디자인 도구 값 (`D`) 이 들어오기 전까지 해당 섹션은 `TODO` 로 표기.
 
 | 항목 | 값 |
 |---|---|
