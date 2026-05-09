@@ -14,3 +14,4 @@
 export * from "./types";
 export * from "./hex-alpha";
 export * from "./padding";
+export * from "./line-height";

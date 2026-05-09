@@ -22,3 +22,12 @@ export interface Padding {
   block: { start: number; end: number };
   inline: { start: number; end: number };
 }
+
+/**
+ * C3 — line-height. discriminated union of unit (px / unitless / percent).
+ * 변환은 toPx(v, fontSize) / toUnitless(v, fontSize) utility 사용.
+ */
+export type LineHeight =
+  | { value: number; unit: "px" }
+  | { value: number; unit: "unitless" }
+  | { value: number; unit: "percent" };
