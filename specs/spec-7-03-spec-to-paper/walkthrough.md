@@ -26,18 +26,25 @@
 
 ## 🛠️ 결정 기록
 
-### D-1: React SSR 채택 (vs hand-coded HTML)
+### D-1: React 컴포넌트를 정적 markup 으로 export (vs hand-coded HTML)
 
-`studio/src/components/{ui,composites,templates}/` 가 *진실 원천*. 같은 React 컴포넌트를 `ReactDOMServer.renderToStaticMarkup` 으로 HTML 출력.
+`studio/src/components/{ui,composites,templates}/` 가 *진실 원천*. 같은 React 컴포넌트를 `react-dom/server` 의 **`renderToStaticMarkup`** 으로 정적 HTML 만 emit.
+
+> **명확화**: "SSR" 이라고 부르기 모호해서 정정 — 본 컴파일러는 hydration-friendly server-side rendering 이 *아니라* **static markup generation** (디자인 도구 export 의 표준 접근). `renderToString` 의 pitfall (Suspense / streaming 미지원) 은 동일하게 적용되지만, *우리 use case 에는 적합* (아래 검증 참조).
 
 근거:
 - 단일 진실 원천 — spec.md 의 컴포넌트 어휘 + 실제 React 코드 1:1
 - spec-7-04 (React compiler) 와 컴포넌트 레지스트리 재사용 가능 (DRY)
 - 컴포넌트 props 를 그대로 사용 → variant / size / theme 가 자동 작동
 
+API 선택 검증:
+- 28 컴포넌트 모두 순수 presentational — `useState` / `useEffect` / `Suspense` / async data fetch 0 건.
+- React 공식 docs: `renderToStaticMarkup` 은 *static export use case* (이메일 / 디자인 도구) 의 권장 API.
+- *향후* 컴포넌트가 Suspense / async 도입 시 → `renderToReadableStream` 으로 마이그레이션 필요. 현재는 불필요.
+
 Trade-off:
 - studio 의 컴포넌트가 *데이터-heavy* (texts/profile/notifications 등 복잡한 prop) → fixture 의 spec.md 가 데이터를 안 넘김 → `default-props.ts` 의 mock data merge 가 추가됨
-- React 컴포넌트가 client-only API 사용 시 SSR mismatch warning (정적 HTML 만 필요해서 무시)
+- React 컴포넌트가 client-only API 사용 시 hydration mismatch warning (정적 HTML 만 필요해서 무시)
 
 ### D-2: Tailwind play CDN (vs PostCSS 정밀 컴파일)
 

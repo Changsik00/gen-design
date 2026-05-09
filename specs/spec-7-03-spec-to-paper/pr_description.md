@@ -4,7 +4,7 @@ phase-7 의 두 번째 spec — 디자이너의 *메인 루프* 첫 단계 (spec
 
 ## Summary
 
-- **`compileToPaper()`** 공용 API — spec.md AST → React SSR → HTML/CSS payload (Studio iframe + Paper write_html 양쪽)
+- **`compileToPaper()`** 공용 API — spec.md AST → React 정적 markup (`renderToStaticMarkup`) → HTML/CSS payload (Studio iframe + Paper write_html 양쪽). hydration-friendly SSR 이 아닌 *디자인 도구 export* 용 정적 export — 28 컴포넌트 모두 순수 presentational 이라 적합.
 - **Studio Preview Panel** (`#/preview`) — fixture 선택 → 좌(React 실 컴포넌트) 우(Paper-compiled iframe) split + Copy/Send 버튼
 - **CLI `spec-paper`** — `pnpm --filter studio spec-paper <file> [--payload] [--output]`
 - **28 fixture 회귀** — 모두 컴파일 PASS + 결정성 + DOM 등가 스냅샷 3
@@ -13,9 +13,11 @@ phase-7 의 두 번째 spec — 디자이너의 *메인 루프* 첫 단계 (spec
 
 ## 결정 기록
 
-### React SSR 채택 (vs hand-coded HTML)
+### React 정적 markup export 채택 (vs hand-coded HTML)
 
-studio 의 28 React 컴포넌트가 *진실 원천*. `ReactDOMServer.renderToStaticMarkup` 으로 같은 컴포넌트를 HTML 출력. spec-7-04 (React compiler) 도 동일 레지스트리 사용 가능 → DRY.
+studio 의 28 React 컴포넌트가 *진실 원천*. `react-dom/server` 의 **`renderToStaticMarkup`** (NOT `renderToString`) 으로 hydration 메타 없는 정적 HTML 만 emit. spec-7-04 (React compiler) 도 동일 레지스트리 사용 가능 → DRY.
+
+**API 검증**: `renderToString` 의 pitfall (Suspense / streaming 미지원) 은 `renderToStaticMarkup` 에도 동일 적용되지만 — 28 컴포넌트 모두 순수 presentational (0 useState/useEffect/Suspense/async) 이라 영향 없음. React 공식 docs 도 *디자인 도구 export* 같은 정적 use case 에는 본 API 를 권장. 향후 async 컴포넌트 도입 시 `renderToReadableStream` 마이그레이션.
 
 ### Tailwind play CDN (vs PostCSS)
 
