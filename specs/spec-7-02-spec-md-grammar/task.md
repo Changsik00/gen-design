@@ -72,11 +72,12 @@
 
 ## Task 6: parser public API + SourceLocation
 
-- [ ] `studio/src/lib/spec-md/parser/index.ts` — `parse(text)`, `parseFile(path)`
-- [ ] 각 AST 노드에 SourceLocation (line/col/offset/length) 부착
-- [ ] error 시 `ParseError` 클래스 — line/col + expected/actual
-- [ ] 단위 테스트: 결정성 + location 정확도 + error message 친화도
-- [ ] Commit: `feat(spec-7-02): parser public API + source locations`
+- [x] `studio/src/lib/spec-md/parser/index.ts` — `parse(text)`, `parseFile(path)`
+- [x] 각 AST 노드에 SourceLocation (line/col/offset/length) 부착 — grammar 의 `loc()` 헬퍼
+- [x] error 시 `ParseError` 클래스 — line/col + stage:"parse"
+- [x] 단위 테스트: 결정성 + location 정확도 + error message 친화도 (7 case)
+- [x] prototype 디렉토리 제거 (peggy 채택 + 본 API 가 대체)
+- [x] Commit: `feat(spec-7-02): parser public API + source locations`
 
 ---
 
