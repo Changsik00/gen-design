@@ -70,6 +70,7 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
+| `spec-7-01` | vocabulary-and-formats | P? | Active | `specs/spec-7-01-vocabulary-and-formats/` |
 <!-- sdd:specs:end -->
 
 ### spec-7-01 — 어휘 + 표준 + 형식 (Vocabulary & Formats)

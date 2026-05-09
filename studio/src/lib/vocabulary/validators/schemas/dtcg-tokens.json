@@ -1,0 +1,96 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://design-project.local/schemas/dtcg-tokens.json",
+  "title": "DTCG 1.0 Tokens (strict subset for this project)",
+  "description": "W3C Design Tokens Community Group format — 2025-10 stable subset enforced by this project. See https://www.designtokens.org/tr/drafts/format/",
+  "type": "object",
+  "definitions": {
+    "tokenLeaf": {
+      "type": "object",
+      "required": ["$value"],
+      "properties": {
+        "$value": {
+          "description": "Resolved value or reference. References use {path.to.token} syntax.",
+          "anyOf": [
+            { "type": "string" },
+            { "type": "number" },
+            { "type": "boolean" },
+            { "type": "object" }
+          ]
+        },
+        "$type": {
+          "type": "string",
+          "enum": [
+            "color",
+            "dimension",
+            "fontFamily",
+            "fontWeight",
+            "duration",
+            "cubicBezier",
+            "number",
+            "strokeStyle",
+            "border",
+            "transition",
+            "shadow",
+            "gradient",
+            "typography"
+          ],
+          "description": "DTCG type. Inheritable from parent group."
+        },
+        "$description": {
+          "type": "string",
+          "description": "Human-readable rationale."
+        },
+        "$extensions": {
+          "type": "object",
+          "description": "Vendor-specific metadata (DTCG allows this for extensibility)."
+        }
+      },
+      "additionalProperties": false
+    },
+    "tokenGroup": {
+      "type": "object",
+      "properties": {
+        "$type": {
+          "type": "string",
+          "enum": [
+            "color",
+            "dimension",
+            "fontFamily",
+            "fontWeight",
+            "duration",
+            "cubicBezier",
+            "number",
+            "strokeStyle",
+            "border",
+            "transition",
+            "shadow",
+            "gradient",
+            "typography"
+          ]
+        },
+        "$description": { "type": "string" },
+        "$extensions": { "type": "object" }
+      },
+      "additionalProperties": {
+        "anyOf": [
+          { "$ref": "#/definitions/tokenLeaf" },
+          { "$ref": "#/definitions/tokenGroup" }
+        ]
+      }
+    }
+  },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional JSON Schema reference (root-level metadata, ignored by DTCG)."
+    },
+    "$description": { "type": "string" }
+  },
+  "additionalProperties": {
+    "anyOf": [
+      { "$ref": "#/definitions/tokenLeaf" },
+      { "$ref": "#/definitions/tokenGroup" }
+    ]
+  }
+}
