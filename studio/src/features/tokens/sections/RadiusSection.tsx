@@ -26,8 +26,11 @@ export function RadiusSection({ tokens, onChange }: Props) {
           min={0}
           max={2}
           step={0.05}
-          value={[value]}
-          onValueChange={([v]) => onChange({ radiusBase: `${v.toFixed(2)}rem` })}
+          value={value}
+          onValueChange={(val) => {
+            const n = Array.isArray(val) ? (val as number[])[0] : (val as number);
+            onChange({ radiusBase: `${n.toFixed(2)}rem` });
+          }}
         />
         <div className="flex justify-between text-xs text-muted-foreground">
           <span>0rem (sharp)</span>
@@ -42,7 +45,7 @@ export function RadiusSection({ tokens, onChange }: Props) {
           Radius 프리뷰
         </p>
         <div className="flex gap-4 items-center">
-          {["sm", "md", "lg"].map((size, i) => (
+          {(["sm", "md", "lg"] as const).map((size, i) => (
             <div
               key={size}
               className="bg-primary text-primary-foreground px-4 py-2 text-sm font-medium"
