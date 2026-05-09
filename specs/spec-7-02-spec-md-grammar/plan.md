@@ -112,7 +112,13 @@ studio/src/lib/spec-md/
 | 의존성 크기 | 작음 | 중간 |
 | 본 프로젝트 적합도 | 단순 grammar 라 충분 | type-safe AST 가 IR 와 자연 맵핑 |
 
-**기본 채택**: chevrotain (type-safe + 더 좋은 에러). Task 2 에서 prototype 후 최종 결정.
+**최종 채택 (Task 2 prototype 비교 결과)**: **peggy**
+
+- **에러 메시지 친화도** — peggy 의 `Expected "i18n" or "token" but "x" found` vs chevrotain 의 `Expecting [I18n] [Token] but found 'xxx'` (내부 토큰명 노출). 디자이너가 직접 spec.md 편집하므로 *친화적 에러* 가 핵심 가치 (FR-3 + NFR-3).
+- **AST 매핑** — peggy 는 grammar 안에서 객체 직접 반환. chevrotain 은 CST → visitor 패턴 추가 필요.
+- **markdown 본문 처리** — PEG lookahead 가 markdown / 컴포넌트 태그 경계 모호 케이스에 자연스러움.
+- **의존성 크기** — peggy ~75KB vs chevrotain ~150KB.
+- **Trade-off** — peggy 는 type-safety 가 약함 (grammar return 캐스팅 필요) + 빌드 단계 추가 (peggy.generate). 둘 다 ast-types.ts 의 타입 정의 + vite 의 `?raw` 번들로 해결.
 
 ### SpecMdAst 타입 (ADR-005 D-4 에서 약속한 *최소* 정의)
 

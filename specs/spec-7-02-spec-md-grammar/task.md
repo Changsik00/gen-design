@@ -20,7 +20,7 @@
 - [x] `git checkout -b spec-7-02-spec-md-grammar`
 
 ### 1-2. 의존성 + AST 타입 정의
-- [x] `pnpm --filter studio add chevrotain` — Task 2 에서 비교 결과 chevrotain 채택 (type-safe + 친화적 에러 + 본 프로젝트 IR 와 자연 매핑)
+- [x] `pnpm --filter studio add chevrotain` — *주의*: Task 1 시점에는 plan baseline 채택. Task 2 prototype 비교 결과 peggy 로 교체됨 (chevrotain 제거 + peggy devDep 추가).
 - [x] `studio/src/lib/spec-md/parser/ast-types.ts` — Document / ComponentInstance / Placeholder / MarkdownText / Comment / SourceLocation / ParseResult / ParseError / AttrValue
 - [x] 단위 테스트 5 case PASS — 타입 컴파일 + 4 layer shape 검증
 - [x] Commit: `chore(spec-7-02): add chevrotain dependency + AST types`
@@ -29,11 +29,11 @@
 
 ## Task 2: peg.js vs chevrotain 비교 prototype
 
-- [ ] 가장 단순 grammar 부분 (placeholder 만) 으로 양쪽 prototype 작성
-- [ ] error 메시지 / type-safety / 빌드 단계 비교
-- [ ] *결정* 명문화: walkthrough.md 의 결정 기록에 추가
-- [ ] 채택 도구로 prototype 정리, 다른 도구 prototype 제거
-- [ ] Commit: `feat(spec-7-02): pick parser tool (chevrotain or peggy)`
+- [x] 가장 단순 grammar 부분 (placeholder 만) 으로 양쪽 prototype 작성 — `studio/src/lib/spec-md/__prototype__/{chevrotain,peggy}-placeholder.ts`
+- [x] error 메시지 / type-safety / 빌드 단계 비교 — peggy 에러 메시지 친화도 압승, 의존성 크기도 peggy 가 절반
+- [x] *결정* 명문화: plan.md 의 비교 표 갱신 + walkthrough.md 의 결정 기록 추가 (Task 10 ship 시)
+- [x] 채택 도구로 prototype 정리 (peggy 만 유지), chevrotain prototype 제거 + dependency 제거
+- [x] Commit: `feat(spec-7-02): pick peggy as parser tool`
 
 ---
 
