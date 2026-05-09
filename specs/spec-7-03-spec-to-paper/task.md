@@ -107,15 +107,14 @@
 
 ## Task 8: Paper MCP 실 송신 검증 (회고 C1 해소)
 
-> ⚠️ 본 task 는 *에이전트가 수동으로* Paper MCP write_html 을 호출하여 LoginPage compileToPaper 결과를 Paper 에 표시 + get_screenshot 으로 시각 캡처. 사용자가 동일 화면을 React 측과 비교 후 OK 응답.
-
-- [ ] `compileToPaper(spec/login-page.spec.md)` 의 payload 확보
-- [ ] paper.create_artboard 로 새 artboard 생성 (또는 기존 활용)
-- [ ] paper.write_html 송신
-- [ ] paper.get_screenshot → 캡처
-- [ ] 사용자에게 React 화면 + Paper 화면 비교 요청 (Studio dev server URL 도 함께 제공)
-- [ ] 사용자 OK 후 walkthrough.md 의 회고 C1 해소 섹션에 *시각 캡처 경로* + 결정 기록
-- [ ] Commit: `chore(spec-7-03): paper round-trip verification (C1 resolved)`
+- [x] `compileToPaper(spec/login-page.spec.md)` 의 payload 확보 (`/tmp/spec-7-03-login-page-paper.html`, 7.4KB)
+- [x] paper.create_artboard 로 새 artboard 생성 (`20K-0`, "spec-7-03 — LoginPage (Paper-compiled)", 1440×900)
+- [x] paper.write_html 송신 (메모 + inline-styled login form + 갭 노트)
+- [x] paper.get_screenshot → 시각 캡처 (사용자 확인)
+- [x] React 화면 + Paper 화면 비교 (Studio dev server `http://localhost:5174/#/preview`)
+- [x] **결과**: 구조 round-trip ✅ / 시각 fidelity ⚠️ Tailwind 컴파일 갭 (phase-8 로 명문화)
+- [x] 사용자 OK ("계속 진행")
+- [x] Commit: `chore(spec-7-03): paper round-trip verification (C1 partially resolved)`
 
 ---
 
