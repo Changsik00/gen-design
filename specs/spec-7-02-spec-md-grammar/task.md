@@ -48,11 +48,12 @@
 
 ## Task 4: ComponentTag grammar (self-closing + paired)
 
-- [ ] `<ComponentName />` self-closing
-- [ ] `<ComponentName>...</ComponentName>` paired
-- [ ] 잘못된 닫는 태그 (예: `<A>...</B>`) 에 대한 친화적 에러
-- [ ] 중첩 (children) 재귀
-- [ ] Commit: `feat(spec-7-02): grammar component tag (self-closing + paired)`
+- [x] `<ComponentName />` self-closing — 4 case (with/without space, multi-word PascalCase, sibling)
+- [x] `<ComponentName>...</ComponentName>` paired — 6 case (empty, text, placeholder, mixed)
+- [x] 잘못된 닫는 태그 (예: `<A>...</B>`) 에 대한 친화적 에러 — `Mismatched closing tag: expected </A> but got </B>`
+- [x] 중첩 (children) 재귀 — 3 단계 중첩 PASS
+- [x] lowercase HTML (e.g. `<div>`) 는 markdown 으로 처리 (component 어휘는 PascalCase 만)
+- [x] Commit: `feat(spec-7-02): grammar component tag (self-closing + paired)`
 
 ---
 

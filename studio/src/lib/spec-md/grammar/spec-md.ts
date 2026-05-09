@@ -30,8 +30,45 @@ Document
 
 Block
   = Comment
+  / ComponentTag
   / Placeholder
   / MarkdownText
+
+// ─── ComponentTag ─────────────────────────────────────────────────────────
+ComponentTag
+  = SelfClosingTag
+  / PairedTag
+
+SelfClosingTag
+  = "<" name:ComponentName _ "/>" {
+      return {
+        type: "ComponentInstance",
+        name,
+        props: {},
+        children: [],
+        location: loc(location()),
+      };
+    }
+
+PairedTag
+  = "<" openName:ComponentName _ ">" body:Block* "</" closeName:ComponentName _ ">" {
+      if (openName !== closeName) {
+        error("Mismatched closing tag: expected </" + openName + "> but got </" + closeName + ">");
+      }
+      return {
+        type: "ComponentInstance",
+        name: openName,
+        props: {},
+        children: body,
+        location: loc(location()),
+      };
+    }
+
+ComponentName
+  = first:[A-Z] rest:[a-zA-Z0-9_]* { return first + rest.join(""); }
+
+_ "whitespace"
+  = [ \t\n\r]*
 
 // ─── Comment ──────────────────────────────────────────────────────────────
 Comment
@@ -66,7 +103,8 @@ Identifier
 
 // ─── MarkdownText ─────────────────────────────────────────────────────────
 // 컴포넌트 태그 외 영역. parser 가 가공하지 않고 raw text 보존.
-// Task 4 에서 ComponentTag 추가 시 boundary 에 "<" + Identifier 도 포함됨.
+// boundary: Comment 시작/끝, Placeholder 시작, ComponentTag 열기/닫기.
+// 단 lowercase HTML (e.g. <div>) 는 markdown 의 일부로 취급.
 MarkdownText
   = chars:MarkdownChar+ {
       return {
@@ -77,5 +115,11 @@ MarkdownText
     }
 
 MarkdownChar
-  = !"<!--" !"{{" !"-->" c:. { return c; }
+  = !"<!--" !"-->" !"{{" !ClosingComponentTag !OpeningComponentTag c:. { return c; }
+
+OpeningComponentTag
+  = "<" [A-Z]
+
+ClosingComponentTag
+  = "</" [A-Z]
 `;
