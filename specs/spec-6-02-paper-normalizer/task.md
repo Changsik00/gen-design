@@ -18,9 +18,9 @@
 ## Task 1: 브랜치 생성 + scaffold
 
 ### 1-1. 브랜치 분기 + 스캐폴드 커밋
-- [ ] `git checkout -b spec-6-02-paper-normalizer` (base: `phase-6-studio-v1`)
-- [ ] `git add backlog/phase-6.md backlog/queue.md specs/spec-6-02-paper-normalizer/`
-- [ ] Commit: `docs(spec-6-02): scaffold spec/plan/task for paper-normalizer`
+- [x] `git checkout -b spec-6-02-paper-normalizer` (base: `phase-6-studio-v1`)
+- [x] `git add backlog/phase-6.md backlog/queue.md specs/spec-6-02-paper-normalizer/`
+- [x] Commit: `docs(spec-6-02): scaffold spec/plan/task for paper-normalizer` (`48e2b43`)
 
 ---
 
