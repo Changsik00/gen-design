@@ -20,9 +20,10 @@
 - [x] `git checkout -b spec-7-02-spec-md-grammar`
 
 ### 1-2. 의존성 + AST 타입 정의
-- [ ] `pnpm --filter studio add chevrotain` (또는 peggy — Task 2 에서 비교 후 결정. 기본은 chevrotain)
-- [ ] `studio/src/lib/spec-md/parser/ast-types.ts` — SpecMdAst 인터페이스 (Document/ComponentInstance/Placeholder/MarkdownText/Comment/SourceLocation)
-- [ ] Commit: `chore(spec-7-02): add chevrotain dependency + AST types`
+- [x] `pnpm --filter studio add chevrotain` — Task 2 에서 비교 결과 chevrotain 채택 (type-safe + 친화적 에러 + 본 프로젝트 IR 와 자연 매핑)
+- [x] `studio/src/lib/spec-md/parser/ast-types.ts` — Document / ComponentInstance / Placeholder / MarkdownText / Comment / SourceLocation / ParseResult / ParseError / AttrValue
+- [x] 단위 테스트 5 case PASS — 타입 컴파일 + 4 layer shape 검증
+- [x] Commit: `chore(spec-7-02): add chevrotain dependency + AST types`
 
 ---
 
