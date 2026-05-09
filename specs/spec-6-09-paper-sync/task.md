@@ -17,13 +17,13 @@
 ## Task 1: 브랜치 생성 + 타입/테스트 (TDD Red)
 
 ### 1-1. 브랜치 생성
-- [ ] `git checkout -b spec-6-09-paper-sync`
+- [x] `git checkout -b spec-6-09-paper-sync`
 
 ### 1-2. 타입 + TDD Red
-- [ ] `studio/src/lib/paper-sync/types.ts`
-- [ ] `studio/src/lib/paper-sync/__tests__/resolver.test.ts` (실패)
-- [ ] `studio/src/lib/paper-sync/__tests__/converter.test.ts` (실패)
-- [ ] Commit: `test(spec-6-09): add failing resolver and converter tests`
+- [x] `studio/src/lib/paper-sync/types.ts`
+- [x] `studio/src/lib/paper-sync/__tests__/resolver.test.ts` (실패)
+- [x] `studio/src/lib/paper-sync/__tests__/converter.test.ts` (실패)
+- [x] Commit: `test(spec-6-09): add failing resolver and converter tests`
 
 ---
 
