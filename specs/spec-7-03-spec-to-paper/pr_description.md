@@ -87,9 +87,21 @@ studio/scripts/generate-fixtures-index.ts
 - [x] Studio dev server `http://localhost:5174/#/preview` — fixture 선택 + 좌/우 비교
 - [x] Paper MCP write_html 실 송신 — 1440×900 artboard 에 LoginPage 노드 생성 확인
 
-## 후속
+## 📌 머지 직전 추가: ADR-006 (방향 pivot)
 
-- **spec-7-04**: React compiler — 동일 컴포넌트 레지스트리 활용, JSX (registry-item.json) emit
+리뷰 시점에 사용자가 *근본적 방향 미스매치* 지적 — 디자이너 워크플로는 Paper → spec.md → React 인데 phase-7 가 spec.md → Paper / React 흐름으로 구축됨.
+
+→ **ADR-006 (Paper-first workflow)** 본 PR 에 포함:
+- spec-7-03 의 *의미* reframe (primary → round-trip 검증, 코드 변경 0)
+- 다음 spec = Paper → spec.md inference (긴급)
+- phase-7.md 우선순위 재정렬
+
+자산은 모두 살아남음. spec-7-03 은 양방향 round-trip 의 *역방향 (spec.md → Paper)* 측면으로서 여전히 유용.
+
+## 후속 (ADR-006 이후)
+
+- **즉시 다음 spec**: Paper → spec.md inference (디자이너 워크플로 foundation)
+- **연기**: spec.md → React compiler (IR 가 정해지고 Paper inference 검증 후)
 - **phase-8**: Tailwind 정밀 컴파일 (회고 C1 의 시각 fidelity 갭 해소)
 
 🤖 Generated with [Claude Code](https://claude.com/claude-code)
