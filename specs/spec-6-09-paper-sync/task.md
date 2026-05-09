@@ -47,12 +47,12 @@
 
 ## Task 4: Ship
 
-- [ ] `pnpm --filter studio run build`
-- [ ] `pnpm --filter studio test` — 전체 PASS
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
-- [ ] **Ship Commit** + **Push** + **PR 생성**
-- [ ] **사용자 알림**
+- [x] `pnpm --filter studio run build`
+- [x] `pnpm --filter studio test` — 전체 PASS
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
+- [x] **Ship Commit** + **Push** + **PR 생성**
+- [x] **사용자 알림**
 
 ---
 
@@ -62,5 +62,5 @@
 |---|---|
 | **총 Task 수** | 4 |
 | **예상 commit 수** | 3 |
-| **현재 단계** | Pre-flight |
+| **현재 단계** | Ship 완료 |
 | **마지막 업데이트** | 2026-05-09 |
