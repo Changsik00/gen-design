@@ -12,3 +12,13 @@ export interface HexAlpha {
   b: number;
   a: number;
 }
+
+/**
+ * C2 — padding. block / inline 각각 start / end (px number).
+ * shorthand `40px` → block.start=block.end=inline.start=inline.end=40.
+ * shorthand `padding-inline 14px` → inline.start=inline.end=14, block.*=0.
+ */
+export interface Padding {
+  block: { start: number; end: number };
+  inline: { start: number; end: number };
+}
