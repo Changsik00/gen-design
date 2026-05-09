@@ -207,8 +207,8 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 
 - **선행 phase**: phase-6 (Studio v1 — composites / templates / paper lib / tokens 자산)
 - **외부 시스템**: Paper MCP, Figma MCP (선택), shadcn registry standard, DTCG 1.0
-- **연관 ADR**: 없음 (phase-7 진행 중 작성될 가능성)
-- **참고 문서**: `docs/vision.md`, `docs/benchmark.md`, `.harness-kit/agent/constitution.md`
+- **연관 ADR**: ADR-004 (어휘 추출 + 4 layer variant). phase-7 진행 중 추가 ADR 작성 가능.
+- **참고 문서**: `docs/vision.md`, `docs/benchmark.md`, `docs/decisions/ADR-004-vocabulary-extraction-and-variants.md`, `.harness-kit/agent/constitution.md`
 
 ## 📝 위험 요소 및 완화
 
