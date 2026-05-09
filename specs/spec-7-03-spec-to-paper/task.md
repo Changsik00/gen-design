@@ -34,12 +34,13 @@
 
 ## Task 2: i18n + token resolver
 
-- [ ] `paper/i18n-resolver.ts` — `resolveI18n(value, bundle)` (string 또는 Placeholder 객체 받음)
-- [ ] 누락 키 → 빨간 background span (`<span style="background:#ff0000;color:#fff">[ko.x.missing]</span>`)
-- [ ] `paper/token-resolver.ts` — `tokenRefToCssVar("{{token.semantic.color.light.primary}}")` → `"var(--primary)"`
-- [ ] paper-sync 의 `resolveSemanticColors` 통합 (CSS vars `:root { ... }`)
-- [ ] 단위 테스트: i18n 8 case (happy + 누락 + 깊은 path) + token 6 case
-- [ ] Commit: `feat(spec-7-03): i18n + token placeholder resolvers`
+- [x] `paper/i18n-resolver.ts` — `resolveI18n(path, bundle)` → `{ value, missing }` + `I18N_MISSING_STYLE`
+- [x] 누락 키 → sentinel `[<path> missing]` + 빨간 background style 상수 (React-builder 가 span 으로 적용)
+- [x] `paper/token-resolver.ts` — `tokenPathToCssVar` (path 의 last segment → `var(--xxx)`)
+- [x] paper-sync 의 `resolveSemanticColors` 통합 — `rootCssVars()` 가 `:root { ... }` 블록 emit
+- [x] L4 인라인 토큰 string 정규화 (`{{token.x}}` 형식 → `var(--x)`)
+- [x] 단위 테스트 13 case (i18n 7 + token-path 3 + root-vars 1 + inline-normalize 2)
+- [x] Commit: `feat(spec-7-03): i18n + token placeholder resolvers`
 
 ---
 
