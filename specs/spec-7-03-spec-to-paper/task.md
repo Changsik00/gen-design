@@ -46,15 +46,17 @@
 
 ## Task 3: AST → React 엘리먼트 트리
 
-- [ ] `paper/react-builder.ts` — `buildReactTree(ast, registry, options)` → `ReactElement`
-  - ComponentInstance → `React.createElement(Comp, props, ...children)`
-  - Placeholder → 해소된 string (i18n) 또는 var(--x) (token)
-  - MarkdownText → string (raw markdown 으로 보존, 첫 line 만 또는 줄바꿈 보존)
+- [x] `paper/react-builder.ts` — `buildReactTree(doc, options)` → `ReactNode[]`
+  - ComponentInstance → `React.createElement(Comp, props, ...children)` — 미등록 시 빨간 sentinel
+  - Placeholder kind=i18n → 해소된 string (누락 시 빨간 background span)
+  - Placeholder kind=token → `"var(--x)"` string
+  - MarkdownText → text node (children 안에서만)
   - Comment → null (skip)
   - L3 theme → wrapper `<div data-theme="brand-a">`
-  - L4 tokens → wrapper `<div style={{...}}>`
-- [ ] 단위 테스트: 5 시나리오 (single component / nested / placeholder children / theme wrapper / tokens wrapper)
-- [ ] Commit: `feat(spec-7-03): AST → React element tree builder`
+  - L4 tokens → wrapper `<div style={{...}}>` (`{{token.x}}` 정규화)
+  - top-level: ComponentInstance 만 출력 (markdown heading/prose 자동 skip)
+- [x] 단위 테스트 8 case (single / 미등록 / nested / i18n happy + 누락 / theme / tokens / top-level prose 무시)
+- [x] Commit: `feat(spec-7-03): AST → React element tree builder`
 
 ---
 
