@@ -22,12 +22,11 @@ function setHash(hash: string) {
 }
 
 describe("App smoke", () => {
-  it("default route → BlueprintPage placeholder 노출 + Sidebar 'Design Studio'", () => {
+  it("default route → BlueprintWizard 렌더 + Sidebar 'Design Studio'", () => {
     render(<App />);
     expect(screen.getByText("Design Studio")).toBeInTheDocument();
-    // "Blueprint" 는 Sidebar nav + Page heading 양쪽 등장 — getAllByText 사용
-    expect(screen.getAllByText("Blueprint").length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByText(/spec-6-05/)).toBeInTheDocument();
+    // 위저드 Step 1 stepper 또는 heading 에 '앱유형' 노출 (복수 가능)
+    expect(screen.getAllByText(/앱유형/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("hash #/editor → EditorPage placeholder", () => {
@@ -61,13 +60,11 @@ describe("App smoke", () => {
     expect(screen.getByText("Brand B")).toBeInTheDocument();
   });
 
-  it("hash #/unknown → blueprint fallback", () => {
+  it("hash #/unknown → blueprint fallback (위저드 렌더)", () => {
     setHash("#/unknown");
     render(<App />);
-    // BlueprintPage 가 렌더 (fallback)
-    // "Blueprint" 는 Sidebar nav + Page heading 양쪽 등장 — getAllByText 사용
-    expect(screen.getAllByText("Blueprint").length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByText(/spec-6-05/)).toBeInTheDocument();
+    // BlueprintWizard fallback — Step 1 '앱유형' 노출
+    expect(screen.getAllByText(/앱유형/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("Sidebar nav 4 항목 모두 노출", () => {
