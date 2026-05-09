@@ -333,6 +333,8 @@ finalPages:
     name: "로그인"                                           # 한글 표시 이름
     category: "auth"                                         # page-catalog 카테고리
     variant: "modal"
+    route: "/auth/login"                                     # F-03: 명시 또는 `/{id}` 자동 (slash 변환)
+    layout: "centered-card"                                  # F-03: 명시 또는 variant 기반 자동
     componentPath: "@/components/templates/LoginPage"        # studio alias 기준 import 경로
     requiredSections:
       - "BrandHeader"
@@ -360,12 +362,14 @@ machine-readable status (YAML) 와 사용자-facing display (마크다운 / READ
 2. 마크다운 표 / prose 는 readability 위해 `✅` / `⬜` / `구현 완료` 등 자유롭게 표기 가능 — validator 검증 대상 아님.
 3. `templateMapping.status` 와 `componentPath` 의 정합: `status: implemented` 면 `componentPath` 는 `@/components/templates/{template}` 형식. `not-implemented` 면 빈 문자열.
 
-#### 자동 유도 필드
+#### 자동 유도 필드 (F-03 갱신)
 
 - `meta.pageCount` ← `finalPages.length`
-- `pages[].name` ← `page-catalog.md` 의 한글 이름 컬럼
-- `pages[].category` ← `page-catalog.md` 의 카테고리 (id 앞 접두어 기준: `auth-*` → auth, `dash-*` → dashboard 등)
-- `pages[].componentPath` ← `@/components/templates/{templateMapping.template}` (status == implemented 시), 미구현이면 빈 문자열
+- `finalPages[].name` ← `page-catalog.md` 의 한글 이름 컬럼
+- `finalPages[].category` ← `page-catalog.md` 의 카테고리 (id 앞 접두어 기준: `auth-*` → auth, `dash-*` → dashboard 등)
+- `finalPages[].componentPath` ← `@/components/templates/{templateMapping.template}` (status == implemented 시), 미구현이면 빈 문자열
+- **`finalPages[].route`** (F-03): 작성자 명시 우선, 미명시 시 `/{id 의 첫 segment 제거 + slash 변환}` (예: `auth-login` → `/auth/login`). 단순 `/{id}` 도 허용.
+- **`finalPages[].layout`** (F-03): 작성자 명시 우선, 미명시 시 `variant` 기반 자동 (`page` → `default`, `modal` → `centered-card`, `bottom-sheet` → `sheet`). 작성자가 임의 layout 이름 명시 가능.
 
 #### DESIGN.md 전용 확장 필드 (선택)
 
@@ -373,10 +377,10 @@ DESIGN.md.template 이 추가로 사용하는 페이지 상세 필드. Blueprint
 
 | 필드 | 소스 / 기본값 |
 |---|---|
-| `pages[].route` | `page-catalog.md` 의 Route 컬럼 (없으면 `/{id}` 형태) |
-| `pages[].layout` | `variant` 기반 기본값 (modal → `centered-card`, page → `split-screen`, bottom-sheet → `sheet`) |
-| `pages[].description` | `page-catalog.md` 의 Description 컬럼 |
-| `pages[].sections` | `requiredSections + optionalSections` 를 Section/Block 2차원 구조로 전개 (매핑 규칙은 `page-catalog.md` 의 Section 컬럼 참조) |
+| `finalPages[].description` | `page-catalog.md` 의 Description 컬럼 |
+| `finalPages[].sections` | `requiredSections + optionalSections` 를 Section/Block 2차원 구조로 전개 (매핑 규칙은 `page-catalog.md` 의 Section 컬럼 참조) |
+
+> `route` / `layout` 은 §자동 유도 필드 로 이동 (F-03).
 
 ---
 
@@ -406,6 +410,8 @@ placeholder 는 nested 접근(`{{obj.field}}`) 을 사용한다 (Fill Executor �
 | `finalPages[].name` | `{{name}}` (각 페이지 블록 내) | REQUIREMENTS / DESIGN |
 | `finalPages[].category` | `{{category}}` | REQUIREMENTS |
 | `finalPages[].variant` | `{{variant}}` | REQUIREMENTS / DESIGN |
+| `finalPages[].route` | `{{route}}` | REQUIREMENTS / AGENT |
+| `finalPages[].layout` | `{{layout}}` | REQUIREMENTS / DESIGN |
 | `finalPages[].componentPath` | `{{componentPath}}` | AGENT |
 | `finalPages[].requiredSections` | `{{#each requiredSections}}` | REQUIREMENTS / DESIGN |
 | `finalPages[].optionalSections` | `{{#each optionalSections}}` | REQUIREMENTS / DESIGN |

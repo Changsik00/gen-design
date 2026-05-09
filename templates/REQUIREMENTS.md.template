@@ -28,6 +28,8 @@
 |---|---|
 | **카테고리** | {{category}} |
 | **variant** | {{variant}} |
+| **route** | `{{route}}` |
+| **layout** | {{layout}} |
 | **Template** | {{templateMapping.template}} {{templateMapping.status}} |
 
 **필수 섹션**:
