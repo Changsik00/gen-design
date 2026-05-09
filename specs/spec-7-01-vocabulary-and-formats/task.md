@@ -48,12 +48,12 @@
 
 ## Task 4: cva AST 추출기 (TS compiler API)
 
-- [ ] `studio/src/lib/vocabulary/extractor/cva-walker.ts` — cva() 콜 walk + variants 객체 분해
-- [ ] `studio/src/lib/vocabulary/extractor/props-extractor.ts` — VariantProps 타입 추출
-- [ ] `studio/src/lib/vocabulary/extractor/plugins/types.ts` — plugin 인터페이스 (cva 외 패턴 미래 확장용)
-- [ ] `studio/src/lib/vocabulary/extractor/index.ts` — public API (`extractFromFile`)
-- [ ] 단위 테스트: studio/src/components/ui/button.tsx fixture 로 6 variant + 8 size 정확 추출
-- [ ] Commit: `feat(spec-7-01): add cva AST extractor`
+- [x] `studio/src/lib/vocabulary/extractor/plugins/types.ts` — plugin 인터페이스 + ExtractedComponent / ExtractedAxis 타입
+- [x] `studio/src/lib/vocabulary/extractor/plugins/cva-plugin.ts` — cva() 콜 walk + variants/defaultVariants/ARIA role 휴리스틱
+- [x] `studio/src/lib/vocabulary/extractor/index.ts` — public API (extractFromFile/Source/Directory)
+- [x] 단위 테스트: 실 ui/button.tsx 추출 (6 variant + 8 size + ARIA "button") + 합성 케이스 6 = 8 case PASS
+- [-] props-extractor (VariantProps 별도 추출) — cva-plugin 에 통합. ADR-004 NFR-1 의 plugin 구조는 보존
+- [x] Commit: `feat(spec-7-01): add cva AST extractor`
 
 ---
 
