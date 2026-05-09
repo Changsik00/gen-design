@@ -70,11 +70,13 @@
 
 ## Task 6: spec.md JSON Schema 자동 생성
 
-- [ ] `studio/src/lib/vocabulary/catalog/spec-schema.ts` — catalog.json → JSON Schema
-- [ ] 컴포넌트 enum + axis enum + token 참조 패턴 + raw 값 거부
-- [ ] 출력: `studio/src/lib/vocabulary/catalog/spec-schema.json`
-- [ ] 단위 테스트: 유효 spec.md 통과 / 무효 (raw hex / 미등록 컴포넌트 / 미등록 variant) 거부
-- [ ] Commit: `feat(spec-7-01): generate spec.md JSON Schema from catalog`
+- [x] `studio/src/lib/vocabulary/catalog/spec-schema.ts` — `generateSpecSchema(catalog)` → JSON Schema
+- [x] 컴포넌트 enum (oneOf) + axis enum + tokens override 의 token 참조 패턴 + raw 색상 거부
+- [x] children 재귀 검증
+- [x] theme attribute 지원 (D-3 Layer 3)
+- [x] 단위 테스트: 11 case (유효/무효 컴포넌트, raw hex 거부, i18n 참조, children 재귀 등) PASS
+- [-] spec-schema.json 파일 출력 — Task 11 (CLI) 에서 build 시점 생성
+- [x] Commit: `feat(spec-7-01): generate spec.md JSON Schema from catalog`
 
 ---
 
