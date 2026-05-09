@@ -39,10 +39,10 @@
 
 ## Task 3: Placeholder + MarkdownText grammar
 
-- [ ] grammar 의 Placeholder 규칙 (`{{i18n.path}}` / `{{token.path}}`) 정의 + 단위 테스트
-- [ ] MarkdownText 처리 (컴포넌트 태그 외 영역) 정의 + 단위 테스트
-- [ ] Comment (`<!-- -->`) 처리
-- [ ] Commit: `feat(spec-7-02): grammar placeholder + markdown text + comment`
+- [x] grammar 의 Placeholder 규칙 (`{{i18n.path}}` / `{{token.path}}`) 정의 + 단위 테스트 — 6 case
+- [x] MarkdownText 처리 (컴포넌트 태그 외 영역) 정의 + 단위 테스트 — 4 case
+- [x] Comment (`<!-- -->`) 처리 — 3 case (single + multi-line + 혼재)
+- [x] Commit: `feat(spec-7-02): grammar placeholder + markdown text + comment`
 
 ---
 
