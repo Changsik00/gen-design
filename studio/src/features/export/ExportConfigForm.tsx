@@ -1,6 +1,12 @@
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Select } from "@/components/ui/select";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectPopup,
+  SelectItem,
+} from "@/components/ui/select";
 import { APP_TYPES, PACKAGE_MANAGERS } from "./types";
 import type { ExportConfig } from "./types";
 
@@ -23,13 +29,22 @@ export function ExportConfigForm({ config, onChange }: Props) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="appType">앱 유형</Label>
+        <Label>앱 유형</Label>
         <Select
           value={config.appType}
-          onValueChange={(v) => onChange({ appType: v as ExportConfig["appType"] })}
-          options={APP_TYPES.map((t) => ({ value: t.value, label: t.label }))}
-          placeholder="앱 유형 선택"
-        />
+          onValueChange={(v) => v && onChange({ appType: v as ExportConfig["appType"] })}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="앱 유형 선택" />
+          </SelectTrigger>
+          <SelectPopup>
+            {APP_TYPES.map((t) => (
+              <SelectItem key={t.value} value={t.value}>
+                {t.label}
+              </SelectItem>
+            ))}
+          </SelectPopup>
+        </Select>
       </div>
 
       <div className="space-y-2">
@@ -43,13 +58,22 @@ export function ExportConfigForm({ config, onChange }: Props) {
       </div>
 
       <div className="space-y-2">
-        <Label htmlFor="packageManager">패키지 매니저</Label>
+        <Label>패키지 매니저</Label>
         <Select
           value={config.packageManager}
-          onValueChange={(v) => onChange({ packageManager: v as ExportConfig["packageManager"] })}
-          options={PACKAGE_MANAGERS.map((p) => ({ value: p.value, label: p.label }))}
-          placeholder="패키지 매니저 선택"
-        />
+          onValueChange={(v) => v && onChange({ packageManager: v as ExportConfig["packageManager"] })}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder="패키지 매니저 선택" />
+          </SelectTrigger>
+          <SelectPopup>
+            {PACKAGE_MANAGERS.map((p) => (
+              <SelectItem key={p.value} value={p.value}>
+                {p.label}
+              </SelectItem>
+            ))}
+          </SelectPopup>
+        </Select>
       </div>
     </div>
   );
