@@ -32,11 +32,11 @@
 
 ## Task 2: Composites 아트보드 — 1차 그룹 (10 컴포넌트)
 
-- [ ] Paper 새 아트보드 생성 "Phase-6 E2E — Composites"
-- [ ] write_html 으로 다음 10 개 렌더:
-  - ErrorIcon, HomeButton, BrandHeader, ErrorMessage, AvatarUpload, StatCard, SocialAuthBlock, SettingsHeader, SettingsGroup, SettingsToggleRow
-- [ ] render-helpers 에 각 컴포넌트의 HTML template 추가
-- [ ] Commit: `feat(spec-6-10): render 10 simple composites to paper artboard`
+- [x] Paper 새 아트보드 생성 "Phase-6 E2E — Composites" (id `1PJ-0`)
+- [x] write_html 으로 다음 10 개 렌더 (각 노드 ID 는 walkthrough 부록 참조):
+  - ErrorIcon, HomeButton, BrandHeader, ErrorMessage, StatCard, AvatarUpload, SocialAuthBlock, SettingsHeader, SettingsGroup, SettingsToggleRow
+- [-] render-helpers 의 COMPOSITES 레지스트리 채우기 — **deferred**: HTML 을 .ts 로 옮기면 ~400 lines 추가 비용. Paper 노드 ID 가 source of truth 이고, 본 spec 의 핵심 deliverable 은 *findings.md* 이므로 레지스트리 채우기는 phase-7 spec-x 후보. (`feedback_relative_paths.md` 등 메모리는 backlog 추가.)
+- [x] Commit: `feat(spec-6-10): render 10 simple composites to paper artboard`
 
 ---
 
