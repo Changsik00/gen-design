@@ -37,7 +37,7 @@
 - {{this}}
 {{/each}}
 
-**선택 섹션**:
+**선택 섹션** (빈 시 `[]` 또는 `none` 명시 — F-05):
 {{#each optionalSections}}
 - {{this}}
 {{/each}}

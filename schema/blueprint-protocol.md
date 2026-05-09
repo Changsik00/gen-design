@@ -340,7 +340,7 @@ finalPages:
       - "BrandHeader"
       - "LoginForm"
       - "SocialAuthBlock"
-    optionalSections:
+    optionalSections:                                        # F-05: 빈 시 [] 또는 'none' literal
       - "ForgotPasswordLink"
     templateMapping:
       template: "LoginPage"
@@ -381,6 +381,21 @@ DESIGN.md.template 이 추가로 사용하는 페이지 상세 필드. Blueprint
 | `finalPages[].sections` | `requiredSections + optionalSections` 를 Section/Block 2차원 구조로 전개 (매핑 규칙은 `page-catalog.md` 의 Section 컬럼 참조) |
 
 > `route` / `layout` 은 §자동 유도 필드 로 이동 (F-03).
+
+#### `optionalSections` 빈 배열 표시 규약 (F-05)
+
+작성자가 선택 섹션을 모두 OFF 한 경우 표기 통일:
+
+| 표기 | 의미 | 권장도 |
+|---|---|---|
+| `[]` | 빈 YAML 배열 | 허용 (machine-friendly) |
+| `'none'` | 명시 literal | 권장 (작성자 의도 명확) |
+| omit | 키 자체 누락 | **금지** (validator fail) |
+
+룰:
+1. validator 는 `[]` 와 `'none'` 둘 다 빈 상태로 인식.
+2. 키 누락은 fail — 작성자가 의도적으로 비웠음을 표시할 수 없음 (단순 빠뜨림 vs 의도 빈 상태 구분 불가).
+3. 마크다운 표시 (`REQUIREMENTS.md` 페이지 블록의 "선택 섹션") 는 빈 시 "(없음)" 또는 "—" 자유.
 
 ---
 
