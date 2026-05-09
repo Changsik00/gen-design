@@ -35,6 +35,20 @@
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
 
+### phase-7 진행 중 follow-ups (2026-05-10 등재)
+
+- **`docs/handbook.md` 작성** — spec-7-03 ship + ADR-006 / ADR-007 까지 정립된 용어 / 원칙 / 아키텍처 / 워크플로 를 한곳에 모은 *살아있는 핸드북*. 사용자 합의: PR #38 머지 후 별도 PR (옵션 B). 초안 구조 8 섹션:
+  1. 한 줄 요약 + 시각 다이어그램 ("Paper → 점진적 spec → 글로벌 SSOT → 한번에 React 추출")
+  2. Glossary — SSOT 4 문서 + 2 디렉토리 / Tier 1-3 / L1-L4 / canonical / round-trip
+  3. 아키텍처 매트릭스 — *"이 정보는 글로벌? 스펙 로컬?"* 표 (per-spec 의 DESIGN/FRONT/TOKEN/assets 슬라이스 vs 글로벌)
+  4. Designer 의 일주일 워크플로 — Profile Page 추가 시나리오 (Day 1-N)
+  5. 원칙 — 글로벌 SSOT 점진 누적 / 스펙 로컬 = delta / vocabulary-first / raw color 금지
+  6. 룰 — One Task = One Commit / 한국어 산출물 / PascalCase 컴포넌트 / ADR-for-결정
+  7. 도구 — sdd CLI (harness-kit) + 본 프로젝트의 *gen-design 명령군* (제안: merge / extract react / extract paper / diff / lint global)
+  8. ADR 인덱스 — 1~7 의 결정 history
+- **per-spec 로컬 design 파일 도입 결정** — 위 핸드북의 §3 매트릭스가 *실제 디렉토리 구조* 로 강제될지 결정. 옵션 A (각 spec dir 안에 DESIGN.md / FRONT.md / TOKEN.md / assets/ 자동 생성), 옵션 B (글로벌 직접 편집, PR diff 가 슬라이스). 시작은 *옵션 B 단순* 가 마찰 적음, 다중 spec 동시 진행 시 옵션 A 검토.
+- **`gen-design` kit 명령군 도입 시점** — 핸드북 §7 의 5 명령 (`merge` / `extract react` / `extract paper` / `diff` / `lint global`). 시작은 `studio/scripts/gen-design.ts` 단일 CLI 로 충분, 별도 kit (`gen-design-kit/` harness-kit 형제) 는 여러 프로젝트에서 재사용 가치 보일 때 분리.
+
 ### phase-6 이월 follow-ups (2026-05-09 등재)
 
 - **시맨틱 토큰 정리 — `surface-alt` 신규 정의** — spec-6-01 (Studio API 정합화) Task 7 진행 중 발견: 회고 C-06 가 권장한 `bg-surface-alt` 매핑이 토큰 자체가 미정의된 상태. studio 의 `--background` 값 (`#F8FAFC`) 이 이미 Paper page ground 와 일치하므로 시각 결과는 정합 (Task 7 [-] Passed). 시맨틱 측면 정리 — `semantic.color.{light,dark}.surface-alt` 토큰 신규 정의 + body 매핑 — 는 spec-6-07 (토큰 편집기) 또는 별도 spec 으로 승격 검토.
