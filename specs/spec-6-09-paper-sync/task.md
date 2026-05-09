@@ -29,11 +29,11 @@
 
 ## Task 2: resolver + converter 구현 (TDD Green)
 
-- [ ] `studio/src/lib/paper-sync/resolver.ts`
-- [ ] `studio/src/lib/paper-sync/converter.ts`
-- [ ] `studio/src/lib/paper-sync/index.ts`
-- [ ] 테스트 Pass 확인
-- [ ] Commit: `feat(spec-6-09): implement paper-sync resolver and converter`
+- [x] `studio/src/lib/paper-sync/resolver.ts`
+- [x] `studio/src/lib/paper-sync/converter.ts`
+- [x] `studio/src/lib/paper-sync/index.ts`
+- [x] 테스트 Pass 확인
+- [x] Commit: `feat(spec-6-09): implement paper-sync resolver and converter`
 
 ---
 
