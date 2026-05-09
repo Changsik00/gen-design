@@ -114,13 +114,13 @@
 
 ## Task 10: Ship
 
-- [ ] `pnpm --filter studio run build` 성공
-- [ ] `pnpm --filter studio test` 전체 PASS
-- [ ] `pnpm --filter studio spec-lint spec/login.spec.md` (대표 fixture) 동작 확인
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
-- [ ] **Ship Commit + Push + PR 생성** (spec → `phase-7-design-md`)
-- [ ] **사용자 알림**
+- [x] `pnpm --filter studio run build` 성공 (TypeScript + Vite)
+- [x] `pnpm --filter studio test` 전체 PASS (65 files / 427 tests)
+- [x] `pnpm --filter studio spec-lint /Users/dennis/Project/Design/spec/login-page.spec.md` 동작 확인
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
+- [x] **Ship Commit + Push + PR 생성** (spec → `phase-7-design-md`)
+- [x] **사용자 알림**
 
 ---
 
@@ -130,7 +130,7 @@
 |---|---|
 | **총 Task 수** | 10 |
 | **예상 commit 수** | 10 |
-| **현재 단계** | Pre-flight |
+| **현재 단계** | Ready to ship |
 | **마지막 업데이트** | 2026-05-10 |
 
 ## 위험 / 주의

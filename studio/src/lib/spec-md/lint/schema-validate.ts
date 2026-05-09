@@ -99,7 +99,7 @@ function stripProps(props: Record<string, unknown>): Record<string, unknown> {
   for (const [k, v] of Object.entries(props)) {
     if (v !== null && typeof v === "object" && "type" in v && (v as { type: string }).type === "Placeholder") {
       // Placeholder → token/i18n 참조 문자열로 representation
-      const ph = v as { kind: string; path: string };
+      const ph = v as unknown as { kind: string; path: string };
       out[k] = `{{${ph.kind}.${ph.path}}}`;
     } else {
       out[k] = v;
