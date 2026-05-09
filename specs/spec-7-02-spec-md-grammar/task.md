@@ -59,13 +59,14 @@
 
 ## Task 5: Attributes grammar (string / JSON / placeholder 값)
 
-- [ ] string literal: `attr="value"` 또는 `attr='value'`
-- [ ] JSON literal: `attr={42}`, `attr={true}`, `attr={null}`
-- [ ] JSON object: `attr={{ "a": "b" }}`
-- [ ] JSON array: `attr={["a"]}`
-- [ ] placeholder: `attr={{i18n.x}}`
-- [ ] 단위 테스트 각 형식별 + 혼합
-- [ ] Commit: `feat(spec-7-02): grammar attributes (string + JSON + placeholder values)`
+- [x] string literal: `attr="value"` 또는 `attr='value'` — escape 포함 5 case
+- [x] JSON literal: `attr={42}`, `attr={true}`, `attr={null}` — number/bool/null 4 case
+- [x] JSON object: `attr={{ "a": "b" }}` — nested 포함 3 case
+- [x] JSON array: `attr={["a"]}` — 1 case
+- [x] placeholder: `attr={{i18n.x}}` — i18n / token 2 case
+- [x] theme / tokens 분리 저장 (L3 / L4) — `theme="brand-a"` → `c.theme`, `tokens={...}` → `c.tokens` 2 case
+- [x] 4 layer 동시 + paired tag with attrs + multi-line 3 case
+- [x] Commit: `feat(spec-7-02): grammar attributes (string + JSON + placeholder values)`
 
 ---
 

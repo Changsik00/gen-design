@@ -21,6 +21,26 @@ export const SPEC_MD_GRAMMAR = String.raw`
       length: location.end.offset - location.start.offset,
     };
   }
+
+  // Attributes 의 [name, value] 배열을 ComponentInstance 의 props/theme/tokens 로 분배.
+  // theme  → string (L3 theme context)
+  // tokens → Record<string, string> (L4 인라인 토큰 override)
+  // 그 외  → props (L1/L2 axis variant)
+  function buildComponentInstance(name, attrs, children, srcLoc) {
+    const result = {
+      type: "ComponentInstance",
+      name,
+      props: {},
+      children,
+      location: srcLoc,
+    };
+    for (const [k, v] of attrs) {
+      if (k === "theme")  result.theme = v;
+      else if (k === "tokens") result.tokens = v;
+      else result.props[k] = v;
+    }
+    return result;
+  }
 }
 
 Document
@@ -40,34 +60,106 @@ ComponentTag
   / PairedTag
 
 SelfClosingTag
-  = "<" name:ComponentName _ "/>" {
-      return {
-        type: "ComponentInstance",
-        name,
-        props: {},
-        children: [],
-        location: loc(location()),
-      };
+  = "<" name:ComponentName attrs:Attributes _ "/>" {
+      return buildComponentInstance(name, attrs, [], loc(location()));
     }
 
 PairedTag
-  = "<" openName:ComponentName _ ">" body:Block* "</" closeName:ComponentName _ ">" {
+  = "<" openName:ComponentName attrs:Attributes _ ">" body:Block* "</" closeName:ComponentName _ ">" {
       if (openName !== closeName) {
         error("Mismatched closing tag: expected </" + openName + "> but got </" + closeName + ">");
       }
-      return {
-        type: "ComponentInstance",
-        name: openName,
-        props: {},
-        children: body,
-        location: loc(location()),
-      };
+      return buildComponentInstance(openName, attrs, body, loc(location()));
     }
 
 ComponentName
   = first:[A-Z] rest:[a-zA-Z0-9_]* { return first + rest.join(""); }
 
 _ "whitespace"
+  = [ \t\n\r]*
+
+// ─── Attributes ───────────────────────────────────────────────────────────
+// theme="brand-a" / variant="primary" / tokens={{ "--primary": "{{token.x}}" }}
+Attributes
+  = pairs:(__ Attribute)* {
+      return pairs.map(p => p[1]);
+    }
+
+Attribute
+  = name:AttrName "=" value:AttrValue {
+      return [name, value];
+    }
+
+AttrName
+  = first:[a-zA-Z_] rest:[a-zA-Z0-9_-]* { return first + rest.join(""); }
+
+AttrValue
+  = StringLiteral
+  / Placeholder
+  / "{" __ json:JsonValue __ "}" { return json; }
+
+StringLiteral
+  = '"' chars:DoubleStringChar* '"' { return chars.join(""); }
+  / "'" chars:SingleStringChar* "'" { return chars.join(""); }
+
+DoubleStringChar
+  = !'"' !"\\" c:. { return c; }
+  / "\\" c:. { return c; }
+
+SingleStringChar
+  = !"'" !"\\" c:. { return c; }
+  / "\\" c:. { return c; }
+
+// ─── JSON sub-grammar ─────────────────────────────────────────────────────
+JsonValue
+  = JsonObject
+  / JsonArray
+  / JsonString
+  / JsonNumber
+  / JsonBoolean
+  / JsonNull
+
+JsonObject
+  = "{" __ pairs:JsonPairList? __ "}" {
+      return Object.fromEntries(pairs || []);
+    }
+
+JsonPairList
+  = head:JsonPair tail:(__ "," __ JsonPair)* {
+      return [head, ...tail.map(t => t[3])];
+    }
+
+JsonPair
+  = key:JsonString __ ":" __ value:JsonValue {
+      return [key, value];
+    }
+
+JsonArray
+  = "[" __ items:JsonItemList? __ "]" {
+      return items || [];
+    }
+
+JsonItemList
+  = head:JsonValue tail:(__ "," __ JsonValue)* {
+      return [head, ...tail.map(t => t[3])];
+    }
+
+JsonString
+  = '"' chars:DoubleStringChar* '"' { return chars.join(""); }
+
+JsonNumber
+  = "-"? [0-9]+ ("." [0-9]+)? ([eE] [+-]? [0-9]+)? {
+      return parseFloat(text());
+    }
+
+JsonBoolean
+  = "true"  { return true; }
+  / "false" { return false; }
+
+JsonNull
+  = "null" { return null; }
+
+__ "ws"
   = [ \t\n\r]*
 
 // ─── Comment ──────────────────────────────────────────────────────────────
