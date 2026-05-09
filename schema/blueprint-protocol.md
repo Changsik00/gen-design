@@ -21,6 +21,24 @@
 2. **추천 우선**: 앱 유형 선택 시 추천 세트를 먼저 제시하여 빠른 시작을 유도
 3. **점진적 구체화**: Step 1은 큰 방향, Step 2는 페이지 구성, Step 3는 세부 조정
 4. **카탈로그 참조**: 모든 페이지 ID, 섹션 이름은 `page-catalog.md`의 정의를 따른다
+5. **Template 재사용 우선** (F-07): Phase 2 / 본 phase 의 Template 이 존재하면 그대로 재사용. 복제 후 변경은 명시적 사유 + `derivedFrom` 필드 명시 + origin 갱신 의무.
+
+### Template 재사용 / 복제 정책 (F-07)
+
+PoC 또는 production app 작성 시 Phase 2 Template (예: `LoginPage`, `DashboardPage`) 활용 정책:
+
+| 상황 | 권장 동작 | YAML 표시 |
+|---|---|---|
+| Phase 2 Template 그대로 사용 | **재사용** (default) | `templateMapping.template: "LoginPage"` (derivedFrom 없음) |
+| Phase 2 Template 의 *살짝 다른* 변형 | **재사용 + variant prop / texts 차등** | 동일 — variant 시스템으로 표현 |
+| Phase 2 Template 의 구조적 다른 변형 | **복제 후 변경** | `template: "CustomLoginPage"`, `derivedFrom: "LoginPage"` |
+| 새 페이지 (origin 없음) | **신규 작성** | `template: "TeamRosterPage"`, `derivedFrom` 없음 |
+
+**룰** (soft 권장):
+1. 재사용이 가능하면 *항상* 재사용 — 복제는 명시적 사유 (예: 구조 차이 / 별도 도메인 로직).
+2. 복제 시 `derivedFrom: "{origin Template}"` 명시 — 추후 origin 변경 시 영향 추적.
+3. 복제본을 변경할 때, 변경의 본질이 origin 에도 적용되어야 한다면 origin 갱신 의무 (양쪽 sync).
+4. 복제 결정은 본 phase 의 ADR 또는 spec.md 의 §"Out of Scope / 결정 기록" 에 기록 (소급 추적 가능).
 
 ---
 
@@ -345,6 +363,7 @@ finalPages:
     templateMapping:
       template: "LoginPage"
       status: "implemented"                                  # F-04: 'implemented' | 'not-implemented' literal 만 허용
+      # derivedFrom: "LoginPage"                             # F-07: 옵션 — Phase 2 Template 의 파생본일 때 origin 명시
   # ... (다른 페이지)
 ```
 
@@ -432,6 +451,7 @@ placeholder 는 nested 접근(`{{obj.field}}`) 을 사용한다 (Fill Executor �
 | `finalPages[].optionalSections` | `{{#each optionalSections}}` | REQUIREMENTS / DESIGN |
 | `finalPages[].templateMapping.template` | `{{templateMapping.template}}` | REQUIREMENTS / AGENT |
 | `finalPages[].templateMapping.status` | `{{templateMapping.status}}` | REQUIREMENTS / AGENT |
+| `finalPages[].templateMapping.derivedFrom` (옵션) | `{{templateMapping.derivedFrom}}` | AGENT (복제 추적) |
 
 ### 자동 주입 / 외부 소스 (Schema 외부)
 
