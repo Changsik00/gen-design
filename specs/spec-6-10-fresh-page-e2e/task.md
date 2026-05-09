@@ -81,21 +81,18 @@
 
 ## Task 7: (조건부) 발견된 단순 drift 수정
 
-- [ ] findings 가 token-level 단순 drift 도출 시 tokens.json 수정 + token CSS 재빌드
-- [ ] findings 가 component-level 단순 fix 도출 시 해당 파일 수정
-- [ ] `pnpm --filter studio test` PASS 유지
-- [ ] Commit: `fix(spec-6-10): apply simple drifts found in fresh-page e2e` (수정 없으면 skip)
+- [-] **Passed** — findings 결과 token-level drift 0 건. component-level drift 2 건 (HomeButton fluid width, Lucide 아이콘 단순화) 모두 *무조치* 결론 (Paper API 사용 패턴 / 시각 인식 동일). Paper API 한계 5 건은 본 spec 의 fix 불가 영역 — backlog 이월. 따라서 본 task 는 코드 수정 없이 Pass.
 
 ---
 
 ## Task 8: Ship
 
-- [ ] `pnpm --filter studio run build` 성공
-- [ ] `pnpm --filter studio test` 전체 PASS
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
-- [ ] **Ship Commit + Push + PR 생성**
-- [ ] **사용자 알림**
+- [x] `pnpm --filter studio run build` 성공 (202ms)
+- [x] `pnpm --filter studio test` 전체 PASS (278/278)
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
+- [x] **Ship Commit + Push + PR 생성**
+- [x] **사용자 알림**
 
 ---
 
@@ -105,5 +102,5 @@
 |---|---|
 | **총 Task 수** | 8 (Task 7 조건부) |
 | **예상 commit 수** | 6~7 |
-| **현재 단계** | Pre-flight |
+| **현재 단계** | Ship 완료 |
 | **마지막 업데이트** | 2026-05-09 |
