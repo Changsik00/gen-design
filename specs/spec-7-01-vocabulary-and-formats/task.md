@@ -39,10 +39,10 @@
 
 ## Task 3: ARIA Tier 1 정적 데이터
 
-- [ ] `data/aria-roles.json` — ARIA 1.3 의 role + state 80+ 개
-- [ ] `studio/src/lib/vocabulary/catalog/tier1-aria.ts` — JSON 로더
-- [ ] 단위 테스트: 주요 role (button / dialog / listbox / navigation) 존재 확인
-- [ ] Commit: `feat(spec-7-01): add ARIA 1.3 tier 1 vocabulary`
+- [x] `data/aria-roles.json` — ARIA 1.3 의 78 role (abstract/widget/composite/documentStructure/landmark/liveRegion/windowLike 카테고리)
+- [x] `studio/src/lib/vocabulary/catalog/tier1-aria.ts` — JSON 로더 + lookup map + isAriaRole 헬퍼
+- [x] 단위 테스트: 7 case (widget/composite/dialog/landmark/미등록/총수/메타) 모두 PASS
+- [x] Commit: `feat(spec-7-01): add ARIA 1.3 tier 1 vocabulary`
 
 ---
 
