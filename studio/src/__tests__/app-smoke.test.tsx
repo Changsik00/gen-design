@@ -32,17 +32,17 @@ describe("App smoke", () => {
   it("hash #/editor → DesignEditor 렌더 (SectionNav + 미리보기 패널)", () => {
     setHash("#/editor");
     render(<App />);
-    // DesignEditor 상단 appName 레이블
     expect(screen.getByText("앱 이름")).toBeInTheDocument();
-    // MarkdownPreview 패널 헤딩
     expect(screen.getByText("DESIGN.md 미리보기")).toBeInTheDocument();
   });
 
-  it("hash #/tokens → TokensPage placeholder", () => {
+  it("hash #/tokens → TokenEditor 렌더 (TokenNav + 미리보기 패널)", () => {
     setHash("#/tokens");
     render(<App />);
-    expect(screen.getByText("Token Editor")).toBeInTheDocument();
-    expect(screen.getByText(/spec-6-07/)).toBeInTheDocument();
+    // TokenNav 카테고리 레이블
+    expect(screen.getByText("Color")).toBeInTheDocument();
+    // ComponentPreview 패널 헤딩
+    expect(screen.getByText("컴포넌트 미리보기")).toBeInTheDocument();
   });
 
   it("hash #/export → ExportPage placeholder", () => {
