@@ -9,6 +9,33 @@
 > - 한국어 prose: `구현 완료` | `미구현`
 >
 > validator (`scripts/validate-blueprint.mjs`) 는 YAML 영역의 어휘만 검증. 본 문서의 마크다운 표는 readability 우선이라 검증 대상 아님.
+>
+> **Template 이름 유추 규칙 (F-06 정합화)**:
+> 페이지 id (kebab-case) → Template 이름 (PascalCase + `Page` 접미) 자동 변환:
+>
+> 1. `id` 의 모든 `-` 를 segment 경계로 본다.
+> 2. 각 segment 의 첫 글자 대문자화 (PascalCase).
+> 3. 결합 후 `Page` 접미.
+>
+> | 페이지 id | 유추 Template | 예외 |
+> |---|---|---|
+> | `auth-login` | `LoginPage` | `Auth` 접두 생략 (관례) |
+> | `auth-signup` | `SignupPage` | 동일 |
+> | `dash-overview` | `DashboardPage` | `Dash` → `Dashboard` 확장 (sub-table 참조) |
+> | `profile-mypage` | `MyPage` | `Profile` 접두 생략 (관례), `mypage` → `MyPage` |
+> | `profile-settings` | `SettingsPage` | `Profile` 접두 생략 |
+> | `team-roster` | `TeamRosterPage` | 일반 규칙 — kebab → PascalCase + `Page` |
+>
+> **카테고리 접두 생략 sub-table** (F-06):
+>
+> | 접두 | 동작 |
+> |---|---|
+> | `auth-` | 생략 (`auth-login` → `LoginPage`) |
+> | `profile-` | 생략 (`profile-mypage` → `MyPage`) |
+> | `dash-` | `Dashboard` 로 확장 (`dash-overview` → `DashboardPage`) |
+> | `commerce-` / `content-` / `common-` 등 | 일반 규칙 (segment 모두 PascalCase) |
+>
+> 예외가 필요하면 본 표에 명시. 미구현 페이지는 카탈로그 표의 "Template 상태" 컬럼에 유추 이름 기재 (예: `⬜ MyPage` 가 아닌 `⬜` 만 있는 경우 본 규칙 따라 자동 산출).
 
 ---
 
@@ -18,22 +45,22 @@
 |---|---|---|---|---|---|
 | 1 | auth | Login | `auth-login` | page, modal, bottom-sheet | ✅ LoginPage |
 | 2 | auth | Signup | `auth-signup` | page, modal, bottom-sheet | ✅ SignupPage |
-| 3 | auth | Forgot Password | `auth-forgot-pw` | page, modal | ⬜ |
-| 4 | auth | Verify / OTP | `auth-verify` | page, modal | ⬜ |
+| 3 | auth | Forgot Password | `auth-forgot-pw` | page, modal | ⬜ ForgotPwPage |
+| 4 | auth | Verify / OTP | `auth-verify` | page, modal | ⬜ VerifyPage |
 | 5 | dashboard | Overview | `dash-overview` | page | ✅ DashboardPage |
-| 6 | dashboard | Analytics | `dash-analytics` | page | ⬜ |
-| 7 | profile | My Page | `profile-mypage` | page | ⬜ |
-| 8 | profile | Settings | `profile-settings` | page | ⬜ |
-| 9 | content | List | `content-list` | page | ⬜ |
-| 10 | content | Detail | `content-detail` | page, modal | ⬜ |
-| 11 | content | Search | `content-search` | page, modal | ⬜ |
-| 12 | commerce | Cart | `commerce-cart` | page, bottom-sheet | ⬜ |
-| 13 | commerce | Checkout | `commerce-checkout` | page | ⬜ |
-| 14 | commerce | Order History | `commerce-orders` | page | ⬜ |
-| 15 | common | Landing | `common-landing` | page | ⬜ |
-| 16 | common | Onboarding | `common-onboarding` | page, modal | ⬜ |
-| 17 | common | Error (404/500) | `common-error` | page | ⬜ |
-| 18 | common | Notifications | `common-notifications` | page, bottom-sheet | ⬜ |
+| 6 | dashboard | Analytics | `dash-analytics` | page | ⬜ DashboardAnalyticsPage |
+| 7 | profile | My Page | `profile-mypage` | page | ⬜ MyPage |
+| 8 | profile | Settings | `profile-settings` | page | ⬜ SettingsPage |
+| 9 | content | List | `content-list` | page | ⬜ ContentListPage |
+| 10 | content | Detail | `content-detail` | page, modal | ⬜ ContentDetailPage |
+| 11 | content | Search | `content-search` | page, modal | ⬜ ContentSearchPage |
+| 12 | commerce | Cart | `commerce-cart` | page, bottom-sheet | ⬜ CommerceCartPage |
+| 13 | commerce | Checkout | `commerce-checkout` | page | ⬜ CommerceCheckoutPage |
+| 14 | commerce | Order History | `commerce-orders` | page | ⬜ CommerceOrdersPage |
+| 15 | common | Landing | `common-landing` | page | ⬜ CommonLandingPage |
+| 16 | common | Onboarding | `common-onboarding` | page, modal | ⬜ CommonOnboardingPage |
+| 17 | common | Error (404/500) | `common-error` | page | ⬜ CommonErrorPage |
+| 18 | common | Notifications | `common-notifications` | page, bottom-sheet | ⬜ CommonNotificationsPage |
 
 ---
 
