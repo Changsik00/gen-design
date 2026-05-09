@@ -82,11 +82,11 @@
 
 ## Task 7: tokens.json 의 DTCG 1.0 정렬
 
-- [ ] `templates/assets/tokens/tokens.json` 을 DTCG 형식으로 정렬 (`$value` / `$type` / `$description`)
-- [ ] 기존 tokens 의 의미 *0 변경* — 형식만 정렬
-- [ ] dtcg validator 로 ajv 검증 PASS
-- [ ] paper-sync resolver 가 정렬 후 tokens 와 호환 (회귀 테스트 PASS)
-- [ ] Commit: `refactor(spec-7-01): align tokens.json with DTCG 1.0 strict format`
+- [x] `templates/assets/tokens/tokens.json` 검사 — *이미 DTCG 1.0 strict 호환* ($value/$type 사용, group 상속, references)
+- [x] dtcg validator 의 root metadata ($schema URL) 허용으로 schema 갱신 — 의미 변경 없이 정렬
+- [x] tokens-dtcg-compliance.test.ts 추가 — 실 tokens.json 이 DTCG schema 통과 검증
+- [x] studio 전체 단위 테스트 328/328 PASS — 회귀 0 (paper-sync resolver 8 case 포함)
+- [x] Commit: `refactor(spec-7-01): align tokens.json with DTCG 1.0 strict format`
 
 ---
 

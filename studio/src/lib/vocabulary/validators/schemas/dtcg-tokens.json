@@ -80,6 +80,13 @@
       }
     }
   },
+  "properties": {
+    "$schema": {
+      "type": "string",
+      "description": "Optional JSON Schema reference (root-level metadata, ignored by DTCG)."
+    },
+    "$description": { "type": "string" }
+  },
   "additionalProperties": {
     "anyOf": [
       { "$ref": "#/definitions/tokenLeaf" },
