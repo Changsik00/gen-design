@@ -20,11 +20,13 @@
 - [x] `git checkout -b spec-6-10-fresh-page-e2e`
 
 ### 1-2. render-helpers 스캐폴드
-- [ ] `studio/scripts/paper-e2e/render-helpers.mjs` 신규
-- [ ] paper-sync 의 resolveSemanticColors 를 import 해서 light scheme CSS vars 객체 생성하는 함수
-- [ ] CSS vars → `<style>:root { ... }</style>` 문자열 변환 헬퍼
-- [ ] 기본 페이지 frame HTML wrapper (font, background)
-- [ ] Commit: `feat(spec-6-10): add render-helpers scaffold using paper-sync resolver`
+- [x] `studio/src/lib/paper-e2e/render-helpers.ts` 신규 (scripts/ 대신 src/lib/ 로 위치 — paper-sync 와 동일 레이어, C2 더 명확히 해소)
+- [x] paper-sync 의 resolveSemanticColors 를 import 해서 light scheme CSS vars 객체 생성
+- [x] simple tokens (radius / sidebar-width / font) 별도 추출
+- [x] cssVarsBlock 헬퍼 + pageWrapper HTML 래퍼
+- [x] COMPOSITES / TEMPLATES 빈 레지스트리 (Task 2~4 에서 채움)
+- [x] 12 단위 테스트 PASS (studio 전체 278/278)
+- [x] Commit: `feat(spec-6-10): add render-helpers scaffold using paper-sync resolver`
 
 ---
 
