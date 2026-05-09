@@ -66,6 +66,11 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 ## 🧩 작업 단위 (SPECs)
 
 > 본 phase 는 7 spec 으로 구성. 1~4 가 *핵심*, 5~7 이 *외부 통합 + UI 재구성*.
+>
+> **2026-05-10 방향 pivot** (ADR-006): 디자이너 워크플로의 canonical 흐름은
+> Paper → spec.md → React. spec-7-06 (Paper → spec.md inference) 이 *긴급 다음 spec*
+> 으로 승격. 기존 spec-7-04 (spec.md → React) 는 7-06 이후로 연기.
+> spec-7-03 은 ship 완료 — 양방향 round-trip 의 *역방향 (spec.md → Paper)* 측면으로 reframe.
 
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
@@ -143,9 +148,11 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 - **종속**: spec-7-02, spec-7-04
 - **Integration Test Required**: yes (PoC 1 개 페이지 변환 성공)
 
-### spec-7-06 — Paper → spec.md inference (보조 루프)
+### spec-7-06 — Paper → spec.md inference (**ADR-006 이후 메인 루프**)
 
-- **요점**: 옵션 B 의 *축소* 영역 — Paper 에서 직접 편집한 변경분만 spec.md 로 역추출. 메인 루프 (spec.md → Paper) 의 보조.
+> ⚡ **ADR-006 (2026-05-10) 이후 spec-7-04 보다 우선** — 디자이너 워크플로의 *canonical 시작점*. 기존 *보조 루프* 표현은 outdated.
+
+- **요점**: Paper 레이어 트리 → spec.md 자동 추출. 디자이너가 Paper 에서 작업하면 시스템이 spec.md 를 만들어주는 핵심 흐름.
 - **방향성**:
   - Paper 노드 트리 → 어휘 카탈로그 매칭 + 신뢰도 점수
   - LLM vision 또는 스타일 휴리스틱 (또는 하이브리드)
