@@ -16,3 +16,4 @@ export * from "./hex-alpha";
 export * from "./padding";
 export * from "./line-height";
 export * from "./font-fallback";
+export * from "./border";

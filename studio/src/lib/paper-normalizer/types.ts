@@ -42,3 +42,13 @@ export interface FontFallback {
   fallbacks: string[];
   generic: "sans-serif" | "serif" | "monospace" | null;
 }
+
+/**
+ * C5 — border. shorthand 의 width / style / color 분해.
+ * style 누락 시 null (serialize 시 'solid' 기본 보강). color 는 HexAlpha.
+ */
+export interface Border {
+  width: number;
+  style: "solid" | "dashed" | "dotted" | null;
+  color: HexAlpha;
+}
