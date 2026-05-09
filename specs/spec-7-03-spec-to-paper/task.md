@@ -120,13 +120,14 @@
 
 ## Task 9: Ship
 
-- [ ] `pnpm --filter studio run build` 성공
-- [ ] `pnpm --filter studio test` 전체 PASS
-- [ ] `pnpm --filter studio spec-paper /Users/.../spec/login-page.spec.md` 동작 확인
-- [ ] **walkthrough.md 작성** (특히 *회고 C1 해소* 섹션 강조)
-- [ ] **pr_description.md 작성**
-- [ ] **Ship Commit + Push + PR 생성** (spec → `phase-7-design-md`)
-- [ ] **사용자 알림**
+- [x] `pnpm --filter studio run build` 성공 (TypeScript + Vite, peggy eval 경고 inherited)
+- [x] `pnpm --filter studio test` 전체 PASS (72 files / 477 tests)
+- [x] `pnpm --filter studio spec-paper /Users/.../spec/login-page.spec.md --output /tmp/x.html` 동작 확인
+- [x] Studio dev server `http://localhost:5174/#/preview` 동작 확인
+- [x] **walkthrough.md 작성** (회고 C1 부분 해소 섹션 + Tailwind 갭 명문화)
+- [x] **pr_description.md 작성**
+- [x] **Ship Commit + Push + PR 생성** (spec → `phase-7-design-md`)
+- [x] **사용자 알림**
 
 ---
 
@@ -136,7 +137,7 @@
 |---|---|
 | **총 Task 수** | 9 |
 | **예상 commit 수** | 9 |
-| **현재 단계** | Pre-flight |
+| **현재 단계** | Ready to ship |
 | **마지막 업데이트** | 2026-05-10 |
 
 ## 위험 / 주의
