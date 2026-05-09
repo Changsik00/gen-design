@@ -65,6 +65,20 @@ recommendedPages: [...]        # page-catalog.md 추천 세트에서 로드
 
 > 인증 / i18n / 테마 등 **페이지와 무관한 앱 전체 설정** 을 빠르게 수집한다.
 > 질의 대상이 작고 대부분 기본값이 동작하므로 일괄 확인 방식으로 진행.
+>
+> **체크리스트 — 모든 카테고리 응답 필수 (fail-fast)**:
+> Step 1.5 의 6 카테고리 (인증 / 다국어 / 테마 / 성능 / 보안 / 호환성·접근성) 중 *하나라도 누락* 하면 Step 2 진행 불가. 기본값으로 진행하려면 명시적으로 "기본값" 응답을 받아야 한다 (암묵적 누락 금지).
+>
+> | 카테고리 | 필수 응답 | 기본값 |
+> |---|---|---|
+> | 1 인증 | method / socialProviders / sessionStrategy | email-password / [] / jwt-refresh |
+> | 2 다국어 | defaultLocale / supportedLocales | ko / [ko] |
+> | 3 테마 | defaultTheme / supportedThemes | light / [light] |
+> | 4 성능 | targetLighthouseScore (선택) / coreWebVitalsBudget (선택) | LCP <2.5s / CLS <0.1 / INP <200ms (Lighthouse 90+ 권장) |
+> | 5 보안 | csp 정책 수준 / authStorageMethod | strict-default / httpOnly cookie |
+> | 6 호환성·접근성 | targetBrowsers / a11yLevel | last-2 evergreen / WCAG 2.1 AA |
+>
+> 카테고리 4~6 은 phase-5 회고 (F-01) 가 식별한 *spec.md 작성 단계 누락* 의 직접 회복 — Blueprint 응답에서 명시되어야 다운스트림 (Studio export, AGENT.md 의 자동 생성 절차) 이 가이드 가능.
 
 ### 질문
 
@@ -94,6 +108,29 @@ recommendedPages: [...]        # page-catalog.md 추천 세트에서 로드
 6) 지원 테마 (복수 선택, 기본: light)
    [ ] light  [ ] dark  [ ] auto (system)
 7) 기본 테마 (기본: light)
+
+[성능 (NFR-perf)]
+8) Lighthouse 목표 점수 (기본: 90)
+9) Core Web Vitals 예산
+   - LCP (기본: 2.5s)
+   - CLS (기본: 0.1)
+   - INP (기본: 200ms)
+
+[보안 (NFR-sec)]
+10) CSP 정책 수준
+    a) strict-default ← 기본 (default-src 'self', 인라인 차단)
+    b) relaxed (인라인 허용 — 마이그레이션 한정)
+11) 인증 토큰 저장 위치
+    a) httpOnly cookie ← 기본
+    b) localStorage (XSS 위험 인정)
+    c) memory only (새로고침 시 재로그인)
+
+[호환성 / 접근성 (NFR-compat-a11y)]
+12) 대상 브라우저 (기본: last-2 evergreen)
+13) 접근성 등급 (기본: WCAG 2.1 AA)
+    a) WCAG 2.1 AA ← 기본
+    b) WCAG 2.1 AAA (요구 시)
+    c) AA-best-effort (실험적 PoC 한정)
 ```
 
 ### 처리 규칙
@@ -117,7 +154,21 @@ i18n:
 theme:
   defaultTheme: "light"
   supportedThemes: ["light", "dark"]
+performance:
+  targetLighthouseScore: 90
+  coreWebVitalsBudget:
+    lcp: "2.5s"
+    cls: 0.1
+    inp: "200ms"
+security:
+  csp: "strict-default"
+  authStorageMethod: "httpOnly-cookie"
+compatibility:
+  targetBrowsers: "last-2 evergreen"
+  a11yLevel: "WCAG-2.1-AA"
 ```
+
+> **검증 (F-01 fail-fast)**: 위 6 카테고리 (auth / i18n / theme / performance / security / compatibility) 의 모든 키가 출력 YAML 에 존재해야 한다. `scripts/validate-blueprint.mjs` 가 누락 검사.
 
 ---
 

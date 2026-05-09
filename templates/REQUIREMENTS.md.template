@@ -54,9 +54,12 @@
 | {{id}} | {{templateMapping.template}} | {{templateMapping.status}} | {{variant}} |
 {{/each}}
 
-## 비기능 요구사항
+## 비기능 요구사항 (NFR)
 
-### 인증
+> Blueprint Step 1.5 의 6 카테고리 모두 명시 필수 (F-01 fail-fast).
+> 누락 시 `scripts/validate-blueprint.mjs` 가 에러로 차단.
+
+### 인증 (NFR-auth)
 
 | 항목 | 값 |
 |---|---|
@@ -64,7 +67,7 @@
 | 소셜 로그인 | {{auth.socialProviders}} |
 | 세션 관리 | {{auth.sessionStrategy}} |
 
-### 다국어 (i18n)
+### 다국어 (NFR-i18n)
 
 | 항목 | 값 |
 |---|---|
@@ -72,13 +75,36 @@
 | 지원 언어 | {{i18n.supportedLocales}} |
 | 리소스 위치 | `templates/assets/i18n/` |
 
-### 브랜딩 (Tokens)
+### 브랜딩 / 테마 (NFR-theme)
 
 | 항목 | 값 |
 |---|---|
 | 기본 테마 | {{theme.defaultTheme}} |
 | 지원 테마 | {{theme.supportedThemes}} |
 | 토큰 위치 | `templates/assets/tokens/` |
+
+### 성능 (NFR-perf)
+
+| 항목 | 값 |
+|---|---|
+| Lighthouse 목표 | {{performance.targetLighthouseScore}} |
+| LCP 예산 | {{performance.coreWebVitalsBudget.lcp}} |
+| CLS 예산 | {{performance.coreWebVitalsBudget.cls}} |
+| INP 예산 | {{performance.coreWebVitalsBudget.inp}} |
+
+### 보안 (NFR-sec)
+
+| 항목 | 값 |
+|---|---|
+| CSP 정책 | {{security.csp}} |
+| 인증 토큰 저장 | {{security.authStorageMethod}} |
+
+### 호환성 / 접근성 (NFR-compat-a11y)
+
+| 항목 | 값 |
+|---|---|
+| 대상 브라우저 | {{compatibility.targetBrowsers}} |
+| 접근성 등급 | {{compatibility.a11yLevel}} |
 
 ---
 
