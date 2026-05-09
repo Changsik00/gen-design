@@ -147,12 +147,31 @@ export const DEFAULT_PROPS: Record<string, Record<string, unknown>> = {
     texts: SETTINGS_TEXTS,
     appName: "Studio",
     notifications: NOTIFICATIONS,
+    theme: "light",
+    fontSize: 14,
+    language: "ko",
+    timezone: "Asia/Seoul",
+    themeOptions: [
+      { label: "Light", value: "light" },
+      { label: "Dark", value: "dark" },
+    ],
+    languageOptions: [
+      { label: "한국어", value: "ko" },
+      { label: "English", value: "en" },
+    ],
+    timezoneOptions: [
+      { label: "Seoul (UTC+9)", value: "Asia/Seoul" },
+      { label: "UTC", value: "UTC" },
+    ],
+    accountEmailValue: "dennis@example.com",
+    navItems: NAV_ITEMS,
   },
   VariantWrapper: {
     variant: "page",
     triggerLabel: "Open",
   },
-  // Composites that need mock data (fixture 가 직접 사용 시)
+  // ── Composites — fixture 가 직접 사용 시 필요 (template 안에서는 template 이 props 전달)
+
   Sidebar: {
     appName: "Studio",
     navItems: NAV_ITEMS,
@@ -164,7 +183,82 @@ export const DEFAULT_PROPS: Record<string, Record<string, unknown>> = {
     columns: { user: "User", action: "Action", status: "Status", time: "Time" },
     rows: ACTIVITY_ROWS,
   },
+  ActivitySummary: {
+    labels: { tasks: "할 일", comments: "댓글", completion: "완료율" },
+    values: SUMMARY_DATA,
+  },
   StatCard: STAT_DATA[0],
+  BrandHeader: {
+    title: "Studio",
+    description: "spec.md 기반 디자인 시스템",
+  },
+  DashboardHeader: {
+    title: "Dashboard",
+    searchPlaceholder: "검색…",
+  },
+  ProfileHeader: {
+    name: "Dennis",
+    role: "Designer",
+    avatarUrl: null,
+  },
+  SettingsHeader: {
+    title: "설정",
+    searchPlaceholder: "설정 검색",
+  },
+  ProfileInfoCard: {
+    labels: { email: "이메일", joinedAt: "가입일", team: "팀" },
+    values: { email: "dennis@example.com", joinedAt: "2025-09-01", team: "Design" },
+  },
+  AvatarUpload: {
+    label: "이미지 업로드",
+    avatarUrl: null,
+    initials: "D",
+  },
+  LoginForm: {
+    emailLabel: "이메일",
+    emailPlaceholder: "이메일을 입력하세요",
+    passwordLabel: "비밀번호",
+    passwordPlaceholder: "비밀번호를 입력하세요",
+    submitButton: "로그인",
+  },
+  SignupForm: {
+    nameLabel: "이름",
+    namePlaceholder: "이름을 입력하세요",
+    emailLabel: "이메일",
+    emailPlaceholder: "이메일을 입력하세요",
+    passwordLabel: "비밀번호",
+    passwordPlaceholder: "비밀번호를 입력하세요",
+    confirmPasswordLabel: "비밀번호 확인",
+    confirmPasswordPlaceholder: "비밀번호를 다시 입력하세요",
+    termsAgreement: "약관에 동의합니다",
+    submitButton: "회원가입",
+  },
+  SocialAuthBlock: {
+    googleLabel: "Google",
+    githubLabel: "GitHub",
+  },
+  ErrorIcon: { variant: "404" as const },
+  ErrorMessage: {
+    title: "페이지를 찾을 수 없습니다",
+    message: "URL 을 확인해 주세요",
+  },
+  HomeButton: { label: "홈으로" },
+  SettingsGroup: { title: "그룹", description: "설명" },
+  SettingsToggleRow: { label: "옵션", helperText: "도움말", checked: false },
+  SettingsSelectRow: {
+    label: "선택",
+    value: "a",
+    options: [
+      { label: "A", value: "a" },
+      { label: "B", value: "b" },
+    ],
+  },
+  SettingsSliderRow: {
+    label: "슬라이더",
+    value: 50,
+    min: 0,
+    max: 100,
+  },
 };
 
 export function defaultPropsFor(name: string): Record<string, unknown> {

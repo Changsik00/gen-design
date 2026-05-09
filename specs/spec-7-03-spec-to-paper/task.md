@@ -73,10 +73,11 @@
 
 ## Task 5: 28 fixture 컴파일 회귀 + 결정성
 
-- [ ] `paper/__tests__/compile-fixtures.test.ts` — spec/*.spec.md 28 개 모두 컴파일 + 에러 0
-- [ ] 결정성: 같은 입력 두 번 → identical HTML
-- [ ] 시각 정합 (DOM 등가 스냅샷, 3 fixture: LoginPage / DashboardPage / ErrorPage)
-- [ ] Commit: `test(spec-7-03): 28-fixture compilation regression + DOM-eq snapshots`
+- [x] `paper/__tests__/compile-fixtures.test.ts` — spec/*.spec.md 28 개 모두 컴파일 + 에러 0
+- [x] 결정성: 같은 입력 두 번 → identical HTML (`.html` + `.payload`)
+- [x] DOM 등가 스냅샷 3 fixture (LoginPage / DashboardPage / ErrorPage) — `__snapshots__/` 추적
+- [x] default-props 보강 — composites 16 개 + templates 7 개 모두 mock data 채움
+- [x] Commit: `test(spec-7-03): 28-fixture compilation regression + DOM-eq snapshots`
 
 ---
 
