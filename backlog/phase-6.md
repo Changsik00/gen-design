@@ -58,7 +58,7 @@ Blueprint 질의서, DESIGN.md 편집, 디자인 토큰 편집, 미리보기 기
 | `spec-6-02` | paper-normalizer | P1 | Merged | `specs/spec-6-02-paper-normalizer/` |
 | `spec-6-03` | blueprint-protocol | P1 | Merged | `specs/spec-6-03-blueprint-protocol/` |
 | `spec-6-04` | studio-app-setup | P1 | Merged | `specs/spec-6-04-studio-app-setup/` |
-| `spec-6-09` | paper-sync | P? | Active | `specs/spec-6-09-paper-sync/` |
+| `spec-6-09` | paper-sync | P? | Merged | `specs/spec-6-09-paper-sync/` |
 <!-- sdd:specs:end -->
 
 > **순서 원칙**: Track B (전제 조건) → Track A (Studio 본체) → Track C (회귀 자동화). Track B 의 paper sync 평가 (TODO-03) 만 토큰 편집기 이후가 자연스러워 Track A 뒤로 배치.

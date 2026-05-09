@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-6** — Studio v1 — 9 spec — 다음: spec-6-09-paper-sync
+- **phase-6** — Studio v1 — 9 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
