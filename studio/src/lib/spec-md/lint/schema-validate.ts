@@ -29,27 +29,33 @@ if (!ajvInstance.getSchema("http://json-schema.org/draft-07/schema")) {
   ajvInstance.addMetaSchema(draft7Meta);
 }
 
-let cachedValidator: ((value: unknown) => boolean) | null = null;
-let cachedSchemaRef: object | null = null;
+interface ValidatorFn {
+  (v: unknown): boolean;
+  errors?: ErrorObject[] | null;
+}
+
+/**
+ * $id 기반 dedup. 같은 schema 가 여러 번 (다른 object reference) 로드되어도
+ * ajv 가 "already exists" 던지지 않도록 getSchema 우선 조회.
+ */
+function getValidator(schema: object): ValidatorFn {
+  const id = (schema as { $id?: string }).$id;
+  if (id) {
+    const existing = ajvInstance.getSchema(id);
+    if (existing) return existing as ValidatorFn;
+    return ajvInstance.compile(schema) as ValidatorFn;
+  }
+  return ajvInstance.compile(schema) as ValidatorFn;
+}
 
 export function validateAgainstSchema(
   ast: Document,
   options: SchemaValidateOptions,
 ): SchemaValidateResult {
-  const validator =
-    cachedSchemaRef === options.schema && cachedValidator
-      ? cachedValidator
-      : (cachedValidator = ajvInstance.compile(options.schema));
-  cachedSchemaRef = options.schema;
-
+  const validator = getValidator(options.schema);
   const errors: ParseError[] = [];
-  walk(ast.body, validator as unknown as { (v: unknown): boolean; errors?: ErrorObject[] | null }, errors);
+  walk(ast.body, validator, errors);
   return { errors };
-}
-
-interface ValidatorFn {
-  (v: unknown): boolean;
-  errors?: ErrorObject[] | null;
 }
 
 function walk(blocks: Block[], validator: ValidatorFn, errors: ParseError[]): void {

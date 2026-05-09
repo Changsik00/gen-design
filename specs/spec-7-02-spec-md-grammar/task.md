@@ -103,11 +103,12 @@
 
 ## Task 9: CLI spec-lint
 
-- [ ] `studio/src/lib/spec-md/cli/spec-lint.ts` — CLI entry
-- [ ] `pnpm --filter studio spec-lint <file>` 스크립트
-- [ ] 출력 형식: `[line:col] <severity> <message>` + 요약 (errors / warnings count)
-- [ ] 단위 테스트 — child_process 로 실행하지 않고 함수 직접 호출 (스냅샷)
-- [ ] Commit: `feat(spec-7-02): CLI spec-lint entry`
+- [x] `studio/src/lib/spec-md/cli/spec-lint.ts` — CLI entry (lintFiles + formatReport + main)
+- [x] `pnpm --filter studio spec-lint <file>` 스크립트
+- [x] 출력 형식: `[line:col] error [<stage>] <message>` + suggestion + 요약 (`PASS/FAIL — N files, M errors.`)
+- [x] 단위 테스트 — 함수 직접 호출 (6 case: PASS / FAIL / multi-file + format snapshot 3 case)
+- [x] schema-validate 의 `$id` dedup 버그 수정 (CLI 의 fresh JSON load 시 ajv "already exists" 에러 회피)
+- [x] Commit: `feat(spec-7-02): CLI spec-lint entry`
 
 ---
 
