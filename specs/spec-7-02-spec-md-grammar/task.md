@@ -91,14 +91,13 @@
 
 ---
 
-## Task 8: 26 컴포넌트 fixture spec.md
+## Task 8: 28 컴포넌트 fixture spec.md
 
-- [ ] `spec/` 디렉토리 생성
-- [ ] 26 컴포넌트 (composites 20 + templates 6) 의 spec.md 작성
-- [ ] 각 fixture 는 *대표 variant* 포함 — vision.md 의 LoginPage 예시 같은 형식
-- [ ] *주의*: fixture 가 *향후 spec-7-03/04 의 입력* — 너무 간단해도 안 되지만 너무 복잡해도 안 됨. 적정 균형 유지
-- [ ] 회귀 테스트: 26 fixture 모두 parse + lint PASS
-- [ ] Commit: `feat(spec-7-02): add 26-component fixture spec.md set`
+- [x] `spec/` 디렉토리 생성 (프로젝트 root)
+- [x] 28 fixture: Tier 2 Button + composites 20 + templates 7 (catalog 의 모든 등록 컴포넌트)
+- [x] 각 fixture 는 *대표 variant* 포함 — Button 은 모든 variant + i18n + L4 토큰 override 시연. 페이지 templates 는 composite 합성 (vision.md 의 LoginPage 예시 형식)
+- [x] 회귀 테스트: 28 fixture 모두 parse + lint PASS (`fixtures-regression.test.ts`)
+- [x] Commit: `feat(spec-7-02): add 28-component fixture spec.md set`
 
 ---
 
