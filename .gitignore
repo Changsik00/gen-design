@@ -8,11 +8,13 @@ node_modules/
 .harness-kit/
 .harness-uninstall-backup-*/
 
-# harness-kit
-.harness-backup-*/
-.claude/state/
 .claude/settings.local.json
 
 # build artifacts
 dist/
 **/.tmp/
+
+
+# harness-kit
+.harness-backup-*/
+.claude/state/

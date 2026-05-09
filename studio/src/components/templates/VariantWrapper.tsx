@@ -10,14 +10,14 @@ import type { PageTemplateVariant } from "./types";
 
 interface VariantWrapperProps {
   variant: PageTemplateVariant;
-  triggerLabel?: string;
+  triggerLabel: string;
   children: ReactNode;
   className?: string;
 }
 
 export function VariantWrapper({
   variant,
-  triggerLabel = "Open",
+  triggerLabel,
   children,
   className,
 }: VariantWrapperProps) {

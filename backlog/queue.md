@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+- **phase-6** — Studio v1 — 10 spec — 다음: spec-6-10-fresh-page-e2e
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -34,6 +34,19 @@
 
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
+
+### phase-6 이월 follow-ups (2026-05-09 등재)
+
+- **시맨틱 토큰 정리 — `surface-alt` 신규 정의** — spec-6-01 (Studio API 정합화) Task 7 진행 중 발견: 회고 C-06 가 권장한 `bg-surface-alt` 매핑이 토큰 자체가 미정의된 상태. studio 의 `--background` 값 (`#F8FAFC`) 이 이미 Paper page ground 와 일치하므로 시각 결과는 정합 (Task 7 [-] Passed). 시맨틱 측면 정리 — `semantic.color.{light,dark}.surface-alt` 토큰 신규 정의 + body 매핑 — 는 spec-6-07 (토큰 편집기) 또는 별도 spec 으로 승격 검토.
+
+### spec-6-10 fresh-page E2E 이월 (2026-05-09 등재)
+
+- **Playwright + Paper screenshot 자동 pixel-diff** — spec-6-10 Maximum scope 의 진짜 정의. 본 spec 은 사람 눈 + 소스 의미 비교까지. 자동 회귀는 phase-7 spec-x 후보.
+- **render-helpers Paper-API-한계 헬퍼** — `inputWithPlaceholder()`, `flexGrid(cols)`, `flexTable(columns, rows)`. spec-6-10 findings.md 에서 5 건 한계 식별. 다른 Paper 렌더 spec 의 공통 도구로 정착 후보.
+- **paper-normalizer 의 production 통합** — render-helpers 가 Paper update_styles 호출 시 정규화 함수 호출하는 형태. 현재 paper-sync 만 통합 (C2 부분 해소). phase-6 회고 C2 의 paper-normalizer 미사용 문제 잔존.
+- **Lucide 아이콘 SVG 정확 매핑 라이브러리** — spec-6-10 에서 단순화 path 로 fallback. lucide-react 와 정확히 일치하는 Paper SVG 보존 라이브러리가 visual regression 자동화의 전제.
+- **HomeButton 의 fluid width 패턴** — Paper flex 컨테이너 안의 `<Button>` 이 stretch 되는 동작. inline 컨텐츠로 감싸는 컨벤션을 Paper 측 디자인 가이드라인에 명문화 필요.
+- **dogfooding 정량 측정 방법론** — phase-6 회고 C4 잔존. feature `.tsx` 중 `@/components/ui` import 비율을 정의하는 스크립트 + CI 체크 후보.
 
 ### phase-4 이월 follow-ups (2026-04-22 등재)
 

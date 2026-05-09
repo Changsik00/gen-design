@@ -18,6 +18,7 @@ const texts: MyPageTexts = {
 
 const baseProps: MyPageProps = {
   variant: "page",
+  appName: "TestApp",
   texts,
   navItems: ["Home", "Tasks", "Settings"],
   profile: {

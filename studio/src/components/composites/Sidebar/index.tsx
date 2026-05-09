@@ -10,7 +10,7 @@ interface SidebarProps {
 
 export function Sidebar({ appName, navItems, activeIndex = 0 }: SidebarProps) {
   return (
-    <aside className="flex h-full w-56 flex-col bg-card border-r">
+    <aside className="flex h-full w-sidebar flex-col bg-card border-r">
       <div className="flex items-center gap-2 px-4 py-5">
         <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">
           {appName.charAt(0)}
