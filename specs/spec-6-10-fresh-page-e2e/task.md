@@ -51,10 +51,10 @@
 
 ## Task 4: Templates 아트보드 (6 페이지)
 
-- [ ] Paper 새 아트보드 "Phase-6 E2E — Templates"
-- [ ] write_html 으로 6 페이지 렌더 (composite 들을 조합한 페이지 단위):
-  - LoginPage, SignupPage, DashboardPage, MyPage, SettingsPage, ErrorPage
-- [ ] Commit: `feat(spec-6-10): render 6 templates to paper artboard`
+- [x] Paper 새 아트보드 "Phase-6 E2E — Templates" (id `1VW-0`)
+- [x] write_html 으로 6 페이지 렌더 (composite 들을 조합한 페이지 단위):
+  - LoginPage (page variant — split screen), SignupPage, DashboardPage (sidebar+header+stats+activity), MyPage, SettingsPage, ErrorPage (404)
+- [x] Commit: `feat(spec-6-10): render 6 templates to paper artboard`
 
 ---
 
