@@ -42,9 +42,10 @@
 
 ## Task 3: Composites 아트보드 — 2차 그룹 (10 컴포넌트)
 
-- [ ] write_html 추가 10 개:
+- [x] write_html 추가 10 개 (1PJ-0 아트보드에 누적):
   - SettingsSelectRow, SettingsSliderRow, DashboardHeader, ProfileHeader, ProfileInfoCard, ActivitySummary, ActivityTable, LoginForm, SignupForm, Sidebar
-- [ ] Commit: `feat(spec-6-10): render 10 complex composites to paper artboard`
+- [x] 아트보드 height: fit-content 로 전환 (전체 컨텐츠 표시)
+- [x] Commit: `feat(spec-6-10): render 10 complex composites to paper artboard`
 
 ---
 
