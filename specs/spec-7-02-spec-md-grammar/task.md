@@ -83,11 +83,11 @@
 
 ## Task 7: Lint 통합 — schema validate + catalog check
 
-- [ ] `studio/src/lib/spec-md/lint/schema-validate.ts` — spec-7-01 의 spec-schema.json + ajv
-- [ ] `studio/src/lib/spec-md/lint/catalog-check.ts` — catalog.json 어휘 매칭 + axis enum
-- [ ] `studio/src/lib/spec-md/lint/index.ts` — `lintAst`, `lintFile` (4 단계 통합)
-- [ ] 단위 테스트: 유효 / 미등록 컴포넌트 / 미등록 axis value / raw 색상 거부
-- [ ] Commit: `feat(spec-7-02): lint integration (schema + catalog + axis enum)`
+- [x] `studio/src/lib/spec-md/lint/schema-validate.ts` — spec-7-01 의 spec-schema.json + ajv (allErrors)
+- [x] `studio/src/lib/spec-md/lint/catalog-check.ts` — catalog.json 어휘 매칭 + axis enum + tokens 형식
+- [x] `studio/src/lib/spec-md/lint/index.ts` — `lintText`, `lintFile`, `lintAst` (4 단계 통합)
+- [x] 단위 테스트: 유효 / 미등록 컴포넌트 + 오타 suggestion / 미등록 axis value / raw 색상 토큰 거부 / parse 실패 처리 (10 case)
+- [x] Commit: `feat(spec-7-02): lint integration (schema + catalog + axis enum)`
 
 ---
 
