@@ -20,9 +20,9 @@
 - [x] `git checkout -b spec-7-01-vocabulary-and-formats`
 
 ### 1-2. 의존성 설치
-- [ ] `studio/package.json` 에 `ajv` 추가 (`pnpm --filter studio add ajv ajv-formats`)
-- [ ] typescript compiler API (이미 typescript 의존성 있음 — 별도 설치 불필요)
-- [ ] handlebars 또는 자체 템플릿 (결정 후 추가)
+- [x] `studio/package.json` 에 `ajv` 추가 (`pnpm --filter studio add ajv ajv-formats`) — ajv ^8.20.0, ajv-formats ^3.0.1
+- [x] typescript compiler API (이미 typescript 의존성 있음 — 별도 설치 불필요)
+- [-] handlebars 또는 자체 템플릿 — **자체 템플릿 채택 결정**: 의존성 ↓, 26 컴포넌트 규모는 자체 템플릿으로 충분, 향후 phase-8 재평가
 - [ ] Commit: `chore(spec-7-01): add ajv dependency for schema validation`
 
 ---
