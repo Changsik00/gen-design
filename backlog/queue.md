@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-6** — Studio v1 — 1 spec — 다음: spec-6-01-studio-api-alignment
+- **phase-6** — Studio v1 — 2 spec — 다음: spec-6-02-paper-normalizer
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기

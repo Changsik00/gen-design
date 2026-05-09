@@ -55,6 +55,7 @@ Blueprint 질의서, DESIGN.md 편집, 디자인 토큰 편집, 미리보기 기
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
 | `spec-6-01` | studio-api-alignment | P1 | Merged | `specs/spec-6-01-studio-api-alignment/` |
+| `spec-6-02` | paper-normalizer | P? | Active | `specs/spec-6-02-paper-normalizer/` |
 <!-- sdd:specs:end -->
 
 > **순서 원칙**: Track B (전제 조건) → Track A (Studio 본체) → Track C (회귀 자동화). Track B 의 paper sync 평가 (TODO-03) 만 토큰 편집기 이후가 자연스러워 Track A 뒤로 배치.
