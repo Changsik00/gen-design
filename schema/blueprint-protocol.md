@@ -21,6 +21,24 @@
 2. **추천 우선**: 앱 유형 선택 시 추천 세트를 먼저 제시하여 빠른 시작을 유도
 3. **점진적 구체화**: Step 1은 큰 방향, Step 2는 페이지 구성, Step 3는 세부 조정
 4. **카탈로그 참조**: 모든 페이지 ID, 섹션 이름은 `page-catalog.md`의 정의를 따른다
+5. **Template 재사용 우선** (F-07): Phase 2 / 본 phase 의 Template 이 존재하면 그대로 재사용. 복제 후 변경은 명시적 사유 + `derivedFrom` 필드 명시 + origin 갱신 의무.
+
+### Template 재사용 / 복제 정책 (F-07)
+
+PoC 또는 production app 작성 시 Phase 2 Template (예: `LoginPage`, `DashboardPage`) 활용 정책:
+
+| 상황 | 권장 동작 | YAML 표시 |
+|---|---|---|
+| Phase 2 Template 그대로 사용 | **재사용** (default) | `templateMapping.template: "LoginPage"` (derivedFrom 없음) |
+| Phase 2 Template 의 *살짝 다른* 변형 | **재사용 + variant prop / texts 차등** | 동일 — variant 시스템으로 표현 |
+| Phase 2 Template 의 구조적 다른 변형 | **복제 후 변경** | `template: "CustomLoginPage"`, `derivedFrom: "LoginPage"` |
+| 새 페이지 (origin 없음) | **신규 작성** | `template: "TeamRosterPage"`, `derivedFrom` 없음 |
+
+**룰** (soft 권장):
+1. 재사용이 가능하면 *항상* 재사용 — 복제는 명시적 사유 (예: 구조 차이 / 별도 도메인 로직).
+2. 복제 시 `derivedFrom: "{origin Template}"` 명시 — 추후 origin 변경 시 영향 추적.
+3. 복제본을 변경할 때, 변경의 본질이 origin 에도 적용되어야 한다면 origin 갱신 의무 (양쪽 sync).
+4. 복제 결정은 본 phase 의 ADR 또는 spec.md 의 §"Out of Scope / 결정 기록" 에 기록 (소급 추적 가능).
 
 ---
 
@@ -65,6 +83,20 @@ recommendedPages: [...]        # page-catalog.md 추천 세트에서 로드
 
 > 인증 / i18n / 테마 등 **페이지와 무관한 앱 전체 설정** 을 빠르게 수집한다.
 > 질의 대상이 작고 대부분 기본값이 동작하므로 일괄 확인 방식으로 진행.
+>
+> **체크리스트 — 모든 카테고리 응답 필수 (fail-fast)**:
+> Step 1.5 의 6 카테고리 (인증 / 다국어 / 테마 / 성능 / 보안 / 호환성·접근성) 중 *하나라도 누락* 하면 Step 2 진행 불가. 기본값으로 진행하려면 명시적으로 "기본값" 응답을 받아야 한다 (암묵적 누락 금지).
+>
+> | 카테고리 | 필수 응답 | 기본값 |
+> |---|---|---|
+> | 1 인증 | method / socialProviders / sessionStrategy | email-password / [] / jwt-refresh |
+> | 2 다국어 | defaultLocale / supportedLocales | ko / [ko] |
+> | 3 테마 | defaultTheme / supportedThemes | light / [light] |
+> | 4 성능 | targetLighthouseScore (선택) / coreWebVitalsBudget (선택) | LCP <2.5s / CLS <0.1 / INP <200ms (Lighthouse 90+ 권장) |
+> | 5 보안 | csp 정책 수준 / authStorageMethod | strict-default / httpOnly cookie |
+> | 6 호환성·접근성 | targetBrowsers / a11yLevel | last-2 evergreen / WCAG 2.1 AA |
+>
+> 카테고리 4~6 은 phase-5 회고 (F-01) 가 식별한 *spec.md 작성 단계 누락* 의 직접 회복 — Blueprint 응답에서 명시되어야 다운스트림 (Studio export, AGENT.md 의 자동 생성 절차) 이 가이드 가능.
 
 ### 질문
 
@@ -94,6 +126,29 @@ recommendedPages: [...]        # page-catalog.md 추천 세트에서 로드
 6) 지원 테마 (복수 선택, 기본: light)
    [ ] light  [ ] dark  [ ] auto (system)
 7) 기본 테마 (기본: light)
+
+[성능 (NFR-perf)]
+8) Lighthouse 목표 점수 (기본: 90)
+9) Core Web Vitals 예산
+   - LCP (기본: 2.5s)
+   - CLS (기본: 0.1)
+   - INP (기본: 200ms)
+
+[보안 (NFR-sec)]
+10) CSP 정책 수준
+    a) strict-default ← 기본 (default-src 'self', 인라인 차단)
+    b) relaxed (인라인 허용 — 마이그레이션 한정)
+11) 인증 토큰 저장 위치
+    a) httpOnly cookie ← 기본
+    b) localStorage (XSS 위험 인정)
+    c) memory only (새로고침 시 재로그인)
+
+[호환성 / 접근성 (NFR-compat-a11y)]
+12) 대상 브라우저 (기본: last-2 evergreen)
+13) 접근성 등급 (기본: WCAG 2.1 AA)
+    a) WCAG 2.1 AA ← 기본
+    b) WCAG 2.1 AAA (요구 시)
+    c) AA-best-effort (실험적 PoC 한정)
 ```
 
 ### 처리 규칙
@@ -117,7 +172,21 @@ i18n:
 theme:
   defaultTheme: "light"
   supportedThemes: ["light", "dark"]
+performance:
+  targetLighthouseScore: 90
+  coreWebVitalsBudget:
+    lcp: "2.5s"
+    cls: 0.1
+    inp: "200ms"
+security:
+  csp: "strict-default"
+  authStorageMethod: "httpOnly-cookie"
+compatibility:
+  targetBrowsers: "last-2 evergreen"
+  a11yLevel: "WCAG-2.1-AA"
 ```
+
+> **검증 (F-01 fail-fast)**: 위 6 카테고리 (auth / i18n / theme / performance / security / compatibility) 의 모든 키가 출력 YAML 에 존재해야 한다. `scripts/validate-blueprint.mjs` 가 누락 검사.
 
 ---
 
@@ -282,25 +351,44 @@ finalPages:
     name: "로그인"                                           # 한글 표시 이름
     category: "auth"                                         # page-catalog 카테고리
     variant: "modal"
+    route: "/auth/login"                                     # F-03: 명시 또는 `/{id}` 자동 (slash 변환)
+    layout: "centered-card"                                  # F-03: 명시 또는 variant 기반 자동
     componentPath: "@/components/templates/LoginPage"        # studio alias 기준 import 경로
     requiredSections:
       - "BrandHeader"
       - "LoginForm"
       - "SocialAuthBlock"
-    optionalSections:
+    optionalSections:                                        # F-05: 빈 시 [] 또는 'none' literal
       - "ForgotPasswordLink"
     templateMapping:
       template: "LoginPage"
-      status: "implemented"                                  # implemented | not-implemented
+      status: "implemented"                                  # F-04: 'implemented' | 'not-implemented' literal 만 허용
+      # derivedFrom: "LoginPage"                             # F-07: 옵션 — Phase 2 Template 의 파생본일 때 origin 명시
   # ... (다른 페이지)
 ```
 
-#### 자동 유도 필드
+#### `templateMapping.status` 어휘 정합성 (F-04)
+
+machine-readable status (YAML) 와 사용자-facing display (마크다운 / README) 를 분리:
+
+| YAML status (machine) | 마크다운 표 (display) | 한국어 (display) | 의미 |
+|---|---|---|---|
+| `implemented` | `✅ {Template}` | `구현 완료` | Phase 2 또는 본 phase 의 Template 으로 즉시 합류 가능 |
+| `not-implemented` | `⬜` | `미구현` | 향후 phase 에서 작성 — `componentPath` 는 빈 문자열 |
+
+**룰**:
+1. YAML 출력 (Blueprint Step 3 / REQUIREMENTS.md 의 frontmatter 등) 은 `implemented` / `not-implemented` literal 만 허용. validator 가 그 외 어휘 (`✅`, `구현 완료`, `complete` 등) 를 발견하면 fail.
+2. 마크다운 표 / prose 는 readability 위해 `✅` / `⬜` / `구현 완료` 등 자유롭게 표기 가능 — validator 검증 대상 아님.
+3. `templateMapping.status` 와 `componentPath` 의 정합: `status: implemented` 면 `componentPath` 는 `@/components/templates/{template}` 형식. `not-implemented` 면 빈 문자열.
+
+#### 자동 유도 필드 (F-03 갱신)
 
 - `meta.pageCount` ← `finalPages.length`
-- `pages[].name` ← `page-catalog.md` 의 한글 이름 컬럼
-- `pages[].category` ← `page-catalog.md` 의 카테고리 (id 앞 접두어 기준: `auth-*` → auth, `dash-*` → dashboard 등)
-- `pages[].componentPath` ← `@/components/templates/{templateMapping.template}` (status == implemented 시), 미구현이면 빈 문자열
+- `finalPages[].name` ← `page-catalog.md` 의 한글 이름 컬럼
+- `finalPages[].category` ← `page-catalog.md` 의 카테고리 (id 앞 접두어 기준: `auth-*` → auth, `dash-*` → dashboard 등)
+- `finalPages[].componentPath` ← `@/components/templates/{templateMapping.template}` (status == implemented 시), 미구현이면 빈 문자열
+- **`finalPages[].route`** (F-03): 작성자 명시 우선, 미명시 시 `/{id 의 첫 segment 제거 + slash 변환}` (예: `auth-login` → `/auth/login`). 단순 `/{id}` 도 허용.
+- **`finalPages[].layout`** (F-03): 작성자 명시 우선, 미명시 시 `variant` 기반 자동 (`page` → `default`, `modal` → `centered-card`, `bottom-sheet` → `sheet`). 작성자가 임의 layout 이름 명시 가능.
 
 #### DESIGN.md 전용 확장 필드 (선택)
 
@@ -308,10 +396,25 @@ DESIGN.md.template 이 추가로 사용하는 페이지 상세 필드. Blueprint
 
 | 필드 | 소스 / 기본값 |
 |---|---|
-| `pages[].route` | `page-catalog.md` 의 Route 컬럼 (없으면 `/{id}` 형태) |
-| `pages[].layout` | `variant` 기반 기본값 (modal → `centered-card`, page → `split-screen`, bottom-sheet → `sheet`) |
-| `pages[].description` | `page-catalog.md` 의 Description 컬럼 |
-| `pages[].sections` | `requiredSections + optionalSections` 를 Section/Block 2차원 구조로 전개 (매핑 규칙은 `page-catalog.md` 의 Section 컬럼 참조) |
+| `finalPages[].description` | `page-catalog.md` 의 Description 컬럼 |
+| `finalPages[].sections` | `requiredSections + optionalSections` 를 Section/Block 2차원 구조로 전개 (매핑 규칙은 `page-catalog.md` 의 Section 컬럼 참조) |
+
+> `route` / `layout` 은 §자동 유도 필드 로 이동 (F-03).
+
+#### `optionalSections` 빈 배열 표시 규약 (F-05)
+
+작성자가 선택 섹션을 모두 OFF 한 경우 표기 통일:
+
+| 표기 | 의미 | 권장도 |
+|---|---|---|
+| `[]` | 빈 YAML 배열 | 허용 (machine-friendly) |
+| `'none'` | 명시 literal | 권장 (작성자 의도 명확) |
+| omit | 키 자체 누락 | **금지** (validator fail) |
+
+룰:
+1. validator 는 `[]` 와 `'none'` 둘 다 빈 상태로 인식.
+2. 키 누락은 fail — 작성자가 의도적으로 비웠음을 표시할 수 없음 (단순 빠뜨림 vs 의도 빈 상태 구분 불가).
+3. 마크다운 표시 (`REQUIREMENTS.md` 페이지 블록의 "선택 섹션") 는 빈 시 "(없음)" 또는 "—" 자유.
 
 ---
 
@@ -341,15 +444,20 @@ placeholder 는 nested 접근(`{{obj.field}}`) 을 사용한다 (Fill Executor �
 | `finalPages[].name` | `{{name}}` (각 페이지 블록 내) | REQUIREMENTS / DESIGN |
 | `finalPages[].category` | `{{category}}` | REQUIREMENTS |
 | `finalPages[].variant` | `{{variant}}` | REQUIREMENTS / DESIGN |
+| `finalPages[].route` | `{{route}}` | REQUIREMENTS / AGENT |
+| `finalPages[].layout` | `{{layout}}` | REQUIREMENTS / DESIGN |
 | `finalPages[].componentPath` | `{{componentPath}}` | AGENT |
 | `finalPages[].requiredSections` | `{{#each requiredSections}}` | REQUIREMENTS / DESIGN |
 | `finalPages[].optionalSections` | `{{#each optionalSections}}` | REQUIREMENTS / DESIGN |
 | `finalPages[].templateMapping.template` | `{{templateMapping.template}}` | REQUIREMENTS / AGENT |
 | `finalPages[].templateMapping.status` | `{{templateMapping.status}}` | REQUIREMENTS / AGENT |
+| `finalPages[].templateMapping.derivedFrom` (옵션) | `{{templateMapping.derivedFrom}}` | AGENT (복제 추적) |
 
 ### 자동 주입 / 외부 소스 (Schema 외부)
 
 Blueprint 질의로 수집되지 않지만 템플릿에 등장하는 placeholder 는 다음 소스에서 주입한다.
+
+> **Placeholder 기원 분류 (F-02)**: 모든 placeholder 의 기원 (B/D/I/M/R) 은 `schema/blueprint-placeholder-map.md` 에 표 형태로 정리되어 있다. Studio Blueprint UI (`spec-6-05`) 와 agent prompt 가 본 분류표를 기준으로 입력 폼·추출 흐름을 구성한다.
 
 | Placeholder | 소스 | 주입 시점 |
 |---|---|---|

@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-6** — Studio v1 — 2 spec — 다음: spec-6-02-paper-normalizer
+- **phase-6** — Studio v1 — 3 spec — 다음: spec-6-03-blueprint-protocol
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
