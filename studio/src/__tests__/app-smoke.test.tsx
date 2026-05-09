@@ -25,7 +25,6 @@ describe("App smoke", () => {
   it("default route → BlueprintWizard 렌더 + Sidebar 'Design Studio'", () => {
     render(<App />);
     expect(screen.getByText("Design Studio")).toBeInTheDocument();
-    // 위저드 Step 1 stepper 또는 heading 에 '앱유형' 노출 (복수 가능)
     expect(screen.getAllByText(/앱유형/).length).toBeGreaterThanOrEqual(1);
   });
 
@@ -39,25 +38,21 @@ describe("App smoke", () => {
   it("hash #/tokens → TokenEditor 렌더 (TokenNav + 미리보기 패널)", () => {
     setHash("#/tokens");
     render(<App />);
-    // TokenNav 카테고리 레이블
     expect(screen.getByText("Color")).toBeInTheDocument();
-    // ComponentPreview 패널 헤딩
     expect(screen.getByText("컴포넌트 미리보기")).toBeInTheDocument();
   });
 
-  it("hash #/export → ExportPage placeholder", () => {
+  it("hash #/export → ExportPanel 렌더 (프로젝트 설정 + 파일 미리보기)", () => {
     setHash("#/export");
     render(<App />);
-    expect(screen.getAllByText("Export").length).toBeGreaterThanOrEqual(2);
-    expect(screen.getByText(/spec-6-08/)).toBeInTheDocument();
+    expect(screen.getByText("프로젝트 설정")).toBeInTheDocument();
+    expect(screen.getByText("파일 미리보기")).toBeInTheDocument();
   });
 
   it("hash #/__playground → Playground (Sidebar 미노출)", () => {
     setHash("#/__playground");
     render(<App />);
-    // Sidebar appName "Design Studio" 가 없어야 함 (Playground 는 StudioLayout 우회)
     expect(screen.queryByText("Design Studio")).not.toBeInTheDocument();
-    // Playground 의 control panel 의 'Brand A' / 'Brand B' 버튼 등이 노출
     expect(screen.getByText("Brand A")).toBeInTheDocument();
     expect(screen.getByText("Brand B")).toBeInTheDocument();
   });
@@ -65,13 +60,11 @@ describe("App smoke", () => {
   it("hash #/unknown → blueprint fallback (위저드 렌더)", () => {
     setHash("#/unknown");
     render(<App />);
-    // BlueprintWizard fallback — Step 1 '앱유형' 노출
     expect(screen.getAllByText(/앱유형/).length).toBeGreaterThanOrEqual(1);
   });
 
   it("Sidebar nav 4 항목 모두 노출", () => {
     render(<App />);
-    // Sidebar 의 nav 링크 4 개 (Blueprint / Editor / Tokens / Export)
     const nav = screen.getByText("Menu").closest("nav");
     expect(nav).toBeTruthy();
     if (nav) {
