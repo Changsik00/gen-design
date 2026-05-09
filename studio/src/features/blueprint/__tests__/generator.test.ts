@@ -1,3 +1,4 @@
+import { describe, it, expect } from "vitest";
 import { generateRequirements } from "../generator";
 import type { BlueprintSession } from "../types";
 
