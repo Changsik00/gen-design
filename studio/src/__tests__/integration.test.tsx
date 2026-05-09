@@ -50,7 +50,7 @@ describe("시나리오 1: Auth Page Template 렌더링", () => {
   it("DashboardPage: Sidebar + StatCard + ActivityTable 조합", () => {
     const texts = getDashboardPageTexts("ko");
     render(
-      <DashboardPage variant="page" texts={texts} stats={mockStats} activities={mockActivities} />
+      <DashboardPage variant="page" appName="TestApp" texts={texts} stats={mockStats} activities={mockActivities} />
     );
 
     // Sidebar

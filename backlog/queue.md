@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+- **phase-6** — Studio v1 — 1 spec — 다음: spec-6-01-studio-api-alignment
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -34,6 +34,10 @@
 
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
+
+### phase-6 이월 follow-ups (2026-05-09 등재)
+
+- **시맨틱 토큰 정리 — `surface-alt` 신규 정의** — spec-6-01 (Studio API 정합화) Task 7 진행 중 발견: 회고 C-06 가 권장한 `bg-surface-alt` 매핑이 토큰 자체가 미정의된 상태. studio 의 `--background` 값 (`#F8FAFC`) 이 이미 Paper page ground 와 일치하므로 시각 결과는 정합 (Task 7 [-] Passed). 시맨틱 측면 정리 — `semantic.color.{light,dark}.surface-alt` 토큰 신규 정의 + body 매핑 — 는 spec-6-07 (토큰 편집기) 또는 별도 spec 으로 승격 검토.
 
 ### phase-4 이월 follow-ups (2026-04-22 등재)
 

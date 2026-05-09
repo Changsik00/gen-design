@@ -111,6 +111,7 @@ function App() {
       {page === "dashboard" && (
         <DashboardPage
           variant="page"
+          appName="Studio"
           texts={dashboardTexts}
           stats={mockStats}
           activities={mockActivities}

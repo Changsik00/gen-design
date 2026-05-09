@@ -8,7 +8,6 @@ import { Button } from "@/components/ui/button";
 import type { SettingsPageProps, SettingsNotifications } from "../types";
 
 interface SettingsPageFullProps extends SettingsPageProps {
-  appName?: string;
   onNotificationChange?: (key: keyof SettingsNotifications, next: boolean) => void;
   onThemeChange?: (next: string) => void;
   onFontSizeChange?: (next: number) => void;
@@ -31,7 +30,7 @@ export function SettingsPage({
   timezoneOptions,
   accountEmailValue,
   navItems,
-  appName = "TaskFlow",
+  appName,
   className,
   onNotificationChange,
   onThemeChange,

@@ -23,7 +23,7 @@ const mockActivities: ActivityRowData[] = [
 describe("DashboardPage", () => {
   it("renders title and navigation", () => {
     render(
-      <DashboardPage variant="page" texts={koTexts} stats={mockStats} activities={mockActivities} />
+      <DashboardPage variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
     );
     expect(screen.getAllByText("대시보드")).toHaveLength(2); // nav + header
     expect(screen.getByText("AI 채팅")).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe("DashboardPage", () => {
 
   it("renders stat cards", () => {
     render(
-      <DashboardPage variant="page" texts={koTexts} stats={mockStats} activities={mockActivities} />
+      <DashboardPage variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
     );
     expect(screen.getByText("12,847")).toBeInTheDocument();
     expect(screen.getByText("99.98%")).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe("DashboardPage", () => {
 
   it("renders activity table", () => {
     render(
-      <DashboardPage variant="page" texts={koTexts} stats={mockStats} activities={mockActivities} />
+      <DashboardPage variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
     );
     expect(screen.getByText("최근 활동")).toBeInTheDocument();
     expect(screen.getByText("Jiwon Kim")).toBeInTheDocument();

@@ -115,7 +115,9 @@ export type LoginPageProps = BaseTemplateProps<LoginPageTexts>;
 export type SignupPageProps = BaseTemplateProps<SignupPageTexts>;
 
 /** DashboardPage props */
-export type DashboardPageProps = BaseTemplateProps<DashboardPageTexts>;
+export interface DashboardPageProps extends BaseTemplateProps<DashboardPageTexts> {
+  appName: string;
+}
 
 // ---------------------------------------------------------------------------
 // MyPage (DESIGN.md §11 profile-mypage)
@@ -157,6 +159,7 @@ export interface MyPageSummaryData {
 
 /** MyPage props */
 export interface MyPageProps extends BaseTemplateProps<MyPageTexts> {
+  appName: string;
   profile: MyPageProfileData;
   summary: MyPageSummaryData;
   /** Sidebar nav items (DashboardPage 와 동일 컨셉) */
@@ -207,6 +210,7 @@ export interface SettingsOption {
 
 /** SettingsPage props */
 export interface SettingsPageProps extends BaseTemplateProps<SettingsPageTexts> {
+  appName: string;
   notifications: SettingsNotifications;
   /** 외관 */
   theme: string;

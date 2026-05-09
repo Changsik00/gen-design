@@ -11,18 +11,14 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-interface MyPageFullProps extends MyPageProps {
-  appName?: string;
-}
-
 export function MyPage({
   texts,
   profile,
   summary,
   navItems,
-  appName = "TaskFlow",
+  appName,
   className,
-}: MyPageFullProps) {
+}: MyPageProps) {
   return (
     <div className={`flex h-screen bg-background ${className ?? ""}`}>
       <Sidebar appName={appName} navItems={navItems} activeIndex={3} />
