@@ -4,9 +4,10 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
+    "dev": "pnpm fixtures:gen && vite",
     "tokens": "node tokens/build.mjs",
-    "build": "node tokens/build.mjs && tsc -b && vite build",
+    "fixtures:gen": "tsx scripts/generate-fixtures-index.ts",
+    "build": "pnpm fixtures:gen && node tokens/build.mjs && tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
     "test": "vitest run",

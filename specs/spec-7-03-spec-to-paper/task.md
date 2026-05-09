@@ -93,15 +93,15 @@
 
 ## Task 7: Studio UI — Paper Preview Panel
 
-- [ ] `studio/src/components/preview/PaperPreviewPanel.tsx`
-- [ ] fixture 드롭다운 (spec/*.spec.md 자동 스캔 — Vite의 import.meta.glob)
-- [ ] 좌측: React 측 렌더 (실제 컴포넌트)
-- [ ] 우측: iframe srcDoc = compileToPaper().payload
-- [ ] "Copy Paper HTML" 버튼 (clipboard) + "Send to Paper" 버튼 (Claude Code 안내 모달)
-- [ ] App 라우트 추가 또는 기존 페이지에서 토글
-- [ ] 단위 테스트 (component test, fixture 1 개로 mount 검증)
-- [ ] dev server 실행 + 시각 확인
-- [ ] Commit: `feat(spec-7-03): Studio Paper preview panel (React vs Paper split)`
+- [x] `studio/src/features/preview/index.tsx` — PreviewPage 컴포넌트 (좌/우 split)
+- [x] fixture 드롭다운 (28 fixture 자동 스캔 — `scripts/generate-fixtures-index.ts` 가 inline)
+- [x] 좌측: React 측 렌더 (실제 studio 컴포넌트, `buildReactTree` 결과)
+- [x] 우측: iframe srcDoc = compileToPaper().html (Tailwind play CDN 포함)
+- [x] Copy Paper HTML / Send to Paper 버튼 (clipboard 복사 + 안내 메시지)
+- [x] App 라우트 + Sidebar nav 추가 (`/preview`)
+- [x] `pnpm fixtures:gen` script + `dev`/`build` 의 prebuild hook
+- [x] 단위 테스트 4 case (mount / fixture 갯수 / Copy/Send 버튼 / iframe)
+- [x] Commit: `feat(spec-7-03): Studio Paper preview panel (React vs Paper split)`
 
 ---
 

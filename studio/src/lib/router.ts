@@ -8,13 +8,14 @@
 
 import { useEffect, useState } from "react";
 
-export type StudioRoute = "blueprint" | "editor" | "tokens" | "export" | "playground";
+export type StudioRoute = "blueprint" | "editor" | "tokens" | "export" | "preview" | "playground";
 
 export const ROUTE_PATHS: Record<StudioRoute, string> = {
   blueprint: "/blueprint",
   editor: "/editor",
   tokens: "/tokens",
   export: "/export",
+  preview: "/preview",
   playground: "/__playground",
 };
 
