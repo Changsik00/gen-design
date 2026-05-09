@@ -31,3 +31,14 @@ export type LineHeight =
   | { value: number; unit: "px" }
   | { value: number; unit: "unitless" }
   | { value: number; unit: "percent" };
+
+/**
+ * C4 — font fallback. quote 정규화 + fallback 분리 + generic family 추출.
+ * primary 와 fallbacks 는 quote 제거된 family 이름. generic 은 누락 시 null
+ * (serialize 단계에서 'sans-serif' 기본 보강).
+ */
+export interface FontFallback {
+  primary: string;
+  fallbacks: string[];
+  generic: "sans-serif" | "serif" | "monospace" | null;
+}
