@@ -142,13 +142,25 @@
 
 ## Task 12: Ship
 
-- [ ] `pnpm --filter studio run build` 성공
-- [ ] `pnpm --filter studio test` 전체 PASS
-- [ ] `pnpm --filter studio vocab` 실행 → 모든 산출물 정합
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
-- [ ] **Ship Commit + Push + PR 생성** (spec → `phase-7-design-md`)
-- [ ] **사용자 알림**
+- [x] `pnpm --filter studio run build` 성공 (183ms, +5kb gzip 만 증가)
+- [x] `pnpm --filter studio test` 351/351 PASS
+- [x] `pnpm --filter studio vocab` + `vocab:check` 모두 정합 (drift 0)
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
+- [x] **Ship Commit + Push + PR 생성** (spec → `phase-7-design-md`)
+- [x] **사용자 알림**
+
+---
+
+## 진행 요약 (최종)
+
+| 항목 | 값 |
+|---|---|
+| **총 Task 수** | 12 |
+| **commit 수** | 12 (preflight 1 + Task 11 = 11 + ship 1) |
+| **단위 테스트** | vocabulary 73 신규 / studio 전체 351 PASS |
+| **현재 단계** | Ship 완료 |
+| **마지막 업데이트** | 2026-05-10 |
 
 ---
 
@@ -158,7 +170,7 @@
 |---|---|
 | **총 Task 수** | 12 |
 | **예상 commit 수** | 11 |
-| **현재 단계** | Pre-flight |
+| **현재 단계** | Ship 완료 (legacy header — 위 진행 요약 참조) |
 | **마지막 업데이트** | 2026-05-10 |
 
 ## 위험 / 주의

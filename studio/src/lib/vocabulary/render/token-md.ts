@@ -14,8 +14,6 @@ interface DtcgLeaf {
   $description?: string;
 }
 
-type DtcgNode = DtcgLeaf | { [key: string]: unknown };
-
 function isLeaf(node: unknown): node is DtcgLeaf {
   return typeof node === "object" && node !== null && "$value" in node;
 }
