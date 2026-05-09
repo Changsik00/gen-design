@@ -87,6 +87,36 @@ spec/ 디렉토리가 studio/ 밖에 있어 Vite `import.meta.glob("/../spec/*.s
 
 `PreviewPage` 테스트 두 번째 it 가 첫 번째 it 의 DOM 잔재로 "multiple elements" 에러. `afterEach(cleanup)` 으로 해결.
 
+## 💬 리뷰 피드백 — `renderToString` pitfall 인식
+
+ship 직후 사용자 리뷰: *"renderToString does not support streaming or waiting for data — 이거 확인했어? SSR 이 원천이라고 했는데..."* (https://react.dev/reference/react-dom/server/renderToString 참조)
+
+**처음 표현의 문제**: pr_description.md / walkthrough.md 가 "React SSR" 이라는 모호한 표현 사용 → `renderToString` 의 알려진 pitfall 을 의식하지 않은 것처럼 읽혔다.
+
+**점검 결과**:
+
+| 점검 항목 | 결과 |
+|---|---|
+| 실제 사용 API | `renderToStaticMarkup` (NOT `renderToString`) — `ssr-render.ts:13` 에 import 명시 |
+| `useState` 사용 컴포넌트 | 0 / 28 |
+| `useEffect` 사용 컴포넌트 | 0 / 28 |
+| `Suspense` 또는 async data | 0 / 28 |
+| pitfall 영향 | 없음 |
+
+**왜 `renderToStaticMarkup` 가 옳은 선택인지**:
+- React 공식 docs 가 *디자인 도구 export / 이메일 / 정적 HTML 출력* use case 에 **이 API 를 권장**.
+- `renderToString` 의 *대안* 으로 (a) 정적 use case → `renderToStaticMarkup`, (b) 동적/스트리밍 → `renderToReadableStream` 둘 모두 제시.
+- 본 컴파일러는 (a) 의 정확한 use case (Paper 에 정적 HTML 송신, Studio iframe 정적 미리보기). hydration 없음.
+
+**향후 마이그레이션 트리거**: 컴포넌트가 `Suspense` boundary / `use()` hook / async data fetching 도입 시 → `renderToReadableStream` 으로 교체. 현재는 불필요.
+
+**교훈 (프로세스)**:
+- API 이름이 모호한 표현 ("SSR") 은 review 시 잘못된 것을 가정한 것처럼 읽힌다 — *실제 호출하는 함수 이름* 으로 명시.
+- ssr-render.ts 의 docstring + walkthrough.md / pr_description.md 모두 명시 + 검증 표 첨부.
+- 코드 자체는 정확했음 — 표현만 정정.
+
+**조치**: PR #38 머지 전 `docs(spec-7-03): clarify renderToStaticMarkup (not renderToString)` commit 으로 ssr-render.ts docstring + walkthrough D-1 + pr_description 갱신.
+
 ## ⚠️ 회고 C1 부분 해소 (시각 fidelity 갭)
 
 phase-6 회고의 Critical 1: "Paper ↔ React 시각 정합 미검증".
