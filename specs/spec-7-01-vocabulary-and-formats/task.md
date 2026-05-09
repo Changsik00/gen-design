@@ -92,23 +92,25 @@
 
 ## Task 8: TOKEN.md 자동 렌더러
 
-- [ ] `studio/src/lib/vocabulary/render/token-md.ts` — DTCG → TOKEN.md
-- [ ] 표 형식 + DTCG metadata 보존
-- [ ] 출력: `templates/TOKEN.md` (수동 편집 금지 마커)
-- [ ] 단위 테스트: 주요 토큰 (primary, background, radius, font.sans) 표시
-- [ ] Commit: `feat(spec-7-01): add TOKEN.md auto-renderer (DTCG)`
+- [x] `studio/src/lib/vocabulary/render/token-md.ts` — DTCG → TOKEN.md (flatten + group + 표)
+- [x] 표 형식 + DTCG metadata ($type, $description) 보존
+- [x] AUTO-GENERATED 마커 + 외부 도구 호환 안내 포함
+- [x] 단위 테스트 5 case PASS (주요 토큰 + 결정성 + Total 카운트)
+- [-] 파일 출력 (`templates/TOKEN.md`) — Task 11 (CLI) 에서
+- [x] Commit: (Task 9 와 통합)
 
 ---
 
 ## Task 9: FRONT.md 자동 렌더러
 
-- [ ] `studio/src/lib/vocabulary/render/front-md.ts` — catalog → FRONT.md
-- [ ] 3 tier 별 컴포넌트 + axis + value 표
-- [ ] Paper 노드명 컨벤션 명시
-- [ ] shadcn registry 메타 안내
-- [ ] 출력: `templates/FRONT.md` (수동 편집 금지 마커)
-- [ ] 단위 테스트: 26 컴포넌트 모두 표시
-- [ ] Commit: `feat(spec-7-01): add FRONT.md auto-renderer (3-tier vocabulary)`
+- [x] `studio/src/lib/vocabulary/render/front-md.ts` — catalog → FRONT.md
+- [x] 3 tier 별 컴포넌트 + axis + value 표 + 4 layer 설명
+- [x] Paper 노드명 컨벤션 + raw 금지/미등록 금지 강제 명시
+- [x] shadcn registry install 안내 (`npx shadcn add @designmd/...`)
+- [x] AUTO-GENERATED 마커 + 결정성
+- [x] 단위 테스트 7 case PASS (4 layer + Tier 1/2/3 + raw 금지 명시 + 결정성)
+- [-] 파일 출력 — Task 11 (CLI) 에서
+- [x] Commit: `feat(spec-7-01): add TOKEN.md + FRONT.md auto-renderers`
 
 ---
 
