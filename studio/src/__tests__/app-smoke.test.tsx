@@ -29,11 +29,13 @@ describe("App smoke", () => {
     expect(screen.getAllByText(/앱유형/).length).toBeGreaterThanOrEqual(1);
   });
 
-  it("hash #/editor → EditorPage placeholder", () => {
+  it("hash #/editor → DesignEditor 렌더 (SectionNav + 미리보기 패널)", () => {
     setHash("#/editor");
     render(<App />);
-    expect(screen.getByText("DESIGN.md Editor")).toBeInTheDocument();
-    expect(screen.getByText(/spec-6-06/)).toBeInTheDocument();
+    // DesignEditor 상단 appName 레이블
+    expect(screen.getByText("앱 이름")).toBeInTheDocument();
+    // MarkdownPreview 패널 헤딩
+    expect(screen.getByText("DESIGN.md 미리보기")).toBeInTheDocument();
   });
 
   it("hash #/tokens → TokensPage placeholder", () => {
