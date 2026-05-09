@@ -342,9 +342,23 @@ finalPages:
       - "ForgotPasswordLink"
     templateMapping:
       template: "LoginPage"
-      status: "implemented"                                  # implemented | not-implemented
+      status: "implemented"                                  # F-04: 'implemented' | 'not-implemented' literal 만 허용
   # ... (다른 페이지)
 ```
+
+#### `templateMapping.status` 어휘 정합성 (F-04)
+
+machine-readable status (YAML) 와 사용자-facing display (마크다운 / README) 를 분리:
+
+| YAML status (machine) | 마크다운 표 (display) | 한국어 (display) | 의미 |
+|---|---|---|---|
+| `implemented` | `✅ {Template}` | `구현 완료` | Phase 2 또는 본 phase 의 Template 으로 즉시 합류 가능 |
+| `not-implemented` | `⬜` | `미구현` | 향후 phase 에서 작성 — `componentPath` 는 빈 문자열 |
+
+**룰**:
+1. YAML 출력 (Blueprint Step 3 / REQUIREMENTS.md 의 frontmatter 등) 은 `implemented` / `not-implemented` literal 만 허용. validator 가 그 외 어휘 (`✅`, `구현 완료`, `complete` 등) 를 발견하면 fail.
+2. 마크다운 표 / prose 는 readability 위해 `✅` / `⬜` / `구현 완료` 등 자유롭게 표기 가능 — validator 검증 대상 아님.
+3. `templateMapping.status` 와 `componentPath` 의 정합: `status: implemented` 면 `componentPath` 는 `@/components/templates/{template}` 형식. `not-implemented` 면 빈 문자열.
 
 #### 자동 유도 필드
 

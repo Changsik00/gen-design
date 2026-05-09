@@ -3,7 +3,12 @@
 > 앱에서 흔히 사용되는 페이지 유형을 카테고리별로 정리한 카탈로그.
 > Blueprint 질의서(spec-3-002)와 REQUIREMENTS.md 생성의 기초 데이터로 활용한다.
 >
-> **범례**: ✅ 구현 완료 (Phase 2) | ⬜ 미구현
+> **status 어휘 (F-04 정합화)**:
+> - YAML / 자동화 영역: `implemented` | `not-implemented` literal 만 허용
+> - 마크다운 표 (이 문서): `✅` (= implemented) | `⬜` (= not-implemented)
+> - 한국어 prose: `구현 완료` | `미구현`
+>
+> validator (`scripts/validate-blueprint.mjs`) 는 YAML 영역의 어휘만 검증. 본 문서의 마크다운 표는 readability 우선이라 검증 대상 아님.
 
 ---
 
