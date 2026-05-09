@@ -87,7 +87,7 @@ studio/scripts/generate-fixtures-index.ts
 - [x] Studio dev server `http://localhost:5174/#/preview` — fixture 선택 + 좌/우 비교
 - [x] Paper MCP write_html 실 송신 — 1440×900 artboard 에 LoginPage 노드 생성 확인
 
-## 📌 머지 직전 추가: ADR-006 (방향 pivot)
+## 📌 머지 직전 추가: ADR-006 + ADR-007 (방향 + SSOT 구조)
 
 리뷰 시점에 사용자가 *근본적 방향 미스매치* 지적 — 디자이너 워크플로는 Paper → spec.md → React 인데 phase-7 가 spec.md → Paper / React 흐름으로 구축됨.
 
@@ -95,6 +95,11 @@ studio/scripts/generate-fixtures-index.ts
 - spec-7-03 의 *의미* reframe (primary → round-trip 검증, 코드 변경 0)
 - 다음 spec = Paper → spec.md inference (긴급)
 - phase-7.md 우선순위 재정렬
+
+→ **ADR-007 (FRONT.md = 공식 컴파일 룰북)** 도 함께 포함:
+- SSOT 4 문서 + 2 디렉토리 (DESIGN.md / TOKEN.md / FRONT.md / assets/ / spec/) 명문화
+- FRONT.md 의 8 공식 섹션 정의 (라이브러리 / 어휘 / 4 layer / shadcn 룰 / Paper 매핑 / 컴파일 정책 / lint)
+- spec.md ↔ DESIGN.md 관계 = 별도 파일 + DESIGN.md 가 참조
 
 자산은 모두 살아남음. spec-7-03 은 양방향 round-trip 의 *역방향 (spec.md → Paper)* 측면으로서 여전히 유용.
 
