@@ -29,6 +29,7 @@ import type {
 } from "../../spec-md/parser/ast-types";
 import { resolveI18n, I18N_MISSING_STYLE } from "./i18n-resolver";
 import { tokenPathToCssVar, normalizeInlineTokenString } from "./token-resolver";
+import { defaultPropsFor } from "./default-props";
 
 export interface BuildOptions {
   registry: Record<string, ComponentType<Record<string, unknown>>>;
@@ -73,7 +74,7 @@ function buildComponent(
       `[Unknown component: <${c.name}>]`,
     );
   }
-  const props = resolveProps(c.props, options);
+  const props = { ...defaultPropsFor(c.name), ...resolveProps(c.props, options) };
   const children = c.children
     .map((b, i) => buildBlock(b, options, `${key}-c${i}`))
     .filter((n): n is NonNullable<ReactNode> => n !== null && n !== undefined);

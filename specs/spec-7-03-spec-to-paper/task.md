@@ -62,11 +62,12 @@
 
 ## Task 4: SSR + page wrapper + 공용 API
 
-- [ ] `paper/ssr-render.ts` — `ReactDOMServer.renderToString(tree)`
-- [ ] `paper/page-wrapper.ts` — paper-e2e 의 `pageWrapper` 활용 + Tailwind play CDN script 추가
-- [ ] `paper/compile.ts` — 공용 API `compileToPaper(input: string | Document | { path: string }, options)` → `{ html, css, payload }`
-- [ ] 단위 테스트: end-to-end 1 fixture (LoginPage) — 결과 HTML 이 LoginForm 클래스를 포함하는지 등 정합 체크
-- [ ] Commit: `feat(spec-7-03): SSR render + page wrapper + compileToPaper API`
+- [x] `paper/ssr-render.ts` — `renderToStaticMarkup` (정적 HTML, hydration 메타 X)
+- [x] `paper/page-wrapper.ts` — `wrapPage` returns `{ html (full doc + Tailwind CDN), payload (Paper fragment) }`
+- [x] `paper/compile.ts` — 공용 API `compileToPaper(input, options)` → `{ html, payload, ast?, errors? }`
+- [x] `paper/default-props.ts` — 28 컴포넌트 중 데이터-heavy 컴포넌트 (templates / ActivityTable / Sidebar / StatCard) 의 minimal mock data
+- [x] 단위 테스트 7 case (string 입력 / Tailwind 옵션 / CSS vars / file 입력 LoginPage / DashboardPage / parse 실패 fallback)
+- [x] Commit: `feat(spec-7-03): SSR render + page wrapper + compileToPaper API`
 
 ---
 
