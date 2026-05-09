@@ -44,14 +44,15 @@ export const cvaPlugin: ExtractorPlugin = {
     const primaryCall = cvaCalls[0];
     const { axes, defaultVariants } = extractCvaConfig(primaryCall);
 
-    components.push({
+    const entry: ExtractedComponent = {
       name: componentName,
       filePath,
       axes,
       defaultVariants,
-      ariaRole,
       pattern: "cva",
-    });
+    };
+    if (ariaRole) entry.ariaRole = ariaRole;
+    components.push(entry);
 
     return components;
   },

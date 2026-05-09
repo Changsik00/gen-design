@@ -1,0 +1,734 @@
+{
+  "version": "1",
+  "generatedAt": "2026-05-09",
+  "tiers": {
+    "tier1Aria": {
+      "specMeta": {
+        "version": "ARIA 1.3 (W3C Editor's Draft 2025-08)",
+        "source": "https://w3c.github.io/aria/"
+      },
+      "roles": [
+        {
+          "name": "command",
+          "description": "Form of widget that performs an action",
+          "category": "abstract"
+        },
+        {
+          "name": "composite",
+          "description": "Widget that may contain navigable descendants",
+          "category": "abstract"
+        },
+        {
+          "name": "input",
+          "description": "Widget that allows user input",
+          "category": "abstract"
+        },
+        {
+          "name": "landmark",
+          "description": "Region intended as navigational landmark",
+          "category": "abstract"
+        },
+        {
+          "name": "range",
+          "description": "Input representing a range of values",
+          "category": "abstract"
+        },
+        {
+          "name": "roletype",
+          "description": "Base role from which all others inherit",
+          "category": "abstract"
+        },
+        {
+          "name": "section",
+          "description": "Generic content section",
+          "category": "abstract"
+        },
+        {
+          "name": "sectionhead",
+          "description": "Heading-like content for a section",
+          "category": "abstract"
+        },
+        {
+          "name": "select",
+          "description": "Composite widget that allows selection",
+          "category": "abstract"
+        },
+        {
+          "name": "structure",
+          "description": "Document structure",
+          "category": "abstract"
+        },
+        {
+          "name": "widget",
+          "description": "Interactive component",
+          "category": "abstract"
+        },
+        {
+          "name": "window",
+          "description": "Browser-like sub-window",
+          "category": "abstract"
+        },
+        {
+          "name": "button",
+          "description": "Clickable element triggering an action",
+          "category": "widget"
+        },
+        {
+          "name": "checkbox",
+          "description": "Two- or three-state toggle",
+          "category": "widget"
+        },
+        {
+          "name": "gridcell",
+          "description": "Cell within a grid",
+          "category": "widget"
+        },
+        {
+          "name": "link",
+          "description": "Navigation reference",
+          "category": "widget"
+        },
+        {
+          "name": "menuitem",
+          "description": "Item within a menu",
+          "category": "widget"
+        },
+        {
+          "name": "menuitemcheckbox",
+          "description": "Checkable menu item",
+          "category": "widget"
+        },
+        {
+          "name": "menuitemradio",
+          "description": "Radio menu item",
+          "category": "widget"
+        },
+        {
+          "name": "option",
+          "description": "Selectable item in a listbox",
+          "category": "widget"
+        },
+        {
+          "name": "progressbar",
+          "description": "Progress indicator",
+          "category": "widget"
+        },
+        {
+          "name": "radio",
+          "description": "Radio button",
+          "category": "widget"
+        },
+        {
+          "name": "scrollbar",
+          "description": "Scroll position indicator",
+          "category": "widget"
+        },
+        {
+          "name": "searchbox",
+          "description": "Text input for search",
+          "category": "widget"
+        },
+        {
+          "name": "separator",
+          "description": "Divider, focusable variant for resizing",
+          "category": "widget"
+        },
+        {
+          "name": "slider",
+          "description": "Range input via thumb",
+          "category": "widget"
+        },
+        {
+          "name": "spinbutton",
+          "description": "Numeric input with up/down",
+          "category": "widget"
+        },
+        {
+          "name": "switch",
+          "description": "Two-state toggle",
+          "category": "widget"
+        },
+        {
+          "name": "tab",
+          "description": "Tab in a tablist",
+          "category": "widget"
+        },
+        {
+          "name": "tabpanel",
+          "description": "Panel associated with a tab",
+          "category": "widget"
+        },
+        {
+          "name": "textbox",
+          "description": "Free-form text input",
+          "category": "widget"
+        },
+        {
+          "name": "treeitem",
+          "description": "Item within a tree",
+          "category": "widget"
+        },
+        {
+          "name": "combobox",
+          "description": "Input + listbox combination",
+          "category": "composite"
+        },
+        {
+          "name": "grid",
+          "description": "Composite of cells",
+          "category": "composite"
+        },
+        {
+          "name": "listbox",
+          "description": "Container of selectable options",
+          "category": "composite"
+        },
+        {
+          "name": "menu",
+          "description": "Container of menu items",
+          "category": "composite"
+        },
+        {
+          "name": "menubar",
+          "description": "Menu accessible via persistent bar",
+          "category": "composite"
+        },
+        {
+          "name": "radiogroup",
+          "description": "Group of radio buttons",
+          "category": "composite"
+        },
+        {
+          "name": "tablist",
+          "description": "Container of tabs",
+          "category": "composite"
+        },
+        {
+          "name": "tree",
+          "description": "Hierarchical list",
+          "category": "composite"
+        },
+        {
+          "name": "treegrid",
+          "description": "Grid with tree behavior",
+          "category": "composite"
+        },
+        {
+          "name": "application",
+          "description": "Region requiring custom keyboard handling",
+          "category": "documentStructure"
+        },
+        {
+          "name": "article",
+          "description": "Self-contained content",
+          "category": "documentStructure"
+        },
+        {
+          "name": "blockquote",
+          "description": "Section quoted from another source",
+          "category": "documentStructure"
+        },
+        {
+          "name": "caption",
+          "description": "Caption for a figure or table",
+          "category": "documentStructure"
+        },
+        {
+          "name": "cell",
+          "description": "Cell in a tabular structure",
+          "category": "documentStructure"
+        },
+        {
+          "name": "code",
+          "description": "Computer code",
+          "category": "documentStructure"
+        },
+        {
+          "name": "columnheader",
+          "description": "Header of a table column",
+          "category": "documentStructure"
+        },
+        {
+          "name": "definition",
+          "description": "Definition of a term",
+          "category": "documentStructure"
+        },
+        {
+          "name": "deletion",
+          "description": "Removed text",
+          "category": "documentStructure"
+        },
+        {
+          "name": "document",
+          "description": "Region with document semantics",
+          "category": "documentStructure"
+        },
+        {
+          "name": "emphasis",
+          "description": "Emphasized text",
+          "category": "documentStructure"
+        },
+        {
+          "name": "feed",
+          "description": "Scrolling list of articles",
+          "category": "documentStructure"
+        },
+        {
+          "name": "figure",
+          "description": "Self-contained illustrative content",
+          "category": "documentStructure"
+        },
+        {
+          "name": "generic",
+          "description": "Untyped grouping element",
+          "category": "documentStructure"
+        },
+        {
+          "name": "group",
+          "description": "Set of related elements",
+          "category": "documentStructure"
+        },
+        {
+          "name": "heading",
+          "description": "Heading for a section",
+          "category": "documentStructure"
+        },
+        {
+          "name": "img",
+          "description": "Container for image content",
+          "category": "documentStructure"
+        },
+        {
+          "name": "insertion",
+          "description": "Inserted text",
+          "category": "documentStructure"
+        },
+        {
+          "name": "list",
+          "description": "Group of list items",
+          "category": "documentStructure"
+        },
+        {
+          "name": "listitem",
+          "description": "Single item in a list",
+          "category": "documentStructure"
+        },
+        {
+          "name": "mark",
+          "description": "Highlighted text",
+          "category": "documentStructure"
+        },
+        {
+          "name": "math",
+          "description": "Mathematical expression",
+          "category": "documentStructure"
+        },
+        {
+          "name": "meter",
+          "description": "Scalar measurement within a range",
+          "category": "documentStructure"
+        },
+        {
+          "name": "none",
+          "description": "Element has no role",
+          "category": "documentStructure"
+        },
+        {
+          "name": "note",
+          "description": "Parenthetic content",
+          "category": "documentStructure"
+        },
+        {
+          "name": "paragraph",
+          "description": "Paragraph of text",
+          "category": "documentStructure"
+        },
+        {
+          "name": "presentation",
+          "description": "Element has no role (alias of none)",
+          "category": "documentStructure"
+        },
+        {
+          "name": "row",
+          "description": "Row of cells",
+          "category": "documentStructure"
+        },
+        {
+          "name": "rowgroup",
+          "description": "Group of rows",
+          "category": "documentStructure"
+        },
+        {
+          "name": "rowheader",
+          "description": "Header for a row",
+          "category": "documentStructure"
+        },
+        {
+          "name": "strong",
+          "description": "Strong importance",
+          "category": "documentStructure"
+        },
+        {
+          "name": "subscript",
+          "description": "Subscript text",
+          "category": "documentStructure"
+        },
+        {
+          "name": "superscript",
+          "description": "Superscript text",
+          "category": "documentStructure"
+        },
+        {
+          "name": "term",
+          "description": "Term being defined",
+          "category": "documentStructure"
+        },
+        {
+          "name": "time",
+          "description": "Time value",
+          "category": "documentStructure"
+        },
+        {
+          "name": "toolbar",
+          "description": "Collection of related actions",
+          "category": "documentStructure"
+        },
+        {
+          "name": "tooltip",
+          "description": "Contextual popup with description",
+          "category": "documentStructure"
+        },
+        {
+          "name": "banner",
+          "description": "Site-wide branding",
+          "category": "landmark"
+        },
+        {
+          "name": "complementary",
+          "description": "Supporting region",
+          "category": "landmark"
+        },
+        {
+          "name": "contentinfo",
+          "description": "Common info (footer)",
+          "category": "landmark"
+        },
+        {
+          "name": "form",
+          "description": "Region with form",
+          "category": "landmark"
+        },
+        {
+          "name": "main",
+          "description": "Main content of document",
+          "category": "landmark"
+        },
+        {
+          "name": "navigation",
+          "description": "Set of navigation links",
+          "category": "landmark"
+        },
+        {
+          "name": "region",
+          "description": "Generic region requiring label",
+          "category": "landmark"
+        },
+        {
+          "name": "search",
+          "description": "Region for search",
+          "category": "landmark"
+        },
+        {
+          "name": "alert",
+          "description": "Important time-sensitive info",
+          "category": "liveRegion"
+        },
+        {
+          "name": "log",
+          "description": "Live region with log of changes",
+          "category": "liveRegion"
+        },
+        {
+          "name": "marquee",
+          "description": "Non-essential scrolling info",
+          "category": "liveRegion"
+        },
+        {
+          "name": "status",
+          "description": "Advisory info",
+          "category": "liveRegion"
+        },
+        {
+          "name": "timer",
+          "description": "Numerical counter",
+          "category": "liveRegion"
+        },
+        {
+          "name": "alertdialog",
+          "description": "Alert that requires response",
+          "category": "windowLike"
+        },
+        {
+          "name": "dialog",
+          "description": "Modal/non-modal dialog",
+          "category": "windowLike"
+        }
+      ]
+    },
+    "tier2Shadcn": {
+      "directory": "components/ui",
+      "components": [
+        {
+          "name": "Button",
+          "filePath": "src/components/ui/button.tsx",
+          "axes": [
+            {
+              "name": "variant",
+              "values": [
+                "default",
+                "outline",
+                "secondary",
+                "ghost",
+                "destructive",
+                "link"
+              ]
+            },
+            {
+              "name": "size",
+              "values": [
+                "default",
+                "xs",
+                "sm",
+                "lg",
+                "icon",
+                "icon-xs",
+                "icon-sm",
+                "icon-lg"
+              ]
+            }
+          ],
+          "defaultVariants": {
+            "variant": "default",
+            "size": "default"
+          },
+          "pattern": "cva",
+          "ariaRole": "button"
+        }
+      ]
+    },
+    "tier3Project": {
+      "composites": [
+        {
+          "name": "ActivitySummary",
+          "filePath": "src/components/composites/ActivitySummary/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        },
+        {
+          "name": "ActivityTable",
+          "filePath": "src/components/composites/ActivityTable/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "table"
+        },
+        {
+          "name": "AvatarUpload",
+          "filePath": "src/components/composites/AvatarUpload/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        },
+        {
+          "name": "BrandHeader",
+          "filePath": "src/components/composites/BrandHeader/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "banner"
+        },
+        {
+          "name": "DashboardHeader",
+          "filePath": "src/components/composites/DashboardHeader/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "banner"
+        },
+        {
+          "name": "ErrorIcon",
+          "filePath": "src/components/composites/ErrorIcon/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "img"
+        },
+        {
+          "name": "ErrorMessage",
+          "filePath": "src/components/composites/ErrorMessage/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "status"
+        },
+        {
+          "name": "HomeButton",
+          "filePath": "src/components/composites/HomeButton/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "button"
+        },
+        {
+          "name": "LoginForm",
+          "filePath": "src/components/composites/LoginForm/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "form"
+        },
+        {
+          "name": "ProfileHeader",
+          "filePath": "src/components/composites/ProfileHeader/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "banner"
+        },
+        {
+          "name": "ProfileInfoCard",
+          "filePath": "src/components/composites/ProfileInfoCard/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "group"
+        },
+        {
+          "name": "SettingsGroup",
+          "filePath": "src/components/composites/SettingsGroup/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        },
+        {
+          "name": "SettingsHeader",
+          "filePath": "src/components/composites/SettingsHeader/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "banner"
+        },
+        {
+          "name": "SettingsSelectRow",
+          "filePath": "src/components/composites/SettingsSelectRow/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        },
+        {
+          "name": "SettingsSliderRow",
+          "filePath": "src/components/composites/SettingsSliderRow/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        },
+        {
+          "name": "SettingsToggleRow",
+          "filePath": "src/components/composites/SettingsToggleRow/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        },
+        {
+          "name": "Sidebar",
+          "filePath": "src/components/composites/Sidebar/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "navigation"
+        },
+        {
+          "name": "SignupForm",
+          "filePath": "src/components/composites/SignupForm/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "form"
+        },
+        {
+          "name": "SocialAuthBlock",
+          "filePath": "src/components/composites/SocialAuthBlock/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        },
+        {
+          "name": "StatCard",
+          "filePath": "src/components/composites/StatCard/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "group"
+        }
+      ],
+      "templates": [
+        {
+          "name": "DashboardPage",
+          "filePath": "src/components/templates/DashboardPage/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "main"
+        },
+        {
+          "name": "ErrorPage",
+          "filePath": "src/components/templates/ErrorPage/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "main"
+        },
+        {
+          "name": "LoginPage",
+          "filePath": "src/components/templates/LoginPage/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "main"
+        },
+        {
+          "name": "MyPage",
+          "filePath": "src/components/templates/MyPage/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "main"
+        },
+        {
+          "name": "SettingsPage",
+          "filePath": "src/components/templates/SettingsPage/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "main"
+        },
+        {
+          "name": "SignupPage",
+          "filePath": "src/components/templates/SignupPage/index.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual",
+          "ariaRole": "main"
+        },
+        {
+          "name": "VariantWrapper",
+          "filePath": "src/components/templates/VariantWrapper.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
+        }
+      ]
+    }
+  }
+}

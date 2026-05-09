@@ -128,12 +128,15 @@
 
 ## Task 11: CLI entry + 회귀 lint
 
-- [ ] `studio/scripts/extract-vocabulary.ts` — CLI (`pnpm --filter studio vocab`)
-- [ ] `pnpm vocab` → catalog.json + spec-schema.json + FRONT/TOKEN/DESIGN.md 일괄 생성
-- [ ] 회귀 lint 단위 테스트: catalog 생성 후 코드 변경 시 mismatch detect
-- [ ] CI 통합 (vitest 안에서 카탈로그 일치 lint)
-- [ ] 기존 studio 단위 테스트 전체 PASS (회귀 0)
-- [ ] Commit: `feat(spec-7-01): add vocab CLI + regression lint`
+- [x] `studio/scripts/extract-vocabulary.ts` — CLI (`pnpm --filter studio vocab`)
+- [x] tsx dev 의존성 추가
+- [x] `pnpm vocab` → catalog.json + spec-schema.json + FRONT/TOKEN/DESIGN.md + DESIGN.stitch.md 일괄 생성
+- [x] `pnpm vocab:check` → drift detect 모드 (CI 진입점)
+- [x] 회귀 lint 단위 테스트 (`vocab/__tests__/regression.test.ts`) — committed catalog ↔ live extraction 비교
+- [x] CLI 의 process.chdir(STUDIO_ROOT) + 상대 경로 — git-friendly portable 출력
+- [x] ariaRole undefined 시 키 omit — JSON 직렬화 일관
+- [x] studio 전체 351/351 PASS — 회귀 0
+- [x] Commit: `feat(spec-7-01): add vocab CLI + regression lint`
 
 ---
 

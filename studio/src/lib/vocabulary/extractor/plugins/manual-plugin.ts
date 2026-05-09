@@ -24,16 +24,16 @@ export const manualPlugin: ExtractorPlugin = {
   extract(sourceFile, filePath) {
     const exportName = findFirstPascalExport(sourceFile);
     if (!exportName) return [];
-    return [
-      {
-        name: exportName,
-        filePath,
-        axes: [],
-        defaultVariants: {},
-        ariaRole: inferAriaRole(exportName),
-        pattern: "manual",
-      } satisfies ExtractedComponent,
-    ];
+    const ariaRole = inferAriaRole(exportName);
+    const entry: ExtractedComponent = {
+      name: exportName,
+      filePath,
+      axes: [],
+      defaultVariants: {},
+      pattern: "manual",
+    };
+    if (ariaRole) entry.ariaRole = ariaRole;
+    return [entry];
   },
 };
 
