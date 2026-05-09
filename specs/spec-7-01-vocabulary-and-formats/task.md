@@ -29,11 +29,11 @@
 
 ## Task 2: shadcn registry-item.json + DTCG 1.0 검증기
 
-- [ ] `studio/src/lib/vocabulary/validators/shadcn-registry.ts` — ajv 기반
-- [ ] `studio/src/lib/vocabulary/validators/dtcg.ts` — DTCG 1.0 schema 호환
-- [ ] 공개 schema 다운로드 + 정적 보존 (오프라인 검증 가능)
-- [ ] 단위 테스트: 유효/무효 fixture 5+ 개씩
-- [ ] Commit: `feat(spec-7-01): add shadcn registry + DTCG validators`
+- [x] `studio/src/lib/vocabulary/validators/shadcn-registry.ts` — ajv 기반
+- [x] `studio/src/lib/vocabulary/validators/dtcg.ts` — DTCG 1.0 schema 호환 + 참조 해소 검증
+- [x] 공개 schema 다운로드 + 정적 보존 (`schemas/shadcn-registry-item.json`, `schemas/dtcg-tokens.json`)
+- [x] 단위 테스트: 유효/무효 fixture 8 + 7 = 15 case 모두 PASS
+- [x] Commit: `feat(spec-7-01): add shadcn registry + DTCG validators`
 
 ---
 
