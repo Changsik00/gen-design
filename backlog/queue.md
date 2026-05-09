@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — 1 spec — 다음: spec-7-01-vocabulary-and-formats
+- **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — 1 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
