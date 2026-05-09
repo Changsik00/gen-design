@@ -116,12 +116,13 @@
 
 ## Task 10: DESIGN.md 자동 렌더러 (Stitch superset) + Stitch subset export
 
-- [ ] `studio/src/lib/vocabulary/render/design-md.ts` — Stitch 9 섹션 + 본 프로젝트 확장
-- [ ] `studio/src/lib/vocabulary/render/stitch-export.ts` — Stitch DESIGN.md 0.1 형식 subset 추출
-- [ ] 출력: `templates/DESIGN.md` (수동 편집 금지 마커)
-- [ ] Stitch CLI 검증기 PASS 확인 (환경 미준비 시 schema 정합 manual)
-- [ ] 단위 테스트: 9 섹션 모두 존재 + i18n 확장 섹션 포함
-- [ ] Commit: `feat(spec-7-01): add DESIGN.md auto-renderer (Stitch superset)`
+- [x] `studio/src/lib/vocabulary/render/design-md.ts` — Stitch 9 섹션 (Overview/Colors/Typography/Layout/Elevation/Shapes/Components/Dos-Donts/Iconography) + 확장 §10 i18n / §11 컴포넌트 인스턴스 어휘 / §12 Paper 매핑
+- [x] `studio/src/lib/vocabulary/render/stitch-export.ts` — Stitch 0.1 호환 subset 추출 (§10~12 제거 + frontmatter 정렬)
+- [x] AUTO-GENERATED 마커 + frontmatter (schema, supersetOf, name, version)
+- [x] 단위 테스트 9 case (9 섹션 + 확장 + Components 어휘 + Do's/Don'ts + Stitch 추출 3 case) PASS
+- [-] Stitch CLI 검증 — Stitch CLI 환경 부재. schema 정합 manual 검증으로 갈음
+- [-] 파일 출력 — Task 11 (CLI) 에서
+- [x] Commit: `feat(spec-7-01): add DESIGN.md auto-renderer (Stitch superset)`
 
 ---
 
