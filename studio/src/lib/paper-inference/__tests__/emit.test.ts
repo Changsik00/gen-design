@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { emit } from "../emit";
-import { parse } from "../../spec-md/parser/index";
-import type { Document, ComponentInstance, MarkdownText, Comment, Placeholder, SourceLocation } from "../../spec-md/parser/ast-types";
+import { parse } from "../../chat-md/parser/index";
+import type { Document, ComponentInstance, MarkdownText, Comment, Placeholder, SourceLocation } from "../../chat-md/parser/ast-types";
 
 const NULL_LOC: SourceLocation = { line: 0, col: 0, offset: 0, length: 0 };
 

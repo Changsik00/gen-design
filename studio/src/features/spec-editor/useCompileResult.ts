@@ -1,5 +1,5 @@
 import { useState, useEffect, type ReactNode } from "react";
-import { parse } from "@/lib/spec-md/parser";
+import { parse } from "@/lib/chat-md/parser";
 import { buildReactTree } from "@/lib/spec-md-compiler/paper/react-builder";
 import { compileToPaper } from "@/lib/spec-md-compiler/paper/compile";
 import { compileToReact } from "@/lib/spec-md-compiler/react/compile";

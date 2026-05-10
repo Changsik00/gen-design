@@ -1,4 +1,4 @@
-import type { Block, Document, MarkdownText } from "../../spec-md/parser/ast-types";
+import type { Block, Document, MarkdownText } from "../../chat-md/parser/ast-types";
 
 export interface StateDecl {
   name: string;

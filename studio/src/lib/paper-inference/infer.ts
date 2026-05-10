@@ -5,7 +5,7 @@
  * 출력: { ast: Document, report: InferReport, text: string }
  */
 
-import type { Document } from "../spec-md/parser/ast-types";
+import type { Document } from "../chat-md/parser/ast-types";
 import type { PaperTreeNode } from "./tree-types";
 import type { CatalogMap } from "./ast-builder";
 import type { InferReport, ClassifyOptions } from "./classify";

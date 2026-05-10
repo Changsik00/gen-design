@@ -10,7 +10,7 @@
  * `NodeMeta` 는 Document 와 별도로 반환 — nodeId → meta 맵.
  */
 
-import type { Document, Block, ComponentInstance, MarkdownText, Comment, SourceLocation, AttrValue } from "../spec-md/parser/ast-types";
+import type { Document, Block, ComponentInstance, MarkdownText, Comment, SourceLocation, AttrValue } from "../chat-md/parser/ast-types";
 import type { PaperTreeNode } from "./tree-types";
 import { matchByName } from "./component-matcher";
 import { extractVariant } from "./variant-extractor";

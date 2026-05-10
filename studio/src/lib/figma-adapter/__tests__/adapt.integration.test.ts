@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 import { join, dirname } from "node:path";
 import { adaptFigma } from "../adapt";
-import { parse } from "../../spec-md/parser";
+import { parse } from "../../chat-md/parser";
 import type { FigmaNode } from "../figma-types";
 import type { CatalogMap } from "../../paper-inference/ast-builder";
 

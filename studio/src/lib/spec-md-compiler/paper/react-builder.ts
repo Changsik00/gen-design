@@ -26,7 +26,7 @@ import type {
   Placeholder,
   MarkdownText,
   AttrValue,
-} from "../../spec-md/parser/ast-types";
+} from "../../chat-md/parser/ast-types";
 import { resolveI18n, I18N_MISSING_STYLE } from "./i18n-resolver";
 import { tokenPathToCssVar, normalizeInlineTokenString } from "./token-resolver";
 import { defaultPropsFor } from "./default-props";

@@ -4,7 +4,7 @@ import type {
   Document,
   AttrValue,
   Placeholder,
-} from "../../spec-md/parser/ast-types";
+} from "../../chat-md/parser/ast-types";
 
 export interface EmitContext {
   usedI18nKeys: Set<string>;

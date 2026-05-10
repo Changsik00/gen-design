@@ -7,7 +7,7 @@ import type {
   Comment,
   Block,
   Document,
-} from "../../../spec-md/parser/ast-types";
+} from "../../../chat-md/parser/ast-types";
 
 const loc = { line: 1, col: 1, offset: 0, length: 0 };
 

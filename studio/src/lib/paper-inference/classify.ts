@@ -5,7 +5,7 @@
  *   unknown:   confidence < 0.5
  */
 
-import type { Block } from "../spec-md/parser/ast-types";
+import type { Block } from "../chat-md/parser/ast-types";
 import type { NodeMeta } from "./ast-builder";
 
 export interface InferReport {

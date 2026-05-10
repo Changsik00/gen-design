@@ -11,7 +11,7 @@
  * 본 string 은 grammar/index.ts 가 런타임 컴파일하여 parser 생성.
  */
 
-export const SPEC_MD_GRAMMAR = String.raw`
+export const CHAT_MD_GRAMMAR = String.raw`
 {
   function loc(location) {
     return {

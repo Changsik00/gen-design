@@ -13,11 +13,11 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { parse } from "../../spec-md/parser/index";
+import { parse } from "../../chat-md/parser/index";
 import { inferSpec } from "../infer";
 import type { CatalogMap } from "../ast-builder";
 import type { VocabularyCatalog } from "../../vocabulary/catalog";
-import type { Document, ComponentInstance, Block } from "../../spec-md/parser/ast-types";
+import type { Document, ComponentInstance, Block } from "../../chat-md/parser/ast-types";
 import type { PaperTreeNode } from "../tree-types";
 
 const STUDIO_ROOT = join(__dirname, "..", "..", "..", "..");

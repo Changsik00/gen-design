@@ -1,5 +1,5 @@
-import { parse } from "../../spec-md/parser";
-import type { Document, ParseError } from "../../spec-md/parser/ast-types";
+import { parse } from "../../chat-md/parser";
+import type { Document, ParseError } from "../../chat-md/parser/ast-types";
 import { registeredNames } from "../paper/component-registry";
 import { emitDocument, type EmitContext } from "./jsx-emitter";
 import { extractSections } from "./section-parser";

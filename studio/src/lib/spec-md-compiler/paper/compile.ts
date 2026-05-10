@@ -21,8 +21,8 @@
  *   4. Tailwind CDN + CSS vars wrap
  */
 
-import { parse } from "../../spec-md/parser";
-import type { Document, ParseError } from "../../spec-md/parser/ast-types";
+import { parse } from "../../chat-md/parser";
+import type { Document, ParseError } from "../../chat-md/parser/ast-types";
 import koBundle from "../../../i18n/ko.json";
 import { COMPONENT_REGISTRY } from "./component-registry";
 import { buildReactTree } from "./react-builder";

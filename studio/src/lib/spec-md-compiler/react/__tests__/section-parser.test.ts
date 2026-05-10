@@ -1,6 +1,6 @@
 import { describe, it, expect } from "vitest";
 import { extractSections } from "../section-parser";
-import type { Document, MarkdownText } from "../../../spec-md/parser/ast-types";
+import type { Document, MarkdownText } from "../../../chat-md/parser/ast-types";
 
 const loc = { line: 1, col: 1, offset: 0, length: 0 };
 

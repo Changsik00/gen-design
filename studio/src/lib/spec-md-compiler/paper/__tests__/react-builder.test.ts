@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { isValidElement, type ReactElement } from "react";
 import { renderToStaticMarkup } from "react-dom/server";
-import { parse } from "../../../spec-md/parser";
+import { parse } from "../../../chat-md/parser";
 import { buildReactTree } from "../react-builder";
 import { COMPONENT_REGISTRY } from "../component-registry";
 import koBundle from "@/i18n/ko.json";

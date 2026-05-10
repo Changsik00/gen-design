@@ -11,7 +11,7 @@ import { useMemo, useState, useEffect } from "react";
 import { compileToPaper } from "@/lib/spec-md-compiler/paper/compile";
 import { buildReactTree } from "@/lib/spec-md-compiler/paper/react-builder";
 import { COMPONENT_REGISTRY } from "@/lib/spec-md-compiler/paper/component-registry";
-import { parse } from "@/lib/spec-md/parser";
+import { parse } from "@/lib/chat-md/parser";
 import koBundle from "@/i18n/ko.json";
 import { FIXTURES } from "./fixtures.generated";
 
