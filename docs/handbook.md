@@ -131,27 +131,42 @@ LoginScene [chat:scenes/login]
 
 ## §3 아키텍처 매트릭스 — 정보의 위치
 
-> 매 정보 종류마다 *글로벌* / *스펙로컬* / *혼합* 결정. ADR-008 가 *디렉토리 컬럼* 결정 (옵션 B = 글로벌 직접 편집).
->
-> *변경 슬라이스* 의 시각화는 PR diff 가 담당. spec dir 안에 design 슬라이스 파일은 *생성 안 함*.
+> 매 정보 종류마다 *진실의 위치* + *변동 빈도* + *변경 슬라이스 표현* 결정.
+> ADR-008 (옵션 B) 가 *글로벌 직접 편집* 정책. *변경 슬라이스 시각화* = PR diff.
+> 단 chat 흐름의 *자동 정리* (gen-design merge) 는 spec-08-08 후보 — 현재는 수동.
 
-| 정보 종류 | 진실의 위치 (글로벌) | 변경 슬라이스 표현 | 비고 |
-|---|---|---|---|
-| **DESIGN.md 본문** (페이지/화면 narrative) | `templates/DESIGN.md` | PR diff | spec PR 마다 해당 섹션만 갱신 |
-| **TOKEN.md 토큰** | `templates/TOKEN.md` + `templates/assets/tokens/tokens.json` | PR diff | DTCG 1.0 strict 형식 |
-| **FRONT.md 매핑/룰** | `templates/FRONT.md` | PR diff | 어휘 추가 / shadcn 룰 / 4 layer variant 운영 |
-| **chat.md 컴포넌트 정의** | `chats/<x>.chat.md` | 신규 파일 또는 diff | 28 fixture (phase-7 시점) |
-| **assets** (이미지/폰트/아이콘) | `templates/assets/` | binary diff | git LFS 없음 — 작은 자산만 |
-| **catalog (machine-readable)** | `studio/src/lib/vocabulary/catalog/catalog.json` | 자동 생성 (cva extractor) | *수동 편집 금지* — 컴포넌트 코드 변경이 진실 |
-| **variants 정의** | 각 컴포넌트의 `cva()` 코드 | studio 코드 diff | catalog 추출 시 자동 반영 |
-| **결정 (ADR)** | `docs/decisions/ADR-NNN-{slug}.md` | 신규 파일 | 한 결정 = 한 ADR. 영구 기록 |
+### 정보 종류 × 위치
 
-### 디렉토리 결정 (ADR-008)
+| 정보 종류 | 진실의 위치 | 변동 빈도 | 변경 슬라이스 표현 | 비고 |
+|---|---|---|---|---|
+| **DESIGN.md 본문** (scene/화면 narrative) | `templates/DESIGN.md` | 매 spec PR | PR diff | 각 PR 의 해당 섹션만 갱신 |
+| **TOKEN.md 토큰** | `templates/TOKEN.md` + `templates/assets/tokens/tokens.json` | 가끔 | PR diff | DTCG 1.0 strict 형식 |
+| **FRONT.md 매핑/룰** | `templates/FRONT.md` | 매 spec PR | PR diff | 어휘 추가 / shadcn 룰 / 4 layer variant 운영 |
+| **chat.md (정식 산출물)** | `chats/{scenes,components}/<x>.chat.md` | 매일 (도그푸딩 누적) | 신규 파일 또는 diff | 외부 디자이너 의뢰 / 사용 사례 누적 |
+| **chat.md (도그푸딩)** | `playground/chats/{scenes,components}/` | *매우 자주* | 신규/삭제 자유 | 채택 시 chats/ 로 승격, 미채택은 정리 |
+| **chat.md (회귀 fixture)** | `fixtures/chats/{scenes,components}/<x>.chat.md` | *거의 안 변함* | drift 발생 시 fixture 갱신 spec | 컴파일러 결정성 + ts-diagnose 게이트 |
+| **assets** (이미지/폰트/아이콘) | `templates/assets/` | 가끔 | binary diff | git LFS 없음 — 작은 자산만 |
+| **catalog (machine-readable)** | `studio/src/lib/vocabulary/catalog/catalog.json` | 자동 (cva extractor) | studio 코드 변경 시 `pnpm vocab` 재실행 | *수동 편집 금지* — 컴포넌트 코드가 진실 |
+| **variants 정의** | 각 컴포넌트의 `cva()` 코드 | 매 컴포넌트 PR | studio 코드 diff | catalog 추출 시 자동 반영 |
+| **결정 (ADR)** | `docs/decisions/ADR-NNN-{slug}.md` | 큰 결정 시 신규 | 신규 파일 | 한 결정 = 한 ADR. 영구 기록 |
+| **shell (글로벌 외각)** | `chats/_shell.chat.md` | 가끔 (승격 시) | diff | 모든 scene 의 기본 외각. 각 scene 의 frontmatter 로 opt-in/out |
 
-- spec dir (`specs/spec-X-Y-{slug}/`) 안에는 **spec.md / plan.md / task.md / walkthrough.md / pr_description.md** 만.
-- design 슬라이스 파일 (DESIGN.md / FRONT.md / TOKEN.md / assets/) 은 *생성하지 않음*.
+### 디렉토리 결정 (ADR-008 — 옵션 B 유지)
+
+- *harness-kit* spec dir (`specs/spec-X-Y-{slug}/`) 안에는 **spec.md / plan.md / task.md / walkthrough.md / pr_description.md** 만 (작업 흔적).
+- *디자인 도구* 의 design 슬라이스 파일 (per-spec DESIGN.md / FRONT.md / TOKEN.md / assets/) 은 *생성하지 않음*. 글로벌 직접 편집.
 - *변경 슬라이스의 시각적 표현* = PR diff 자체.
-- Reconsider trigger (ADR-008 D-4): 분기당 3+ 글로벌 머지 충돌 / alpha 3+ 명 피드백 / spec 의 design 변경 단위 다양화.
+- **Reconsider trigger** (ADR-008 D-4): 분기당 3+ 글로벌 머지 충돌 / alpha 3+ 명 피드백 / spec 의 design 변경 단위 다양화 — 하나라도 발생 시 ADR-010 으로 재논의 (spec-08-05 에서 처리).
+
+### 가변성 등급 — 3 정도
+
+| 등급 | 위치 | 변동 | 정책 |
+|---|---|---|---|
+| **🪨 고정** (회귀) | `fixtures/chats/` | 거의 안 변함 | 컴파일러 게이트 — drift 시 신규 fixture spec |
+| **🌊 변동** (정식 산출물) | `chats/` | 도그푸딩 / 사용자 의뢰 누적 | 매 PR 마다 다이얼로그 통한 갱신 |
+| **💨 가변** (도그푸딩) | `playground/chats/` | *매우 자주* (실험 / 폐기) | git tracked 이지만 commit 정책 느슨 |
+
+→ 3 등급의 분리가 *디자이너의 자유* 와 *시스템의 안정* 을 동시에 보장.
 
 ---
 
