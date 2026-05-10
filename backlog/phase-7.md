@@ -77,7 +77,7 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 |---|---|:---:|---|---|
 | `spec-7-01` | vocabulary-and-formats | P? | Merged | `specs/spec-7-01-vocabulary-and-formats/` |
 | `spec-7-02` | spec-md-grammar | P? | Merged | `specs/spec-7-02-spec-md-grammar/` |
-| `spec-7-03` | spec-to-paper | P? | Active | `specs/spec-7-03-spec-to-paper/` |
+| `spec-7-03` | spec-to-paper | P? | Merged | `specs/spec-7-03-spec-to-paper/` |
 <!-- sdd:specs:end -->
 
 ### spec-7-01 — 어휘 + 표준 + 형식 (Vocabulary & Formats)
