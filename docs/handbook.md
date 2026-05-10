@@ -48,19 +48,60 @@ flowchart LR
 
 ## §2 Glossary
 
-### SSOT 4 문서 + 2 디렉토리
+### SSOT 4 문서 + 3 디렉토리
 
 | 이름 | 위치 | 역할 |
 |---|---|---|
 | **DESIGN.md** | `templates/DESIGN.md` | 페이지 / 화면 구조 + 인터랙션 명세. Stitch 0.1 superset. *narrative + 결정 근거*. |
 | **TOKEN.md** | `templates/TOKEN.md` | 토큰 narrative + `tokens.json` (DTCG 1.0 strict) 결정 근거. |
 | **FRONT.md** | `templates/FRONT.md` | *컴파일 룰북* + 3-tier 어휘 카탈로그 narrative + Paper 매핑 + shadcn 관리 룰. |
-| **chat.md** | `chats/{scenes,components}/<x>.chat.md` | DESIGN.md 의 *machine-readable instance* — 한 scene/component 의 chat.md grammar (peggy parser) 인스턴스. *살아있는 소통 채널* (재편집 가능, 명령 + 부산물). |
+| **chat.md** | `chats/{scenes,components}/<x>.chat.md` | DESIGN.md 의 *machine-readable instance* — 한 scene/component 의 *살아있는 소통 채널* (재편집 가능, 명령 + 부산물 동시). 3층 구조 (Narrative + Structure + History). |
 | **assets/** | `templates/assets/` | 이미지 / 폰트 / 아이콘 / `tokens/tokens.json` (binary + machine-readable). |
-| **fixtures/chats/** | `fixtures/chats/{scenes,components}/` | 회귀 게이트 — 28 chat.md fixture (변치 않음). |
-| **playground/chats/** | `playground/chats/{scenes,components}/` | 도그푸딩 작업 영역 — 디자이너가 자유롭게 작성. |
+| **chats/** | `chats/{scenes,components}/` | *정식 산출물* — 사용자 의뢰로 누적되는 영구 chat.md. |
+| **playground/chats/** | `playground/chats/{scenes,components}/` | *도그푸딩* 작업 영역 — 디자이너가 자유롭게 실험. 채택 시 chats/ 로 승격. |
+| **fixtures/chats/** | `fixtures/chats/{scenes,components}/` | *회귀 게이트* — 28 chat.md fixture (변치 않음). 컴파일러 결정성 + ts-diagnose 보장. |
 
-> *결정*: 위 6 가 *모든 입력의 SSOT*. studio React 코드 / Paper 캔버스 / 빌드 결과물 모두 이 SSOT *파생*.
+> *결정*: 위 7 위치가 *모든 입력의 SSOT*. studio React 코드 / Paper 캔버스 / 빌드 결과물 모두 이 SSOT *파생*.
+
+### chat 의 3층 구조
+
+chat.md 는 *3 섹션* 구조 — agent 가 자연어 input 을 정리해 출력하는 영구 형식:
+
+| 층 | 역할 | 예 |
+|---|---|---|
+| **💬 Narrative** | 디자이너 의도 (자연어 정제) — *왜* / *무엇* / *어떤 결* | "디자인 툴의 빈 상태 안내. mineral 톤. CTA 단일." |
+| **🧩 Structure** | 4축 형식 (machine-readable 컴포넌트 트리) — *어떻게 (구조)* | `<EmptyState variant="muted">...</EmptyState>` |
+| **📜 History** | 변경 이력 (시간축) — *언제 / 누가 / 왜 변경* | "2026-05-10 CTA copper → muted slate (사유: 절제 강화)" |
+
+> 디자이너는 *"이렇게 만들어줘"* 자연어로 말함. agent 가 *"네, Narrative 에 의도 정리, Structure 에 컴포넌트, History 에 이번 변경 한 줄"* 자동 정리.
+
+### scene / component / shell
+
+- **scene** — *화면전환 최대 단위*. 한 scene = 하나의 페이지/뷰 (`LoginScene`, `DashboardScene`, `ProfileScene`). 디렉토리 `chats/scenes/`.
+- **component** — scene 의 *부분*. shadcn Tier 2 (`Button`) 또는 본 프로젝트 Tier 3 composite (`LoginForm`, `EmptyState`). 디렉토리 `chats/components/`.
+- **shell** — *모든 scene 공통 외각* (BrandHeader / AppFooter 등). 글로벌 1 개 (`chats/_shell.chat.md`). 각 scene 의 frontmatter 에 `shell: { inherit: true, exclude: [...] }` 로 opt-in/out.
+
+### agent (도서관 사서)
+
+**agent** = Claude Code in MCP environment. 디자이너의 *자연어 의도* 를 받아 *형식화* 하는 매개자. 단순 변환기가 아니라 *도서관 사서*:
+
+- 매 chat 갱신 시 `chats/` + `catalog.json` + `templates/{DESIGN,FRONT,TOKEN}.md` *컨텍스트 읽기*
+- *재사용 후보* 능동 제안 (예: "EmptyState 가 이미 catalog 에 있어요, 그대로 쓸까요?")
+- *글로벌 승격* 휴리스틱 (예: "BrandHeader / AppFooter 가 2+ scene 공통 — shell 로 승격할까요?")
+- *제약 대화* (예: "login scene 은 보통 헤더 없이 풋터만, 어떻게 할까요?")
+
+→ 자세한 약속은 §5 P6 (도서관 사서 원칙).
+
+### Paper layer-name 식별성 컨벤션
+
+Paper artboard / 주요 frame 의 layer-name 에 식별자 박기 — *반복 가능성 + 부분 수정* 의 anchor:
+
+```
+EmptyState [chat:components/empty-state]
+LoginScene [chat:scenes/login]
+```
+
+→ paper-inference 가 layer-name 을 파싱 → *어느 chat 의 갱신* 인지 결정. 자세한 룰은 §6 R7.
 
 ### 어휘 Tier (3-tier)
 
@@ -68,7 +109,7 @@ flowchart LR
 |---|---|---|---|
 | **Tier 1** | ARIA 1.3 roles (시맨틱) | `button`, `dialog`, `menu`, ... 93 개 | `studio/src/lib/vocabulary/tier1-aria.ts` |
 | **Tier 2** | shadcn UI primitives | `Button` (현재 1 개, phase-7 ship 시점) | `studio/src/components/ui/` (lowercase 파일) |
-| **Tier 3** | 본 프로젝트 composites + templates | `LoginForm`, `DashboardPage`, ... 27 개 | `studio/src/components/{composites,templates}/` (PascalCase 파일) |
+| **Tier 3** | 본 프로젝트 composites + templates | `LoginForm`, `DashboardScene`, ... 27 개 | `studio/src/components/{composites,templates}/` (PascalCase 파일) |
 
 **합계**: 28 컴포넌트 (Tier 2: 1 + Tier 3: 27). catalog 진실 = `studio/src/lib/vocabulary/catalog/catalog.json`.
 
