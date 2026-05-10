@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-08** — chat-agent-flow — 3 spec — 다음: (spec 없음)
+- **phase-08** — chat-agent-flow — 4 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
