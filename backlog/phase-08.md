@@ -58,7 +58,7 @@ phase-8 종료 시:
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
 | `spec-08-01` | rename-and-restructure | P? | Merged | `specs/spec-08-01-rename-and-restructure/` |
-| `spec-08-02` | handbook-and-conventions | P? | Active | `specs/spec-08-02-handbook-and-conventions/` |
+| `spec-08-02` | handbook-and-conventions | P? | Merged | `specs/spec-08-02-handbook-and-conventions/` |
 <!-- sdd:specs:end -->
 
 > 의존성:
