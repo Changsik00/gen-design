@@ -171,4 +171,64 @@ pnpm --filter studio paper-to-spec /tmp/profile-page.tree.json --output spec/pro
 
 ---
 
-<!-- §5-§8 추가 예정 — Task 5-6 에서 -->
+## §5 원칙
+
+### P1: 글로벌 SSOT 점진 누적
+
+`templates/{DESIGN,TOKEN,FRONT}.md` + `spec/*.spec.md` 가 *지금* 의 진실. spec PR 마다 *글로벌 슬라이스* 를 변경. 누적은 git history 가 자동 보존.
+
+### P2: 스펙 로컬 = delta
+
+spec dir (`specs/spec-X-Y/`) 안에는 *변경의 의도* (spec.md / plan.md / task.md / walkthrough.md / pr_description.md) 만. 글로벌 진실의 *복제* 는 0.
+
+### P3: vocabulary-first
+
+새 컴포넌트가 필요하면 *먼저* catalog 에 등재 → 컴포넌트 코드 작성 (cva extractor 가 catalog 자동 갱신) → spec.md 에서 사용. *어휘 → 코드 → 사용* 순서 엄수.
+
+### P4: raw color 금지
+
+생성/작성되는 모든 색상은 *토큰 참조* (`{{token.semantic.color.primary}}`) 만. raw `#` / `rgb()` / `oklch()` 는 *원본 토큰 값* 의 location 에만 (즉 `tokens.json`). canonical 표기는 paper-normalizer 가 정규화.
+
+### P5: 결정 = ADR
+
+architectural / cross-cutting 결정은 ADR 로. *2 줄 commit message* 가 아닌 *한 ADR 파일*. ADR-001 ~ ADR-009 가 결정 history.
+
+---
+
+## §6 룰
+
+### R1: One Task = One Commit
+
+constitution §8. 매 task 가 한 commit. *"몇 task 를 묶어서"* 금지. commit subject 에 SPEC ID 포함 (`feat(spec-7-X-Y): ...`).
+
+### R2: 한국어 산출물
+
+spec / plan / task / walkthrough / pr_description / phase / 채팅 = *한국어*. 코드 / 파일 경로 / 표준 기술 용어 / 거버넌스 문서 (constitution.md, agent.md) = 영어 허용. 한국어 쓰기는 *사용자와의 명확한 의사소통* 의 전제.
+
+### R3: PascalCase 컴포넌트
+
+Tier 2 (shadcn ui): 컴포넌트 *심볼* PascalCase, 파일은 `lowercase.tsx` (예: `Button` from `button.tsx`).
+Tier 3 (composites/templates): 심볼 + 파일 *모두 PascalCase* (예: `LoginForm.tsx`).
+catalog / spec.md / Paper 노드명 = *심볼 PascalCase 그대로*.
+
+### R4: ADR-for-결정
+
+새 결정은 ADR. 작은 결정은 spec.md 의 `## 결정 기록` (walkthrough). cross-cutting / architectural 결정만 ADR.
+
+### R5: spec.md grammar
+
+- 컴포넌트 인스턴스: `<Component variant="x" attr={value}>{children}</Component>`
+- i18n placeholder: `{{i18n.ko.path}}` (1급 시민)
+- token placeholder: `{{token.semantic.color.primary}}`
+- `## Behavior` (state / events) / `## Variants` (L1-L4 변형 선언) 섹션
+- frontmatter 미사용 (현재). 향후 도입 시 spec-md grammar 갱신 필수
+
+### R6: shadcn 관리
+
+- shadcn primitive 추가 시 `pnpm dlx shadcn@latest add <name>` → `studio/src/components/ui/<lowercase>.tsx` 자동 생성
+- catalog 등재 = cva extractor 자동 반영 (수동 편집 0)
+- 컴포넌트 변형은 *cva variants* 만 — 임의 prop 으로 분기 금지
+
+---
+
+<!-- §7-§8 추가 예정 — Task 6 에서 -->
