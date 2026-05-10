@@ -17,6 +17,15 @@
  * 종료 코드: 0 (성공) / 1 (오류) / 2 (사용법 위반)
  */
 
+import { readFileSync, writeFileSync } from "node:fs";
+import { dirname, join, resolve } from "node:path";
+import { fileURLToPath } from "node:url";
+import { enrichWithIdentity } from "../../src/lib/paper-inference/enrich";
+import { inferChat } from "../../src/lib/paper-inference/infer";
+import type { PaperTreeNode } from "../../src/lib/paper-inference/tree-types";
+import { validateTree, type ValidationError } from "../../src/lib/paper-inference/validate";
+import type { CatalogMap } from "../../src/lib/paper-inference/ast-builder";
+
 export interface PaperImportArgs {
   file?: string;
   fromStdin?: boolean;
@@ -66,6 +75,132 @@ export function parsePaperImportArgs(argv: string[]): PaperImportArgs | { error:
     return { error: "Missing <tree.json> argument (or --from-stdin)" };
   }
   return args;
+}
+
+export interface RunPaperImportOptions {
+  /** 표준 입출력을 inject 가능하게 — 테스트에서 사용. */
+  stdin?: () => Promise<string>;
+  stdout?: NodeJS.WriteStream;
+  stderr?: NodeJS.WriteStream;
+  /** catalog map override — 테스트용. */
+  catalog?: CatalogMap;
+}
+
+export interface RunResult {
+  exitCode: 0 | 1 | 2;
+  stdout: string;
+  stderr: string;
+}
+
+export async function runPaperImport(
+  argv: string[],
+  opts: RunPaperImportOptions = {},
+): Promise<RunResult> {
+  const stdoutLines: string[] = [];
+  const stderrLines: string[] = [];
+
+  const parsed = parsePaperImportArgs(argv);
+  if ("error" in parsed) {
+    stderrLines.push(`Error: ${parsed.error}`);
+    return { exitCode: 2, stdout: "", stderr: stderrLines.join("\n") };
+  }
+  if (parsed.help) {
+    return { exitCode: 0, stdout: helpText(), stderr: "" };
+  }
+
+  let raw: string;
+  try {
+    raw = parsed.fromStdin
+      ? await (opts.stdin ?? readStdin)()
+      : readFileSync(resolve(parsed.file!), "utf-8");
+  } catch (e) {
+    stderrLines.push(`Failed to read tree: ${e instanceof Error ? e.message : String(e)}`);
+    return { exitCode: 1, stdout: "", stderr: stderrLines.join("\n") };
+  }
+
+  let tree: PaperTreeNode;
+  try {
+    tree = JSON.parse(raw) as PaperTreeNode;
+  } catch (e) {
+    stderrLines.push(`Invalid JSON: ${e instanceof Error ? e.message : String(e)}`);
+    return { exitCode: 1, stdout: "", stderr: stderrLines.join("\n") };
+  }
+
+  const errors = validateTree(tree);
+  const fatal = errors.filter((x: ValidationError) => x.severity === "error");
+  for (const e of errors) {
+    stderrLines.push(`[${e.severity}] ${e.message}`);
+  }
+  if (fatal.length > 0) {
+    return { exitCode: 1, stdout: "", stderr: stderrLines.join("\n") };
+  }
+
+  if (parsed.validateOnly) {
+    stdoutLines.push("✓ valid");
+    return { exitCode: 0, stdout: stdoutLines.join("\n") + "\n", stderr: stderrLines.join("\n") };
+  }
+
+  const enriched = enrichWithIdentity(tree);
+
+  let outputText: string;
+  if (parsed.chain === "inferChat") {
+    const catalogMap = opts.catalog ?? loadCatalog();
+    const result = inferChat(enriched, catalogMap, {
+      confidentThreshold: parsed.threshold ?? 0.8,
+    });
+    outputText = result.text;
+  } else {
+    outputText = JSON.stringify(enriched, null, 2);
+  }
+
+  if (parsed.output) {
+    writeFileSync(parsed.output, outputText, "utf-8");
+    stdoutLines.push(`✓ wrote ${parsed.output} (${outputText.length} bytes)`);
+  } else {
+    stdoutLines.push(outputText);
+  }
+
+  return {
+    exitCode: 0,
+    stdout: stdoutLines.join("\n") + (stdoutLines.length > 0 ? "\n" : ""),
+    stderr: stderrLines.join("\n"),
+  };
+}
+
+async function readStdin(): Promise<string> {
+  const chunks: Buffer[] = [];
+  for await (const chunk of process.stdin) chunks.push(Buffer.from(chunk));
+  return Buffer.concat(chunks).toString("utf-8");
+}
+
+function loadCatalog(): CatalogMap {
+  const __filename = fileURLToPath(import.meta.url);
+  const __dirname = dirname(__filename);
+  const catalogPath = join(__dirname, "..", "..", "src", "lib", "vocabulary", "catalog", "catalog.json");
+  const raw = JSON.parse(readFileSync(catalogPath, "utf-8")) as {
+    tiers: {
+      tier2Shadcn: { components: Array<{ name: string; axes: { name: string; values: string[] }[] }> };
+      tier3Project: {
+        composites: Array<{ name: string; axes: { name: string; values: string[] }[] }>;
+        templates: Array<{ name: string; axes: { name: string; values: string[] }[] }>;
+      };
+    };
+  };
+  const map: CatalogMap = new Map();
+  const all = [
+    ...raw.tiers.tier2Shadcn.components,
+    ...raw.tiers.tier3Project.composites,
+    ...raw.tiers.tier3Project.templates,
+  ];
+  for (const c of all) map.set(c.name, c.axes);
+  return map;
+}
+
+function helpText(): string {
+  const lines: string[] = [];
+  const stream: { write(s: string): void } = { write(s) { lines.push(s); } };
+  printPaperImportHelp(stream as NodeJS.WriteStream);
+  return lines.join("");
 }
 
 export function printPaperImportHelp(out: NodeJS.WriteStream = process.stdout): void {
