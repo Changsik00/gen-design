@@ -170,63 +170,142 @@ LoginScene [chat:scenes/login]
 
 ---
 
-## §4 디자이너 일주일 워크플로 — Profile Page 추가 시나리오
+## §4 디자이너 일주일 워크플로 — Profile Scene 추가 시나리오
 
-> 신규 디자이너가 `<ProfilePage>` 페이지를 추가하는 *5 일 시나리오*. handbook §3 매트릭스 + ADR-006 (Paper-first) 기반.
+> 신규 디자이너가 `<ProfileScene>` 을 추가하는 *5 일 시나리오*. agent 매개 흐름 (PoC 검증) + ADR-006 (Paper-first) 기반.
 
-### Day 1 — Paper 에서 그림 그리기
+### agent 매개 흐름의 시각
+
+매 작업의 *기본 패턴* 은 다음과 같음:
+
+```mermaid
+flowchart TB
+  D[디자이너 자연어 발화] -->|Claude Code 채팅| A[agent]
+  A -->|컨텍스트 읽기| CTX[chats/<br/>+ catalog<br/>+ templates]
+  CTX -.->|"재사용 / 승격 / 제약 후보"| A
+  A -->|디자이너에게 제안| D
+  D -->|합의| A
+  A -->|chat.md 갱신<br/>3층 정리| FILE[chat.md]
+  A -->|Paper 갱신<br/>identity anchor| PAPER[Paper artboard]
+  PAPER -.->|디자이너 손 수정| A
+  FILE --> CTX
+```
+
+핵심: 디자이너는 *말만 함*. agent 가 *컨텍스트 읽고* + *제안* + *형식 정리* 한다. *Paper 손 수정* 은 다음 발화 때 *반영해줘* 로 역방향 sync.
+
+### Day 1 — Paper 에서 시각 의도 표현
+
+> **환경**: 디자이너 = Claude Code in MCP environment with Paper MCP. *Studio 의 Paper preview 패널* 은 phase-9 후보 (현재는 디자이너 본인이 Paper MCP 직접 사용).
 
 ```
-1. Studio 의 Paper preview 패널 열기
-2. 기존 LoginPage / DashboardPage 의 Paper 트리를 참조 (좌측 file list)
-3. Profile Page 의 *시각적 의도* 를 Paper 캔버스에 자유 배치
-   - Avatar 영역 (원형 이미지 + edit 버튼)
-   - 사용자 정보 카드 (이름 / 이메일 / 가입일)
-   - 활동 통계 (Stat × 3)
-   - 액션 버튼 (편집 / 로그아웃)
-4. Paper 노드명을 *shadcn 어휘* 로 명명 (LoginForm / StatCard / Button)
-   → catalog 안 등재된 컴포넌트 이름과 *exact match*
+디자이너 → Claude Code:
+  "Profile Scene 만들 거야. Avatar + 정보 카드 + 통계 3 개 + 편집/로그아웃 CTA."
+
+Agent:
+  - chats/components/ 읽기 → Avatar 후보 검색
+  - catalog 매칭 → AvatarUpload (Tier 3) 발견
+  - 디자이너에게 제안:
+    "AvatarUpload 가 catalog 에 있어요. 사용 OK? StatCard 도 발견 — 재사용?"
+  - 합의 후:
+    1) Paper artboard 신규 (1440×900, layer-name: "ProfileScene [chat:scenes/profile]")
+    2) AvatarUpload 영역 / ProfileInfoCard / StatCard × 3 / 액션 버튼 그리기
+    3) 각 주요 frame layer-name 에 식별자 박기
 ```
 
-**산출물**: Paper 트리 (저장 시 `tree.json` 으로 export 가능).
+**산출물**: Paper artboard `[chat:scenes/profile]` + 자식 frame 들의 layer-name 식별자.
 
-### Day 2 — `paper-inference` 로 chat.md 초안 추출
+> 📁 살아있는 예시: [`playground/chats/components/empty-state.chat.md`](../playground/chats/components/empty-state.chat.md) — PoC 의 EmptyState 가 동일 패턴으로 작성됨.
+
+### Day 2 — agent 가 자연어 의도 정리
+
+```
+디자이너:
+  "이 신의 의도 정리해줘. mineral 톤. 정보 + 통계 + 액션 의 균형."
+
+Agent:
+  - Paper artboard 21X-0 의 트리 읽기 (get_jsx + get_computed_styles)
+  - 자연어 의도 + 구조 분석 → 3층 chat.md 작성:
+
+    playground/chats/scenes/profile.chat.md:
+      ---
+      type: scene
+      name: ProfileScene
+      identity: chats/scenes/profile
+      shell: { inherit: true }
+      ---
+      # ProfileScene
+      ## 💬 Narrative
+      사용자 본인 정보 + 활동 통계 + 액션 진입.
+      mineral 톤 — 정보 / 통계 / 액션 의 3 영역 호흡 균등.
+      ## 🧩 Structure
+      <ProfileScene>
+        <AvatarUpload />
+        <ProfileInfoCard />
+        <StatCard variant="compact" /> × 3
+        <Button variant="primary">{{i18n.ko.profile.edit}}</Button>
+      </ProfileScene>
+      ## 📜 History
+      - 2026-05-X 초안 — Paper inference + 자연어 의도 정리
+```
+
+> 📁 살아있는 예시: [`playground/chats/scenes/main.chat.md`](../playground/chats/scenes/main.chat.md) — main scene 도 동일 패턴으로 작성됨.
+
+### Day 3 — chat.md 확정 + Paper 검증 (양방향)
+
+```
+디자이너:
+  "통계 카드 첫 번째는 강조하고 싶어. variant=highlighted 로 바꿔줘."
+
+Agent:
+  - chat.md Structure 의 첫 StatCard variant 갱신
+  - Paper artboard 갱신 (해당 frame)
+  - History 1줄 추가: "2026-05-X 첫 StatCard variant=highlighted (사유: 강조)"
+  - Paper preview 보고 디자이너 *확인* 또는 *재수정 요청*
+```
+
+(역방향): 디자이너가 Paper 에서 직접 텍스트 / variant 수정 → 다음 발화에 *"Paper 변경분 반영해줘"* → agent 가 inferChat diff 모드 (spec-08-06 후보) 로 chat.md 갱신.
+
+**산출물**: 완성된 `chats/scenes/profile.chat.md` (playground 에서 chats 로 *승격* 시점).
+
+### Day 4 — 글로벌 SSOT 직접 편집 (ADR-008 옵션 B)
+
+신규 컴포넌트 / 토큰 / i18n 키가 추가됐다면 *글로벌* 파일 직접 갱신:
+
+1. `templates/DESIGN.md` 의 §11 (scene 트리) 에 *ProfileScene* 섹션 추가
+2. `templates/TOKEN.md` 에 신규 토큰 narrative (예: *"Profile 통계 카드 강조 색은 mineral 의 copper 강 톤"*)
+3. `templates/assets/tokens/tokens.json` 에 DTCG 형식 토큰 추가 → studio 가 CSS 변수 자동 빌드
+4. `templates/assets/i18n/ko.json` 에 새 키 (`profile.edit`, `profile.logout`, etc.)
+5. `templates/FRONT.md` 의 §2 어휘 카탈로그에 *Profile* 컨텍스트 사용 사례 entry
+
+> 📁 살아있는 예시: [`playground/chats/_shell.chat.md`](../playground/chats/_shell.chat.md) — shell 의 글로벌 승격 사례.
+
+### Day 5 — 검증 + 통합 (PR)
 
 ```bash
-pnpm --filter studio paper-to-chat /tmp/profile-page.tree.json --output playground/chats/scenes/profile.chat.md
+# 1. 컴파일 검증
+pnpm chat-react chats/scenes/profile.chat.md
+# → React TSX 출력 확인 (shadcn registry 형식)
+
+# 2. 회귀 검증
+cd studio && pnpm test
+# → 725/725 PASS (단 fixture 변경 있다면 expected 갱신)
+
+# 3. 빌드 검증
+pnpm --filter studio build
+# → exit 0
+
+# 4. (phase-8 추후) lint
+pnpm gen-design lint
+# → 0 issue (catalog ↔ DESIGN/FRONT/chats 정합)
+
+# 5. PR 생성 — agent 또는 사용자
+git push -u origin spec-X-Y-profile-scene
+gh pr create --base phase-08-chat-agent-flow ...
 ```
 
-`inferSpec` 알고리즘이:
-- Paper 노드명 → catalog Tier 2/3 매칭 (90%+ 신뢰도 시 confident)
-- variant axis (이미 cva 정의) → chat.md 의 `variant=...` 속성으로 회복
-- 미매칭 노드 → `[unknown]` 마크
+**리뷰**: PR diff = *내가 추가한 글로벌 SSOT 슬라이스 + chats/scenes/profile.chat.md*. ADR-008 옵션 B 의 현현 — 변경된 *영역* 만 한눈에.
 
-**산출물**: `chats/profile-page.chat.md` 초안 (30 줄 정도).
-
-### Day 3 — chat.md 확정 + Paper preview 검증
-
-1. Studio 의 spec editor 패널에서 `profile-page.chat.md` 열기
-2. `[unknown]` / `[low confidence]` 항목 직접 보정 — catalog 의 정확한 컴포넌트 이름으로 교체
-3. i18n placeholder 추가 — `{{i18n.ko.profile.title}}` 형태
-4. token placeholder 추가 — `{{token.spacing.section}}` 형태
-5. **Paper preview 패널** 에서 `compileToPaper` 결과 확인 — 의도와 시각 결과 fidelity 검토
-6. **React preview 패널** 에서 `compileToReact` 결과 확인 — 출력 TSX 의 구조
-
-**산출물**: 완성된 `chats/profile-page.chat.md` + `templates/DESIGN.md` 의 §11 (페이지 트리) 에 Profile Page 항목 추가.
-
-### Day 4 — i18n + 토큰 narrative 정리
-
-1. `templates/TOKEN.md` 에 신규 토큰 추가 시 — 결정 근거 narrative 작성 (예: "Profile 통계 카드 간격은 spacing.md 가 적합").
-2. 신규 토큰은 `templates/assets/tokens/tokens.json` 에 DTCG 형식으로 추가 → studio 가 자동으로 CSS 변수 빌드.
-3. `templates/FRONT.md` 의 §2 어휘 카탈로그에 신규 컴포넌트 사용 entry 추가 (LoginForm, StatCard 등의 *Profile Page 컨텍스트* 사용 사례).
-4. `templates/assets/i18n/ko.json` 에 새 키 추가 — `profile.title` / `profile.edit` 등.
-
-### Day 5 — 검증 + 통합
-
-1. **`gen-design lint`** (phase-8 도입 후) — catalog ↔ DESIGN/FRONT/chat.md 정합 검증.
-2. `cd studio && pnpm test` — 28-fixture 결정성 + ts-diagnose 모두 PASS.
-3. `pnpm --filter studio build` → exit 0.
-4. PR 생성 — base = 다음 phase 의 base branch.
+> 📁 살아있는 예시: [`playground/chats/scenes/login.chat.md`](../playground/chats/scenes/login.chat.md) — login scene 의 shell.exclude 처리 사례 (헤더 빠진 풋터만).
    - PR diff = *내가 추가/변경한 글로벌 SSOT 슬라이스* (ADR-008 옵션 B 의 현현).
 5. 리뷰어가 PR diff 로 *Profile Page 의 의도* 를 한눈에 파악.
 
