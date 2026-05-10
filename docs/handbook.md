@@ -306,8 +306,146 @@ gh pr create --base phase-08-chat-agent-flow ...
 **리뷰**: PR diff = *내가 추가한 글로벌 SSOT 슬라이스 + chats/scenes/profile.chat.md*. ADR-008 옵션 B 의 현현 — 변경된 *영역* 만 한눈에.
 
 > 📁 살아있는 예시: [`playground/chats/scenes/login.chat.md`](../playground/chats/scenes/login.chat.md) — login scene 의 shell.exclude 처리 사례 (헤더 빠진 풋터만).
-   - PR diff = *내가 추가/변경한 글로벌 SSOT 슬라이스* (ADR-008 옵션 B 의 현현).
-5. 리뷰어가 PR diff 로 *Profile Page 의 의도* 를 한눈에 파악.
+
+---
+
+## §4.5 새 컴포넌트 추가 워크플로 — EmptyState 사례 연구
+
+> §4 가 *기존 컴포넌트 재사용* 시나리오라면, §4.5 는 *catalog 미등재 신규 컴포넌트* 추가 흐름.
+> 사례 = `EmptyState` (PoC 출처).
+
+### 언제 새 컴포넌트가 필요한가?
+
+자연어 발화 시 agent 가 *catalog 매칭 실패* 를 보고:
+
+```
+디자이너: "디자인 툴의 빈 상태 알림을 만들고 싶어. 아이콘 + 헤드라인 + 본문 + CTA."
+
+Agent:
+  - chats/components/ 검색 → "empty-state" 부재
+  - catalog.json 검색 → EmptyState 부재
+  - 디자이너에게 알림:
+    "EmptyState 가 catalog 미등재. 신규 컴포넌트 추가가 필요해 보여요.
+     - 옵션 A: 새 component 로 등록 (vocabulary-first)
+     - 옵션 B: 기존 Button + Card + Heading 조합으로 표현 (패턴 인라인)
+     - 옵션 C: 잠시 chat.md 만 작성 (catalog 등재는 나중)"
+```
+
+### 결정: vocabulary-first (P3 적용)
+
+새 *재사용 가능* 패턴이면 *어휘로 등록* 이 표준:
+
+### 단계 1: chat.md 작성 (catalog hint 포함)
+
+```markdown
+---
+type: component
+name: EmptyState
+identity: chats/components/empty-state
+catalog:
+  tier: 3
+  family: composites
+  status: new            # 🚨 신규 — catalog.json 미등재
+paper:
+  layerNameAnchor: "[chat:components/empty-state]"
+created: 2026-05-X
+---
+
+# EmptyState
+
+## 💬 Narrative
+디자인 툴의 *빈 상태* 안내. 절제된 환영. mineral 톤.
+
+## 🧩 Structure
+<EmptyState variant="muted">
+  <EmptyState.Icon name="upload-cloud" />
+  <EmptyState.Headline>{{i18n.ko.emptyState.headline}}</EmptyState.Headline>
+  <EmptyState.Body>{{i18n.ko.emptyState.body}}</EmptyState.Body>
+  <Button variant="primary">{{i18n.ko.emptyState.cta}}</Button>
+</EmptyState>
+
+## 📜 History
+- 2026-05-X 초안 — Paper artboard 에서 추출.
+```
+
+> 📁 실제 PoC 결과: [`playground/chats/components/empty-state.chat.md`](../playground/chats/components/empty-state.chat.md)
+
+### 단계 2: studio 컴포넌트 코드 (cva 패턴)
+
+```tsx
+// studio/src/components/composites/EmptyState/index.tsx
+import { cva, type VariantProps } from "class-variance-authority";
+import { Button } from "@/components/ui/button";
+
+const emptyStateVariants = cva(
+  "flex flex-col items-center justify-center gap-5 p-12 text-center",
+  {
+    variants: {
+      variant: {
+        muted: "bg-surface-alt text-text-primary",
+        error: "bg-destructive/10 text-destructive",
+        success: "bg-success/10 text-success",
+      },
+    },
+    defaultVariants: { variant: "muted" },
+  },
+);
+
+export interface EmptyStateProps extends VariantProps<typeof emptyStateVariants> {
+  children?: React.ReactNode;
+}
+
+export function EmptyState({ variant, children }: EmptyStateProps) {
+  return <div className={emptyStateVariants({ variant })}>{children}</div>;
+}
+EmptyState.Icon = /* ... */;
+EmptyState.Headline = /* ... */;
+EmptyState.Body = /* ... */;
+```
+
+### 단계 3: catalog 자동 갱신
+
+```bash
+pnpm --filter studio vocab
+```
+
+cva extractor 가 EmptyState 의 `variant: muted | error | success` axis 를 *자동 추출* → `catalog.json` 업데이트:
+
+```json
+{
+  "tiers": {
+    "tier3Project": {
+      "composites": [
+        // ... 기존
+        {
+          "name": "EmptyState",
+          "axes": [
+            { "name": "variant", "values": ["muted", "error", "success"] }
+          ]
+        }
+      ]
+    }
+  }
+}
+```
+
+→ `templates/FRONT.md` / `DESIGN.md` / `DESIGN.stitch.md` 도 `pnpm vocab` 으로 함께 갱신.
+
+### 단계 4: chat.md 의 frontmatter `status` 갱신
+
+```diff
+- status: new
++ status: existing
+```
+
+### 단계 5: scenes 에서 재사용
+
+이제 다른 scene (Login / Main / etc.) 에서 `<EmptyState variant="muted">...</EmptyState>` 자유 사용 가능. agent 도 이후 매칭에서 EmptyState 인식.
+
+### 결정 기록 (선택)
+
+만약 새 컴포넌트가 *아키텍처 결정* (예: 새 base-ui 의존성, 새 a11y 패턴) 동반이면 → ADR 작성 (P5).
+*시각 / 형식 결정* (mineral 톤 채택 등) 이면 → chat.md History 만으로 충분.
 
 ---
 
