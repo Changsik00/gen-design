@@ -1,4 +1,5 @@
 import { describe, it, expect } from "vitest";
+import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { compileToPaper } from "../compile";
 
@@ -33,7 +34,8 @@ describe("compileToPaper — string 입력", () => {
 
 describe("compileToPaper — file 입력", () => {
   it("LoginPage fixture 파일 → 컴파일", () => {
-    const r = compileToPaper({ path: join(SPEC_DIR, "login-page.spec.md") });
+    const text = readFileSync(join(SPEC_DIR, "login-page.spec.md"), "utf-8");
+    const r = compileToPaper(text);
     expect(r.errors).toBeUndefined();
     expect(r.ast).toBeDefined();
     expect(r.payload).toBeTruthy();
@@ -44,7 +46,8 @@ describe("compileToPaper — file 입력", () => {
   });
 
   it("DashboardPage fixture", () => {
-    const r = compileToPaper({ path: join(SPEC_DIR, "dashboard-page.spec.md") });
+    const text = readFileSync(join(SPEC_DIR, "dashboard-page.spec.md"), "utf-8");
+    const r = compileToPaper(text);
     expect(r.errors).toBeUndefined();
     expect(r.payload).toBeTruthy();
   });

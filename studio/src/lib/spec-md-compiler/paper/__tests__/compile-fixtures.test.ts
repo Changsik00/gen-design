@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { readdirSync } from "node:fs";
+import { readdirSync, readFileSync } from "node:fs";
 import { join } from "node:path";
 import { compileToPaper } from "../compile";
 
@@ -10,7 +10,8 @@ describe("compile-fixtures — 28 fixture 컴파일 회귀", () => {
   it("28 개 모두 에러 없이 컴파일", () => {
     const failures: string[] = [];
     for (const file of fixtures) {
-      const r = compileToPaper({ path: join(SPEC_DIR, file) });
+      const text = readFileSync(join(SPEC_DIR, file), "utf-8");
+      const r = compileToPaper(text);
       if (r.errors && r.errors.length > 0) {
         failures.push(
           `${file}: ${r.errors.map((e) => `[${e.stage}] ${e.message}`).join(", ")}`,
@@ -26,9 +27,9 @@ describe("compile-fixtures — 28 fixture 컴파일 회귀", () => {
   });
 
   it("결정성: 같은 fixture 두 번 → identical HTML", () => {
-    const file = join(SPEC_DIR, "login-page.spec.md");
-    const a = compileToPaper({ path: file });
-    const b = compileToPaper({ path: file });
+    const text = readFileSync(join(SPEC_DIR, "login-page.spec.md"), "utf-8");
+    const a = compileToPaper(text);
+    const b = compileToPaper(text);
     expect(a.html).toBe(b.html);
     expect(a.payload).toBe(b.payload);
   });
@@ -36,7 +37,8 @@ describe("compile-fixtures — 28 fixture 컴파일 회귀", () => {
 
 describe("compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적)", () => {
   function snapshotFor(name: string): { payload: string } {
-    const r = compileToPaper({ path: join(SPEC_DIR, `${name}.spec.md`) });
+    const text = readFileSync(join(SPEC_DIR, `${name}.spec.md`), "utf-8");
+    const r = compileToPaper(text);
     return { payload: r.payload };
   }
 
