@@ -67,16 +67,16 @@ export function compileToReact(input: CompileInput): CompileResult {
 
   const needsUseState = hookLines.includes("useState");
   const reactImports = needsUseState ? "import { useState } from 'react';" : "import React from 'react';";
-  const importBlock = buildImports(ctx, usedComponents);
-
-  const bodyContent = [hookLines, jsxBody].filter(Boolean).join("\n  ");
+  const importBlock = buildImports(ctx, usedComponents, {
+    excludeName: input.componentName,
+  });
 
   const functionBody = [
     `${reactImports}`,
     importBlock,
     "",
     `export function ${input.componentName}() {`,
-    `  ${bodyContent.split("\n").join("\n  ")}`,
+    ...(hookLines ? [`  ${hookLines.split("\n").join("\n  ")}`] : []),
     `  return (`,
     `    <>`,
     jsxBody
