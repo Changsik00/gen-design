@@ -19,6 +19,7 @@ const NAV_ITEMS: NavItem[] = [
   { route: "editor", label: "Editor" },
   { route: "tokens", label: "Tokens" },
   { route: "export", label: "Export" },
+  { route: "preview", label: "Preview" },
 ];
 
 export function StudioLayout({ children }: { children: ReactNode }) {

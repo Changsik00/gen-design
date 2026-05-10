@@ -1,0 +1,29 @@
+{
+  "ko": {
+    "action": {
+      "confirm": "확인",
+      "login": "로그인",
+      "signup": "회원가입",
+      "submit": "제출"
+    },
+    "error": {
+      "generic": "오류가 발생했습니다",
+      "not-found": "페이지를 찾을 수 없습니다"
+    },
+    "login": {
+      "email-placeholder": "이메일을 입력하세요",
+      "password-placeholder": "비밀번호를 입력하세요"
+    },
+    "my-page": {
+      "bio-placeholder": "자기소개를 입력하세요"
+    },
+    "profile": {
+      "bio": "자기소개"
+    },
+    "signup": {
+      "email-placeholder": "이메일을 입력하세요",
+      "name-placeholder": "이름을 입력하세요",
+      "password-placeholder": "비밀번호를 입력하세요"
+    }
+  }
+}
