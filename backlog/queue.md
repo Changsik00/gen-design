@@ -49,6 +49,14 @@
 - **per-spec 로컬 design 파일 도입 결정** — 위 핸드북의 §3 매트릭스가 *실제 디렉토리 구조* 로 강제될지 결정. 옵션 A (각 spec dir 안에 DESIGN.md / FRONT.md / TOKEN.md / assets/ 자동 생성), 옵션 B (글로벌 직접 편집, PR diff 가 슬라이스). 시작은 *옵션 B 단순* 가 마찰 적음, 다중 spec 동시 진행 시 옵션 A 검토.
 - **`gen-design` kit 명령군 도입 시점** — 핸드북 §7 의 5 명령 (`merge` / `extract react` / `extract paper` / `diff` / `lint global`). 시작은 `studio/scripts/gen-design.ts` 단일 CLI 로 충분, 별도 kit (`gen-design-kit/` harness-kit 형제) 는 여러 프로젝트에서 재사용 가치 보일 때 분리.
 
+> 📌 **2026-05-10 phase-7 spec ID 재번호** — ADR-006 D-5 의 우선순위 결정에 따라 phase-7.md 의 spec-7-04~7-07 을 실행 순서대로 재번호:
+> - new 7-04 = Paper inference (was 7-06)
+> - new 7-05 = React compiler (was 7-04)
+> - new 7-06 = Studio reframe (was 7-07)
+> - new 7-07 = Figma adapter (was 7-05)
+>
+> 이후 *번호 순서대로 시행*. 다음 spec = `sdd spec new` 호출 시 자동 7-04 부여 = Paper inference.
+
 ### phase-6 이월 follow-ups (2026-05-09 등재)
 
 - **시맨틱 토큰 정리 — `surface-alt` 신규 정의** — spec-6-01 (Studio API 정합화) Task 7 진행 중 발견: 회고 C-06 가 권장한 `bg-surface-alt` 매핑이 토큰 자체가 미정의된 상태. studio 의 `--background` 값 (`#F8FAFC`) 이 이미 Paper page ground 와 일치하므로 시각 결과는 정합 (Task 7 [-] Passed). 시맨틱 측면 정리 — `semantic.color.{light,dark}.surface-alt` 토큰 신규 정의 + body 매핑 — 는 spec-6-07 (토큰 편집기) 또는 별도 spec 으로 승격 검토.

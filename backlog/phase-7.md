@@ -65,12 +65,21 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 
 ## 🧩 작업 단위 (SPECs)
 
-> 본 phase 는 7 spec 으로 구성. 1~4 가 *핵심*, 5~7 이 *외부 통합 + UI 재구성*.
+> 본 phase 는 7 spec 으로 구성. 실행 순서 = 번호 순서.
 >
 > **2026-05-10 방향 pivot** (ADR-006): 디자이너 워크플로의 canonical 흐름은
-> Paper → spec.md → React. spec-7-06 (Paper → spec.md inference) 이 *긴급 다음 spec*
-> 으로 승격. 기존 spec-7-04 (spec.md → React) 는 7-06 이후로 연기.
+> Paper → spec.md → React. ADR-006 D-5 의 우선순위 재정렬에 따라 spec-7-04~7-07 을
+> *실행 순서대로* 재번호함 (2026-05-10 phase-7.md 내부 작업).
+>
+> | 새 ID | 의미 | 이전 ID (ADR-006 시점) |
+> |---|---|---|
+> | spec-7-04 | Paper → spec.md inference (다음 메인 루프) | 기존 7-06 |
+> | spec-7-05 | spec.md → React compiler | 기존 7-04 |
+> | spec-7-06 | Studio 재구성 | 기존 7-07 |
+> | spec-7-07 | Figma → spec.md 어댑터 (Distribution) | 기존 7-05 |
+>
 > spec-7-03 은 ship 완료 — 양방향 round-trip 의 *역방향 (spec.md → Paper)* 측면으로 reframe.
+> ADR-006 본문의 "기존 ID" 는 결정 시점의 역사적 기록 — 본 표가 *현재 진실*.
 
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
@@ -121,9 +130,26 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 - **종속**: spec-7-02 (parser)
 - **Integration Test Required**: yes
 
-### spec-7-04 — spec.md → React compiler
+### spec-7-04 — Paper → spec.md inference (**ADR-006 의 메인 루프**)
 
-- **요점**: spec.md AST → React 컴포넌트 인스턴스 코드 (shadcn + Tailwind + cn). *spec.md → 동작하는 React* 의 메인 루프.
+> ⚡ ADR-006 (2026-05-10) 의 D-5 에서 *긴급 다음* 으로 결정. 디자이너 워크플로의 *canonical 시작점* — 디자이너가 Paper 에서 작업하면 시스템이 spec.md 를 자동 생성.
+
+- **요점**: Paper 레이어 트리 → spec.md 자동 추출. ADR-007 §5 (Paper Layer ↔ Component 매핑) 의 grammar 를 구체 구현.
+- **방향성**:
+  - Paper 노드 트리 → 어휘 카탈로그 (catalog.json) 매칭 + 신뢰도 점수
+  - 레이어 이름 컨벤션 (e.g. `Button:primary` 또는 `Button[variant="primary"]`)
+  - LLM vision 또는 스타일 휴리스틱 (또는 하이브리드)
+  - Confirmation UI: "AI 가 이렇게 인식했어요. 맞나요?"
+  - 80%↑ 자동 채택 / 60-80% confirm / 60%↓ raw 보존 정책
+  - accuracy 벤치마크 (28 컴포넌트 ground-truth set, spec/ fixture 활용)
+  - phase-5 retro 의 *관대한 측정* 함정 회피 — accuracy 정의 spec 단계에서 명문화
+- **연관 모듈**: `studio/src/lib/paper-inference/` (신규)
+- **종속**: spec-7-01 (catalog), spec-7-02 (parser/grammar), spec-7-03 (역방향 round-trip 검증 도구)
+- **Integration Test Required**: yes (accuracy ≥ 80% 달성)
+
+### spec-7-05 — spec.md → React compiler
+
+- **요점**: spec.md AST → React 컴포넌트 인스턴스 코드 (shadcn + Tailwind + cn). *spec.md → 동작하는 React* 의 최종 출력 단계. spec-7-03 의 컴포넌트 레지스트리 그대로 재사용 (DRY).
 - **방향성**:
   - spec.md AST → JSX (shadcn 컴포넌트 인스턴스화)
   - i18n placeholder → t() 호출 (i18next 또는 자체)
@@ -131,50 +157,36 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
   - `## Variants` → conditional rendering 또는 별도 컴포넌트
   - 출력 = shadcn registry 형식 — `npx shadcn add` 가능
   - Studio 의 *React preview* 기능 (in-browser sandbox)
-  - 회귀 테스트: 26 컴포넌트 + 6 페이지 spec.md → React render 결정성 100%
-- **연관 모듈**: `studio/src/lib/spec-md-compiler/react/`, `studio/src/components/ui/` (그대로 사용)
-- **종속**: spec-7-02 (parser)
+  - 회귀 테스트: 28 컴포넌트 + 페이지 spec.md → React render 결정성 100%
+- **연관 모듈**: `studio/src/lib/spec-md-compiler/react/`, `studio/src/lib/spec-md-compiler/paper/component-registry.ts` (재사용), `studio/src/components/ui/` (그대로 사용)
+- **종속**: spec-7-02 (parser), spec-7-03 (component registry 재사용), spec-7-04 (Paper inference 로 spec.md 가 풍부해진 후 컴파일)
 - **Integration Test Required**: yes
 
-### spec-7-05 — Figma → spec.md 어댑터 (Distribution 전략)
+### spec-7-06 — Studio 재구성
 
-- **요점**: 디자이너가 *Figma 를 떠나지 않고* 본 프로젝트와 병용 가능한 어댑터. 디자이너 reach 0 시장 진입.
-- **방향성**:
-  - Figma file 또는 Code Connect 매핑 → spec.md 변환 PoC
-  - Figma MCP server (2025-10 stable) 의 get_design_context 활용
-  - 단일 페이지 변환 → 디자이너 review → 갱신 루프
-  - 정확도 평가 + 한계 보고
-- **연관 모듈**: `studio/src/lib/figma-adapter/` (신규)
-- **종속**: spec-7-02, spec-7-04
-- **Integration Test Required**: yes (PoC 1 개 페이지 변환 성공)
-
-### spec-7-06 — Paper → spec.md inference (**ADR-006 이후 메인 루프**)
-
-> ⚡ **ADR-006 (2026-05-10) 이후 spec-7-04 보다 우선** — 디자이너 워크플로의 *canonical 시작점*. 기존 *보조 루프* 표현은 outdated.
-
-- **요점**: Paper 레이어 트리 → spec.md 자동 추출. 디자이너가 Paper 에서 작업하면 시스템이 spec.md 를 만들어주는 핵심 흐름.
-- **방향성**:
-  - Paper 노드 트리 → 어휘 카탈로그 매칭 + 신뢰도 점수
-  - LLM vision 또는 스타일 휴리스틱 (또는 하이브리드)
-  - Confirmation UI: "AI 가 이렇게 인식했어요. 맞나요?"
-  - 80%↑ 자동 채택 / 60-80% confirm / 60%↓ raw 보존 정책
-  - accuracy 벤치마크 (26 컴포넌트 ground-truth set)
-  - phase-5 retro 의 *관대한 측정* 함정 회피 — accuracy 정의 spec 단계에서 명문화
-- **연관 모듈**: `studio/src/lib/paper-inference/` (신규)
-- **종속**: spec-7-01, spec-7-02
-- **Integration Test Required**: yes (accuracy ≥ 80% 달성)
-
-### spec-7-07 — Studio 재구성
-
-- **요점**: phase-6 의 4 feature (blueprint/editor/tokens/export) 를 spec.md 편집기 + dual preview + export 워크플로우로 재배치. *코드 자산은 모두 유지*, UI 라우팅만 재구성.
+- **요점**: phase-6 의 4 feature (blueprint/editor/tokens/export) + spec-7-03 의 #/preview 를 spec.md 편집기 + dual preview + export 워크플로우로 재배치. *코드 자산은 모두 유지*, UI 라우팅만 재구성.
 - **방향성**:
   - 메인 라우트: spec.md 편집기 (좌) + Paper preview (우상) + React preview (우하)
   - 보조 라우트: DESIGN.md 편집기 / TOKEN.md 편집기 (DTCG-aware) / FRONT.md viewer / export
   - phase-6 의 blueprint wizard → "신규 페이지 spec.md 생성" 마법사로 재배치
+  - Paper inference 결과 (spec-7-04) confirmation UI 통합
   - Studio export = DESIGN.md + TOKEN.md + FRONT.md + spec/ + assets/ + src/ ZIP
 - **연관 모듈**: `studio/src/App.tsx`, `studio/src/lib/router.ts`, `studio/src/features/*`
-- **종속**: spec-7-03, spec-7-04 (compiler 가 작동해야 preview 가능)
-- **Integration Test Required**: yes (golden path: spec.md 편집 → Paper render → React preview → export)
+- **종속**: spec-7-04 (Paper inference), spec-7-05 (React compiler — 둘 다 작동해야 dual preview 의미 있음)
+- **Integration Test Required**: yes (golden path: Paper 작업 → spec.md infer → 편집 → React preview → export)
+
+### spec-7-07 — Figma → spec.md 어댑터 (Distribution 전략)
+
+- **요점**: 디자이너가 *Figma 를 떠나지 않고* 본 프로젝트와 병용 가능한 어댑터. 디자이너 reach 0 시장 진입. *코어가 동작* (7-04~7-06) 한 후 distribution 단계.
+- **방향성**:
+  - Figma file 또는 Code Connect 매핑 → spec.md 변환 PoC
+  - Figma MCP server (2025-10 stable) 의 get_design_context 활용
+  - spec-7-04 의 Paper inference 와 *동일 어휘 매칭 룰* 공유 (FRONT.md §5)
+  - 단일 페이지 변환 → 디자이너 review → 갱신 루프
+  - 정확도 평가 + 한계 보고
+- **연관 모듈**: `studio/src/lib/figma-adapter/` (신규)
+- **종속**: spec-7-02 (grammar), spec-7-04 (Paper inference 의 매칭 룰 reuse), spec-7-05 (React 컴파일이 작동해야 distribution 가치)
+- **Integration Test Required**: yes (PoC 1 개 페이지 변환 성공)
 
 ## 🧪 통합 테스트 시나리오
 
@@ -190,7 +202,7 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 - **Given**: 같은 spec.md
 - **When**: spec-md-compiler/react 두 번 실행
 - **Then**: 두 결과가 *완전히 동일* (commit hash 일치)
-- **연관 SPEC**: spec-7-02, spec-7-04
+- **연관 SPEC**: spec-7-02, spec-7-05
 
 ### 시나리오 3: Stitch DESIGN.md export 호환
 
@@ -204,20 +216,24 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 - **Given**: 본 프로젝트 export ZIP 의 src/registry.json
 - **When**: 외부 신규 Next.js 프로젝트에서 `npx shadcn@latest add @designmd/login-page`
 - **Then**: 컴포넌트 정상 install + 동작
-- **연관 SPEC**: spec-7-01, spec-7-04
+- **연관 SPEC**: spec-7-01, spec-7-05
 
 ### 시나리오 5: Figma → spec.md 어댑터
 
 - **Given**: 임의 Figma 파일 (spec-6-10 의 Token Test 같은 단순 페이지)
 - **When**: figma-adapter 변환
 - **Then**: 디자이너 review 후 acceptable spec.md 산출 (정성 평가)
-- **연관 SPEC**: spec-7-05
+- **연관 SPEC**: spec-7-07
 
 ## 🔗 의존성
 
 - **선행 phase**: phase-6 (Studio v1 — composites / templates / paper lib / tokens 자산)
 - **외부 시스템**: Paper MCP, Figma MCP (선택), shadcn registry standard, DTCG 1.0
-- **연관 ADR**: ADR-004 (어휘 추출 + 4 layer variant). phase-7 진행 중 추가 ADR 작성 가능.
+- **연관 ADR**:
+  - ADR-004 (어휘 추출 + 4 layer variant)
+  - ADR-005 (spec.md grammar + IR 형식)
+  - ADR-006 (2026-05-10 Paper-first workflow + spec-7-03 reframe)
+  - ADR-007 (FRONT.md = 공식 컴파일 룰북 + SSOT 4 문서 구조)
 - **참고 문서**: `docs/vision.md`, `docs/benchmark.md`, `docs/decisions/ADR-004-vocabulary-extraction-and-variants.md`, `.harness-kit/agent/constitution.md`
 
 ## 📝 위험 요소 및 완화
@@ -226,7 +242,7 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 |---|---|---|
 | Stitch DESIGN.md 1.0 stable 시 0.1 alpha 와 호환 깨짐 | superset 재정의 | 0.1 alpha 호환 우선, 1.0 stable 발표 시 갱신 spec |
 | spec.md grammar 의 sweet spot 못 찾음 | 디자이너 답답 또는 LLM 환각 | spec-7-02 의 PoC 단계에서 디자이너 사용성 테스트 (사용자 본인) + LLM 환각률 측정 |
-| Paper → spec.md inference 정확도 80% 미달 | 보조 루프 무력 | spec-7-06 을 Research/PoC 로 명시. Go/No-Go 분기 |
+| Paper → spec.md inference 정확도 80% 미달 | 메인 루프 무력 (ADR-006) | spec-7-04 를 Research/PoC 로 명시. Go/No-Go 분기 — Fail 시 spec.md 직접 편집 fallback |
 | Figma 어댑터의 Figma API rate / Variables 권한 | Distribution 전략 약화 | PoC 단계에서 환경 확인. 한계 정직 보고 |
 | 4 축 어휘 정합이 시장에서 *진짜로* 작동 안 함 (가설 미증명) | 본 프로젝트 핵심 가치 무력 | phase-7 후반에 외부 디자이너 1~2 명 alpha 사용 + 정성 피드백 |
 | Anthropic Frontend Design plugin 등 외부 흡수 위협 | 차별화 portion 소실 | timing 가속 (3 ~ 5 개월 안에 MVP). Stitch superset + shadcn 채택으로 *호환 superset* 포지션 |
