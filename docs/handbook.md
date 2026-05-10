@@ -600,11 +600,12 @@ EmptyState [chat:components/empty-state] ← component
 
 | 명령 | 책임 | 우선순위 | 도입 시점 |
 |---|---|:---:|---|
-| `gen-design lint` | catalog ↔ DESIGN/FRONT/chat.md 정합 검증 (6 카테고리) | ⭐ 1 | **phase-8 첫 spec** (`spec-8-01-gen-design-lint`) |
+| `gen-design paper-import` | Paper MCP artboard → `PaperTreeNode` JSON | ⭐ **0** | **phase-8 도그푸딩 첫 게이트** (`spec-08-03`) — 본 명령 없이는 chat 흐름 시작 불가 |
+| `gen-design lint` | catalog ↔ DESIGN/FRONT/chat.md 정합 검증 (6 카테고리) | ⭐ 1 | phase-8 (`spec-08-09`) |
 | `gen-design diff` | 글로벌 SSOT vs studio 코드 비교 | ⭐ 2 | phase-8 후보 |
 | `gen-design paper` | chat.md → Paper tree (`compileToPaper` CLI 화) | ⭐ 3 | phase-8 |
 | `gen-design react` | catalog + 컴포넌트 → shadcn registry | ⭐ 4 | phase-9 (외부 shadcn 설치 검증) |
-| `gen-design merge` | chat.md 슬라이스 → 글로벌 SSOT 누적 | (보류) | ADR-008 옵션 A 도입 시까지 — 영구 보류 가능 |
+| `gen-design merge` | chat.md 슬라이스 → 글로벌 SSOT 누적 (shell 승격 휴리스틱 포함) | (보류) | ADR-010 결정 (spec-08-05) 후 — 옵션 B 유지 시 보류, 옵션 A 시 도입 |
 
 ### 기존 부분 CLI (phase-7 시점)
 
@@ -633,6 +634,7 @@ EmptyState [chat:components/empty-state] ← component
 | 007 | [FRONT.md Compilation Rulebook](decisions/ADR-007-front-md-compilation-rulebook.md) | SSOT = 4 문서 + 2 디렉토리 / FRONT.md = 컴파일 룰북 | 2026-05-10 |
 | 008 | [Per-spec Design Files](decisions/ADR-008-per-spec-design-files.md) | spec dir 안 design 슬라이스 = 생성 안 함 (글로벌 직접 편집) | 2026-05-10 |
 | 009 | [gen-design CLI](decisions/ADR-009-gen-design-cli.md) | 단일 CLI `studio/scripts/gen-design.ts` / 5 명령 / phase-8 첫 실용 = lint | 2026-05-10 |
+| **010** | **chat 승격 정책** *(작성 예정 — `spec-08-05`)* | ADR-008 옵션 B reconsider — chat 흐름의 자동 정리 (gen-design merge) 필요성 | (TBD) |
 
 ### 결정 history 타임라인
 
@@ -645,6 +647,8 @@ phase-5  ──  ADR-005 (grammar)
 phase-6  ──  Studio v1 (ADR 신규 0 — 기반 결정 위에 구현)
 phase-7  ──  ADR-006 → 007 → 008 → 009  (4 ADR)
                 ↑ 디자이너 워크플로 *방향* + SSOT 구조 + 구현 정책
+phase-8  ──  ADR-010 (예정 — spec-08-05)
+                ↑ ADR-008 reconsider — chat 흐름의 자동 정리 정책
 ```
 
 ---
