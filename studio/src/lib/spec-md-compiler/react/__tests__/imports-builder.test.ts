@@ -15,24 +15,33 @@ function ctx(
 }
 
 describe("buildImports", () => {
-  it("inserts i18n import when i18n keys used", () => {
+  it("i18n keys 사용 시 react-i18next import 없음 (존재하지 않는 패키지)", () => {
     const result = buildImports(ctx(["ko.login"]), []);
-    expect(result).toContain("import { useTranslation }");
-    expect(result).toContain("react-i18next");
+    expect(result).not.toContain("react-i18next");
   });
 
-  it("inserts tokens import when token keys used", () => {
+  it("i18n keys 사용 시 주석 힌트 포함", () => {
+    const result = buildImports(ctx(["ko.login"]), []);
+    expect(result).toContain("i18n");
+  });
+
+  it("token keys 사용 시 @/lib/tokens import 없음 (존재하지 않는 모듈)", () => {
     const result = buildImports(ctx([], ["semantic.color.primary"]), []);
-    expect(result).toContain("tokens");
+    expect(result).not.toContain("@/lib/tokens");
   });
 
-  it("inserts component imports from used list", () => {
+  it("token keys 사용 시 주석 힌트 포함", () => {
+    const result = buildImports(ctx([], ["semantic.color.primary"]), []);
+    expect(result).toContain("token");
+  });
+
+  it("컴포넌트 import 생성", () => {
     const result = buildImports(ctx(), ["Button"]);
     expect(result).toContain("Button");
     expect(result).toContain("import");
   });
 
-  it("returns empty string when nothing used", () => {
+  it("아무것도 없으면 빈 문자열", () => {
     expect(buildImports(ctx(), [])).toBe("");
   });
 });
