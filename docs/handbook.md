@@ -17,14 +17,16 @@
 flowchart LR
   D[디자이너] -->|Paper 에서 그림 그림| P[Paper canvas]
   P -->|paper-inference| S1[spec.md 초안]
-  D -->|텍스트로 의도 보강| S2[spec.md 확정]
+  D -->|텍스트로 의도 보강 + 글로벌 직접 편집| S2[spec.md 확정<br/>+ DESIGN/TOKEN/FRONT 슬라이스]
   S1 --> S2
   S2 -->|spec → Paper compiler| P2[Paper preview<br/>시각 fidelity]
   S2 -->|spec → React compiler| R[React TSX<br/>shadcn registry]
-  S2 -->|merge| G[글로벌 SSOT<br/>DESIGN/TOKEN/FRONT]
-  G -->|extract| R
+  S2 --> G[글로벌 SSOT<br/>DESIGN/TOKEN/FRONT/spec/]
+  G -.->|gen-design lint<br/>phase-8| L((정합 검증))
   R -->|tsc + build| C[(소비자 codebase)]
 ```
+
+> **흐름의 핵심**: 디자이너의 *spec.md 편집* + *글로벌 SSOT 직접 편집* 이 같은 PR 안에 공존. ADR-008 옵션 B 의 현현. *spec dir 안에 design 슬라이스 자동 생성 0*.
 
 **4 축 어휘 정합** — 본 프로젝트의 *real & defensible* 차별화 portion:
 
@@ -222,6 +224,32 @@ catalog / spec.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 - token placeholder: `{{token.semantic.color.primary}}`
 - `## Behavior` (state / events) / `## Variants` (L1-L4 변형 선언) 섹션
 - frontmatter 미사용 (현재). 향후 도입 시 spec-md grammar 갱신 필수
+
+#### 카피로 시작하는 minimal spec.md 예시
+
+```markdown
+# Login Page
+
+<LoginPage>
+  <BrandHeader>
+    <h1>{{i18n.ko.login.welcome}}</h1>
+  </BrandHeader>
+  <LoginForm>
+    <Button variant="primary">{{i18n.ko.login.submit}}</Button>
+    <Button variant="ghost">{{i18n.ko.login.signupHint}}</Button>
+  </LoginForm>
+</LoginPage>
+
+## Behavior
+- state: isLoading: boolean = false
+- on submit: setIsLoading(true)
+
+## Variants
+- Default: 기본
+- WithSocial: SocialAuthBlock 추가
+```
+
+위 예시가 작동하는 fixture: `spec/login-page.spec.md` 참고. 28 fixture 모두 결정성 + ts-diagnose PASS.
 
 ### R6: shadcn 관리
 
