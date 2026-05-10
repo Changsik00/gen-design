@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — 10 spec — 다음: (spec 없음)
+- **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — 11 spec — 다음: spec-7-11-docs-handbook
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -35,19 +35,9 @@
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
 
-### phase-7 진행 중 follow-ups (2026-05-10 등재)
+### phase-7 진행 중 follow-ups (2026-05-10 등재 / 처리 완료)
 
-- **`docs/handbook.md` 작성** — spec-7-03 ship + ADR-006 / ADR-007 까지 정립된 용어 / 원칙 / 아키텍처 / 워크플로 를 한곳에 모은 *살아있는 핸드북*. 사용자 합의: PR #38 머지 후 별도 PR (옵션 B). 초안 구조 8 섹션:
-  1. 한 줄 요약 + 시각 다이어그램 ("Paper → 점진적 spec → 글로벌 SSOT → 한번에 React 추출")
-  2. Glossary — SSOT 4 문서 + 2 디렉토리 / Tier 1-3 / L1-L4 / canonical / round-trip
-  3. 아키텍처 매트릭스 — *"이 정보는 글로벌? 스펙 로컬?"* 표 (per-spec 의 DESIGN/FRONT/TOKEN/assets 슬라이스 vs 글로벌)
-  4. Designer 의 일주일 워크플로 — Profile Page 추가 시나리오 (Day 1-N)
-  5. 원칙 — 글로벌 SSOT 점진 누적 / 스펙 로컬 = delta / vocabulary-first / raw color 금지
-  6. 룰 — One Task = One Commit / 한국어 산출물 / PascalCase 컴포넌트 / ADR-for-결정
-  7. 도구 — sdd CLI (harness-kit) + 본 프로젝트의 *gen-design 명령군* (제안: merge / extract react / extract paper / diff / lint global)
-  8. ADR 인덱스 — 1~7 의 결정 history
-- **per-spec 로컬 design 파일 도입 결정** — 위 핸드북의 §3 매트릭스가 *실제 디렉토리 구조* 로 강제될지 결정. 옵션 A (각 spec dir 안에 DESIGN.md / FRONT.md / TOKEN.md / assets/ 자동 생성), 옵션 B (글로벌 직접 편집, PR diff 가 슬라이스). 시작은 *옵션 B 단순* 가 마찰 적음, 다중 spec 동시 진행 시 옵션 A 검토.
-- **`gen-design` kit 명령군 도입 시점** — 핸드북 §7 의 5 명령 (`merge` / `extract react` / `extract paper` / `diff` / `lint global`). 시작은 `studio/scripts/gen-design.ts` 단일 CLI 로 충분, 별도 kit (`gen-design-kit/` harness-kit 형제) 는 여러 프로젝트에서 재사용 가치 보일 때 분리.
+> ✓ **위 3 항목 spec-7-11 에서 처리 완료** — `docs/handbook.md` (8 섹션) + `docs/decisions/ADR-008-per-spec-design-files.md` (옵션 B = 글로벌 직접 편집) + `docs/decisions/ADR-009-gen-design-cli.md` (단일 CLI / 5 명령 / `lint global` phase-8 첫 실용).
 
 > 📌 **2026-05-10 phase-7 spec ID 재번호** — ADR-006 D-5 의 우선순위 결정에 따라 phase-7.md 의 spec-7-04~7-07 을 실행 순서대로 재번호:
 > - new 7-04 = Paper inference (was 7-06)
