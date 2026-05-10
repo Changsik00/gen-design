@@ -12,6 +12,14 @@ import { resolve, basename, join } from "node:path";
 import { compileToReact } from "../compile";
 import { toKebabCase } from "../registry-writer";
 
+export function deriveComponentName(filePath: string): string {
+  return basename(filePath)
+    .replace(/\.spec\.md$|\.md$/, "")
+    .split(/[-_]/)
+    .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
+    .join("");
+}
+
 export interface CliArgs {
   file: string;
   out?: string;
@@ -54,12 +62,7 @@ export function runCompile(args: CliArgs): CliResult {
     return { stdout: "", stderr: `Error: file not found: ${args.file}`, exitCode: 1 };
   }
 
-  const componentName =
-    args.name ??
-    basename(args.file, ".md")
-      .split(/[-_]/)
-      .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
-      .join("");
+  const componentName = args.name ?? deriveComponentName(args.file);
 
   const result = compileToReact({ text, componentName });
 
