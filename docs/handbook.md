@@ -156,7 +156,7 @@ LoginScene [chat:scenes/login]
 - *harness-kit* spec dir (`specs/spec-X-Y-{slug}/`) 안에는 **spec.md / plan.md / task.md / walkthrough.md / pr_description.md** 만 (작업 흔적).
 - *디자인 도구* 의 design 슬라이스 파일 (per-spec DESIGN.md / FRONT.md / TOKEN.md / assets/) 은 *생성하지 않음*. 글로벌 직접 편집.
 - *변경 슬라이스의 시각적 표현* = PR diff 자체.
-- **Reconsider trigger** (ADR-008 D-4): 분기당 3+ 글로벌 머지 충돌 / alpha 3+ 명 피드백 / spec 의 design 변경 단위 다양화 — 하나라도 발생 시 ADR-010 으로 재논의 (spec-08-05 에서 처리).
+- **Reconsider trigger** (ADR-008 D-4): 분기당 3+ 글로벌 머지 충돌 / alpha 3+ 명 피드백 / spec 의 design 변경 단위 다양화 — *Hybrid* (ADR-010) 가 일부 trigger 해소. 잔여는 ADR-010 의 자체 trigger 로 재논의.
 
 ### 가변성 등급 — 3 정도
 
@@ -167,6 +167,20 @@ LoginScene [chat:scenes/login]
 | **💨 가변** (도그푸딩) | `playground/chats/` | *매우 자주* (실험 / 폐기) | git tracked 이지만 commit 정책 느슨 |
 
 → 3 등급의 분리가 *디자이너의 자유* 와 *시스템의 안정* 을 동시에 보장.
+
+### chat 승격 / shell 승격 정책 (ADR-010)
+
+ADR-010 (*Hybrid*) 가 chat 흐름의 *자동 제안* 과 ADR-008 의 *글로벌 직접 편집* 정신을 결합:
+
+- **제안 자동** — agent (도서관 사서, P6) 가 매 chat 갱신 시 컨텍스트 (chats/ + catalog + templates/) 읽고 *재사용 / 승격 / 정리* 후보 능동 제시
+- **실행 수동** — 디자이너 *합의* 후 git mv / 글로벌 SSOT 갱신 / commit
+- **`gen-design merge` 명령 = 조력자** (`spec-08-08` 도입 예정):
+  1. 휴리스틱 후보 제시 (예: *"BrandHeader 가 3 scene 에 공통 — shell 승격 후보"*)
+  2. 변경 *preview* (어떤 파일 어디로, frontmatter 갱신)
+  3. 디자이너 *confirm* 후 실행
+  4. 각 파일 atomic commit
+
+→ ADR-010 의 5 D-항목 자세히 보려면 [`docs/decisions/ADR-010-chat-promotion-policy.md`](decisions/ADR-010-chat-promotion-policy.md).
 
 ---
 
@@ -605,7 +619,7 @@ EmptyState [chat:components/empty-state] ← component
 | `gen-design diff` | 글로벌 SSOT vs studio 코드 비교 | ⭐ 2 | phase-8 후보 |
 | `gen-design paper` | chat.md → Paper tree (`compileToPaper` CLI 화) | ⭐ 3 | phase-8 |
 | `gen-design react` | catalog + 컴포넌트 → shadcn registry | ⭐ 4 | phase-9 (외부 shadcn 설치 검증) |
-| `gen-design merge` | chat.md 슬라이스 → 글로벌 SSOT 누적 (shell 승격 휴리스틱 포함) | (보류) | ADR-010 결정 (spec-08-05) 후 — 옵션 B 유지 시 보류, 옵션 A 시 도입 |
+| `gen-design merge` | *조력자* — chat → 글로벌 SSOT + shell 승격 후보 제시 + 변경 preview + 디자이너 confirm | ⭐ 5 | phase-8 후보 (`spec-08-08`) — ADR-010 결정 (Hybrid) 따라 도입 확정 |
 
 ### 기존 부분 CLI (phase-7 시점)
 
@@ -634,7 +648,7 @@ EmptyState [chat:components/empty-state] ← component
 | 007 | [FRONT.md Compilation Rulebook](decisions/ADR-007-front-md-compilation-rulebook.md) | SSOT = 4 문서 + 2 디렉토리 / FRONT.md = 컴파일 룰북 | 2026-05-10 |
 | 008 | [Per-spec Design Files](decisions/ADR-008-per-spec-design-files.md) | spec dir 안 design 슬라이스 = 생성 안 함 (글로벌 직접 편집) | 2026-05-10 |
 | 009 | [gen-design CLI](decisions/ADR-009-gen-design-cli.md) | 단일 CLI `studio/scripts/gen-design.ts` / 5 명령 / phase-8 첫 실용 = lint | 2026-05-10 |
-| **010** | **chat 승격 정책** *(작성 예정 — `spec-08-05`)* | ADR-008 옵션 B reconsider — chat 흐름의 자동 정리 (gen-design merge) 필요성 | (TBD) |
+| 010 | [Chat Promotion Policy](decisions/ADR-010-chat-promotion-policy.md) | Hybrid — 제안 자동 + 실행 수동. ADR-008 옵션 B 정신 유지 위에 agent 능동 제안 추가 | 2026-05-10 |
 
 ### 결정 history 타임라인
 
@@ -647,8 +661,8 @@ phase-5  ──  ADR-005 (grammar)
 phase-6  ──  Studio v1 (ADR 신규 0 — 기반 결정 위에 구현)
 phase-7  ──  ADR-006 → 007 → 008 → 009  (4 ADR)
                 ↑ 디자이너 워크플로 *방향* + SSOT 구조 + 구현 정책
-phase-8  ──  ADR-010 (예정 — spec-08-05)
-                ↑ ADR-008 reconsider — chat 흐름의 자동 정리 정책
+phase-8  ──  ADR-010 (Hybrid — 제안 자동 + 실행 수동)
+                ↑ ADR-008 옵션 B 정신 유지 + chat-매개 능동 제안 추가
 ```
 
 ---
