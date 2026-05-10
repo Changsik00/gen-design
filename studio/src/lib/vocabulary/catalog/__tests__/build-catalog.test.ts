@@ -31,10 +31,10 @@ describe("buildCatalog — 3-tier 통합", () => {
     );
   });
 
-  it("Tier 3 (templates) 에 LoginPage / DashboardPage 포함", () => {
+  it("Tier 3 (templates) 에 LoginScene / DashboardScene 포함", () => {
     const c = buildCatalog({ studioSrcRoot: SRC_ROOT });
     const names = c.tiers.tier3Project.templates.map((x) => x.name);
-    expect(names).toEqual(expect.arrayContaining(["LoginPage", "DashboardPage"]));
+    expect(names).toEqual(expect.arrayContaining(["LoginScene", "DashboardScene"]));
   });
 
   it("결정성 (deterministic): 같은 입력 → 같은 출력", () => {
@@ -47,7 +47,7 @@ describe("buildCatalog — 3-tier 통합", () => {
     const c = buildCatalog({ studioSrcRoot: SRC_ROOT });
     const lookup = buildLookup(c);
     expect(lookup.has("Button")).toBe(true);
-    expect(lookup.has("LoginPage")).toBe(true);
+    expect(lookup.has("LoginScene")).toBe(true);
     expect(lookup.has("Madeup")).toBe(false);
   });
 

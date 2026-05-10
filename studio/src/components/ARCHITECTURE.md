@@ -50,8 +50,8 @@ Composite는 이 두 계층을 하나로 통합하여 판단 비용을 제거한
 
 - **책임**: 페이지 전체 레이아웃 + 슬롯 인터페이스 제공
 - **의존**: Composite + Primitive
-- **예시**: LoginPage, SignupPage, DashboardPage
-- **네이밍**: PascalCase 디렉토리. `LoginPage/index.tsx`
+- **예시**: LoginScene, SignupScene, DashboardScene
+- **네이밍**: PascalCase 디렉토리. `LoginScene/index.tsx`
 
 ## Slot System (슬롯 인터페이스)
 
@@ -71,12 +71,12 @@ Page Template은 3가지 슬롯을 통해 교체 가능성을 제공한다:
 텍스트 리소스 교체에 의한 다국어 지원.
 
 - **메커니즘**: `texts` prop으로 i18n 객체 주입
-- **타입 안전**: 각 Template마다 전용 텍스트 타입 정의 (예: `LoginPageTexts`)
+- **타입 안전**: 각 Template마다 전용 텍스트 타입 정의 (예: `LoginSceneTexts`)
 - **교체 방법**: `ko.json` / `en.json` 등에서 해당 키를 읽어 props로 전달
 
 ```typescript
 // 사용 예시
-<LoginPage texts={i18n.loginPage} variant="page" />
+<LoginScene texts={i18n.loginPage} variant="page" />
 ```
 
 ### 3. Variant Slot (variant 슬롯)
@@ -88,7 +88,7 @@ Page Template은 3가지 슬롯을 통해 교체 가능성을 제공한다:
 - **동작**: 같은 내부 콘텐츠를 다른 레이아웃 래퍼로 감싼다
 
 ```typescript
-type PageTemplateVariant = "page" | "modal" | "bottom-sheet";
+type SceneTemplateVariant = "page" | "modal" | "bottom-sheet";
 ```
 
 ## Directory Convention
@@ -107,7 +107,7 @@ studio/src/components/
 │   │   └── index.tsx
 │   └── index.ts                 # re-export
 ├── templates/                   # Layer 3: Page Template
-│   ├── LoginPage/
+│   ├── LoginScene/
 │   │   └── index.tsx
 │   ├── types.ts                 # 공통 타입 (슬롯 인터페이스)
 │   └── index.ts                 # re-export

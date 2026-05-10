@@ -103,7 +103,7 @@ export function renderFrontMd(catalog: VocabularyCatalog): string {
     "",
     "예시:",
     "- `Button[variant=destructive,size=sm]` ⟷ `<Button variant=\"destructive\" size=\"sm\">`",
-    "- `LoginPage[variant=page,brand=a]` ⟷ `<LoginPage variant=\"page\" brand=\"a\">`",
+    "- `LoginScene[variant=page,brand=a]` ⟷ `<LoginScene variant=\"page\" brand=\"a\">`",
     "- 미등록 노드 = raw 영역 (1:1 보장 X, 추론 영역)",
     "",
   );

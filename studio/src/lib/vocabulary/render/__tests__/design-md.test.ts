@@ -49,7 +49,7 @@ describe("renderDesignMd — Stitch superset 9 섹션 + extensions", () => {
     expect(md).toContain("Tier 3 — composites");
     expect(md).toContain("`LoginForm`");
     expect(md).toContain("Tier 3 — templates");
-    expect(md).toContain("`LoginPage`");
+    expect(md).toContain("`LoginScene`");
   });
 
   it("Do's / Don'ts 명시 — raw 색상 금지", () => {

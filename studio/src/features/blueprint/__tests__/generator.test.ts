@@ -24,7 +24,7 @@ const saasSession: BlueprintSession = {
       layout: "centered-card",
       requiredSections: ["BrandHeader", "LoginForm", "SocialAuthBlock"],
       optionalSections: [],
-      templateMapping: { template: "LoginPage", status: "implemented" },
+      templateMapping: { template: "LoginScene", status: "implemented" },
     },
     {
       id: "dash-overview",
@@ -36,7 +36,7 @@ const saasSession: BlueprintSession = {
       layout: "default",
       requiredSections: ["DashboardHeader", "Sidebar", "StatCardGrid"],
       optionalSections: [],
-      templateMapping: { template: "DashboardPage", status: "implemented" },
+      templateMapping: { template: "DashboardScene", status: "implemented" },
     },
   ],
 };
@@ -61,8 +61,8 @@ describe("generateRequirements", () => {
   it("Template 매핑 표가 포함된다", () => {
     const md = generateRequirements(saasSession);
     expect(md).toContain("Template 매핑");
-    expect(md).toContain("LoginPage");
-    expect(md).toContain("DashboardPage");
+    expect(md).toContain("LoginScene");
+    expect(md).toContain("DashboardScene");
   });
 
   it("pageCount 가 selectedPages.length 와 일치한다", () => {
@@ -78,6 +78,6 @@ describe("generateRequirements", () => {
 
   it("implemented 페이지는 체크 표시가 붙는다", () => {
     const md = generateRequirements(saasSession);
-    expect(md).toMatch(/LoginPage.*✅|✅.*LoginPage/);
+    expect(md).toMatch(/LoginScene.*✅|✅.*LoginScene/);
   });
 });

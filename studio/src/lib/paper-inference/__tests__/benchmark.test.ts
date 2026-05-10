@@ -4,7 +4,7 @@
  * 전략:
  * 1. 각 fixture spec.md 파싱 → 지상 진실 AST
  * 2. AST → 합성 Paper tree (컴포넌트 이름 + variant props → dot-syntax 레이어명)
- * 3. inferSpec 실행 → 추론 AST
+ * 3. inferChat 실행 → 추론 AST
  * 4. 지상 진실 vs 추론 비교 → accuracy 3종 측정
  *
  * Go/No-Go: 종합 score ≥ 0.60 PASS / < 0.60 FAIL
@@ -13,16 +13,17 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { parse } from "../../spec-md/parser/index";
-import { inferSpec } from "../infer";
+import { parse } from "../../chat-md/parser/index";
+import { inferChat } from "../infer";
 import type { CatalogMap } from "../ast-builder";
 import type { VocabularyCatalog } from "../../vocabulary/catalog";
-import type { Document, ComponentInstance, Block } from "../../spec-md/parser/ast-types";
+import type { Document, ComponentInstance, Block } from "../../chat-md/parser/ast-types";
 import type { PaperTreeNode } from "../tree-types";
 
 const STUDIO_ROOT = join(__dirname, "..", "..", "..", "..");
 const PROJECT_ROOT = join(STUDIO_ROOT, "..");
-const FIXTURE_DIR = join(PROJECT_ROOT, "spec");
+const SCENES_DIR = join(PROJECT_ROOT, "fixtures", "chats", "scenes");
+const COMPONENTS_DIR = join(PROJECT_ROOT, "fixtures", "chats", "components");
 const CATALOG_PATH = join(STUDIO_ROOT, "src", "lib", "vocabulary", "catalog", "catalog.json");
 
 let catalogMap: CatalogMap;
@@ -32,12 +33,14 @@ beforeAll(() => {
   const raw = JSON.parse(readFileSync(CATALOG_PATH, "utf-8")) as VocabularyCatalog;
   catalogMap = buildCatalogMap(raw);
 
-  fixtures = readdirSync(FIXTURE_DIR)
-    .filter((f) => f.endsWith(".spec.md"))
-    .map((f) => ({
-      name: f.replace(".spec.md", ""),
-      text: readFileSync(join(FIXTURE_DIR, f), "utf-8"),
-    }));
+  const collect = (dir: string) =>
+    readdirSync(dir)
+      .filter((f) => f.endsWith(".chat.md"))
+      .map((f) => ({
+        name: f.replace(".chat.md", ""),
+        text: readFileSync(join(dir, f), "utf-8"),
+      }));
+  fixtures = [...collect(SCENES_DIR), ...collect(COMPONENTS_DIR)];
 });
 
 function buildCatalogMap(catalog: VocabularyCatalog): CatalogMap {
@@ -175,7 +178,7 @@ describe("28-fixture round-trip benchmark", () => {
       }
 
       const synTree = astToSyntheticTree(parsed.ast);
-      const { ast: inferred } = inferSpec(synTree, catalogMap);
+      const { ast: inferred } = inferChat(synTree, catalogMap);
       const metrics = measureAccuracy(parsed.ast, inferred);
 
       results.push({

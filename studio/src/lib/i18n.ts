@@ -1,4 +1,4 @@
-import type { LoginPageTexts, SignupPageTexts, DashboardPageTexts } from "@/components/templates/types";
+import type { LoginSceneTexts, SignupSceneTexts, DashboardSceneTexts } from "@/components/templates/types";
 import koJson from "@assets/i18n/ko.json";
 import enJson from "@assets/i18n/en.json";
 
@@ -9,7 +9,7 @@ const localeMap: Record<Locale, typeof koJson> = {
   en: enJson,
 };
 
-export function getLoginPageTexts(locale: Locale = "ko"): LoginPageTexts {
+export function getLoginSceneTexts(locale: Locale = "ko"): LoginSceneTexts {
   const t = localeMap[locale];
   return {
     title: t.login.title,
@@ -29,7 +29,7 @@ export function getLoginPageTexts(locale: Locale = "ko"): LoginPageTexts {
   };
 }
 
-export function getSignupPageTexts(locale: Locale = "ko"): SignupPageTexts {
+export function getSignupSceneTexts(locale: Locale = "ko"): SignupSceneTexts {
   const t = localeMap[locale];
   return {
     title: t.signup.title,
@@ -51,7 +51,7 @@ export function getSignupPageTexts(locale: Locale = "ko"): SignupPageTexts {
   };
 }
 
-export function getDashboardPageTexts(locale: Locale = "ko"): DashboardPageTexts {
+export function getDashboardSceneTexts(locale: Locale = "ko"): DashboardSceneTexts {
   const t = localeMap[locale];
   return {
     title: t.dashboard.title,

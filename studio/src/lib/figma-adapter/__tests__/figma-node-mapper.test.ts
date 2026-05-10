@@ -30,10 +30,10 @@ describe("normalizeLayerName", () => {
 
 describe("mapFigmaNode", () => {
   it("FRAME → component='Frame'", () => {
-    const node: FigmaNode = { id: "1", name: "LoginPage", type: "FRAME" };
+    const node: FigmaNode = { id: "1", name: "LoginScene", type: "FRAME" };
     const result = mapFigmaNode(node);
     expect(result.component).toBe("Frame");
-    expect(result.name).toBe("LoginPage");
+    expect(result.name).toBe("LoginScene");
     expect(result.id).toBe("1");
   });
 
@@ -72,7 +72,7 @@ describe("mapFigmaNode", () => {
   it("children 재귀 변환", () => {
     const node: FigmaNode = {
       id: "10",
-      name: "LoginPage",
+      name: "LoginScene",
       type: "FRAME",
       children: [
         { id: "11", name: "Button/Primary", type: "INSTANCE" },

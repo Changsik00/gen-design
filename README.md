@@ -9,7 +9,7 @@ AI-친화적 디자인 시스템 명세(`DESIGN.md`)를 중간 언어로 두어 
 
 하지만 단순히 명세(`DESIGN.md`)만 도입하는 것으로는 부족합니다. 현재 생태계에는 다음과 같은 파편화된 한계들이 있습니다:
 - **비주얼 규칙**은 제공되지만, 정작 **"무엇을 만들지"**(페이지 구성, 기능 요구사항)에 대한 체계적인 명세가 없습니다.
-- **Button, Card** 같은 작은 단위의 UI 라이브러리는 많지만, **`LoginPage`나 `DashboardPage`같이 프론트엔드 단에서 통째로 재사용할 수 있는 페이지 수준의 템플릿**은 없습니다.
+- **Button, Card** 같은 작은 단위의 UI 라이브러리는 많지만, **`LoginScene`나 `DashboardScene`같이 프론트엔드 단에서 통째로 재사용할 수 있는 페이지 수준의 템플릿**은 없습니다.
 - 기획 요구사항(`REQUIREMENTS.md`)에서부터 실제 코드까지 유기적으로 이어지는 **구조적 가이드와 자동화 체계**가 없습니다.
 - **디자이너 ↔ 프론트엔드 간의 AI 기반 순환 협업 Flow**(디자인→코드→렌더링 리뷰→수정)가 없습니다.
 
@@ -45,26 +45,26 @@ AI-친화적 디자인 시스템 명세(`DESIGN.md`)를 중간 언어로 두어 
 ```
 Page > Section > Block > Element
 
-예) LoginPage > HeroSection > CredentialBlock > EmailInput
+예) LoginScene > HeroSection > CredentialBlock > EmailInput
 ```
 
 ### 3. Page Template — 3계층 컴포넌트
 
-단순 Button이 아닌 LoginPage 통째를 프로젝트 간 재사용한다.
+단순 Button이 아닌 LoginScene 통째를 프로젝트 간 재사용한다.
 
 ```
 Primitive          Button, Input, Select, Modal (shadcn/ui 기반)
     ↓
 Composite          LoginForm, SignupForm, StatCard (Primitive 조합)
     ↓
-Page Template      LoginPage, SignupPage, DashboardPage (Composite 조합)
+Page Template      LoginScene, SignupScene, DashboardScene (Composite 조합)
                    ├── variant: page / modal / bottom-sheet
                    ├── 토큰 교체 → 브랜딩 변경
                    └── i18n 교체 → 언어 변경
 ```
 
 ```
-LoginPage (Page Template)
+LoginScene (Page Template)
 ├── BrandHeader         ← 로고, 앱 이름 (토큰 슬롯)
 ├── LoginForm           ← Composite (이메일, 비밀번호, 기억하기)
 ├── SocialAuthBlock     ← Composite (Google, Apple, Kakao — 슬롯)
@@ -134,7 +134,7 @@ Design/
 | DESIGN.md 포맷 | Stitch/awesome-design-md 기반 + 자체 확장 | 사실상 표준 채택, 확장만 추가 |
 | 디자인 토큰 | W3C DTCG 포맷 + Style Dictionary | 2025.10 안정판 표준 |
 | 디자인 도구 | Paper, Stitch, Figma | Paper MCP 우선, Figma 차후 연동 |
-| UI 프리미티브 | Radix UI (기본) / React Aria (후보) | Phase 2에서 LoginPage 비교 후 최종 결정 |
+| UI 프리미티브 | Radix UI (기본) / React Aria (후보) | Phase 2에서 LoginScene 비교 후 최종 결정 |
 | 컴포넌트 배포 | shadcn/ui registry 모델 참고 | 코드 복사→소유, 커스터마이즈 최적 |
 | 스타일링 | Tailwind CSS | AI 친화적, 유틸리티 퍼스트 |
 | 프레임워크 | React + Vite + TypeScript | studio 및 생성 대상 모두 React |
@@ -147,7 +147,7 @@ Design/
 | Phase | 제목 | 핵심 산출물 |
 |:-----:|------|------------|
 | 1 | **Foundation** | DESIGN.md 확장 Schema, React+Tailwind+shadcn/ui 프로젝트, DTCG 토큰 파이프라인 |
-| 2 | **Page Template 시스템** | 3계층 아키텍처, LoginPage (Radix vs Aria 비교 → ADR-002), Dashboard 템플릿 |
+| 2 | **Page Template 시스템** | 3계층 아키텍처, LoginScene (Radix vs Aria 비교 → ADR-002), Dashboard 템플릿 |
 | 3 | **App Blueprint** | 페이지 카탈로그, 질의서, REQUIREMENTS.md 자동 생성 |
 | 4 | **협업 Flow** | 디자이너↔프론트 프로토콜, Paper MCP PoC, Figma 토큰 동기화 PoC |
 | 5 | **PoC 검증** | 앱 A→B 토큰/i18n 교체 재사용성 실증 |

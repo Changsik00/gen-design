@@ -36,7 +36,7 @@ describe("renderFrontMd", () => {
   it("Tier 3 composites + templates 분리", () => {
     expect(md).toContain("Tier 3 — Project composites");
     expect(md).toContain("Tier 3 — Project templates");
-    expect(md).toContain("### LoginPage");
+    expect(md).toContain("### LoginScene");
   });
 
   it("raw 색상 금지 + 미등록 어휘 금지 강제 명시", () => {

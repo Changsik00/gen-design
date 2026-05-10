@@ -5,7 +5,7 @@
  * (location 필드는 파서가 재계산 — 비교 대상 제외)
  */
 
-import type { Document, Block, ComponentInstance, Placeholder, MarkdownText, Comment, AttrValue } from "../spec-md/parser/ast-types";
+import type { Document, Block, ComponentInstance, Placeholder, MarkdownText, Comment, AttrValue } from "../chat-md/parser/ast-types";
 
 export function emit(doc: Document): string {
   return doc.body.map((block) => emitBlock(block, 0, false)).join("");

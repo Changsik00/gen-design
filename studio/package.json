@@ -14,11 +14,11 @@
     "test:watch": "vitest",
     "vocab": "tsx scripts/extract-vocabulary.ts",
     "vocab:check": "tsx scripts/extract-vocabulary.ts --check",
-    "spec-lint": "tsx src/lib/spec-md/cli/spec-lint.ts",
-    "spec-paper": "tsx --tsconfig tsconfig.app.json src/lib/spec-md-compiler/cli/spec-paper.ts",
-    "paper-to-spec": "tsx --tsconfig tsconfig.app.json src/lib/paper-inference/cli/paper-to-spec.ts",
+    "chat-lint": "tsx src/lib/chat-md/cli/spec-lint.ts",
+    "chat-paper": "tsx --tsconfig tsconfig.app.json src/lib/chat-md-compiler/cli/spec-paper.ts",
+    "paper-to-chat": "tsx --tsconfig tsconfig.app.json src/lib/paper-inference/cli/paper-to-spec.ts",
     "paper-inference:bench": "vitest run src/lib/paper-inference/__tests__/benchmark.test.ts",
-    "spec-react": "tsx --tsconfig tsconfig.app.json src/lib/spec-md-compiler/react/cli/spec-react.ts"
+    "chat-react": "tsx --tsconfig tsconfig.app.json src/lib/chat-md-compiler/react/cli/spec-react.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",

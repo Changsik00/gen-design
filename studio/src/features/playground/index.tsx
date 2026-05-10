@@ -1,19 +1,19 @@
 /**
  * Playground — 컴포넌트 시각 확인용 숨김 route (#/__playground).
  *
- * 기존 App.tsx 의 page/brand/locale/variant 토글 + LoginPage/DashboardPage
+ * 기존 App.tsx 의 page/brand/locale/variant 토글 + LoginScene/DashboardScene
  * 데모를 그대로 보존. production 빌드에는 Sidebar nav 에 노출되지 않음.
  *
  * 향후 storybook 또는 별도 컴포넌트 갤러리로 발전 후보.
  */
 
 import { useState, useEffect } from "react";
-import { LoginPage, DashboardPage } from "@/components/templates";
-import { getLoginPageTexts, getDashboardPageTexts } from "@/lib/i18n";
+import { LoginScene, DashboardScene } from "@/components/templates";
+import { getLoginSceneTexts, getDashboardSceneTexts } from "@/lib/i18n";
 import type {
   StatCardData,
   ActivityRowData,
-  PageTemplateVariant,
+  SceneTemplateVariant,
 } from "@/components/templates/types";
 
 type Page = "login" | "dashboard";
@@ -38,7 +38,7 @@ export function Playground() {
   const [page, setPage] = useState<Page>("login");
   const [brand, setBrand] = useState<Brand>("a");
   const [locale, setLocale] = useState<Locale>("ko");
-  const [variant, setVariant] = useState<PageTemplateVariant>("page");
+  const [variant, setVariant] = useState<SceneTemplateVariant>("page");
 
   useEffect(() => {
     const root = document.documentElement;
@@ -49,8 +49,8 @@ export function Playground() {
     }
   }, [brand]);
 
-  const loginTexts = getLoginPageTexts(locale);
-  const dashboardTexts = getDashboardPageTexts(locale);
+  const loginTexts = getLoginSceneTexts(locale);
+  const dashboardTexts = getDashboardSceneTexts(locale);
 
   return (
     <>
@@ -113,9 +113,9 @@ export function Playground() {
       </div>
 
       {/* Page content */}
-      {page === "login" && <LoginPage variant={variant} texts={loginTexts} />}
+      {page === "login" && <LoginScene variant={variant} texts={loginTexts} />}
       {page === "dashboard" && (
-        <DashboardPage
+        <DashboardScene
           variant="page"
           appName="Studio"
           texts={dashboardTexts}

@@ -6,10 +6,10 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { PageTemplateVariant } from "./types";
+import type { SceneTemplateVariant } from "./types";
 
 interface VariantWrapperProps {
-  variant: PageTemplateVariant;
+  variant: SceneTemplateVariant;
   triggerLabel: string;
   children: ReactNode;
   className?: string;

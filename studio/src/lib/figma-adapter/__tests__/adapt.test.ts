@@ -33,7 +33,7 @@ describe("adaptFigma", () => {
   it("자식이 있는 FRAME → 미매칭 Comment 로 text 생성", () => {
     const node: FigmaNode = {
       id: "10",
-      name: "LoginPage",
+      name: "LoginScene",
       type: "FRAME",
       children: [
         { id: "11", name: "Button/Primary", type: "INSTANCE" },

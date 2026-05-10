@@ -12,14 +12,14 @@
 // ---------------------------------------------------------------------------
 
 /** Page Template의 레이아웃 변형 */
-export type PageTemplateVariant = "page" | "modal" | "bottom-sheet";
+export type SceneTemplateVariant = "page" | "modal" | "bottom-sheet";
 
 // ---------------------------------------------------------------------------
 // i18n Slot — Template별 텍스트 타입
 // ---------------------------------------------------------------------------
 
-/** LoginPage에 필요한 텍스트 리소스 */
-export interface LoginPageTexts {
+/** LoginScene에 필요한 텍스트 리소스 */
+export interface LoginSceneTexts {
   title: string;
   description: string;
   emailLabel: string;
@@ -39,8 +39,8 @@ export interface LoginPageTexts {
   socialKakao: string;
 }
 
-/** SignupPage에 필요한 텍스트 리소스 */
-export interface SignupPageTexts {
+/** SignupScene에 필요한 텍스트 리소스 */
+export interface SignupSceneTexts {
   title: string;
   description: string;
   nameLabel: string;
@@ -79,8 +79,8 @@ export interface ActivityRowData {
   time: string;
 }
 
-/** DashboardPage에 필요한 텍스트 리소스 */
-export interface DashboardPageTexts {
+/** DashboardScene에 필요한 텍스트 리소스 */
+export interface DashboardSceneTexts {
   title: string;
   searchPlaceholder: string;
   navItems: string[];
@@ -101,30 +101,30 @@ export interface DashboardPageTexts {
 /** 모든 Page Template이 받는 공통 props */
 export interface BaseTemplateProps<TTexts> {
   /** 레이아웃 변형 */
-  variant: PageTemplateVariant;
+  variant: SceneTemplateVariant;
   /** i18n 텍스트 리소스 */
   texts: TTexts;
   /** 추가 CSS 클래스 */
   className?: string;
 }
 
-/** LoginPage props */
-export type LoginPageProps = BaseTemplateProps<LoginPageTexts>;
+/** LoginScene props */
+export type LoginSceneProps = BaseTemplateProps<LoginSceneTexts>;
 
-/** SignupPage props */
-export type SignupPageProps = BaseTemplateProps<SignupPageTexts>;
+/** SignupScene props */
+export type SignupSceneProps = BaseTemplateProps<SignupSceneTexts>;
 
-/** DashboardPage props */
-export interface DashboardPageProps extends BaseTemplateProps<DashboardPageTexts> {
+/** DashboardScene props */
+export interface DashboardSceneProps extends BaseTemplateProps<DashboardSceneTexts> {
   appName: string;
 }
 
 // ---------------------------------------------------------------------------
-// MyPage (DESIGN.md §11 profile-mypage)
+// MyScene (DESIGN.md §11 profile-mypage)
 // ---------------------------------------------------------------------------
 
-/** MyPage 에 필요한 텍스트 리소스 */
-export interface MyPageTexts {
+/** MyScene 에 필요한 텍스트 리소스 */
+export interface MySceneTexts {
   title: string;
   /** ProfileInfoCard */
   infoEmail: string;
@@ -138,8 +138,8 @@ export interface MyPageTexts {
   avatarUpload: string;
 }
 
-/** MyPage 에 표시되는 사용자 프로필 데이터 */
-export interface MyPageProfileData {
+/** MyScene 에 표시되는 사용자 프로필 데이터 */
+export interface MySceneProfileData {
   name: string;
   role: string;
   email: string;
@@ -149,29 +149,29 @@ export interface MyPageProfileData {
   avatarUrl: string | null;
 }
 
-/** MyPage 활동 요약 데이터 */
-export interface MyPageSummaryData {
+/** MyScene 활동 요약 데이터 */
+export interface MySceneSummaryData {
   tasks: number;
   comments: number;
   /** 0 ~ 100 (%) */
   completion: number;
 }
 
-/** MyPage props */
-export interface MyPageProps extends BaseTemplateProps<MyPageTexts> {
+/** MyScene props */
+export interface MySceneProps extends BaseTemplateProps<MySceneTexts> {
   appName: string;
-  profile: MyPageProfileData;
-  summary: MyPageSummaryData;
-  /** Sidebar nav items (DashboardPage 와 동일 컨셉) */
+  profile: MySceneProfileData;
+  summary: MySceneSummaryData;
+  /** Sidebar nav items (DashboardScene 와 동일 컨셉) */
   navItems: string[];
 }
 
 // ---------------------------------------------------------------------------
-// SettingsPage (DESIGN.md §11 settings-overview)
+// SettingsScene (DESIGN.md §11 settings-overview)
 // ---------------------------------------------------------------------------
 
-/** SettingsPage 에 필요한 텍스트 리소스 */
-export interface SettingsPageTexts {
+/** SettingsScene 에 필요한 텍스트 리소스 */
+export interface SettingsSceneTexts {
   title: string;
   /** Notification 그룹 */
   notificationsTitle: string;
@@ -194,7 +194,7 @@ export interface SettingsPageTexts {
   accountDeleteAccount: string;
 }
 
-/** SettingsPage 에서 사용하는 알림 토글 상태 */
+/** SettingsScene 에서 사용하는 알림 토글 상태 */
 export interface SettingsNotifications {
   email: boolean;
   push: boolean;
@@ -208,8 +208,8 @@ export interface SettingsOption {
   label: string;
 }
 
-/** SettingsPage props */
-export interface SettingsPageProps extends BaseTemplateProps<SettingsPageTexts> {
+/** SettingsScene props */
+export interface SettingsSceneProps extends BaseTemplateProps<SettingsSceneTexts> {
   appName: string;
   notifications: SettingsNotifications;
   /** 외관 */
@@ -228,11 +228,11 @@ export interface SettingsPageProps extends BaseTemplateProps<SettingsPageTexts> 
 }
 
 // ---------------------------------------------------------------------------
-// ErrorPage (DESIGN.md §11 common-error)
+// ErrorScene (DESIGN.md §11 common-error)
 // ---------------------------------------------------------------------------
 
-/** ErrorPage 에 필요한 텍스트 리소스 */
-export interface ErrorPageTexts {
+/** ErrorScene 에 필요한 텍스트 리소스 */
+export interface ErrorSceneTexts {
   title404: string;
   message404: string;
   title500: string;
@@ -240,10 +240,10 @@ export interface ErrorPageTexts {
   home: string;
 }
 
-/** ErrorPage 에러 변형 */
+/** ErrorScene 에러 변형 */
 export type ErrorVariant = "404" | "500";
 
-/** ErrorPage props */
-export interface ErrorPageProps extends BaseTemplateProps<ErrorPageTexts> {
+/** ErrorScene props */
+export interface ErrorSceneProps extends BaseTemplateProps<ErrorSceneTexts> {
   errorVariant: ErrorVariant;
 }

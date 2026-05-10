@@ -57,6 +57,7 @@ phase-8 종료 시:
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
+| `spec-08-01` | rename-and-restructure | P? | Active | `specs/spec-08-01-rename-and-restructure/` |
 <!-- sdd:specs:end -->
 
 > 의존성:

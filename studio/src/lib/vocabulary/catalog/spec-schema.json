@@ -1135,8 +1135,7 @@
           ],
           "properties": {
             "name": {
-              "const": "DashboardPage",
-              "description": "ARIA role: main"
+              "const": "DashboardScene"
             },
             "props": {
               "type": "object",
@@ -1187,8 +1186,7 @@
           ],
           "properties": {
             "name": {
-              "const": "ErrorPage",
-              "description": "ARIA role: main"
+              "const": "ErrorScene"
             },
             "props": {
               "type": "object",
@@ -1239,8 +1237,7 @@
           ],
           "properties": {
             "name": {
-              "const": "LoginPage",
-              "description": "ARIA role: main"
+              "const": "LoginScene"
             },
             "props": {
               "type": "object",
@@ -1291,8 +1288,7 @@
           ],
           "properties": {
             "name": {
-              "const": "MyPage",
-              "description": "ARIA role: main"
+              "const": "MyScene"
             },
             "props": {
               "type": "object",
@@ -1343,8 +1339,7 @@
           ],
           "properties": {
             "name": {
-              "const": "SettingsPage",
-              "description": "ARIA role: main"
+              "const": "SettingsScene"
             },
             "props": {
               "type": "object",
@@ -1395,8 +1390,7 @@
           ],
           "properties": {
             "name": {
-              "const": "SignupPage",
-              "description": "ARIA role: main"
+              "const": "SignupScene"
             },
             "props": {
               "type": "object",

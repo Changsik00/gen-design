@@ -43,9 +43,9 @@ describe("generateSpecSchema — 컴포넌트 인스턴스 검증", () => {
     expect(ok).toBe(false);
   });
 
-  it("LoginPage (template, manual) + theme → PASS", () => {
+  it("LoginScene (template, manual) + theme → PASS", () => {
     const ok = validate({
-      name: "LoginPage",
+      name: "LoginScene",
       props: {},
       theme: "brand-a",
       children: [],
@@ -84,7 +84,7 @@ describe("generateSpecSchema — 컴포넌트 인스턴스 검증", () => {
 
   it("children 재귀 검증 — 자식이 미등록 컴포넌트 → FAIL", () => {
     const ok = validate({
-      name: "LoginPage",
+      name: "LoginScene",
       children: [{ name: "NotARealComponent" }],
     });
     expect(ok).toBe(false);
@@ -92,7 +92,7 @@ describe("generateSpecSchema — 컴포넌트 인스턴스 검증", () => {
 
   it("children 재귀 검증 — 자식이 정상 → PASS", () => {
     const ok = validate({
-      name: "LoginPage",
+      name: "LoginScene",
       children: [
         { name: "Button", props: { variant: "default" } },
         { name: "BrandHeader" },

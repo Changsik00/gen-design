@@ -1,28 +1,28 @@
 export type {
-  PageTemplateVariant,
+  SceneTemplateVariant,
   BaseTemplateProps,
-  LoginPageTexts,
-  LoginPageProps,
-  SignupPageTexts,
-  SignupPageProps,
-  DashboardPageTexts,
-  DashboardPageProps,
-  MyPageTexts,
-  MyPageProps,
-  MyPageProfileData,
-  MyPageSummaryData,
-  SettingsPageTexts,
-  SettingsPageProps,
+  LoginSceneTexts,
+  LoginSceneProps,
+  SignupSceneTexts,
+  SignupSceneProps,
+  DashboardSceneTexts,
+  DashboardSceneProps,
+  MySceneTexts,
+  MySceneProps,
+  MySceneProfileData,
+  MySceneSummaryData,
+  SettingsSceneTexts,
+  SettingsSceneProps,
   SettingsNotifications,
   SettingsOption,
-  ErrorPageTexts,
-  ErrorPageProps,
+  ErrorSceneTexts,
+  ErrorSceneProps,
   ErrorVariant,
 } from "./types";
 
-export { DashboardPage } from "./DashboardPage";
-export { LoginPage } from "./LoginPage";
-export { SignupPage } from "./SignupPage";
-export { MyPage } from "./MyPage";
-export { SettingsPage } from "./SettingsPage";
-export { ErrorPage } from "./ErrorPage";
+export { DashboardScene } from "./DashboardScene";
+export { LoginScene } from "./LoginScene";
+export { SignupScene } from "./SignupScene";
+export { MyScene } from "./MyScene";
+export { SettingsScene } from "./SettingsScene";
+export { ErrorScene } from "./ErrorScene";

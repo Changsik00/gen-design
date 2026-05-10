@@ -1,7 +1,7 @@
 import { describe, it, expect } from "vitest";
 import { matchByName } from "../component-matcher";
 
-const CATALOG = ["Button", "Input", "LoginForm", "BrandHeader", "SettingsPage"];
+const CATALOG = ["Button", "Input", "LoginForm", "BrandHeader", "SettingsScene"];
 
 describe("matchByName — 컴포넌트 이름 매칭", () => {
   it("exact match — catalog 에 동일 이름 존재", () => {
