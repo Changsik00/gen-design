@@ -14,7 +14,12 @@
 import { parser } from "../grammar";
 import type { Document, ParseError, ParseResult } from "./ast-types";
 
-export function parse(text: string): ParseResult {
+export interface ParseOptions {
+  /** schema 검증 단계 skip (기본 false). spec-08-04 Task 7 에서 schema 통합. */
+  skipSchema?: boolean;
+}
+
+export function parse(text: string, _opts?: ParseOptions): ParseResult {
   try {
     const ast = parser.parse(text) as Document;
     return { ok: true, ast, errors: [] };
