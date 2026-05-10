@@ -2,19 +2,19 @@ import { Sidebar } from "@/components/composites/Sidebar";
 import { DashboardHeader } from "@/components/composites/DashboardHeader";
 import { StatCard } from "@/components/composites/StatCard";
 import { ActivityTable } from "@/components/composites/ActivityTable";
-import type { DashboardPageProps, StatCardData, ActivityRowData } from "../types";
+import type { DashboardSceneProps, StatCardData, ActivityRowData } from "../types";
 
-interface DashboardPageFullProps extends DashboardPageProps {
+interface DashboardSceneFullProps extends DashboardSceneProps {
   stats: StatCardData[];
   activities: ActivityRowData[];
 }
 
-export function DashboardPage({
+export function DashboardScene({
   texts,
   appName,
   stats,
   activities,
-}: DashboardPageFullProps) {
+}: DashboardSceneFullProps) {
   return (
     <div className="flex h-screen bg-background">
       <Sidebar

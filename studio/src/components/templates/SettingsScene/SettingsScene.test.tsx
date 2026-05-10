@@ -1,11 +1,11 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import { SettingsPage } from ".";
-import type { SettingsPageProps, SettingsPageTexts } from "../types";
+import { SettingsScene } from ".";
+import type { SettingsSceneProps, SettingsSceneTexts } from "../types";
 
 afterEach(cleanup);
 
-const texts: SettingsPageTexts = {
+const texts: SettingsSceneTexts = {
   title: "Settings",
   notificationsTitle: "Notifications",
   notificationsEmail: "Email notifications",
@@ -24,7 +24,7 @@ const texts: SettingsPageTexts = {
   accountDeleteAccount: "Delete account",
 };
 
-const baseProps: SettingsPageProps = {
+const baseProps: SettingsSceneProps = {
   variant: "page",
   appName: "TestApp",
   texts,
@@ -44,9 +44,9 @@ const baseProps: SettingsPageProps = {
   timezoneOptions: [{ value: "UTC", label: "UTC" }],
 };
 
-describe("SettingsPage", () => {
+describe("SettingsScene", () => {
   it("renders 4 group titles", () => {
-    render(<SettingsPage {...baseProps} />);
+    render(<SettingsScene {...baseProps} />);
     expect(screen.getByRole("heading", { name: "Notifications" })).toBeInTheDocument();
     expect(screen.getByRole("heading", { name: "Appearance" })).toBeInTheDocument();
     expect(
@@ -56,7 +56,7 @@ describe("SettingsPage", () => {
   });
 
   it("renders 4 notification toggle labels", () => {
-    render(<SettingsPage {...baseProps} />);
+    render(<SettingsScene {...baseProps} />);
     expect(screen.getByText("Email notifications")).toBeInTheDocument();
     expect(screen.getByText("Push notifications")).toBeInTheDocument();
     expect(screen.getByText("Weekly digest")).toBeInTheDocument();
@@ -64,7 +64,7 @@ describe("SettingsPage", () => {
   });
 
   it("renders 4 switches with reflective checked state", () => {
-    render(<SettingsPage {...baseProps} />);
+    render(<SettingsScene {...baseProps} />);
     const switches = screen.getAllByRole("switch");
     expect(switches).toHaveLength(4);
     expect(switches[0]).toHaveAttribute("aria-checked", "true"); // email
@@ -72,7 +72,7 @@ describe("SettingsPage", () => {
   });
 
   it("renders Change password and Delete account buttons", () => {
-    render(<SettingsPage {...baseProps} />);
+    render(<SettingsScene {...baseProps} />);
     expect(
       screen.getByRole("button", { name: "Change password" })
     ).toBeInTheDocument();
@@ -82,7 +82,7 @@ describe("SettingsPage", () => {
   });
 
   it("displays account email value", () => {
-    render(<SettingsPage {...baseProps} />);
+    render(<SettingsScene {...baseProps} />);
     expect(screen.getByText("alex@example.com")).toBeInTheDocument();
   });
 });

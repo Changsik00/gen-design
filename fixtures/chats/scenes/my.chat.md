@@ -1,8 +1,8 @@
-# MyPage
+# MyScene
 
 내 정보 페이지 — Profile + Activity.
 
-<MyPage>
+<MyScene>
   <ProfileHeader />
 
   <ProfileInfoCard>
@@ -11,4 +11,4 @@
   </ProfileInfoCard>
 
   <ActivitySummary />
-</MyPage>
+</MyScene>

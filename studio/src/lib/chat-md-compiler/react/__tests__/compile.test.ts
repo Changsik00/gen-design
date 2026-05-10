@@ -5,17 +5,17 @@ describe("compileToReact", () => {
   it("compiles a simple ComponentInstance to tsx", () => {
     const result = compileToReact({
       text: '<Button variant="primary" />',
-      componentName: "MyPage",
+      componentName: "MyScene",
     });
     expect(result.ok).toBe(true);
     expect(result.tsx).toContain('<Button variant="primary" />');
-    expect(result.tsx).toContain("export function MyPage");
+    expect(result.tsx).toContain("export function MyScene");
   });
 
   it("emits t() call for i18n placeholder (no fake-pass on comments)", () => {
     const result = compileToReact({
       text: "<Button>{{i18n.ko.submit}}</Button>",
-      componentName: "MyPage",
+      componentName: "MyScene",
     });
     expect(result.ok).toBe(true);
     const tsx = result.tsx ?? "";
@@ -43,7 +43,7 @@ describe("compileToReact", () => {
       "## Behavior",
       "- state: open: boolean = false",
     ].join("\n");
-    const result = compileToReact({ text: input, componentName: "MyPage" });
+    const result = compileToReact({ text: input, componentName: "MyScene" });
     expect(result.ok).toBe(true);
     expect(result.tsx).toContain("useState<boolean>(false)");
     expect(result.tsx).toContain("import { useState }");

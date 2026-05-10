@@ -3,7 +3,7 @@ import { ProfileHeader } from "@/components/composites/ProfileHeader";
 import { ProfileInfoCard } from "@/components/composites/ProfileInfoCard";
 import { ActivitySummary } from "@/components/composites/ActivitySummary";
 import { AvatarUpload } from "@/components/composites/AvatarUpload";
-import type { MyPageProps } from "../types";
+import type { MySceneProps } from "../types";
 
 function getInitials(name: string): string {
   const parts = name.trim().split(/\s+/);
@@ -11,14 +11,14 @@ function getInitials(name: string): string {
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
 
-export function MyPage({
+export function MyScene({
   texts,
   profile,
   summary,
   navItems,
   appName,
   className,
-}: MyPageProps) {
+}: MySceneProps) {
   return (
     <div className={`flex h-screen bg-background ${className ?? ""}`}>
       <Sidebar appName={appName} navItems={navItems} activeIndex={3} />

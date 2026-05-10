@@ -29,9 +29,9 @@ describe("grammar — Self-closing tag", () => {
   });
 
   it("multi-word PascalCase name", () => {
-    const ast = parse("<DashboardPage />");
+    const ast = parse("<DashboardScene />");
     const c = ast.body[0] as ComponentInstance;
-    expect(c.name).toBe("DashboardPage");
+    expect(c.name).toBe("DashboardScene");
   });
 
   it("두 개의 self-closing 태그 (sibling)", () => {

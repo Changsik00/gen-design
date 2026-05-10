@@ -44,7 +44,8 @@ describe("component-registry — catalog 와 1:1 일치", () => {
 });
 
 describe("i18n ko bundle — 28 fixture 의 모든 placeholder 키 정의", () => {
-  const fixtureDir = join(PROJECT_ROOT, "spec");
+  const scenesDir = join(PROJECT_ROOT, "fixtures", "chats", "scenes");
+  const componentsDir = join(PROJECT_ROOT, "fixtures", "chats", "components");
 
   function getNested(obj: unknown, path: string[]): unknown {
     let cur: unknown = obj;
@@ -56,11 +57,14 @@ describe("i18n ko bundle — 28 fixture 의 모든 placeholder 키 정의", () =
   }
 
   it("28 fixture 의 모든 {{i18n.ko.*}} placeholder 가 ko.json 에 존재", () => {
-    const fixtures = readdirSync(fixtureDir).filter((f) => f.endsWith(".spec.md"));
+    const fixtures = [
+      ...readdirSync(scenesDir).filter((f) => f.endsWith(".chat.md")).map((name) => ({ dir: scenesDir, name })),
+      ...readdirSync(componentsDir).filter((f) => f.endsWith(".chat.md")).map((name) => ({ dir: componentsDir, name })),
+    ];
     const allKeys = new Set<string>();
     const re = /\{\{i18n\.([a-zA-Z0-9._-]+)\}\}/g;
     for (const f of fixtures) {
-      const txt = readFileSync(join(fixtureDir, f), "utf-8");
+      const txt = readFileSync(join(f.dir, f.name), "utf-8");
       let m: RegExpExecArray | null;
       while ((m = re.exec(txt)) !== null) {
         allKeys.add(m[1]);

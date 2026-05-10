@@ -210,46 +210,40 @@ Spec: ARIA 1.3 (W3C Editor's Draft 2025-08) ([source](https://w3c.github.io/aria
 
 *페이지 매크로 어휘. variant 로 layout (page/modal/bottom-sheet) 전환.*
 
-### DashboardPage
+### DashboardScene
 
-- **File**: `src/components/templates/DashboardPage/index.tsx`
+- **File**: `src/components/templates/DashboardScene/index.tsx`
 - **Pattern**: manual
-- **ARIA role**: `main`
 - **Axes**: (no cva variants — composite/template)
 
-### ErrorPage
+### ErrorScene
 
-- **File**: `src/components/templates/ErrorPage/index.tsx`
+- **File**: `src/components/templates/ErrorScene/index.tsx`
 - **Pattern**: manual
-- **ARIA role**: `main`
 - **Axes**: (no cva variants — composite/template)
 
-### LoginPage
+### LoginScene
 
-- **File**: `src/components/templates/LoginPage/index.tsx`
+- **File**: `src/components/templates/LoginScene/index.tsx`
 - **Pattern**: manual
-- **ARIA role**: `main`
 - **Axes**: (no cva variants — composite/template)
 
-### MyPage
+### MyScene
 
-- **File**: `src/components/templates/MyPage/index.tsx`
+- **File**: `src/components/templates/MyScene/index.tsx`
 - **Pattern**: manual
-- **ARIA role**: `main`
 - **Axes**: (no cva variants — composite/template)
 
-### SettingsPage
+### SettingsScene
 
-- **File**: `src/components/templates/SettingsPage/index.tsx`
+- **File**: `src/components/templates/SettingsScene/index.tsx`
 - **Pattern**: manual
-- **ARIA role**: `main`
 - **Axes**: (no cva variants — composite/template)
 
-### SignupPage
+### SignupScene
 
-- **File**: `src/components/templates/SignupPage/index.tsx`
+- **File**: `src/components/templates/SignupScene/index.tsx`
 - **Pattern**: manual
-- **ARIA role**: `main`
 - **Axes**: (no cva variants — composite/template)
 
 ### VariantWrapper
@@ -268,7 +262,7 @@ Paper 노드명이 React 컴포넌트와 1:1 매핑되는 grammar:
 
 예시:
 - `Button[variant=destructive,size=sm]` ⟷ `<Button variant="destructive" size="sm">`
-- `LoginPage[variant=page,brand=a]` ⟷ `<LoginPage variant="page" brand="a">`
+- `LoginScene[variant=page,brand=a]` ⟷ `<LoginScene variant="page" brand="a">`
 - 미등록 노드 = raw 영역 (1:1 보장 X, 추론 영역)
 
 ## shadcn registry 출력

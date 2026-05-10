@@ -17,7 +17,7 @@ describe("adaptFigma 통합 테스트", () => {
     const raw = readFileSync(FIXTURE_PATH, "utf-8");
     const node = JSON.parse(raw) as FigmaNode;
     expect(node.type).toBe("FRAME");
-    expect(node.name).toBe("LoginPage");
+    expect(node.name).toBe("LoginScene");
   });
 
   it("fixture → adaptFigma → parse(text).ok === true", () => {

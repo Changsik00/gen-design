@@ -1,16 +1,16 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import { SignupPage } from ".";
-import { getSignupPageTexts } from "@/lib/i18n";
+import { SignupScene } from ".";
+import { getSignupSceneTexts } from "@/lib/i18n";
 
 afterEach(cleanup);
 
-const koTexts = getSignupPageTexts("ko");
-const enTexts = getSignupPageTexts("en");
+const koTexts = getSignupSceneTexts("ko");
+const enTexts = getSignupSceneTexts("en");
 
-describe("SignupPage", () => {
+describe("SignupScene", () => {
   it("renders Korean texts in page variant", () => {
-    render(<SignupPage variant="page" texts={koTexts} />);
+    render(<SignupScene variant="page" texts={koTexts} />);
     expect(screen.getByText("새 계정을 만드세요")).toBeInTheDocument();
     expect(screen.getByText("이름")).toBeInTheDocument();
     expect(screen.getByText("비밀번호 확인")).toBeInTheDocument();
@@ -18,14 +18,14 @@ describe("SignupPage", () => {
   });
 
   it("renders English texts", () => {
-    render(<SignupPage variant="page" texts={enTexts} />);
+    render(<SignupScene variant="page" texts={enTexts} />);
     expect(screen.getByText("Create a new account")).toBeInTheDocument();
     expect(screen.getByText("Name")).toBeInTheDocument();
     expect(screen.getByText("Confirm password")).toBeInTheDocument();
   });
 
   it("renders login prompt with link", () => {
-    render(<SignupPage variant="page" texts={koTexts} />);
+    render(<SignupScene variant="page" texts={koTexts} />);
     expect(screen.getByText("이미 계정이 있으신가요?")).toBeInTheDocument();
     expect(screen.getByText("로그인")).toBeInTheDocument();
   });

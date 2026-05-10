@@ -1,8 +1,8 @@
-# LoginPage
+# LoginScene
 
-대표 page template — vision.md 의 LoginPage 예시.
+대표 page template — vision.md 의 LoginScene 예시.
 
-<LoginPage>
+<LoginScene>
   <BrandHeader />
 
   <LoginForm>
@@ -14,4 +14,4 @@
   <SocialAuthBlock />
 
   <ErrorMessage />
-</LoginPage>
+</LoginScene>

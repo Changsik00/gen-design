@@ -1,11 +1,11 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import { ErrorPage } from ".";
-import type { ErrorPageProps, ErrorPageTexts } from "../types";
+import { ErrorScene } from ".";
+import type { ErrorSceneProps, ErrorSceneTexts } from "../types";
 
 afterEach(cleanup);
 
-const texts: ErrorPageTexts = {
+const texts: ErrorSceneTexts = {
   title404: "Page not found",
   message404: "We couldn't find the page you're looking for.",
   title500: "Something went wrong",
@@ -13,15 +13,15 @@ const texts: ErrorPageTexts = {
   home: "Back to Home",
 };
 
-const baseProps: ErrorPageProps = {
+const baseProps: ErrorSceneProps = {
   variant: "page",
   texts,
   errorVariant: "404",
 };
 
-describe("ErrorPage", () => {
+describe("ErrorScene", () => {
   it("renders 404 title + message + home button", () => {
-    render(<ErrorPage {...baseProps} />);
+    render(<ErrorScene {...baseProps} />);
     expect(
       screen.getByRole("heading", { name: "Page not found" })
     ).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe("ErrorPage", () => {
   });
 
   it("renders 500 title and message when errorVariant=500", () => {
-    render(<ErrorPage {...baseProps} errorVariant="500" />);
+    render(<ErrorScene {...baseProps} errorVariant="500" />);
     expect(
       screen.getByRole("heading", { name: "Something went wrong" })
     ).toBeInTheDocument();

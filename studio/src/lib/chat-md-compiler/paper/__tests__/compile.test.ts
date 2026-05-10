@@ -3,7 +3,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { compileToPaper } from "../compile";
 
-const SPEC_DIR = join(__dirname, "..", "..", "..", "..", "..", "..", "spec");
+const SCENES_DIR = join(__dirname, "..", "..", "..", "..", "..", "..", "fixtures", "chats", "scenes");
 
 describe("compileToPaper — string 입력", () => {
   it("`<Button />` → button 태그 포함 HTML + payload", () => {
@@ -33,8 +33,8 @@ describe("compileToPaper — string 입력", () => {
 });
 
 describe("compileToPaper — file 입력", () => {
-  it("LoginPage fixture 파일 → 컴파일", () => {
-    const text = readFileSync(join(SPEC_DIR, "login-page.spec.md"), "utf-8");
+  it("LoginScene fixture 파일 → 컴파일", () => {
+    const text = readFileSync(join(SCENES_DIR, "login.chat.md"), "utf-8");
     const r = compileToPaper(text);
     expect(r.errors).toBeUndefined();
     expect(r.ast).toBeDefined();
@@ -45,8 +45,8 @@ describe("compileToPaper — file 입력", () => {
     expect(r.payload).toContain("<button");
   });
 
-  it("DashboardPage fixture", () => {
-    const text = readFileSync(join(SPEC_DIR, "dashboard-page.spec.md"), "utf-8");
+  it("DashboardScene fixture", () => {
+    const text = readFileSync(join(SCENES_DIR, "dashboard.chat.md"), "utf-8");
     const r = compileToPaper(text);
     expect(r.errors).toBeUndefined();
     expect(r.payload).toBeTruthy();

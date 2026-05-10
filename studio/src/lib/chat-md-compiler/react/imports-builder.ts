@@ -4,7 +4,7 @@ import { lookupImportPath } from "../paper/component-registry";
 export interface BuildImportsOptions {
   /**
    * 일치 시 해당 컴포넌트 import 를 생략. 함수명-import 충돌 회피용 (C9).
-   * 예: componentName="LoginPage" + body 의 root 가 <LoginPage /> 인 경우.
+   * 예: componentName="LoginScene" + body 의 root 가 <LoginScene /> 인 경우.
    */
   excludeName?: string;
 }

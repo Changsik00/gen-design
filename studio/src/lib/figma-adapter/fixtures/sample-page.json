@@ -1,6 +1,6 @@
 {
   "id": "100:1",
-  "name": "LoginPage",
+  "name": "LoginScene",
   "type": "FRAME",
   "fills": [],
   "style": { "width": "375", "height": "812" },

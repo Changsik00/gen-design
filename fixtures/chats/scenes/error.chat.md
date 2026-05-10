@@ -1,9 +1,9 @@
-# ErrorPage
+# ErrorScene
 
 404 / 5xx 같은 에러 페이지.
 
-<ErrorPage>
+<ErrorScene>
   <ErrorIcon />
   <ErrorMessage>{{i18n.ko.error.not-found}}</ErrorMessage>
   <HomeButton />
-</ErrorPage>
+</ErrorScene>

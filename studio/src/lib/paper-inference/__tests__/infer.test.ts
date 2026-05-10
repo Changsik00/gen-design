@@ -8,7 +8,7 @@ const CATALOG: CatalogMap = new Map([
   ["Button", [{ name: "variant", values: ["default", "primary", "ghost"] }, { name: "size", values: ["sm", "md", "lg"] }]],
   ["LoginForm", []],
   ["BrandHeader", []],
-  ["LoginPage", []],
+  ["LoginScene", []],
   ["SocialAuthBlock", []],
   ["ErrorMessage", []],
 ]);
@@ -67,9 +67,9 @@ describe("inferChat — public API", () => {
   });
 
   it("end-to-end: synthetic HTML → infer → emit 포함 텍스트 검증", () => {
-    // LoginPage 와 유사한 synthetic tree
+    // LoginScene 와 유사한 synthetic tree
     const loginHtml = `
-      <div class="LoginPage">
+      <div class="LoginScene">
         <div class="BrandHeader"></div>
         <div class="LoginForm"></div>
         <button class="Button"></button>

@@ -13,13 +13,13 @@ describe("compileToReact — JSX single emit (C2)", () => {
   it("<Button /> 컴파일: function body 에는 JSX 없음", () => {
     const result = compileToReact({
       text: "<Button />",
-      componentName: "MyPage",
+      componentName: "MyScene",
     });
     expect(result.ok).toBe(true);
 
     const tsx = result.tsx ?? "";
     const lines = tsx.split("\n");
-    const fnHeader = lines.findIndex((l) => l.includes("export function MyPage"));
+    const fnHeader = lines.findIndex((l) => l.includes("export function MyScene"));
     const returnLine = lines.findIndex((l) => l.trim().startsWith("return ("));
     expect(fnHeader).toBeGreaterThanOrEqual(0);
     expect(returnLine).toBeGreaterThan(fnHeader);
@@ -31,7 +31,7 @@ describe("compileToReact — JSX single emit (C2)", () => {
   it("<Button /> 컴파일: return 안에는 1회만 등장", () => {
     const result = compileToReact({
       text: "<Button />",
-      componentName: "MyPage",
+      componentName: "MyScene",
     });
     expect(result.ok).toBe(true);
     const tsx = result.tsx ?? "";
@@ -45,12 +45,12 @@ describe("compileToReact — JSX single emit (C2)", () => {
       "## Behavior",
       "- state: open: boolean = false",
     ].join("\n");
-    const result = compileToReact({ text: input, componentName: "MyPage" });
+    const result = compileToReact({ text: input, componentName: "MyScene" });
     expect(result.ok).toBe(true);
 
     const tsx = result.tsx ?? "";
     const lines = tsx.split("\n");
-    const fnHeader = lines.findIndex((l) => l.includes("export function MyPage"));
+    const fnHeader = lines.findIndex((l) => l.includes("export function MyScene"));
     const returnLine = lines.findIndex((l) => l.trim().startsWith("return ("));
     const beforeReturn = lines.slice(fnHeader + 1, returnLine).join("\n");
 
@@ -61,26 +61,26 @@ describe("compileToReact — JSX single emit (C2)", () => {
     expect(matches.length).toBe(1);
   });
 
-  it("<LoginPage /> + componentName=LoginPage: self-import 생략 (C9)", () => {
+  it("<LoginScene /> + componentName=LoginScene: self-import 생략 (C9)", () => {
     const result = compileToReact({
-      text: "<LoginPage />",
-      componentName: "LoginPage",
+      text: "<LoginScene />",
+      componentName: "LoginScene",
     });
     expect(result.ok).toBe(true);
     const tsx = result.tsx ?? "";
     expect(tsx).not.toMatch(
-      /import\s*\{\s*LoginPage\s*\}\s*from\s*['"]@\/components\/templates\/LoginPage['"]/,
+      /import\s*\{\s*LoginScene\s*\}\s*from\s*['"]@\/components\/templates\/LoginScene['"]/,
     );
-    expect(tsx).toContain("export function LoginPage()");
+    expect(tsx).toContain("export function LoginScene()");
   });
 
-  it("<LoginPage /> + componentName=Other: 정상 import (excludeName 미적용)", () => {
+  it("<LoginScene /> + componentName=Other: 정상 import (excludeName 미적용)", () => {
     const result = compileToReact({
-      text: "<LoginPage />",
+      text: "<LoginScene />",
       componentName: "Other",
     });
     expect(result.ok).toBe(true);
     const tsx = result.tsx ?? "";
-    expect(tsx).toContain("@/components/templates/LoginPage");
+    expect(tsx).toContain("@/components/templates/LoginScene");
   });
 });

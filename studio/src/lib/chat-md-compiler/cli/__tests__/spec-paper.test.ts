@@ -2,7 +2,7 @@ import { describe, it, expect } from "vitest";
 import { join } from "node:path";
 import { parseArgs, runCompile } from "../spec-paper";
 
-const SPEC_DIR = join(__dirname, "..", "..", "..", "..", "..", "..", "spec");
+const SCENES_DIR = join(__dirname, "..", "..", "..", "..", "..", "..", "fixtures", "chats", "scenes");
 
 describe("CLI parseArgs", () => {
   it("file 만", () => {
@@ -32,8 +32,8 @@ describe("CLI parseArgs", () => {
 });
 
 describe("CLI runCompile", () => {
-  it("LoginPage → 전체 HTML 기본", () => {
-    const r = runCompile({ file: join(SPEC_DIR, "login-page.spec.md") });
+  it("LoginScene → 전체 HTML 기본", () => {
+    const r = runCompile({ file: join(SCENES_DIR, "login.chat.md") });
     expect(r.exitCode).toBe(0);
     expect(r.output).toContain("<!DOCTYPE html>");
     expect(r.output).toContain("cdn.tailwindcss.com");
@@ -42,7 +42,7 @@ describe("CLI runCompile", () => {
 
   it("--payload 시 fragment", () => {
     const r = runCompile({
-      file: join(SPEC_DIR, "login-page.spec.md"),
+      file: join(SCENES_DIR, "login.chat.md"),
       payload: true,
     });
     expect(r.output).not.toContain("<!DOCTYPE html>");
@@ -52,7 +52,7 @@ describe("CLI runCompile", () => {
 
   it("--no-tailwind 시 CDN 제외", () => {
     const r = runCompile({
-      file: join(SPEC_DIR, "login-page.spec.md"),
+      file: join(SCENES_DIR, "login.chat.md"),
       withTailwind: false,
     });
     expect(r.output).not.toContain("cdn.tailwindcss.com");

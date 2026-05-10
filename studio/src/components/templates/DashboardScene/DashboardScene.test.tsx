@@ -1,12 +1,12 @@
 import { describe, it, expect, afterEach } from "vitest";
 import { render, screen, cleanup } from "@testing-library/react";
-import { DashboardPage } from ".";
-import { getDashboardPageTexts } from "@/lib/i18n";
+import { DashboardScene } from ".";
+import { getDashboardSceneTexts } from "@/lib/i18n";
 import type { StatCardData, ActivityRowData } from "../types";
 
 afterEach(cleanup);
 
-const koTexts = getDashboardPageTexts("ko");
+const koTexts = getDashboardSceneTexts("ko");
 
 const mockStats: StatCardData[] = [
   { label: "TOTAL USERS", value: "12,847", change: "12.5% from last month", trend: "up" },
@@ -20,10 +20,10 @@ const mockActivities: ActivityRowData[] = [
   { userName: "Soohan Park", initials: "SH", action: "AI Chat session", status: "In Progress", statusColor: "blue", time: "5 min ago" },
 ];
 
-describe("DashboardPage", () => {
+describe("DashboardScene", () => {
   it("renders title and navigation", () => {
     render(
-      <DashboardPage variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
+      <DashboardScene variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
     );
     expect(screen.getAllByText("대시보드")).toHaveLength(2); // nav + header
     expect(screen.getByText("AI 채팅")).toBeInTheDocument();
@@ -32,7 +32,7 @@ describe("DashboardPage", () => {
 
   it("renders stat cards", () => {
     render(
-      <DashboardPage variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
+      <DashboardScene variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
     );
     expect(screen.getByText("12,847")).toBeInTheDocument();
     expect(screen.getByText("99.98%")).toBeInTheDocument();
@@ -41,7 +41,7 @@ describe("DashboardPage", () => {
 
   it("renders activity table", () => {
     render(
-      <DashboardPage variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
+      <DashboardScene variant="page" appName="TestApp" texts={koTexts} stats={mockStats} activities={mockActivities} />
     );
     expect(screen.getByText("최근 활동")).toBeInTheDocument();
     expect(screen.getByText("Jiwon Kim")).toBeInTheDocument();

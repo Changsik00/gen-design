@@ -8,7 +8,7 @@ shell:
 catalog:
   tier: 3
   family: templates
-  status: existing         # 기존 catalog 의 LoginPage 가 곧 LoginScene 으로 reframe
+  status: existing         # 기존 catalog 의 LoginScene 가 곧 LoginScene 으로 reframe
 paper:
   artboard: null
   layerNameAnchor: "[chat:scenes/login]"

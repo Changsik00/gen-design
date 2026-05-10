@@ -1,6 +1,6 @@
 // Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
 
-exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > DashboardPage payload 스냅샷 1`] = `
+exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > DashboardScene payload 스냅샷 1`] = `
 "<style>:root {
   --background: #F8FAFC;
   --foreground: #0F172A;
@@ -57,7 +57,7 @@ body {
 </div>"
 `;
 
-exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > ErrorPage payload 스냅샷 1`] = `
+exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > ErrorScene payload 스냅샷 1`] = `
 "<style>:root {
   --background: #F8FAFC;
   --foreground: #0F172A;
@@ -114,7 +114,7 @@ body {
 </div>"
 `;
 
-exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > LoginPage payload 스냅샷 1`] = `
+exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > LoginScene payload 스냅샷 1`] = `
 "<style>:root {
   --background: #F8FAFC;
   --foreground: #0F172A;

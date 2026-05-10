@@ -35,12 +35,12 @@ import { SocialAuthBlock } from "@/components/composites/SocialAuthBlock";
 import { StatCard } from "@/components/composites/StatCard";
 
 // Tier 3 — templates (7)
-import { DashboardPage } from "@/components/templates/DashboardPage";
-import { ErrorPage } from "@/components/templates/ErrorPage";
-import { LoginPage } from "@/components/templates/LoginPage";
-import { MyPage } from "@/components/templates/MyPage";
-import { SettingsPage } from "@/components/templates/SettingsPage";
-import { SignupPage } from "@/components/templates/SignupPage";
+import { DashboardScene } from "@/components/templates/DashboardScene";
+import { ErrorScene } from "@/components/templates/ErrorScene";
+import { LoginScene } from "@/components/templates/LoginScene";
+import { MyScene } from "@/components/templates/MyScene";
+import { SettingsScene } from "@/components/templates/SettingsScene";
+import { SignupScene } from "@/components/templates/SignupScene";
 import { VariantWrapper } from "@/components/templates/VariantWrapper";
 
 export const COMPONENT_REGISTRY: Record<string, ComponentType<Record<string, unknown>>> = {
@@ -67,12 +67,12 @@ export const COMPONENT_REGISTRY: Record<string, ComponentType<Record<string, unk
   SocialAuthBlock: SocialAuthBlock as unknown as ComponentType<Record<string, unknown>>,
   StatCard: StatCard as unknown as ComponentType<Record<string, unknown>>,
 
-  DashboardPage: DashboardPage as unknown as ComponentType<Record<string, unknown>>,
-  ErrorPage: ErrorPage as unknown as ComponentType<Record<string, unknown>>,
-  LoginPage: LoginPage as unknown as ComponentType<Record<string, unknown>>,
-  MyPage: MyPage as unknown as ComponentType<Record<string, unknown>>,
-  SettingsPage: SettingsPage as unknown as ComponentType<Record<string, unknown>>,
-  SignupPage: SignupPage as unknown as ComponentType<Record<string, unknown>>,
+  DashboardScene: DashboardScene as unknown as ComponentType<Record<string, unknown>>,
+  ErrorScene: ErrorScene as unknown as ComponentType<Record<string, unknown>>,
+  LoginScene: LoginScene as unknown as ComponentType<Record<string, unknown>>,
+  MyScene: MyScene as unknown as ComponentType<Record<string, unknown>>,
+  SettingsScene: SettingsScene as unknown as ComponentType<Record<string, unknown>>,
+  SignupScene: SignupScene as unknown as ComponentType<Record<string, unknown>>,
   VariantWrapper: VariantWrapper as unknown as ComponentType<Record<string, unknown>>,
 };
 
@@ -109,12 +109,12 @@ export const COMPONENT_IMPORT_PATHS: Record<string, string> = {
   SocialAuthBlock: "@/components/composites/SocialAuthBlock",
   StatCard: "@/components/composites/StatCard",
 
-  DashboardPage: "@/components/templates/DashboardPage",
-  ErrorPage: "@/components/templates/ErrorPage",
-  LoginPage: "@/components/templates/LoginPage",
-  MyPage: "@/components/templates/MyPage",
-  SettingsPage: "@/components/templates/SettingsPage",
-  SignupPage: "@/components/templates/SignupPage",
+  DashboardScene: "@/components/templates/DashboardScene",
+  ErrorScene: "@/components/templates/ErrorScene",
+  LoginScene: "@/components/templates/LoginScene",
+  MyScene: "@/components/templates/MyScene",
+  SettingsScene: "@/components/templates/SettingsScene",
+  SignupScene: "@/components/templates/SignupScene",
   VariantWrapper: "@/components/templates/VariantWrapper",
 };
 

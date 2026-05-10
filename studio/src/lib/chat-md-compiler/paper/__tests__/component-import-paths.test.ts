@@ -12,9 +12,9 @@ describe("COMPONENT_IMPORT_PATHS", () => {
     expect(COMPONENT_IMPORT_PATHS.ActivitySummary).toBe("@/components/composites/ActivitySummary");
   });
 
-  it("Tier 3 templates — LoginPage → @/components/templates/LoginPage", () => {
-    expect(COMPONENT_IMPORT_PATHS.LoginPage).toBe("@/components/templates/LoginPage");
-    expect(COMPONENT_IMPORT_PATHS.DashboardPage).toBe("@/components/templates/DashboardPage");
+  it("Tier 3 templates — LoginScene → @/components/templates/LoginScene", () => {
+    expect(COMPONENT_IMPORT_PATHS.LoginScene).toBe("@/components/templates/LoginScene");
+    expect(COMPONENT_IMPORT_PATHS.DashboardScene).toBe("@/components/templates/DashboardScene");
     expect(COMPONENT_IMPORT_PATHS.VariantWrapper).toBe("@/components/templates/VariantWrapper");
   });
 

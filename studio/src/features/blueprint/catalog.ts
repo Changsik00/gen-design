@@ -14,13 +14,13 @@ export interface CatalogEntry {
 export const PAGE_CATALOG: CatalogEntry[] = [
   {
     id: "auth-login", name: "로그인", category: "auth",
-    variants: ["page", "modal", "bottom-sheet"], templateName: "LoginPage", implemented: true,
+    variants: ["page", "modal", "bottom-sheet"], templateName: "LoginScene", implemented: true,
     requiredSections: ["BrandHeader", "LoginForm", "SocialAuthBlock"],
     optionalSections: ["ForgotPasswordLink", "SignupPrompt", "FooterLinks"],
   },
   {
     id: "auth-signup", name: "회원가입", category: "auth",
-    variants: ["page", "modal", "bottom-sheet"], templateName: "SignupPage", implemented: true,
+    variants: ["page", "modal", "bottom-sheet"], templateName: "SignupScene", implemented: true,
     requiredSections: ["BrandHeader", "SignupForm"],
     optionalSections: ["SocialAuthBlock", "TermsAgreement", "LoginPrompt"],
   },
@@ -38,7 +38,7 @@ export const PAGE_CATALOG: CatalogEntry[] = [
   },
   {
     id: "dash-overview", name: "대시보드 개요", category: "dashboard",
-    variants: ["page"], templateName: "DashboardPage", implemented: true,
+    variants: ["page"], templateName: "DashboardScene", implemented: true,
     requiredSections: ["DashboardHeader", "Sidebar", "StatCardGrid", "ActivityTable"],
     optionalSections: ["ChartArea", "QuickActions"],
   },
@@ -50,13 +50,13 @@ export const PAGE_CATALOG: CatalogEntry[] = [
   },
   {
     id: "profile-mypage", name: "마이페이지", category: "profile",
-    variants: ["page"], templateName: "MyPage", implemented: false,
+    variants: ["page"], templateName: "MyScene", implemented: false,
     requiredSections: ["ProfileHeader", "ProfileInfoCard"],
     optionalSections: ["AvatarUpload", "ActivitySummary"],
   },
   {
     id: "profile-settings", name: "설정", category: "profile",
-    variants: ["page"], templateName: "SettingsPage", implemented: false,
+    variants: ["page"], templateName: "SettingsScene", implemented: false,
     requiredSections: ["SettingsHeader", "SettingsGroup"],
     optionalSections: ["SettingsToggleRow", "SettingsSelectRow"],
   },
@@ -110,7 +110,7 @@ export const PAGE_CATALOG: CatalogEntry[] = [
   },
   {
     id: "common-error", name: "에러", category: "common",
-    variants: ["page"], templateName: "CommonErrorPage", implemented: false,
+    variants: ["page"], templateName: "CommonErrorScene", implemented: false,
     requiredSections: ["ErrorIcon", "ErrorMessage", "HomeButton"],
     optionalSections: [],
   },

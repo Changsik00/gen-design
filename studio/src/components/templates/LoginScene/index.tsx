@@ -6,9 +6,9 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
-import type { LoginPageProps } from "../types";
+import type { LoginSceneProps } from "../types";
 
-function LoginContent({ texts }: { texts: LoginPageProps["texts"] }) {
+function LoginContent({ texts }: { texts: LoginSceneProps["texts"] }) {
   return (
     <div className="w-[380px] space-y-6">
       <LoginForm
@@ -37,7 +37,7 @@ function LoginContent({ texts }: { texts: LoginPageProps["texts"] }) {
   );
 }
 
-export function LoginPage({ variant, texts, className }: LoginPageProps) {
+export function LoginScene({ variant, texts, className }: LoginSceneProps) {
   if (variant === "modal") {
     return (
       <Dialog>

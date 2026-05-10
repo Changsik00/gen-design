@@ -23,22 +23,22 @@ describe("buildImports — directory-aware paths", () => {
     );
   });
 
-  it("LoginPage → @/components/templates/LoginPage (PascalCase templates)", () => {
-    const result = buildImports(ctx(["LoginPage"]), ["LoginPage"]);
+  it("LoginScene → @/components/templates/LoginScene (PascalCase templates)", () => {
+    const result = buildImports(ctx(["LoginScene"]), ["LoginScene"]);
     expect(result).toContain(
-      "import { LoginPage } from '@/components/templates/LoginPage';",
+      "import { LoginScene } from '@/components/templates/LoginScene';",
     );
   });
 
   it("여러 컴포넌트 → 알파벳 정렬, 각자 정확한 경로", () => {
     const result = buildImports(
-      ctx(["Button", "LoginForm", "LoginPage"]),
-      ["LoginPage", "Button", "LoginForm"],
+      ctx(["Button", "LoginForm", "LoginScene"]),
+      ["LoginScene", "Button", "LoginForm"],
     );
     const lines = result.split("\n").filter((l) => l.startsWith("import"));
     expect(lines[0]).toContain("@/components/ui/button");
     expect(lines[1]).toContain("@/components/composites/LoginForm");
-    expect(lines[2]).toContain("@/components/templates/LoginPage");
+    expect(lines[2]).toContain("@/components/templates/LoginScene");
   });
 
   it("미등록 컴포넌트는 fallback (@/components/ui/{lowercase}) — 호환성 유지", () => {
@@ -50,11 +50,11 @@ describe("buildImports — directory-aware paths", () => {
 
   it("excludeName 옵션 — 일치하는 컴포넌트 import 생략", () => {
     const result = buildImports(
-      ctx(["LoginPage", "Button"]),
-      ["LoginPage", "Button"],
-      { excludeName: "LoginPage" },
+      ctx(["LoginScene", "Button"]),
+      ["LoginScene", "Button"],
+      { excludeName: "LoginScene" },
     );
-    expect(result).not.toContain("LoginPage");
+    expect(result).not.toContain("LoginScene");
     expect(result).toContain("Button");
   });
 
@@ -62,7 +62,7 @@ describe("buildImports — directory-aware paths", () => {
     const result = buildImports(
       ctx(["Button", "LoginForm"]),
       ["Button", "LoginForm"],
-      { excludeName: "LoginPage" },
+      { excludeName: "LoginScene" },
     );
     expect(result).toContain("Button");
     expect(result).toContain("LoginForm");

@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "generatedAt": "2026-05-09",
+  "generatedAt": "2026-05-10",
   "tiers": {
     "tier1Aria": {
       "specMeta": {
@@ -674,52 +674,46 @@
       ],
       "templates": [
         {
-          "name": "DashboardPage",
-          "filePath": "src/components/templates/DashboardPage/index.tsx",
+          "name": "DashboardScene",
+          "filePath": "src/components/templates/DashboardScene/index.tsx",
           "axes": [],
           "defaultVariants": {},
-          "pattern": "manual",
-          "ariaRole": "main"
+          "pattern": "manual"
         },
         {
-          "name": "ErrorPage",
-          "filePath": "src/components/templates/ErrorPage/index.tsx",
+          "name": "ErrorScene",
+          "filePath": "src/components/templates/ErrorScene/index.tsx",
           "axes": [],
           "defaultVariants": {},
-          "pattern": "manual",
-          "ariaRole": "main"
+          "pattern": "manual"
         },
         {
-          "name": "LoginPage",
-          "filePath": "src/components/templates/LoginPage/index.tsx",
+          "name": "LoginScene",
+          "filePath": "src/components/templates/LoginScene/index.tsx",
           "axes": [],
           "defaultVariants": {},
-          "pattern": "manual",
-          "ariaRole": "main"
+          "pattern": "manual"
         },
         {
-          "name": "MyPage",
-          "filePath": "src/components/templates/MyPage/index.tsx",
+          "name": "MyScene",
+          "filePath": "src/components/templates/MyScene/index.tsx",
           "axes": [],
           "defaultVariants": {},
-          "pattern": "manual",
-          "ariaRole": "main"
+          "pattern": "manual"
         },
         {
-          "name": "SettingsPage",
-          "filePath": "src/components/templates/SettingsPage/index.tsx",
+          "name": "SettingsScene",
+          "filePath": "src/components/templates/SettingsScene/index.tsx",
           "axes": [],
           "defaultVariants": {},
-          "pattern": "manual",
-          "ariaRole": "main"
+          "pattern": "manual"
         },
         {
-          "name": "SignupPage",
-          "filePath": "src/components/templates/SignupPage/index.tsx",
+          "name": "SignupScene",
+          "filePath": "src/components/templates/SignupScene/index.tsx",
           "axes": [],
           "defaultVariants": {},
-          "pattern": "manual",
-          "ariaRole": "main"
+          "pattern": "manual"
         },
         {
           "name": "VariantWrapper",

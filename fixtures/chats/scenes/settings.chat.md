@@ -1,8 +1,8 @@
-# SettingsPage
+# SettingsScene
 
 설정 페이지 — Group + 각 row type 시연.
 
-<SettingsPage>
+<SettingsScene>
   <SettingsHeader />
 
   <SettingsGroup>
@@ -16,4 +16,4 @@
     <SettingsToggleRow />
     <HomeButton />
   </SettingsGroup>
-</SettingsPage>
+</SettingsScene>

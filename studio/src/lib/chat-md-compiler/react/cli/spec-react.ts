@@ -3,7 +3,7 @@
  *
  * 사용:
  *   pnpm --filter studio spec-react page.spec.md
- *   pnpm --filter studio spec-react page.spec.md --name LoginPage
+ *   pnpm --filter studio spec-react page.spec.md --name LoginScene
  *   pnpm --filter studio spec-react page.spec.md --registry --out /tmp/out/
  */
 
@@ -14,7 +14,7 @@ import { toKebabCase } from "../registry-writer";
 
 export function deriveComponentName(filePath: string): string {
   return basename(filePath)
-    .replace(/\.spec\.md$|\.md$/, "")
+    .replace(/\.chat\.md$|\.spec\.md$|\.md$/, "")
     .split(/[-_]/)
     .map((s) => s.charAt(0).toUpperCase() + s.slice(1))
     .join("");

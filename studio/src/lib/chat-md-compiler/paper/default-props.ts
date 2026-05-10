@@ -12,14 +12,14 @@
  */
 
 import {
-  getDashboardPageTexts,
-  getLoginPageTexts,
-  getSignupPageTexts,
+  getDashboardSceneTexts,
+  getLoginSceneTexts,
+  getSignupSceneTexts,
 } from "../../i18n";
 
-const LOGIN_TEXTS = getLoginPageTexts("ko");
-const SIGNUP_TEXTS = getSignupPageTexts("ko");
-const DASHBOARD_TEXTS = getDashboardPageTexts("ko");
+const LOGIN_TEXTS = getLoginSceneTexts("ko");
+const SIGNUP_TEXTS = getSignupSceneTexts("ko");
+const DASHBOARD_TEXTS = getDashboardSceneTexts("ko");
 
 const NAV_ITEMS = ["Dashboard", "Activity", "Reports", "Settings"];
 
@@ -114,27 +114,27 @@ const SETTINGS_TEXTS = {
  * 등록 안 된 이름은 빈 객체로 처리 (defaults 없음).
  */
 export const DEFAULT_PROPS: Record<string, Record<string, unknown>> = {
-  LoginPage: {
+  LoginScene: {
     variant: "page",
     texts: LOGIN_TEXTS,
   },
-  SignupPage: {
+  SignupScene: {
     variant: "page",
     texts: SIGNUP_TEXTS,
   },
-  DashboardPage: {
+  DashboardScene: {
     variant: "page",
     texts: DASHBOARD_TEXTS,
     appName: "Studio",
     stats: STAT_DATA,
     activities: ACTIVITY_ROWS,
   },
-  ErrorPage: {
+  ErrorScene: {
     variant: "page",
     errorVariant: "404",
     texts: ERROR_TEXTS,
   },
-  MyPage: {
+  MyScene: {
     variant: "page",
     texts: MY_PAGE_TEXTS,
     appName: "Studio",
@@ -142,7 +142,7 @@ export const DEFAULT_PROPS: Record<string, Record<string, unknown>> = {
     summary: SUMMARY_DATA,
     navItems: NAV_ITEMS,
   },
-  SettingsPage: {
+  SettingsScene: {
     variant: "page",
     texts: SETTINGS_TEXTS,
     appName: "Studio",

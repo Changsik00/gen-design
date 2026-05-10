@@ -5,9 +5,9 @@ import { SettingsToggleRow } from "@/components/composites/SettingsToggleRow";
 import { SettingsSelectRow } from "@/components/composites/SettingsSelectRow";
 import { SettingsSliderRow } from "@/components/composites/SettingsSliderRow";
 import { Button } from "@/components/ui/button";
-import type { SettingsPageProps, SettingsNotifications } from "../types";
+import type { SettingsSceneProps, SettingsNotifications } from "../types";
 
-interface SettingsPageFullProps extends SettingsPageProps {
+interface SettingsSceneFullProps extends SettingsSceneProps {
   onNotificationChange?: (key: keyof SettingsNotifications, next: boolean) => void;
   onThemeChange?: (next: string) => void;
   onFontSizeChange?: (next: number) => void;
@@ -18,7 +18,7 @@ interface SettingsPageFullProps extends SettingsPageProps {
   searchPlaceholder?: string;
 }
 
-export function SettingsPage({
+export function SettingsScene({
   texts,
   notifications,
   theme,
@@ -40,7 +40,7 @@ export function SettingsPage({
   onChangePassword,
   onDeleteAccount,
   searchPlaceholder,
-}: SettingsPageFullProps) {
+}: SettingsSceneFullProps) {
   return (
     <div className={`flex h-screen bg-background ${className ?? ""}`}>
       <Sidebar appName={appName} navItems={navItems} activeIndex={3} />

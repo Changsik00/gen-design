@@ -97,7 +97,7 @@ phase-7 후반 또는 phase-8 에서 elevation 토큰 추가 검토.
 
 ### Tier 3 — templates (7)
 
-`DashboardPage` · `ErrorPage` · `LoginPage` · `MyPage` · `SettingsPage` · `SignupPage` · `VariantWrapper`
+`DashboardScene` · `ErrorScene` · `LoginScene` · `MyScene` · `SettingsScene` · `SignupScene` · `VariantWrapper`
 
 ## 8. Do's and Don'ts
 

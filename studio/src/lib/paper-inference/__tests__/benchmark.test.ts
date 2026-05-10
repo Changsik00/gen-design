@@ -22,7 +22,8 @@ import type { PaperTreeNode } from "../tree-types";
 
 const STUDIO_ROOT = join(__dirname, "..", "..", "..", "..");
 const PROJECT_ROOT = join(STUDIO_ROOT, "..");
-const FIXTURE_DIR = join(PROJECT_ROOT, "spec");
+const SCENES_DIR = join(PROJECT_ROOT, "fixtures", "chats", "scenes");
+const COMPONENTS_DIR = join(PROJECT_ROOT, "fixtures", "chats", "components");
 const CATALOG_PATH = join(STUDIO_ROOT, "src", "lib", "vocabulary", "catalog", "catalog.json");
 
 let catalogMap: CatalogMap;
@@ -32,12 +33,14 @@ beforeAll(() => {
   const raw = JSON.parse(readFileSync(CATALOG_PATH, "utf-8")) as VocabularyCatalog;
   catalogMap = buildCatalogMap(raw);
 
-  fixtures = readdirSync(FIXTURE_DIR)
-    .filter((f) => f.endsWith(".spec.md"))
-    .map((f) => ({
-      name: f.replace(".spec.md", ""),
-      text: readFileSync(join(FIXTURE_DIR, f), "utf-8"),
-    }));
+  const collect = (dir: string) =>
+    readdirSync(dir)
+      .filter((f) => f.endsWith(".chat.md"))
+      .map((f) => ({
+        name: f.replace(".chat.md", ""),
+        text: readFileSync(join(dir, f), "utf-8"),
+      }));
+  fixtures = [...collect(SCENES_DIR), ...collect(COMPONENTS_DIR)];
 });
 
 function buildCatalogMap(catalog: VocabularyCatalog): CatalogMap {

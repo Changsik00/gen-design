@@ -3,9 +3,9 @@ import { BrandHeader } from "@/components/composites/BrandHeader";
 import { SignupForm } from "@/components/composites/SignupForm";
 import { SocialAuthBlock } from "@/components/composites/SocialAuthBlock";
 import { VariantWrapper } from "../VariantWrapper";
-import type { SignupPageProps } from "../types";
+import type { SignupSceneProps } from "../types";
 
-function SignupContent({ texts }: { texts: SignupPageProps["texts"] }) {
+function SignupContent({ texts }: { texts: SignupSceneProps["texts"] }) {
   return (
     <div className="w-[380px] space-y-6">
       <SignupForm
@@ -39,7 +39,7 @@ function SignupContent({ texts }: { texts: SignupPageProps["texts"] }) {
   );
 }
 
-export function SignupPage({ variant, texts, className }: SignupPageProps) {
+export function SignupScene({ variant, texts, className }: SignupSceneProps) {
   if (variant === "page") {
     // DESIGN.md §11 auth-signup: layout=split-screen
     return (

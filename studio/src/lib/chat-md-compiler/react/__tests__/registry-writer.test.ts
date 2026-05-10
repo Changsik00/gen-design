@@ -7,7 +7,7 @@ import {
 
 describe("toKebabCase", () => {
   it("converts PascalCase to kebab-case", () => {
-    expect(toKebabCase("LoginPage")).toBe("login-page");
+    expect(toKebabCase("LoginScene")).toBe("login-scene");
     expect(toKebabCase("Button")).toBe("button");
     expect(toKebabCase("DashboardHeader")).toBe("dashboard-header");
   });
@@ -24,7 +24,7 @@ describe("toRegistryEntry", () => {
   });
 
   it("converts PascalCase deps to kebab-case (shadcn requirement)", () => {
-    const entry = toRegistryEntry("LoginPage", "...", ["Sidebar", "Button", "LoginForm"]);
+    const entry = toRegistryEntry("LoginScene", "...", ["Sidebar", "Button", "LoginForm"]);
     expect(entry.registryDependencies).toEqual([
       "button",
       "login-form",
@@ -33,7 +33,7 @@ describe("toRegistryEntry", () => {
   });
 
   it("preserves URL deps as-is (shadcn registry URL form)", () => {
-    const entry = toRegistryEntry("LoginPage", "...", [
+    const entry = toRegistryEntry("LoginScene", "...", [
       "https://ui.shadcn.com/r/styles/default/button.json",
       "Sidebar",
     ]);
@@ -58,11 +58,11 @@ describe("toRegistryEntry", () => {
 describe("validateShadcnRegistryItem", () => {
   it("OK: kebab name + kebab deps", () => {
     const result = validateShadcnRegistryItem({
-      name: "login-page",
+      name: "login-scene",
       type: "registry:block",
       registryDependencies: ["button", "login-form"],
       files: [
-        { path: "registry/login-page/login-page.tsx", content: "...", type: "registry:component" },
+        { path: "registry/login-scene/login-scene.tsx", content: "...", type: "registry:component" },
       ],
     });
     expect(result.ok).toBe(true);
@@ -71,7 +71,7 @@ describe("validateShadcnRegistryItem", () => {
 
   it("FAIL: PascalCase name", () => {
     const result = validateShadcnRegistryItem({
-      name: "LoginPage",
+      name: "LoginScene",
       type: "registry:block",
       registryDependencies: [],
       files: [],
@@ -82,7 +82,7 @@ describe("validateShadcnRegistryItem", () => {
 
   it("FAIL: PascalCase dep", () => {
     const result = validateShadcnRegistryItem({
-      name: "login-page",
+      name: "login-scene",
       type: "registry:block",
       registryDependencies: ["Button"],
       files: [],
@@ -93,7 +93,7 @@ describe("validateShadcnRegistryItem", () => {
 
   it("OK: URL dep allowed", () => {
     const result = validateShadcnRegistryItem({
-      name: "login-page",
+      name: "login-scene",
       type: "registry:block",
       registryDependencies: ["https://ui.shadcn.com/r/styles/default/button.json"],
       files: [],

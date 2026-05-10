@@ -1,8 +1,8 @@
-# SignupPage
+# SignupScene
 
-회원가입 페이지 — LoginPage 와 대칭.
+회원가입 페이지 — LoginScene 와 대칭.
 
-<SignupPage>
+<SignupScene>
   <BrandHeader />
 
   <SignupForm>
@@ -13,4 +13,4 @@
   </SignupForm>
 
   <SocialAuthBlock />
-</SignupPage>
+</SignupScene>

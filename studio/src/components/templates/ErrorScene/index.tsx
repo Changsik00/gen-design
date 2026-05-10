@@ -1,18 +1,18 @@
 import { ErrorIcon } from "@/components/composites/ErrorIcon";
 import { ErrorMessage } from "@/components/composites/ErrorMessage";
 import { HomeButton } from "@/components/composites/HomeButton";
-import type { ErrorPageProps } from "../types";
+import type { ErrorSceneProps } from "../types";
 
-interface ErrorPageFullProps extends ErrorPageProps {
+interface ErrorSceneFullProps extends ErrorSceneProps {
   onHomeClick?: () => void;
 }
 
-export function ErrorPage({
+export function ErrorScene({
   texts,
   errorVariant,
   className,
   onHomeClick,
-}: ErrorPageFullProps) {
+}: ErrorSceneFullProps) {
   const title = errorVariant === "404" ? texts.title404 : texts.title500;
   const message = errorVariant === "404" ? texts.message404 : texts.message500;
 

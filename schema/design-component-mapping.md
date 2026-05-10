@@ -31,7 +31,7 @@ DESIGN.md                          Code
 
 | DESIGN.md 항목 | 코드 대응 | 예시 |
 |---|---|---|
-| Page 이름 | Template 컴포넌트 디렉토리 | `LoginPage` → `templates/LoginPage/` |
+| Page 이름 | Template 컴포넌트 디렉토리 | `LoginScene` → `templates/LoginScene/` |
 | Route | React Router 경로 | `/login` → `<Route path="/login">` |
 | Variant | `variant` prop | `page \| modal \| bottom-sheet` |
 | Layout | VariantWrapper 또는 페이지 레이아웃 | `centered-card`, `split-screen`, `sidebar` |
@@ -39,7 +39,7 @@ DESIGN.md                          Code
 
 ### 변환 절차
 
-1. DESIGN.md `### LoginPage` 섹션을 읽는다
+1. DESIGN.md `### LoginScene` 섹션을 읽는다
 2. variant 값 → `PageTemplateVariant` 타입 확인 (`types.ts`)
 3. Section/Block 테이블의 각 Block → `composites/` 디렉토리에서 매칭
 4. Block이 없으면 → 새 Composite 생성 대상으로 표시
@@ -48,7 +48,7 @@ DESIGN.md                          Code
 
 ```markdown
 ## DESIGN.md 입력:
-### LoginPage
+### LoginScene
 - Variant: page
 - Layout: split-screen
 
@@ -59,7 +59,7 @@ DESIGN.md                          Code
 | FormSection | SocialAuthBlock | 소셜 로그인 |
 
 ## 코드 출력:
-templates/LoginPage/index.tsx
+templates/LoginScene/index.tsx
   ├── BrandHeader (composites/) ← LogoBlock
   ├── LoginForm (composites/)   ← CredentialBlock
   └── SocialAuthBlock (composites/)
@@ -148,7 +148,7 @@ bg-primary, text-foreground, rounded-md ...
 | DESIGN.md 항목 | 코드 대응 | 예시 |
 |---|---|---|
 | Namespace Convention | i18n JSON 키 구조 | `{page}.{section}.{element}.{property}` |
-| Key Map 테이블 | i18n JSON 파일 + texts 타입 | `login.form.email.placeholder` → `LoginPageTexts.emailPlaceholder` |
+| Key Map 테이블 | i18n JSON 파일 + texts 타입 | `login.form.email.placeholder` → `LoginSceneTexts.emailPlaceholder` |
 
 ### 변환 절차
 
@@ -157,9 +157,9 @@ bg-primary, text-foreground, rounded-md ...
 
    | i18n Key | texts 타입 필드 | Template |
    |---|---|---|
-   | `login.form.email.placeholder` | `LoginPageTexts.emailPlaceholder` | LoginPage |
-   | `login.form.submit.label` | `LoginPageTexts.submitButton` | LoginPage |
-   | `dashboard.header.title` | `DashboardPageTexts.title` | DashboardPage |
+   | `login.form.email.placeholder` | `LoginSceneTexts.emailPlaceholder` | LoginScene |
+   | `login.form.submit.label` | `LoginSceneTexts.submitButton` | LoginScene |
+   | `dashboard.header.title` | `DashboardSceneTexts.title` | DashboardScene |
 
 3. i18n JSON 파일(`ko.json`, `en.json`)에 해당 키 존재 확인
 4. 없으면 → i18n JSON에 추가
