@@ -55,7 +55,9 @@ export const CHAT_MD_GRAMMAR = String.raw`
     return s;
   }
 
-  // lines: array of { indent, key, value } where value === undefined ⇒ nested object parent.
+  // lines: array of { indent, key, value, isListItem? }
+  // - value === undefined ⇒ nested object parent
+  // - isListItem === true ⇒ block sequence item (key=null)
   // null entries (comment / blank) already filtered.
   function parseFmTree(lines) {
     const filtered = lines.filter(l => l !== null);
@@ -65,9 +67,21 @@ export const CHAT_MD_GRAMMAR = String.raw`
       while (i < filtered.length) {
         const line = filtered[i];
         if (line.indent <= parentIndent) break;
+        if (line.isListItem) break; // list items handled by parent key
         i++;
         if (line.value === undefined) {
-          out[line.key] = walk(line.indent);
+          // Check if following lines are list items at greater indent
+          if (i < filtered.length && filtered[i].isListItem && filtered[i].indent > line.indent) {
+            const itemIndent = filtered[i].indent;
+            const items = [];
+            while (i < filtered.length && filtered[i].isListItem && filtered[i].indent === itemIndent) {
+              items.push(filtered[i].value);
+              i++;
+            }
+            out[line.key] = items;
+          } else {
+            out[line.key] = walk(line.indent);
+          }
         } else {
           out[line.key] = line.value;
         }
@@ -238,14 +252,19 @@ Frontmatter "frontmatter"
     }
 
 FmLine
-  = indent:FmIndent !"---" key:FmKey ":" FmInlineWs? value:FmValue FmInlineWs? FmEol {
+  = indent:FmIndent !"---" key:FmKey ":" FmInlineWs? value:FmValue FmInlineComment? FmEol {
       return { indent: indent.length, key, value };
     }
-  / indent:FmIndent !"---" key:FmKey ":" FmInlineWs? FmEol {
+  / indent:FmIndent !"---" key:FmKey ":" FmInlineComment? FmEol {
       return { indent: indent.length, key, value: undefined };
+    }
+  / indent:FmIndent "-" FmInlineWs+ value:FmValue FmInlineComment? FmEol {
+      return { indent: indent.length, key: null, value, isListItem: true };
     }
   / FmIndent? "#" (!FmEol .)* FmEol { return null; }
   / FmIndent? FmEol { return null; }
+
+FmInlineComment = FmInlineWs? "#" (!FmEol .)*
 
 FmIndent = chars:" "* { return chars; }
 
@@ -319,6 +338,11 @@ PairedTag
     }
 
 ComponentName
+  = head:ComponentNameHead tail:("." part:ComponentNameHead)* {
+      return tail.length === 0 ? head : head + "." + tail.map(t => t[1]).join(".");
+    }
+
+ComponentNameHead
   = first:[A-Z] rest:[a-zA-Z0-9_]* { return first + rest.join(""); }
 
 _ "whitespace"
@@ -429,7 +453,7 @@ Placeholder
     }
 
 PlaceholderKind
-  = "i18n" / "token"
+  = "i18n" / "token" / "scene"
 
 PathSegments
   = head:Identifier tail:("." Identifier)* {

@@ -27,21 +27,25 @@ export type Block = ComponentInstance | Placeholder | MarkdownText | Comment;
 
 export interface Document {
   type: "Document";
-  /** chat.md frontmatter (`---` 펜스). 없으면 null (legacy spec.md). */
-  frontmatter: ChatFrontmatter | null;
-  /** 단일 H1 (`# Name`). 없으면 null. */
-  title: string | null;
-  /** `## Narrative` 섹션 — 자연어 설계 의도. */
-  narrative: NarrativeSection | null;
-  /** `## Structure` 섹션 — JSX 본문 (4축 어휘). */
-  structure: StructureSection | null;
-  /** `## History` 섹션 — 변경 기록. */
-  history: HistorySection | null;
   /**
-   * @deprecated frontmatter 없는 legacy spec.md 호환용. 신규 코드는 `structure?.body` 사용.
-   * frontmatter 없고 섹션 분리 안 된 입력에서만 채워짐.
+   * 전체 본문 — `parse()` 결과에서는 항상 채워짐. 컴파일러 / 빌더 가 합성한
+   * Document 에서도 본 필드만 채우면 동작 (legacy 호환).
+   * 신규 section-aware 코드는 `structure?.body` 를 우선 사용.
    */
-  body?: Block[];
+  body: Block[];
+  /**
+   * chat.md frontmatter (`---` 펜스). `parse()` 가 항상 설정 (없으면 null).
+   * 합성 Document 에서는 생략 가능 (undefined).
+   */
+  frontmatter?: ChatFrontmatter | null;
+  /** 단일 H1 (`# Name`). `parse()` 가 항상 설정 (없으면 null). 합성에서는 생략 가능. */
+  title?: string | null;
+  /** `## Narrative` 섹션 — 자연어 설계 의도. */
+  narrative?: NarrativeSection | null;
+  /** `## Structure` 섹션 — JSX 본문 (4축 어휘). */
+  structure?: StructureSection | null;
+  /** `## History` 섹션 — 변경 기록. */
+  history?: HistorySection | null;
 }
 
 /**
@@ -106,8 +110,13 @@ export interface ComponentInstance {
 
 export interface Placeholder {
   type: "Placeholder";
-  /** placeholder 종류. */
-  kind: "i18n" | "token";
+  /**
+   * placeholder 종류:
+   * - i18n: 번역 (ko.x, en.x)
+   * - token: 디자인 토큰 (semantic.color.x)
+   * - scene: shell inherit 시 scene 본문 삽입 마커 (`{{scene.content}}`)
+   */
+  kind: "i18n" | "token" | "scene";
   /** dotted path (예: "ko.login-input", "semantic.color.light.primary"). */
   path: string;
   location: SourceLocation;

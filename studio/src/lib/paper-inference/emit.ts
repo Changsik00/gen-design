@@ -8,7 +8,8 @@
 import type { Document, Block, ComponentInstance, Placeholder, MarkdownText, Comment, AttrValue } from "../chat-md/parser/ast-types";
 
 export function emit(doc: Document): string {
-  return doc.body.map((block) => emitBlock(block, 0, false)).join("");
+  const blocks = doc.structure?.body ?? doc.body ?? [];
+  return blocks.map((block) => emitBlock(block, 0, false)).join("");
 }
 
 /** compact=true 시 trailing newline 제거 (inline 자식 용도). */
