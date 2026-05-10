@@ -10,7 +10,7 @@ function ctx(
   return {
     usedI18nKeys: new Set(i18n),
     usedTokenKeys: new Set(tokens),
-    knownComponents: new Set(),
+    knownComponents: new Set(components),
   };
 }
 

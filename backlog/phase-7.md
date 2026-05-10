@@ -90,6 +90,10 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 | `spec-7-04` | paper-to-spec | P? | Merged | `specs/spec-7-04-paper-to-spec/` |
 | `spec-7-05` | react-compiler | P? | Merged | `specs/spec-7-05-react-compiler/` |
 | `spec-7-06` | studio-reorg | P? | Merged | `specs/spec-7-06-studio-reorg/` |
+| `spec-7-07` | figma-adapter | P? | Merged | `specs/spec-7-07-figma-adapter/` |
+| `spec-7-08` | browser-compat | P? | Merged | `specs/spec-7-08-browser-compat/` |
+| `spec-7-09` | react-compiler-quality | P? | Merged | `specs/spec-7-09-react-compiler-quality/` |
+| `spec-7-10` | react-compiler-correctness | P? | Active | `specs/spec-7-10-react-compiler-correctness/` |
 <!-- sdd:specs:end -->
 
 ### spec-7-01 — 어휘 + 표준 + 형식 (Vocabulary & Formats)
