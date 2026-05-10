@@ -1,0 +1,1498 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://design-project.local/schemas/spec-instance.json",
+  "title": "spec.md ComponentInstance",
+  "description": "AUTO-GENERATED — spec-7-02 grammar 의 lint ground. ADR-004 D-3, D-4 강제.",
+  "definitions": {
+    "tokenReference": {
+      "type": "string",
+      "pattern": "^\\{\\{(token|i18n)\\.[A-Za-z0-9._-]+\\}\\}$",
+      "description": "Only token / i18n references allowed in token override values."
+    },
+    "stringNoRawColor": {
+      "type": "string",
+      "not": {
+        "pattern": "^(#[0-9a-fA-F]{3,8}|rgb\\(|rgba\\(|hsl\\(|hsla\\(|oklch\\(|oklab\\(|color\\()"
+      },
+      "description": "Raw color literals (hex, rgb, hsl, oklch, ...) forbidden."
+    },
+    "ComponentInstance": {
+      "oneOf": [
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "Button",
+              "description": "ARIA role: button"
+            },
+            "props": {
+              "type": "object",
+              "properties": {
+                "variant": {
+                  "enum": [
+                    "default",
+                    "outline",
+                    "secondary",
+                    "ghost",
+                    "destructive",
+                    "link"
+                  ],
+                  "description": "cva axis. defaults: default"
+                },
+                "size": {
+                  "enum": [
+                    "default",
+                    "xs",
+                    "sm",
+                    "lg",
+                    "icon",
+                    "icon-xs",
+                    "icon-sm",
+                    "icon-lg"
+                  ],
+                  "description": "cva axis. defaults: default"
+                }
+              },
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "ActivitySummary"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "ActivityTable",
+              "description": "ARIA role: table"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "AvatarUpload"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "BrandHeader",
+              "description": "ARIA role: banner"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "DashboardHeader",
+              "description": "ARIA role: banner"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "ErrorIcon",
+              "description": "ARIA role: img"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "ErrorMessage",
+              "description": "ARIA role: status"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "HomeButton",
+              "description": "ARIA role: button"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "LoginForm",
+              "description": "ARIA role: form"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "ProfileHeader",
+              "description": "ARIA role: banner"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "ProfileInfoCard",
+              "description": "ARIA role: group"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SettingsGroup"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SettingsHeader",
+              "description": "ARIA role: banner"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SettingsSelectRow"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SettingsSliderRow"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SettingsToggleRow"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "Sidebar",
+              "description": "ARIA role: navigation"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SignupForm",
+              "description": "ARIA role: form"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SocialAuthBlock"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "StatCard",
+              "description": "ARIA role: group"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "DashboardPage",
+              "description": "ARIA role: main"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "ErrorPage",
+              "description": "ARIA role: main"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "LoginPage",
+              "description": "ARIA role: main"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "MyPage",
+              "description": "ARIA role: main"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SettingsPage",
+              "description": "ARIA role: main"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "SignupPage",
+              "description": "ARIA role: main"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
+              "const": "VariantWrapper"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "$ref": "#/definitions/ComponentInstance"
+}

@@ -10,13 +10,14 @@ import { Sidebar } from "@/components/composites/Sidebar";
 import { ROUTE_PATHS, navigate, useCurrentRoute, type StudioRoute } from "@/lib/router";
 
 interface NavItem {
-  route: Exclude<StudioRoute, "playground">; // 숨김 route 는 nav 미노출
+  route: Exclude<StudioRoute, "playground" | "blueprint" | "editor" | "preview">; // 숨김/legacy route 는 nav 미노출
   label: string;
 }
 
 const NAV_ITEMS: NavItem[] = [
-  { route: "blueprint", label: "Blueprint" },
-  { route: "editor", label: "Editor" },
+  { route: "spec", label: "Spec Editor" },
+  { route: "new", label: "New Spec" },
+  { route: "design", label: "Design MD" },
   { route: "tokens", label: "Tokens" },
   { route: "export", label: "Export" },
 ];

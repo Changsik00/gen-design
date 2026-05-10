@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+- **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — 11 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -34,6 +34,18 @@
 
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
+
+### phase-7 진행 중 follow-ups (2026-05-10 등재 / 처리 완료)
+
+> ✓ **위 3 항목 spec-7-11 에서 처리 완료** — `docs/handbook.md` (8 섹션) + `docs/decisions/ADR-008-per-spec-design-files.md` (옵션 B = 글로벌 직접 편집) + `docs/decisions/ADR-009-gen-design-cli.md` (단일 CLI / 5 명령 / `lint global` phase-8 첫 실용).
+
+> 📌 **2026-05-10 phase-7 spec ID 재번호** — ADR-006 D-5 의 우선순위 결정에 따라 phase-7.md 의 spec-7-04~7-07 을 실행 순서대로 재번호:
+> - new 7-04 = Paper inference (was 7-06)
+> - new 7-05 = React compiler (was 7-04)
+> - new 7-06 = Studio reframe (was 7-07)
+> - new 7-07 = Figma adapter (was 7-05)
+>
+> 이후 *번호 순서대로 시행*. 다음 spec = `sdd spec new` 호출 시 자동 7-04 부여 = Paper inference.
 
 ### phase-6 이월 follow-ups (2026-05-09 등재)
 

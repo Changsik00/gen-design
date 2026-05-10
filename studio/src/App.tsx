@@ -1,16 +1,20 @@
 /**
  * Studio 앱 진입점.
  *
- * 5 route (4 main + 1 playground hidden):
- *   #/blueprint  — spec-6-05 에서 구현
- *   #/editor     — spec-6-06
- *   #/tokens     — spec-6-07
- *   #/export     — spec-6-08
- *   #/__playground — 컴포넌트 시각 확인 (개발 중)
+ * spec-7-06 라우트 재구성:
+ *   #/spec      — Spec Editor (메인)
+ *   #/new       — 신규 Spec 마법사 (기존 Blueprint 재배치)
+ *   #/design    — Design MD 편집기 (기존 Editor 재명명)
+ *   #/tokens    — Token 뷰어
+ *   #/export    — Export
+ *   #/__playground — 개발 전용 (숨김)
+ *
+ * backward-compat: #/blueprint→#/new, #/editor→#/design, #/preview→#/spec (router.ts redirect)
  */
 
 import { useCurrentRoute } from "@/lib/router";
 import { StudioLayout } from "@/components/layout/StudioLayout";
+import { SpecEditorPage } from "@/features/spec-editor";
 import { BlueprintPage } from "@/features/blueprint";
 import { EditorPage } from "@/features/editor";
 import { TokensPage } from "@/features/tokens";
@@ -26,8 +30,9 @@ function App() {
 
   return (
     <StudioLayout>
-      {route === "blueprint" && <BlueprintPage />}
-      {route === "editor" && <EditorPage />}
+      {route === "spec" && <SpecEditorPage />}
+      {route === "new" && <BlueprintPage />}
+      {route === "design" && <EditorPage />}
       {route === "tokens" && <TokensPage />}
       {route === "export" && <ExportPage />}
     </StudioLayout>

@@ -1,0 +1,172 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > DashboardPage payload 스냅샷 1`] = `
+"<style>:root {
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #6366F1;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #EEF2FF;
+  --accent-foreground: #4338CA;
+  --destructive: #EF4444;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #818CF8;
+  --chart-1: #6366F1;
+  --chart-2: #22C55E;
+  --chart-3: #3B82F6;
+  --chart-4: #94A3B8;
+  --chart-5: #EF4444;
+  --sidebar: #0F172A;
+  --sidebar-foreground: #F1F5F9;
+  --sidebar-primary: #6366F1;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1E293B;
+  --sidebar-accent-foreground: #F1F5F9;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #818CF8;
+  --radius: 0.5rem;
+  --sidebar-width: 240px;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  padding: 32px;
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  line-height: 1.5;
+}
+.paper-e2e-root { display: flex; flex-direction: column; gap: 24px; }
+.paper-e2e-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.paper-e2e-label { font-size: 12px; color: var(--muted-foreground); margin-bottom: 4px; }
+</style>
+<div class="paper-e2e-root">
+<div class="flex h-screen bg-background"><aside class="flex h-full w-sidebar flex-col bg-card border-r"><div class="flex items-center gap-2 px-4 py-5"><div class="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground text-sm font-bold">S</div><span class="font-semibold">Studio</span></div><nav class="flex-1 px-3"><p class="px-2 py-2 text-xs font-medium uppercase tracking-wider text-muted-foreground">Menu</p><ul class="space-y-1"><li><a href="#" class="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm bg-primary text-primary-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-layout-dashboard size-4" aria-hidden="true"><rect width="7" height="9" x="3" y="3" rx="1"></rect><rect width="7" height="5" x="14" y="3" rx="1"></rect><rect width="7" height="9" x="14" y="12" rx="1"></rect><rect width="7" height="5" x="3" y="16" rx="1"></rect></svg>대시보드</a></li><li><a href="#" class="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-message-square size-4" aria-hidden="true"><path d="M22 17a2 2 0 0 1-2 2H6.828a2 2 0 0 0-1.414.586l-2.202 2.202A.71.71 0 0 1 2 21.286V5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2z"></path></svg>AI 채팅</a></li><li><a href="#" class="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-database size-4" aria-hidden="true"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M3 5V19A9 3 0 0 0 21 19V5"></path><path d="M3 12A9 3 0 0 0 21 12"></path></svg>데이터베이스</a></li><li><a href="#" class="flex items-center gap-2 rounded-lg px-2 py-1.5 text-sm text-muted-foreground hover:bg-muted hover:text-foreground"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-settings size-4" aria-hidden="true"><path d="M9.671 4.136a2.34 2.34 0 0 1 4.659 0 2.34 2.34 0 0 0 3.319 1.915 2.34 2.34 0 0 1 2.33 4.033 2.34 2.34 0 0 0 0 3.831 2.34 2.34 0 0 1-2.33 4.033 2.34 2.34 0 0 0-3.319 1.915 2.34 2.34 0 0 1-4.659 0 2.34 2.34 0 0 0-3.32-1.915 2.34 2.34 0 0 1-2.33-4.033 2.34 2.34 0 0 0 0-3.831A2.34 2.34 0 0 1 6.35 6.051a2.34 2.34 0 0 0 3.319-1.915"></path><circle cx="12" cy="12" r="3"></circle></svg>설정</a></li></ul></nav></aside><div class="flex flex-1 flex-col overflow-hidden"><header class="flex items-center justify-between border-b px-6 py-4"><h1 class="text-lg font-semibold">대시보드</h1><div class="flex items-center gap-3"><input id="base-ui-_R_36_" data-slot="input" placeholder="검색..." class="h-8 min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 w-48"/><button class="rounded-lg p-1.5 text-muted-foreground hover:bg-muted"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-bell size-4" aria-hidden="true"><path d="M10.268 21a2 2 0 0 0 3.464 0"></path><path d="M3.262 15.326A1 1 0 0 0 4 17h16a1 1 0 0 0 .74-1.673C19.41 13.956 18 12.499 18 8A6 6 0 0 0 6 8c0 4.499-1.411 5.956-2.738 7.326"></path></svg></button><div class="flex h-8 w-8 items-center justify-center rounded-full bg-primary text-primary-foreground text-xs font-bold">D</div></div></header><main class="flex-1 overflow-auto p-6 space-y-6"><div class="grid grid-cols-4 gap-4"><div data-slot="card" data-size="default" class="group/card flex flex-col gap-4 overflow-hidden rounded-xl bg-card py-4 text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[&gt;img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl"><div data-slot="card-content" class="px-4 group-data-[size=sm]/card:px-3 pt-4"><p class="text-xs font-medium uppercase tracking-wider text-muted-foreground">Active users</p><p class="mt-1 text-2xl font-bold">12,840</p><p class="mt-1 text-xs text-green-600">↑ +5.2%</p></div></div><div data-slot="card" data-size="default" class="group/card flex flex-col gap-4 overflow-hidden rounded-xl bg-card py-4 text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[&gt;img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl"><div data-slot="card-content" class="px-4 group-data-[size=sm]/card:px-3 pt-4"><p class="text-xs font-medium uppercase tracking-wider text-muted-foreground">Tasks done</p><p class="mt-1 text-2xl font-bold">3,210</p><p class="mt-1 text-xs text-green-600">↑ +1.4%</p></div></div><div data-slot="card" data-size="default" class="group/card flex flex-col gap-4 overflow-hidden rounded-xl bg-card py-4 text-sm text-card-foreground ring-1 ring-foreground/10 has-data-[slot=card-footer]:pb-0 has-[&gt;img:first-child]:pt-0 data-[size=sm]:gap-3 data-[size=sm]:py-3 data-[size=sm]:has-data-[slot=card-footer]:pb-0 *:[img:first-child]:rounded-t-xl *:[img:last-child]:rounded-b-xl"><div data-slot="card-content" class="px-4 group-data-[size=sm]/card:px-3 pt-4"><p class="text-xs font-medium uppercase tracking-wider text-muted-foreground">Errors</p><p class="mt-1 text-2xl font-bold">12</p><p class="mt-1 text-xs text-red-500">↓ -22%</p></div></div></div><div class="rounded-xl border bg-card"><div class="flex items-center justify-between px-6 py-4"><h2 class="font-semibold">최근 활동</h2><a href="#" class="text-sm text-muted-foreground hover:underline">모두 보기 →</a></div><table class="w-full"><thead><tr class="border-t text-left text-xs font-medium uppercase tracking-wider text-muted-foreground"><th class="px-6 py-3">사용자</th><th class="px-6 py-3">작업</th><th class="px-6 py-3">상태</th><th class="px-6 py-3">시간</th></tr></thead><tbody><tr class="border-t"><td class="px-6 py-3"><div class="flex items-center gap-2"><div class="flex h-7 w-7 items-center justify-center rounded-full bg-muted text-xs font-medium">AP</div><span class="text-sm">Alex Park</span></div></td><td class="px-6 py-3 text-sm text-muted-foreground">Updated profile</td><td class="px-6 py-3"><span class="text-sm font-medium text-green-600">Completed</span></td><td class="px-6 py-3 text-sm text-muted-foreground">2m ago</td></tr><tr class="border-t"><td class="px-6 py-3"><div class="flex items-center gap-2"><div class="flex h-7 w-7 items-center justify-center rounded-full bg-muted text-xs font-medium">BL</div><span class="text-sm">Bo Lee</span></div></td><td class="px-6 py-3 text-sm text-muted-foreground">Created report</td><td class="px-6 py-3"><span class="text-sm font-medium text-blue-600">In progress</span></td><td class="px-6 py-3 text-sm text-muted-foreground">10m ago</td></tr></tbody></table></div></main></div></div>
+</div>"
+`;
+
+exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > ErrorPage payload 스냅샷 1`] = `
+"<style>:root {
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #6366F1;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #EEF2FF;
+  --accent-foreground: #4338CA;
+  --destructive: #EF4444;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #818CF8;
+  --chart-1: #6366F1;
+  --chart-2: #22C55E;
+  --chart-3: #3B82F6;
+  --chart-4: #94A3B8;
+  --chart-5: #EF4444;
+  --sidebar: #0F172A;
+  --sidebar-foreground: #F1F5F9;
+  --sidebar-primary: #6366F1;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1E293B;
+  --sidebar-accent-foreground: #F1F5F9;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #818CF8;
+  --radius: 0.5rem;
+  --sidebar-width: 240px;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  padding: 32px;
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  line-height: 1.5;
+}
+.paper-e2e-root { display: flex; flex-direction: column; gap: 24px; }
+.paper-e2e-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.paper-e2e-label { font-size: 12px; color: var(--muted-foreground); margin-bottom: 4px; }
+</style>
+<div class="paper-e2e-root">
+<div class="flex min-h-screen items-center justify-center bg-background px-6 "><div class="flex w-full max-w-md flex-col items-center gap-6"><div class="flex h-20 w-20 items-center justify-center rounded-2xl bg-primary/10 text-primary"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-file-search size-10" aria-hidden="true"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z"></path><path d="M14 2v5a1 1 0 0 0 1 1h5"></path><circle cx="11.5" cy="14.5" r="2.5"></circle><path d="M13.3 16.3 15 18"></path></svg></div><div class="space-y-2 text-center"><h1 class="text-2xl font-semibold tracking-[-0.015em]">페이지를 찾을 수 없습니다</h1><p class="text-sm text-muted-foreground">URL 을 확인해 주세요</p></div><button type="button" tabindex="0" data-slot="button" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 [a]:hover:bg-primary/80 h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 bg-primary text-primary-foreground">홈으로</button></div></div>
+</div>"
+`;
+
+exports[`compile-fixtures — DOM 등가 스냅샷 (회고 C1 회귀 추적) > LoginPage payload 스냅샷 1`] = `
+"<style>:root {
+  --background: #F8FAFC;
+  --foreground: #0F172A;
+  --card: #FFFFFF;
+  --card-foreground: #0F172A;
+  --popover: #FFFFFF;
+  --popover-foreground: #0F172A;
+  --primary: #6366F1;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F1F5F9;
+  --secondary-foreground: #0F172A;
+  --muted: #F1F5F9;
+  --muted-foreground: #64748B;
+  --accent: #EEF2FF;
+  --accent-foreground: #4338CA;
+  --destructive: #EF4444;
+  --border: #E2E8F0;
+  --input: #E2E8F0;
+  --ring: #818CF8;
+  --chart-1: #6366F1;
+  --chart-2: #22C55E;
+  --chart-3: #3B82F6;
+  --chart-4: #94A3B8;
+  --chart-5: #EF4444;
+  --sidebar: #0F172A;
+  --sidebar-foreground: #F1F5F9;
+  --sidebar-primary: #6366F1;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #1E293B;
+  --sidebar-accent-foreground: #F1F5F9;
+  --sidebar-border: #1E293B;
+  --sidebar-ring: #818CF8;
+  --radius: 0.5rem;
+  --sidebar-width: 240px;
+  --font-sans: 'Inter', system-ui, sans-serif;
+  --font-heading: 'Inter', system-ui, sans-serif;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body {
+  padding: 32px;
+  font-family: var(--font-sans);
+  background: var(--background);
+  color: var(--foreground);
+  line-height: 1.5;
+}
+.paper-e2e-root { display: flex; flex-direction: column; gap: 24px; }
+.paper-e2e-row { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-start; }
+.paper-e2e-label { font-size: 12px; color: var(--muted-foreground); margin-bottom: 4px; }
+</style>
+<div class="paper-e2e-root">
+<div class="flex min-h-screen "><div class="hidden w-1/2 flex-col items-center justify-center gap-6 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 px-16 lg:flex"><div class="flex h-12 w-12 items-center justify-center rounded-xl bg-primary text-lg font-bold text-primary-foreground">A</div><p class="text-xs font-medium uppercase tracking-[3px] text-slate-400">Admin Console</p><h1 class="text-4xl font-bold text-white">로그인</h1><p class="max-w-xs text-center text-sm text-slate-400">계정에 로그인하세요</p></div><div class="flex flex-1 items-center justify-center bg-background px-8"><div class="w-[380px] space-y-6"><form class="space-y-6"><div class="space-y-1.5"><label data-slot="label" class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">이메일</label><input id="base-ui-_R_96_" type="email" data-slot="input" placeholder="이메일을 입력하세요" class="w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 h-11"/></div><div class="space-y-1.5"><label data-slot="label" class="flex items-center gap-2 text-sm leading-none font-medium select-none group-data-[disabled=true]:pointer-events-none group-data-[disabled=true]:opacity-50 peer-disabled:cursor-not-allowed peer-disabled:opacity-50">비밀번호</label><input id="base-ui-_R_a6_" type="password" data-slot="input" placeholder="비밀번호를 입력하세요" class="w-full min-w-0 rounded-lg border border-input bg-transparent px-2.5 py-1 text-base transition-colors outline-none file:inline-flex file:h-6 file:border-0 file:bg-transparent file:text-sm file:font-medium file:text-foreground placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:pointer-events-none disabled:cursor-not-allowed disabled:bg-input/50 disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:disabled:bg-input/80 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 h-11"/></div><button type="submit" tabindex="0" data-slot="button" class="group/button inline-flex shrink-0 items-center justify-center rounded-lg border border-transparent bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 bg-primary text-primary-foreground [a]:hover:bg-primary/80 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 w-full h-11">로그인</button></form><div class="relative flex items-center"><div class="flex-1 border-t border-border"></div><span class="px-3 text-xs text-muted-foreground">or continue with</span><div class="flex-1 border-t border-border"></div></div><div class="flex flex-wrap gap-2"><button type="button" tabindex="0" data-slot="button" class="group/button inline-flex items-center justify-center rounded-lg border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 flex-1">Google로 계속하기</button><button type="button" tabindex="0" data-slot="button" class="group/button inline-flex items-center justify-center rounded-lg border bg-clip-padding text-sm font-medium whitespace-nowrap transition-all outline-none select-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 active:not-aria-[haspopup]:translate-y-px disabled:pointer-events-none disabled:opacity-50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40 [&amp;_svg]:pointer-events-none [&amp;_svg]:shrink-0 [&amp;_svg:not([class*=&#x27;size-&#x27;])]:size-4 border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50 h-8 gap-1.5 px-2.5 has-data-[icon=inline-end]:pr-2 has-data-[icon=inline-start]:pl-2 flex-1">GitHub로 계속하기</button></div><p class="text-center text-sm"><span class="text-muted-foreground">계정이 없으신가요? </span><a href="#" class="font-medium text-primary hover:underline">회원가입</a></p></div></div></div>
+</div>"
+`;
