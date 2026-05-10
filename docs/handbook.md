@@ -619,7 +619,7 @@ EmptyState [chat:components/empty-state] ← component
 | `gen-design diff` | 글로벌 SSOT vs studio 코드 비교 | ⭐ 2 | phase-8 후보 |
 | `gen-design paper` | chat.md → Paper tree (`compileToPaper` CLI 화) | ⭐ 3 | phase-8 |
 | `gen-design react` | catalog + 컴포넌트 → shadcn registry | ⭐ 4 | phase-9 (외부 shadcn 설치 검증) |
-| `gen-design merge` | chat.md 슬라이스 → 글로벌 SSOT 누적 (shell 승격 휴리스틱 포함) | (보류) | ADR-010 결정 (spec-08-05) 후 — 옵션 B 유지 시 보류, 옵션 A 시 도입 |
+| `gen-design merge` | *조력자* — chat → 글로벌 SSOT + shell 승격 후보 제시 + 변경 preview + 디자이너 confirm | ⭐ 5 | phase-8 후보 (`spec-08-08`) — ADR-010 결정 (Hybrid) 따라 도입 확정 |
 
 ### 기존 부분 CLI (phase-7 시점)
 
