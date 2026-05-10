@@ -89,7 +89,7 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 | `spec-7-03` | spec-to-paper | P? | Merged | `specs/spec-7-03-spec-to-paper/` |
 | `spec-7-04` | paper-to-spec | P? | Merged | `specs/spec-7-04-paper-to-spec/` |
 | `spec-7-05` | react-compiler | P? | Merged | `specs/spec-7-05-react-compiler/` |
-| `spec-7-06` | studio-reorg | P? | Active | `specs/spec-7-06-studio-reorg/` |
+| `spec-7-06` | studio-reorg | P? | Merged | `specs/spec-7-06-studio-reorg/` |
 <!-- sdd:specs:end -->
 
 ### spec-7-01 — 어휘 + 표준 + 형식 (Vocabulary & Formats)
