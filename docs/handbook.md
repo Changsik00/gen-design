@@ -156,7 +156,7 @@ LoginScene [chat:scenes/login]
 - *harness-kit* spec dir (`specs/spec-X-Y-{slug}/`) 안에는 **spec.md / plan.md / task.md / walkthrough.md / pr_description.md** 만 (작업 흔적).
 - *디자인 도구* 의 design 슬라이스 파일 (per-spec DESIGN.md / FRONT.md / TOKEN.md / assets/) 은 *생성하지 않음*. 글로벌 직접 편집.
 - *변경 슬라이스의 시각적 표현* = PR diff 자체.
-- **Reconsider trigger** (ADR-008 D-4): 분기당 3+ 글로벌 머지 충돌 / alpha 3+ 명 피드백 / spec 의 design 변경 단위 다양화 — 하나라도 발생 시 ADR-010 으로 재논의 (spec-08-05 에서 처리).
+- **Reconsider trigger** (ADR-008 D-4): 분기당 3+ 글로벌 머지 충돌 / alpha 3+ 명 피드백 / spec 의 design 변경 단위 다양화 — *Hybrid* (ADR-010) 가 일부 trigger 해소. 잔여는 ADR-010 의 자체 trigger 로 재논의.
 
 ### 가변성 등급 — 3 정도
 
@@ -167,6 +167,20 @@ LoginScene [chat:scenes/login]
 | **💨 가변** (도그푸딩) | `playground/chats/` | *매우 자주* (실험 / 폐기) | git tracked 이지만 commit 정책 느슨 |
 
 → 3 등급의 분리가 *디자이너의 자유* 와 *시스템의 안정* 을 동시에 보장.
+
+### chat 승격 / shell 승격 정책 (ADR-010)
+
+ADR-010 (*Hybrid*) 가 chat 흐름의 *자동 제안* 과 ADR-008 의 *글로벌 직접 편집* 정신을 결합:
+
+- **제안 자동** — agent (도서관 사서, P6) 가 매 chat 갱신 시 컨텍스트 (chats/ + catalog + templates/) 읽고 *재사용 / 승격 / 정리* 후보 능동 제시
+- **실행 수동** — 디자이너 *합의* 후 git mv / 글로벌 SSOT 갱신 / commit
+- **`gen-design merge` 명령 = 조력자** (`spec-08-08` 도입 예정):
+  1. 휴리스틱 후보 제시 (예: *"BrandHeader 가 3 scene 에 공통 — shell 승격 후보"*)
+  2. 변경 *preview* (어떤 파일 어디로, frontmatter 갱신)
+  3. 디자이너 *confirm* 후 실행
+  4. 각 파일 atomic commit
+
+→ ADR-010 의 5 D-항목 자세히 보려면 [`docs/decisions/ADR-010-chat-promotion-policy.md`](decisions/ADR-010-chat-promotion-policy.md).
 
 ---
 
