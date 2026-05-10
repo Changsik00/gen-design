@@ -94,6 +94,7 @@ vision (2026-05-10, `docs/vision.md`) 에서 사용자가 user story 명료화:
 | `spec-7-08` | browser-compat | P? | Merged | `specs/spec-7-08-browser-compat/` |
 | `spec-7-09` | react-compiler-quality | P? | Merged | `specs/spec-7-09-react-compiler-quality/` |
 | `spec-7-10` | react-compiler-correctness | P? | Merged | `specs/spec-7-10-react-compiler-correctness/` |
+| `spec-7-11` | docs-handbook | P? | Merged | `specs/spec-7-11-docs-handbook/` |
 <!-- sdd:specs:end -->
 
 ### spec-7-01 — 어휘 + 표준 + 형식 (Vocabulary & Formats)
