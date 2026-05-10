@@ -1,0 +1,40 @@
+{
+  "id": "100:1",
+  "name": "LoginPage",
+  "type": "FRAME",
+  "fills": [],
+  "style": { "width": "375", "height": "812" },
+  "children": [
+    {
+      "id": "100:2",
+      "name": "Button/Primary",
+      "type": "INSTANCE",
+      "fills": [{ "type": "SOLID", "color": { "r": 0.2, "g": 0.4, "b": 1.0, "a": 1 } }],
+      "style": { "width": "200", "height": "48" },
+      "children": []
+    },
+    {
+      "id": "100:3",
+      "name": "Input/Default",
+      "type": "FRAME",
+      "fills": [],
+      "style": { "width": "300", "height": "40" },
+      "children": [
+        {
+          "id": "100:4",
+          "name": "Placeholder",
+          "type": "TEXT",
+          "fills": [],
+          "style": { "fontSize": "14", "color": "#888888" }
+        }
+      ]
+    },
+    {
+      "id": "100:5",
+      "name": "제목",
+      "type": "TEXT",
+      "fills": [],
+      "style": { "fontSize": "24", "fontWeight": "700" }
+    }
+  ]
+}
