@@ -13,11 +13,19 @@
 
 import { parser } from "../grammar";
 import type { Document, ParseError, ParseResult } from "./ast-types";
+import { validateChatSchema } from "./schema";
 
-export function parse(text: string): ParseResult {
+export interface ParseOptions {
+  /** schema 검증 단계 skip — frontmatter 검증 없이 grammar parse 만 수행. */
+  skipSchema?: boolean;
+}
+
+export function parse(text: string, opts?: ParseOptions): ParseResult {
   try {
     const ast = parser.parse(text) as Document;
-    return { ok: true, ast, errors: [] };
+    if (opts?.skipSchema) return { ok: true, ast, errors: [] };
+    const schemaErrors = validateChatSchema(ast);
+    return { ok: schemaErrors.length === 0, ast, errors: schemaErrors };
   } catch (e) {
     return { ok: false, errors: [toParseError(e)] };
   }

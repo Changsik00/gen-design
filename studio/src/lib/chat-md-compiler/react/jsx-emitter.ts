@@ -27,7 +27,8 @@ export function emitJSX(node: Block, indent: number, ctx: EmitContext): string {
 }
 
 export function emitDocument(doc: Document, ctx: EmitContext): string {
-  return doc.body.map((node) => emitJSX(node, 0, ctx)).join("\n");
+  const blocks = doc.structure?.body ?? doc.body ?? [];
+  return blocks.map((node) => emitJSX(node, 0, ctx)).join("\n");
 }
 
 function emitComponent(

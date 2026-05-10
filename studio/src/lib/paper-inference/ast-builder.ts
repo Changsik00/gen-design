@@ -45,7 +45,15 @@ export function buildAst(root: PaperTreeNode, catalog: CatalogMap): AstBuilderRe
   const body = root.children?.map((child) => buildBlock(child, catalogNames, catalog, nodeMetaMap)) ?? [];
 
   return {
-    doc: { type: "Document", body },
+    doc: {
+      type: "Document",
+      frontmatter: null,
+      title: null,
+      narrative: null,
+      structure: null,
+      history: null,
+      body,
+    },
     nodeMetaMap,
   };
 }

@@ -36,11 +36,12 @@ export interface BuildOptions {
   bundle: unknown;
 }
 
-/** 최상위 진입 — Document.body 의 ComponentInstance 들만 출력 (markdown heading 등 prose 스킵). */
+/** 최상위 진입 — Structure 섹션 (있으면) 또는 Document.body 의 ComponentInstance 들만 출력. */
 export function buildReactTree(doc: Document, options: BuildOptions): ReactNode[] {
   const nodes: ReactNode[] = [];
   let key = 0;
-  for (const b of doc.body) {
+  const blocks = doc.structure?.body ?? doc.body ?? [];
+  for (const b of blocks) {
     if (b.type === "ComponentInstance") {
       nodes.push(buildBlock(b, options, `top-${key++}`));
     }
