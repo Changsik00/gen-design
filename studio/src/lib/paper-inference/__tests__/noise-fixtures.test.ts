@@ -12,7 +12,7 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { join } from "node:path";
 import { readFileSync } from "node:fs";
-import { inferSpec } from "../infer";
+import { inferChat } from "../infer";
 import type { CatalogMap } from "../ast-builder";
 import type { PaperTreeNode } from "../tree-types";
 
@@ -43,7 +43,7 @@ function frame(name: string, children: PaperTreeNode[]): PaperTreeNode {
 describe("noise-injected 픽스처 — 미매칭 또는 낮은 신뢰도", () => {
   it("약어 'Btn.primary' → fuzzy match 또는 unknown (distance > 0)", () => {
     const tree = frame("Page", [singleNode("Btn.primary")]);
-    const result = inferSpec(tree, catalogMap);
+    const result = inferChat(tree, catalogMap);
     const node = result.report.confident.find((m) => m.exact);
     // "Btn" 은 "Button" 과 distance=2 — fuzzy match 가능하나 exact 아님
     expect(node?.exact).toBeFalsy();
@@ -51,7 +51,7 @@ describe("noise-injected 픽스처 — 미매칭 또는 낮은 신뢰도", () =>
 
   it("소문자 'button.primary' → unmatched (case-sensitive)", () => {
     const tree = frame("Page", [singleNode("button.primary")]);
-    const result = inferSpec(tree, catalogMap);
+    const result = inferChat(tree, catalogMap);
     // "button" 은 catalog 의 "Button" 과 exact match 없음
     // confident 에 exact match 가 있으면 안 됨
     const exactMatches = result.report.confident.filter((m) => m.exact);
@@ -60,7 +60,7 @@ describe("noise-injected 픽스처 — 미매칭 또는 낮은 신뢰도", () =>
 
   it("오타 'Inputt.default' → unmatched", () => {
     const tree = frame("Page", [singleNode("Inputt.default")]);
-    const result = inferSpec(tree, catalogMap);
+    const result = inferChat(tree, catalogMap);
     const totalMatched = result.report.confident.length + result.report.confirm.length;
     // "Inputt" 는 "Input" 과 distance=1 — fuzzy 가능하나 exact 아님
     const exactMatches = result.report.confident.filter((m) => m.exact);
@@ -71,14 +71,14 @@ describe("noise-injected 픽스처 — 미매칭 또는 낮은 신뢰도", () =>
 
   it("한글 레이어명 '로그인버튼' → unmatched", () => {
     const tree = frame("Page", [singleNode("로그인버튼")]);
-    const result = inferSpec(tree, catalogMap);
+    const result = inferChat(tree, catalogMap);
     expect(result.report.confident.length).toBe(0);
     expect(result.report.unknown.length).toBeGreaterThan(0);
   });
 
   it("언더스코어 'Button_primary' → dot syntax 밖, unmatched", () => {
     const tree = frame("Page", [singleNode("Button_primary")]);
-    const result = inferSpec(tree, catalogMap);
+    const result = inferChat(tree, catalogMap);
     // variant-extractor 는 dot syntax 만 — "Button_primary" 전체가 component name 으로 처리
     // "Button_primary" ≠ "Button" → exact match 없음
     const exactMatches = result.report.confident.filter((m) => m.exact);
@@ -89,7 +89,7 @@ describe("noise-injected 픽스처 — 미매칭 또는 낮은 신뢰도", () =>
 describe("noise-injected 픽스처 — 정확한 입력은 매칭", () => {
   it("'Button.primary' → exact match (대조군)", () => {
     const tree = frame("Page", [singleNode("Button.primary")]);
-    const result = inferSpec(tree, catalogMap);
+    const result = inferChat(tree, catalogMap);
     const exactMatches = result.report.confident.filter((m) => m.exact);
     expect(exactMatches.length).toBe(1);
   });

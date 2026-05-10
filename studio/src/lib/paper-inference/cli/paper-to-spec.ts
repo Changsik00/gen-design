@@ -20,7 +20,7 @@ import { resolve, join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import type { PaperTreeNode } from "../tree-types";
 import type { CatalogMap } from "../ast-builder";
-import { inferSpec } from "../infer";
+import { inferChat } from "../infer";
 
 export interface CliArgs {
   file: string;
@@ -68,7 +68,7 @@ export function runInfer(args: CliArgs, catalogMap: CatalogMap): CliResult {
     return { text: "", report: "", exitCode: 1 };
   }
 
-  const { text, report } = inferSpec(tree, catalogMap, {
+  const { text, report } = inferChat(tree, catalogMap, {
     confidentThreshold: args.threshold ?? 0.8,
   });
 

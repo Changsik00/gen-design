@@ -1,5 +1,5 @@
 /**
- * inferSpec — paper-inference 공용 API.
+ * inferChat — paper-inference 공용 API.
  *
  * 입력: Paper tree JSON + catalog map + options
  * 출력: { ast: Document, report: InferReport, text: string }
@@ -21,7 +21,7 @@ export interface InferResult {
   text: string;
 }
 
-export function inferSpec(
+export function inferChat(
   tree: PaperTreeNode,
   catalog: CatalogMap,
   options: InferOptions = {},

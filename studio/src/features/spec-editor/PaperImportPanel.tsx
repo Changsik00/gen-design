@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { inferSpec } from "@/lib/paper-inference/infer";
+import { inferChat } from "@/lib/paper-inference/infer";
 import type { CatalogMap } from "@/lib/paper-inference/ast-builder";
 import type { CatalogAxisDef } from "@/lib/paper-inference/variant-extractor";
 import catalogJson from "@/lib/vocabulary/catalog/catalog.json";
@@ -44,7 +44,7 @@ export function PaperImportPanel({ onResult }: Props) {
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = inferSpec(tree as any, CATALOG);
+      const result = inferChat(tree as any, CATALOG);
       setReport(
         `confident ${result.report.confident.length} / confirm ${result.report.confirm.length} / unknown ${result.report.unknown.length}`
       );

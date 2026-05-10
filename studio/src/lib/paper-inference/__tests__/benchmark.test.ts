@@ -4,7 +4,7 @@
  * 전략:
  * 1. 각 fixture spec.md 파싱 → 지상 진실 AST
  * 2. AST → 합성 Paper tree (컴포넌트 이름 + variant props → dot-syntax 레이어명)
- * 3. inferSpec 실행 → 추론 AST
+ * 3. inferChat 실행 → 추론 AST
  * 4. 지상 진실 vs 추론 비교 → accuracy 3종 측정
  *
  * Go/No-Go: 종합 score ≥ 0.60 PASS / < 0.60 FAIL
@@ -14,7 +14,7 @@ import { describe, it, expect, beforeAll } from "vitest";
 import { readFileSync, readdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "../../chat-md/parser/index";
-import { inferSpec } from "../infer";
+import { inferChat } from "../infer";
 import type { CatalogMap } from "../ast-builder";
 import type { VocabularyCatalog } from "../../vocabulary/catalog";
 import type { Document, ComponentInstance, Block } from "../../chat-md/parser/ast-types";
@@ -175,7 +175,7 @@ describe("28-fixture round-trip benchmark", () => {
       }
 
       const synTree = astToSyntheticTree(parsed.ast);
-      const { ast: inferred } = inferSpec(synTree, catalogMap);
+      const { ast: inferred } = inferChat(synTree, catalogMap);
       const metrics = measureAccuracy(parsed.ast, inferred);
 
       results.push({
