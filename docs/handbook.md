@@ -1,37 +1,39 @@
 # gen-design Handbook
 
 > **살아있는 핸드북** — 본 프로젝트의 *지금 이 순간* 의 진실. 매 phase 종료 시 갱신.
-> **버전**: phase-7 ship 시점 (2026-05-10).
+> **버전**: phase-8 spec-08-01 rename 후 (2026-05-10).
 > **읽는 순서**: §1 → §2 → §3 → §4 (5분 안에 *왜* + *무엇* 파악) → §5-§7 (구체 룰 + 도구) → §8 (history).
-> **이 문서만 읽고도** 신규 디자이너가 첫 spec.md 작성까지 도달 가능해야 함 — 그게 self-contained 의 의미.
+> **이 문서만 읽고도** 신규 디자이너가 첫 chat.md 작성까지 도달 가능해야 함 — 그게 self-contained 의 의미.
+>
+> **어휘 변경 (spec-08-01)**: 디자이너가 작성하는 산출물 = *chat.md* (이전 *chat.md*). 디렉토리 = `chats/` / `fixtures/chats/` / `playground/chats/`. 화면 단위 컴포넌트 = `*Scene` (이전 `*Page`). harness-kit 의 *spec* (작업 흔적) 과 구분.
 
 ---
 
 ## §1 한 줄 요약 + 시각
 
-> **gen-design** = 디자이너가 spec markdown 으로 의도를 적으면, Paper 에서 시각화되고 React (shadcn + Tailwind) 코드로 *결정적으로* 컴파일되는, designer-publisher 페어 도구.
+> **gen-design** = 디자이너가 chat markdown 으로 의도를 적으면, Paper 에서 시각화되고 React (shadcn + Tailwind) 코드로 *결정적으로* 컴파일되는, designer-publisher 페어 도구.
 
 핵심 흐름:
 
 ```mermaid
 flowchart LR
   D[디자이너] -->|Paper 에서 그림 그림| P[Paper canvas]
-  P -->|paper-inference| S1[spec.md 초안]
-  D -->|텍스트로 의도 보강 + 글로벌 직접 편집| S2[spec.md 확정<br/>+ DESIGN/TOKEN/FRONT 슬라이스]
+  P -->|paper-inference| S1[chat.md 초안]
+  D -->|텍스트로 의도 보강 + 글로벌 직접 편집| S2[chat.md 확정<br/>+ DESIGN/TOKEN/FRONT 슬라이스]
   S1 --> S2
-  S2 -->|spec → Paper compiler| P2[Paper preview<br/>시각 fidelity]
-  S2 -->|spec → React compiler| R[React TSX<br/>shadcn registry]
-  S2 --> G[글로벌 SSOT<br/>DESIGN/TOKEN/FRONT/spec/]
+  S2 -->|chat → Paper compiler| P2[Paper preview<br/>시각 fidelity]
+  S2 -->|chat → React compiler| R[React TSX<br/>shadcn registry]
+  S2 --> G[글로벌 SSOT<br/>DESIGN/TOKEN/FRONT/chats/]
   G -.->|gen-design lint<br/>phase-8| L((정합 검증))
   R -->|tsc + build| C[(소비자 codebase)]
 ```
 
-> **흐름의 핵심**: 디자이너의 *spec.md 편집* + *글로벌 SSOT 직접 편집* 이 같은 PR 안에 공존. ADR-008 옵션 B 의 현현. *spec dir 안에 design 슬라이스 자동 생성 0*.
+> **흐름의 핵심**: 디자이너의 *chat.md 편집* + *글로벌 SSOT 직접 편집* 이 같은 PR 안에 공존. ADR-008 옵션 B 의 현현. *chats/ 디렉토리 안 design 슬라이스 자동 생성 0*.
 
 **4 축 어휘 정합** — 본 프로젝트의 *real & defensible* 차별화 portion:
 
 ```
-[디자이너 작성]   spec.md 의 <Component variant="x">
+[디자이너 작성]   chat.md 의 <Component variant="x">
         ≡
 [Paper 시각]      Paper 노드 이름 + 컴포넌트 인스턴스
         ≡
@@ -53,9 +55,10 @@ flowchart LR
 | **DESIGN.md** | `templates/DESIGN.md` | 페이지 / 화면 구조 + 인터랙션 명세. Stitch 0.1 superset. *narrative + 결정 근거*. |
 | **TOKEN.md** | `templates/TOKEN.md` | 토큰 narrative + `tokens.json` (DTCG 1.0 strict) 결정 근거. |
 | **FRONT.md** | `templates/FRONT.md` | *컴파일 룰북* + 3-tier 어휘 카탈로그 narrative + Paper 매핑 + shadcn 관리 룰. |
-| **spec.md** | `spec/<x>.spec.md` | DESIGN.md 의 *machine-readable instance* — 한 페이지/컴포넌트의 spec.md grammar (peggy parser) 인스턴스. |
+| **chat.md** | `chats/{scenes,components}/<x>.chat.md` | DESIGN.md 의 *machine-readable instance* — 한 scene/component 의 chat.md grammar (peggy parser) 인스턴스. *살아있는 소통 채널* (재편집 가능, 명령 + 부산물). |
 | **assets/** | `templates/assets/` | 이미지 / 폰트 / 아이콘 / `tokens/tokens.json` (binary + machine-readable). |
-| **spec/** | `spec/` | spec.md fixture 디렉토리. 28 fixture (phase-7 ship 시점). |
+| **fixtures/chats/** | `fixtures/chats/{scenes,components}/` | 회귀 게이트 — 28 chat.md fixture (변치 않음). |
+| **playground/chats/** | `playground/chats/{scenes,components}/` | 도그푸딩 작업 영역 — 디자이너가 자유롭게 작성. |
 
 > *결정*: 위 6 가 *모든 입력의 SSOT*. studio React 코드 / Paper 캔버스 / 빌드 결과물 모두 이 SSOT *파생*.
 
@@ -81,7 +84,7 @@ flowchart LR
 ### Canonical / Round-trip
 
 - **Canonical 표기**: paper-normalizer 가 정의 — `oklch()` ↔ hex, `rgba()` ↔ 8-digit hex, `padding: 16` ↔ `paddingBlock: 16; paddingInline: 16`. 같은 의미를 *한 가지* 표기로 정규화.
-- **Round-trip**: spec.md → Paper → spec.md 순환 시 *동일* 산출. canonical 의 보장 조건.
+- **Round-trip**: chat.md → Paper → chat.md 순환 시 *동일* 산출. canonical 의 보장 조건.
 
 ---
 
@@ -96,7 +99,7 @@ flowchart LR
 | **DESIGN.md 본문** (페이지/화면 narrative) | `templates/DESIGN.md` | PR diff | spec PR 마다 해당 섹션만 갱신 |
 | **TOKEN.md 토큰** | `templates/TOKEN.md` + `templates/assets/tokens/tokens.json` | PR diff | DTCG 1.0 strict 형식 |
 | **FRONT.md 매핑/룰** | `templates/FRONT.md` | PR diff | 어휘 추가 / shadcn 룰 / 4 layer variant 운영 |
-| **spec.md 컴포넌트 정의** | `spec/<x>.spec.md` | 신규 파일 또는 diff | 28 fixture (phase-7 시점) |
+| **chat.md 컴포넌트 정의** | `chats/<x>.chat.md` | 신규 파일 또는 diff | 28 fixture (phase-7 시점) |
 | **assets** (이미지/폰트/아이콘) | `templates/assets/` | binary diff | git LFS 없음 — 작은 자산만 |
 | **catalog (machine-readable)** | `studio/src/lib/vocabulary/catalog/catalog.json` | 자동 생성 (cva extractor) | *수동 편집 금지* — 컴포넌트 코드 변경이 진실 |
 | **variants 정의** | 각 컴포넌트의 `cva()` 코드 | studio 코드 diff | catalog 추출 시 자동 반영 |
@@ -131,29 +134,29 @@ flowchart LR
 
 **산출물**: Paper 트리 (저장 시 `tree.json` 으로 export 가능).
 
-### Day 2 — `paper-inference` 로 spec.md 초안 추출
+### Day 2 — `paper-inference` 로 chat.md 초안 추출
 
 ```bash
-pnpm --filter studio paper-to-spec /tmp/profile-page.tree.json --output spec/profile-page.spec.md
+pnpm --filter studio paper-to-chat /tmp/profile-page.tree.json --output playground/chats/scenes/profile.chat.md
 ```
 
 `inferSpec` 알고리즘이:
 - Paper 노드명 → catalog Tier 2/3 매칭 (90%+ 신뢰도 시 confident)
-- variant axis (이미 cva 정의) → spec.md 의 `variant=...` 속성으로 회복
+- variant axis (이미 cva 정의) → chat.md 의 `variant=...` 속성으로 회복
 - 미매칭 노드 → `[unknown]` 마크
 
-**산출물**: `spec/profile-page.spec.md` 초안 (30 줄 정도).
+**산출물**: `chats/profile-page.chat.md` 초안 (30 줄 정도).
 
-### Day 3 — spec.md 확정 + Paper preview 검증
+### Day 3 — chat.md 확정 + Paper preview 검증
 
-1. Studio 의 spec editor 패널에서 `profile-page.spec.md` 열기
+1. Studio 의 spec editor 패널에서 `profile-page.chat.md` 열기
 2. `[unknown]` / `[low confidence]` 항목 직접 보정 — catalog 의 정확한 컴포넌트 이름으로 교체
 3. i18n placeholder 추가 — `{{i18n.ko.profile.title}}` 형태
 4. token placeholder 추가 — `{{token.spacing.section}}` 형태
 5. **Paper preview 패널** 에서 `compileToPaper` 결과 확인 — 의도와 시각 결과 fidelity 검토
 6. **React preview 패널** 에서 `compileToReact` 결과 확인 — 출력 TSX 의 구조
 
-**산출물**: 완성된 `spec/profile-page.spec.md` + `templates/DESIGN.md` 의 §11 (페이지 트리) 에 Profile Page 항목 추가.
+**산출물**: 완성된 `chats/profile-page.chat.md` + `templates/DESIGN.md` 의 §11 (페이지 트리) 에 Profile Page 항목 추가.
 
 ### Day 4 — i18n + 토큰 narrative 정리
 
@@ -164,7 +167,7 @@ pnpm --filter studio paper-to-spec /tmp/profile-page.tree.json --output spec/pro
 
 ### Day 5 — 검증 + 통합
 
-1. **`gen-design lint`** (phase-8 도입 후) — catalog ↔ DESIGN/FRONT/spec.md 정합 검증.
+1. **`gen-design lint`** (phase-8 도입 후) — catalog ↔ DESIGN/FRONT/chat.md 정합 검증.
 2. `cd studio && pnpm test` — 28-fixture 결정성 + ts-diagnose 모두 PASS.
 3. `pnpm --filter studio build` → exit 0.
 4. PR 생성 — base = 다음 phase 의 base branch.
@@ -177,7 +180,7 @@ pnpm --filter studio paper-to-spec /tmp/profile-page.tree.json --output spec/pro
 
 ### P1: 글로벌 SSOT 점진 누적
 
-`templates/{DESIGN,TOKEN,FRONT}.md` + `spec/*.spec.md` 가 *지금* 의 진실. spec PR 마다 *글로벌 슬라이스* 를 변경. 누적은 git history 가 자동 보존.
+`templates/{DESIGN,TOKEN,FRONT}.md` + `chats/*.chat.md` 가 *지금* 의 진실. spec PR 마다 *글로벌 슬라이스* 를 변경. 누적은 git history 가 자동 보존.
 
 ### P2: 스펙 로컬 = delta
 
@@ -185,7 +188,7 @@ spec dir (`specs/spec-X-Y/`) 안에는 *변경의 의도* (spec.md / plan.md / t
 
 ### P3: vocabulary-first
 
-새 컴포넌트가 필요하면 *먼저* catalog 에 등재 → 컴포넌트 코드 작성 (cva extractor 가 catalog 자동 갱신) → spec.md 에서 사용. *어휘 → 코드 → 사용* 순서 엄수.
+새 컴포넌트가 필요하면 *먼저* catalog 에 등재 → 컴포넌트 코드 작성 (cva extractor 가 catalog 자동 갱신) → chat.md 에서 사용. *어휘 → 코드 → 사용* 순서 엄수.
 
 ### P4: raw color 금지
 
@@ -211,21 +214,21 @@ spec / plan / task / walkthrough / pr_description / phase / 채팅 = *한국어*
 
 Tier 2 (shadcn ui): 컴포넌트 *심볼* PascalCase, 파일은 `lowercase.tsx` (예: `Button` from `button.tsx`).
 Tier 3 (composites/templates): 심볼 + 파일 *모두 PascalCase* (예: `LoginForm.tsx`).
-catalog / spec.md / Paper 노드명 = *심볼 PascalCase 그대로*.
+catalog / chat.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 
 ### R4: ADR-for-결정
 
-새 결정은 ADR. 작은 결정은 spec.md 의 `## 결정 기록` (walkthrough). cross-cutting / architectural 결정만 ADR.
+새 결정은 ADR. 작은 결정은 chat.md 의 `## 결정 기록` (walkthrough). cross-cutting / architectural 결정만 ADR.
 
-### R5: spec.md grammar
+### R5: chat.md grammar
 
 - 컴포넌트 인스턴스: `<Component variant="x" attr={value}>{children}</Component>`
 - i18n placeholder: `{{i18n.ko.path}}` (1급 시민)
 - token placeholder: `{{token.semantic.color.primary}}`
 - `## Behavior` (state / events) / `## Variants` (L1-L4 변형 선언) 섹션
-- frontmatter 미사용 (현재). 향후 도입 시 spec-md grammar 갱신 필수
+- frontmatter 미사용 (현재). 향후 도입 시 chat-md grammar 갱신 필수
 
-#### 카피로 시작하는 minimal spec.md 예시
+#### 카피로 시작하는 minimal chat.md 예시
 
 ```markdown
 # Login Page
@@ -249,7 +252,7 @@ catalog / spec.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 - WithSocial: SocialAuthBlock 추가
 ```
 
-위 예시가 작동하는 fixture: `spec/login-page.spec.md` 참고. 28 fixture 모두 결정성 + ts-diagnose PASS.
+위 예시가 작동하는 fixture: `chats/login-page.chat.md` 참고. 28 fixture 모두 결정성 + ts-diagnose PASS.
 
 ### R6: shadcn 관리
 
@@ -280,19 +283,19 @@ catalog / spec.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 
 | 명령 | 책임 | 우선순위 | 도입 시점 |
 |---|---|:---:|---|
-| `gen-design lint` | catalog ↔ DESIGN/FRONT/spec.md 정합 검증 (6 카테고리) | ⭐ 1 | **phase-8 첫 spec** (`spec-8-01-gen-design-lint`) |
+| `gen-design lint` | catalog ↔ DESIGN/FRONT/chat.md 정합 검증 (6 카테고리) | ⭐ 1 | **phase-8 첫 spec** (`spec-8-01-gen-design-lint`) |
 | `gen-design diff` | 글로벌 SSOT vs studio 코드 비교 | ⭐ 2 | phase-8 후보 |
-| `gen-design paper` | spec.md → Paper tree (`compileToPaper` CLI 화) | ⭐ 3 | phase-8 |
+| `gen-design paper` | chat.md → Paper tree (`compileToPaper` CLI 화) | ⭐ 3 | phase-8 |
 | `gen-design react` | catalog + 컴포넌트 → shadcn registry | ⭐ 4 | phase-9 (외부 shadcn 설치 검증) |
-| `gen-design merge` | spec.md 슬라이스 → 글로벌 SSOT 누적 | (보류) | ADR-008 옵션 A 도입 시까지 — 영구 보류 가능 |
+| `gen-design merge` | chat.md 슬라이스 → 글로벌 SSOT 누적 | (보류) | ADR-008 옵션 A 도입 시까지 — 영구 보류 가능 |
 
 ### 기존 부분 CLI (phase-7 시점)
 
 | 명령 | 위치 | 역할 |
 |---|---|---|
-| `pnpm --filter studio paper-to-spec <tree.json>` | `studio/src/lib/paper-inference/cli/` | Paper tree → spec.md (inferSpec) |
-| `pnpm --filter studio spec-paper <spec.md>` | `studio/src/lib/spec-md-compiler/paper/cli/` | spec.md → Paper tree (`compileToPaper`) |
-| `pnpm --filter studio spec-react <spec.md> [--registry]` | `studio/src/lib/spec-md-compiler/react/cli/` | spec.md → React TSX (`compileToReact`) |
+| `pnpm --filter studio paper-to-chat <tree.json>` | `studio/src/lib/paper-inference/cli/` | Paper tree → chat.md (inferSpec) |
+| `pnpm --filter studio chat-paper <chat.md>` | `studio/src/lib/chat-md-compiler/paper/cli/` | chat.md → Paper tree (`compileToPaper`) |
+| `pnpm --filter studio chat-react <chat.md> [--registry]` | `studio/src/lib/chat-md-compiler/react/cli/` | chat.md → React TSX (`compileToReact`) |
 | `pnpm --filter studio test` | (vitest) | 단위 + 통합 테스트 (모든 fixture × 결정성 + ts-diagnose) |
 | `pnpm --filter studio build` | (vite) | studio 웹앱 production 빌드 |
 
@@ -308,8 +311,8 @@ catalog / spec.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 | 002 | [Token Naming Strategy](decisions/ADR-002-token-naming-strategy.md) | 토큰 이름 컨벤션 (semantic.color.{light,dark}.x) | (초기) |
 | 003 | [Headless UI Selection](decisions/ADR-003-headless-ui-selection.md) | base-ui/react + shadcn 채택 | (초기) |
 | 004 | [Vocabulary Extraction & Variants](decisions/ADR-004-vocabulary-extraction-and-variants.md) | catalog 자동 추출 + L1-L4 variant 시스템 | 2026-04 |
-| 005 | [Grammar & IR](decisions/ADR-005-grammar-and-ir.md) | spec.md PEG grammar + AST 설계 | 2026-04 |
-| 006 | [Paper-first Workflow](decisions/ADR-006-paper-first-workflow.md) | 디자이너 워크플로 방향 = Paper → spec.md → React (역방향 X) | 2026-05-09 |
+| 005 | [Grammar & IR](decisions/ADR-005-grammar-and-ir.md) | chat.md PEG grammar + AST 설계 | 2026-04 |
+| 006 | [Paper-first Workflow](decisions/ADR-006-paper-first-workflow.md) | 디자이너 워크플로 방향 = Paper → chat.md → React (역방향 X) | 2026-05-09 |
 | 007 | [FRONT.md Compilation Rulebook](decisions/ADR-007-front-md-compilation-rulebook.md) | SSOT = 4 문서 + 2 디렉토리 / FRONT.md = 컴파일 룰북 | 2026-05-10 |
 | 008 | [Per-spec Design Files](decisions/ADR-008-per-spec-design-files.md) | spec dir 안 design 슬라이스 = 생성 안 함 (글로벌 직접 편집) | 2026-05-10 |
 | 009 | [gen-design CLI](decisions/ADR-009-gen-design-cli.md) | 단일 CLI `studio/scripts/gen-design.ts` / 5 명령 / phase-8 첫 실용 = lint | 2026-05-10 |
