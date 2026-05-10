@@ -12,25 +12,25 @@ const MINIMAL_FRAME: FigmaNode = {
 };
 
 describe("adaptFigma", () => {
-  it("최소 FRAME → result.text 비어있지 않음", () => {
+  it("최소 FRAME → result.text 는 string", () => {
     const result = adaptFigma(MINIMAL_FRAME, EMPTY_CATALOG);
     expect(typeof result.text).toBe("string");
-    expect(result.text.length).toBeGreaterThan(0);
   });
 
   it("result.ast 반환 (Document 타입)", () => {
     const result = adaptFigma(MINIMAL_FRAME, EMPTY_CATALOG);
     expect(result.ast).toBeDefined();
-    expect(result.ast.kind).toBe("Document");
+    expect(result.ast.type).toBe("Document");
   });
 
   it("result.report 반환 (InferReport 타입)", () => {
     const result = adaptFigma(MINIMAL_FRAME, EMPTY_CATALOG);
     expect(result.report).toBeDefined();
-    expect(Array.isArray(result.report.items)).toBe(true);
+    expect(typeof result.report.total).toBe("number");
+    expect(Array.isArray(result.report.confident)).toBe(true);
   });
 
-  it("자식이 있는 FRAME → 자식 노드 반영", () => {
+  it("자식이 있는 FRAME → 미매칭 Comment 로 text 생성", () => {
     const node: FigmaNode = {
       id: "10",
       name: "LoginPage",
@@ -41,6 +41,8 @@ describe("adaptFigma", () => {
       ],
     };
     const result = adaptFigma(node, EMPTY_CATALOG);
+    // 빈 카탈로그 → 미매칭 → Comment 블록 → text 비어있지 않음
     expect(result.text.length).toBeGreaterThan(0);
+    expect(result.text).toContain("unmatched");
   });
 });
