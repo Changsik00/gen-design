@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-08** — chat-agent-flow — 1 spec — 다음: spec-08-01-rename-and-restructure
+- **phase-08** — chat-agent-flow — 2 spec — 다음: spec-08-02-handbook-and-conventions
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
