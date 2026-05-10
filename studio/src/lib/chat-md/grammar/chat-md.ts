@@ -41,12 +41,130 @@ export const CHAT_MD_GRAMMAR = String.raw`
     }
     return result;
   }
+
+  // ─── Frontmatter helpers ────────────────────────────────────────────────
+  // YAML-lite subset — see spec-08-04 plan.md F-1.
+
+  function parseFmScalar(raw) {
+    const s = raw.trim();
+    if (s === "true")  return true;
+    if (s === "false") return false;
+    if (s === "null")  return null;
+    if (/^-?\d+$/.test(s))           return parseInt(s, 10);
+    if (/^-?\d+\.\d+$/.test(s))      return parseFloat(s);
+    return s;
+  }
+
+  // lines: array of { indent, key, value } where value === undefined ⇒ nested object parent.
+  // null entries (comment / blank) already filtered.
+  function parseFmTree(lines) {
+    const filtered = lines.filter(l => l !== null);
+    let i = 0;
+    function walk(parentIndent) {
+      const out = {};
+      while (i < filtered.length) {
+        const line = filtered[i];
+        if (line.indent <= parentIndent) break;
+        i++;
+        if (line.value === undefined) {
+          out[line.key] = walk(line.indent);
+        } else {
+          out[line.key] = line.value;
+        }
+      }
+      return out;
+    }
+    return walk(-1);
+  }
 }
 
 Document
-  = body:Block* {
-      return { type: "Document", body };
+  = fm:Frontmatter body:Block* {
+      return {
+        type: "Document",
+        frontmatter: fm,
+        title: null,
+        narrative: null,
+        structure: null,
+        history: null,
+        body,
+      };
     }
+  / body:Block* {
+      return {
+        type: "Document",
+        frontmatter: null,
+        title: null,
+        narrative: null,
+        structure: null,
+        history: null,
+        body,
+      };
+    }
+
+// ─── Frontmatter ──────────────────────────────────────────────────────────
+Frontmatter "frontmatter"
+  = "---" FmEol lines:FmLine* "---" FmEol { return parseFmTree(lines); }
+  / "---" FmEol FmLine* {
+      error("Frontmatter '---' opened but missing closing fence");
+    }
+
+FmLine
+  = indent:FmIndent !"---" key:FmKey ":" FmInlineWs? value:FmValue FmInlineWs? FmEol {
+      return { indent: indent.length, key, value };
+    }
+  / indent:FmIndent !"---" key:FmKey ":" FmInlineWs? FmEol {
+      return { indent: indent.length, key, value: undefined };
+    }
+  / FmIndent? "#" (!FmEol .)* FmEol { return null; }
+  / FmIndent? FmEol { return null; }
+
+FmIndent = chars:" "* { return chars; }
+
+FmKey
+  = first:[a-zA-Z_] rest:[a-zA-Z0-9_-]* { return first + rest.join(""); }
+
+FmValue
+  = FmQuoted
+  / FmInlineArray
+  / FmBareScalar
+
+FmQuoted
+  = '"' chars:FmDoubleChar* '"' { return chars.join(""); }
+  / "'" chars:FmSingleChar* "'" { return chars.join(""); }
+
+FmDoubleChar = !'"' c:. { return c; }
+FmSingleChar = !"'" c:. { return c; }
+
+FmInlineArray
+  = "[" FmInlineWs? items:FmInlineArrayItems? FmInlineWs? "]" { return items ?? []; }
+  / "[" FmInlineWs? FmInlineArrayItems? {
+      error("Frontmatter inline array '[' opened but missing closing ']'");
+    }
+
+FmInlineArrayItems
+  = head:FmInlineItem tail:(FmInlineWs? "," FmInlineWs? FmInlineItem)* {
+      return [head, ...tail.map(t => t[3])];
+    }
+
+FmInlineItem
+  = FmQuoted
+  / chars:FmInlineBareChar+ { return parseFmScalar(chars.join("")); }
+
+FmInlineBareChar
+  = !"," !"]" !"\r" !"\n" c:. { return c; }
+
+FmBareScalar
+  = !FmEol !"[" !"{" chars:FmBareChar+ {
+      return parseFmScalar(chars.join(""));
+    }
+
+FmBareChar
+  = !"\r" !"\n" c:. { return c; }
+
+FmInlineWs = [ \t]+
+
+FmEol = "\r\n" / "\n" / "\r"
 
 Block
   = Comment
