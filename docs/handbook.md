@@ -231,4 +231,82 @@ catalog / spec.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 
 ---
 
-<!-- §7-§8 추가 예정 — Task 6 에서 -->
+## §7 도구
+
+### sdd CLI (harness-kit)
+
+| 명령 | 역할 |
+|---|---|
+| `bash .harness-kit/bin/sdd status` | 현 phase / spec / 상태 / drift 점검 |
+| `sdd phase new <slug> [--base]` | 신규 phase 시작 |
+| `sdd spec new <slug>` | 신규 spec 시작 (현 phase 안) |
+| `sdd plan accept` | Plan Accept — Strict Loop 진입 |
+| `sdd ship` | spec 종료 — phase.md spec 표 자동 갱신 |
+| `sdd phase done` | phase 완료 처리 |
+| `sdd archive [--dry-run]` | 완료 spec 디렉토리 정리 |
+
+### gen-design CLI (ADR-009)
+
+> 단일 CLI `studio/scripts/gen-design.ts` (옵션 B). 진입점: `pnpm gen-design <subcommand>` (또는 `pnpm gd <subcommand>`).
+> ADR-009 D-4 의 5 명령 표 (도입 시점 / 우선순위 / 책임 / 입출력) 가 단일 진실.
+
+| 명령 | 책임 | 우선순위 | 도입 시점 |
+|---|---|:---:|---|
+| `gen-design lint` | catalog ↔ DESIGN/FRONT/spec.md 정합 검증 (6 카테고리) | ⭐ 1 | **phase-8 첫 spec** (`spec-8-01-gen-design-lint`) |
+| `gen-design diff` | 글로벌 SSOT vs studio 코드 비교 | ⭐ 2 | phase-8 후보 |
+| `gen-design paper` | spec.md → Paper tree (`compileToPaper` CLI 화) | ⭐ 3 | phase-8 |
+| `gen-design react` | catalog + 컴포넌트 → shadcn registry | ⭐ 4 | phase-9 (외부 shadcn 설치 검증) |
+| `gen-design merge` | spec.md 슬라이스 → 글로벌 SSOT 누적 | (보류) | ADR-008 옵션 A 도입 시까지 — 영구 보류 가능 |
+
+### 기존 부분 CLI (phase-7 시점)
+
+| 명령 | 위치 | 역할 |
+|---|---|---|
+| `pnpm --filter studio paper-to-spec <tree.json>` | `studio/src/lib/paper-inference/cli/` | Paper tree → spec.md (inferSpec) |
+| `pnpm --filter studio spec-paper <spec.md>` | `studio/src/lib/spec-md-compiler/paper/cli/` | spec.md → Paper tree (`compileToPaper`) |
+| `pnpm --filter studio spec-react <spec.md> [--registry]` | `studio/src/lib/spec-md-compiler/react/cli/` | spec.md → React TSX (`compileToReact`) |
+| `pnpm --filter studio test` | (vitest) | 단위 + 통합 테스트 (모든 fixture × 결정성 + ts-diagnose) |
+| `pnpm --filter studio build` | (vite) | studio 웹앱 production 빌드 |
+
+> *정책*: 기존 부분 CLI 는 phase-8 의 `gen-design <subcommand>` 통합 진입점 도입 후 *alias* 로 유지하거나 deprecation. 결정은 phase-8 spec 안에서.
+
+---
+
+## §8 ADR 인덱스 — 결정 history 타임라인
+
+| # | ADR | 1줄 요약 | 날짜 |
+|---|---|---|---|
+| 001 | [Phase Restructure](decisions/ADR-001-phase-restructure.md) | phase-1~5 의 재구성 / 우선순위 결정 | (초기) |
+| 002 | [Token Naming Strategy](decisions/ADR-002-token-naming-strategy.md) | 토큰 이름 컨벤션 (semantic.color.{light,dark}.x) | (초기) |
+| 003 | [Headless UI Selection](decisions/ADR-003-headless-ui-selection.md) | base-ui/react + shadcn 채택 | (초기) |
+| 004 | [Vocabulary Extraction & Variants](decisions/ADR-004-vocabulary-extraction-and-variants.md) | catalog 자동 추출 + L1-L4 variant 시스템 | 2026-04 |
+| 005 | [Grammar & IR](decisions/ADR-005-grammar-and-ir.md) | spec.md PEG grammar + AST 설계 | 2026-04 |
+| 006 | [Paper-first Workflow](decisions/ADR-006-paper-first-workflow.md) | 디자이너 워크플로 방향 = Paper → spec.md → React (역방향 X) | 2026-05-09 |
+| 007 | [FRONT.md Compilation Rulebook](decisions/ADR-007-front-md-compilation-rulebook.md) | SSOT = 4 문서 + 2 디렉토리 / FRONT.md = 컴파일 룰북 | 2026-05-10 |
+| 008 | [Per-spec Design Files](decisions/ADR-008-per-spec-design-files.md) | spec dir 안 design 슬라이스 = 생성 안 함 (글로벌 직접 편집) | 2026-05-10 |
+| 009 | [gen-design CLI](decisions/ADR-009-gen-design-cli.md) | 단일 CLI `studio/scripts/gen-design.ts` / 5 명령 / phase-8 첫 실용 = lint | 2026-05-10 |
+
+### 결정 history 타임라인
+
+```
+phase-1  ─┐
+phase-2  ─┤  ADR-001 ~ 003 (기반 결정)
+phase-3  ─┘
+phase-4  ──  ADR-004 (어휘)
+phase-5  ──  ADR-005 (grammar)
+phase-6  ──  Studio v1 (ADR 신규 0 — 기반 결정 위에 구현)
+phase-7  ──  ADR-006 → 007 → 008 → 009  (4 ADR)
+                ↑ 디자이너 워크플로 *방향* + SSOT 구조 + 구현 정책
+```
+
+---
+
+## 부록
+
+- **vision.md**: `docs/vision.md` — 프로젝트의 *왜* + 페르소나 + 4 축 어휘 정합 차별화. 본 handbook 의 §1 이 vision 의 압축.
+- **constitution.md**: `.harness-kit/agent/constitution.md` — 거버넌스 (One Task = One Commit, Plan Accept Gate, etc.).
+- **agent.md**: `.harness-kit/agent/agent.md` — 에이전트 운영 절차 (Strict Loop, Idea Capture Gate, etc.).
+
+---
+
+> 이 문서를 읽고도 막히는 지점이 있으면 *그건 handbook 의 결함*. issue 또는 PR 로 보강.
