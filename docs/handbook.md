@@ -469,7 +469,31 @@ spec dir (`specs/spec-X-Y/`) 안에는 *변경의 의도* (spec.md / plan.md / t
 
 ### P5: 결정 = ADR
 
-architectural / cross-cutting 결정은 ADR 로. *2 줄 commit message* 가 아닌 *한 ADR 파일*. ADR-001 ~ ADR-009 가 결정 history.
+architectural / cross-cutting 결정은 ADR 로. *2 줄 commit message* 가 아닌 *한 ADR 파일*. ADR-001 ~ ADR-009 (+ ADR-010 spec-08-05 작성 예정) 가 결정 history.
+
+### P6: agent 는 도서관 사서
+
+매 chat 갱신 시 agent 는 *컨텍스트* (chats/ + catalog + templates) 를 읽고 *능동 제안*:
+
+- *재사용 후보* — "EmptyState 가 이미 catalog 에 있어요"
+- *글로벌 승격* — "BrandHeader / AppFooter 가 2+ scene 공통, shell 로 승격할까요?"
+- *제약 대화* — "login scene 은 보통 헤더 없이, 어떻게?"
+- *어휘 검증* — "Login*Page* 라는 이름은 catalog 에 없어요. *LoginScene* 의도?"
+
+agent 는 *단순 변환기* 가 아니라 *살아있는 디자인 시스템 도서관 사서*. 디자이너의 발화를 *형식* 으로 옮기되, *기존 자산* 의 *재사용 / 정리* 를 능동적으로 가이드.
+
+> 자세한 PoC 검증: 3 세션 시뮬레이션 결과 — `playground/chats/` 6 파일이 이 패턴의 산물.
+
+### P7: chat 은 살아있다
+
+chat.md 는 *동결된 산출물* 이 아니라 *진행 중인 채팅의 정제본*:
+
+- 디자이너 자연어 입력 → agent 정리 → 3층 출력
+- 재편집 가능 (다음 발화 시 다시 갱신)
+- *명령 + 부산물 동시* — "이렇게 만들어줘" 가 명령, "이렇게 만들었습니다" 의 정제본이 부산물
+- History 섹션 = 채팅의 *시간축 흔적*
+
+→ harness-kit 의 *spec* (작업 흔적, 동결) 과 본질적으로 다른 산출물. 같은 스펙 (`chats/scenes/login.chat.md`) 을 *재 편집* 할 수 있어야 함이 핵심.
 
 ---
 
@@ -504,9 +528,9 @@ catalog / chat.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 #### 카피로 시작하는 minimal chat.md 예시
 
 ```markdown
-# Login Page
+# LoginScene
 
-<LoginPage>
+<LoginScene>
   <BrandHeader>
     <h1>{{i18n.ko.login.welcome}}</h1>
   </BrandHeader>
@@ -514,7 +538,7 @@ catalog / chat.md / Paper 노드명 = *심볼 PascalCase 그대로*.
     <Button variant="primary">{{i18n.ko.login.submit}}</Button>
     <Button variant="ghost">{{i18n.ko.login.signupHint}}</Button>
   </LoginForm>
-</LoginPage>
+</LoginScene>
 
 ## Behavior
 - state: isLoading: boolean = false
@@ -525,13 +549,33 @@ catalog / chat.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 - WithSocial: SocialAuthBlock 추가
 ```
 
-위 예시가 작동하는 fixture: `chats/login-page.chat.md` 참고. 28 fixture 모두 결정성 + ts-diagnose PASS.
+위 예시가 작동하는 fixture: `fixtures/chats/scenes/login.chat.md` 참고. 28 fixture 모두 결정성 + ts-diagnose PASS.
 
 ### R6: shadcn 관리
 
 - shadcn primitive 추가 시 `pnpm dlx shadcn@latest add <name>` → `studio/src/components/ui/<lowercase>.tsx` 자동 생성
 - catalog 등재 = cva extractor 자동 반영 (수동 편집 0)
 - 컴포넌트 변형은 *cva variants* 만 — 임의 prop 으로 분기 금지
+
+### R7: Paper layer-name 식별성 컨벤션
+
+Paper artboard / 주요 frame 의 layer-name 에 *식별자* 박기:
+
+```
+ProfileScene [chat:scenes/profile]      ← scene
+EmptyState [chat:components/empty-state] ← component
+```
+
+규칙:
+- **artboard 단위**: scene 또는 *재사용 가능한 component* 의 root frame 만 식별자 박음
+- **inner frame 단위**: 명시 안 함 (트리 구조가 식별)
+- **포맷**: `{Display Name} [chat:{type}/{slug}]` — 사람 가독성 + 기계 파싱 동시
+- **type**: `scenes` 또는 `components` 만 (chats/ 디렉토리 분류와 일치)
+- **slug**: kebab-case, chats/ 안 파일명과 1:1 (예: `chats/scenes/login.chat.md` ↔ `[chat:scenes/login]`)
+
+→ 이 컨벤션이 *반복 가능성 + 부분 수정* 의 anchor. paper-inference (spec-08-03 후) 가 layer-name 파싱 → *어느 chat 의 갱신* 인지 결정.
+
+> 📁 PoC 사례: [`playground/chats/components/empty-state.chat.md`](../playground/chats/components/empty-state.chat.md) 의 frontmatter `paper.layerNameAnchor` 필드. Paper artboard 21E-0 의 layer-name = `EmptyState [chat:components/empty-state]`.
 
 ---
 
