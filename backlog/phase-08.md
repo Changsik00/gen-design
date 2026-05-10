@@ -59,6 +59,7 @@ phase-8 종료 시:
 |---|---|:---:|---|---|
 | `spec-08-01` | rename-and-restructure | P? | Merged | `specs/spec-08-01-rename-and-restructure/` |
 | `spec-08-02` | handbook-and-conventions | P? | Merged | `specs/spec-08-02-handbook-and-conventions/` |
+| `spec-08-03` | adr-010-chat-promotion-policy | P? | Merged | `specs/spec-08-03-adr-010-chat-promotion-policy/` |
 <!-- sdd:specs:end -->
 
 > 의존성:
