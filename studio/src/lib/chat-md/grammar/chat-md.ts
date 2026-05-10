@@ -76,30 +76,158 @@ export const CHAT_MD_GRAMMAR = String.raw`
     }
     return walk(-1);
   }
+
+  // ─── Section split helpers ────────────────────────────────────────────
+  // Document body 의 Block[] 을 ## Heading 단위로 분할 → narrative/structure/history.
+
+  function classifySection(headingText) {
+    const lower = String(headingText).toLowerCase();
+    if (/narrative/.test(lower)) return "narrative";
+    if (/structure/.test(lower)) return "structure";
+    if (/history/.test(lower))   return "history";
+    return "other";
+  }
+
+  // raw markdown text 를 H1/H2 헤딩 기준으로 part 배열로 분할.
+  // returns: [{ kind: "text"|"h1"|"h2", text }]
+  function splitMarkdownByHeadings(text) {
+    const parts = [];
+    const lines = text.split(/\r\n|\r|\n/);
+    let buffer = [];
+    function flushBuffer() {
+      if (buffer.length === 0) return;
+      parts.push({ kind: "text", text: buffer.join("\n") });
+      buffer = [];
+    }
+    for (const line of lines) {
+      const m = line.match(/^(#{1,2})\s+(.+?)\s*$/);
+      if (m) {
+        flushBuffer();
+        const level = m[1].length;
+        parts.push({ kind: level === 1 ? "h1" : "h2", text: m[2].trim() });
+      } else {
+        buffer.push(line);
+      }
+    }
+    flushBuffer();
+    return parts;
+  }
+
+  function isStructureNoise(block) {
+    if (block.type !== "MarkdownText") return false;
+    // 0x60 = backtick. String.raw 안에서 literal backtick 회피.
+    const FENCE = String.fromCharCode(96, 96, 96);
+    const lines = String(block.text).split(/\r\n|\r|\n/).map(l => l.trim()).filter(Boolean);
+    if (lines.length === 0) return true;
+    return lines.every(l => l.startsWith(FENCE));
+  }
+
+  function blocksToMarkdown(items) {
+    return items.map(b => b.type === "MarkdownText" ? b.text : "").join("");
+  }
+
+  function splitDocumentByHeadings(blocks, defaultLoc) {
+    // Section split 은 *recognized* section (Narrative/Structure/History) 가 있을 때만.
+    // 그 외 (## Behavior, ## Variants 등) 는 compile 파이프라인이 사용하므로 보존.
+    const hasRecognized = blocks.some(b => {
+      if (b.type !== "MarkdownText") return false;
+      const parts = splitMarkdownByHeadings(b.text);
+      return parts.some(p => p.kind === "h2" && classifySection(p.text) !== "other");
+    });
+    if (!hasRecognized) {
+      return { title: null, narrative: null, structure: null, history: null, legacyBody: undefined };
+    }
+
+    let title = null;
+    // ordered sections: [{ kind, items, heading }]
+    const ordered = [];
+    let current = { kind: "preamble", items: [], heading: null };
+
+    for (const block of blocks) {
+      if (block.type !== "MarkdownText") {
+        current.items.push(block);
+        continue;
+      }
+      const parts = splitMarkdownByHeadings(block.text);
+      for (const part of parts) {
+        if (part.kind === "h1") {
+          if (title === null) title = part.text;
+          // H1 itself is consumed (not added to body)
+        } else if (part.kind === "h2") {
+          ordered.push(current);
+          current = {
+            kind: classifySection(part.text),
+            items: [],
+            heading: { name: part.text, location: block.location },
+          };
+        } else {
+          if (part.text !== "") {
+            current.items.push({
+              type: "MarkdownText",
+              text: part.text,
+              location: block.location,
+            });
+          }
+        }
+      }
+    }
+    ordered.push(current);
+
+    let narrative = null;
+    let structure = null;
+    let history = null;
+    for (const sec of ordered) {
+      const loc = sec.heading?.location ?? defaultLoc;
+      if (sec.kind === "narrative") {
+        narrative = { type: "Narrative", markdown: blocksToMarkdown(sec.items).trim(), location: loc };
+      } else if (sec.kind === "structure") {
+        structure = {
+          type: "Structure",
+          body: sec.items.filter(b => !isStructureNoise(b)),
+          location: loc,
+        };
+      } else if (sec.kind === "history") {
+        history = { type: "History", markdown: blocksToMarkdown(sec.items).trim(), location: loc };
+      }
+    }
+
+    let legacyBody;
+    if (narrative === null && structure === null && history === null) {
+      legacyBody = ordered.flatMap(s => s.items);
+    }
+
+    return { title, narrative, structure, history, legacyBody };
+  }
 }
 
 Document
-  = fm:Frontmatter body:Block* {
-      return {
+  = fm:Frontmatter blocks:Block* {
+      const split = splitDocumentByHeadings(blocks, loc(location()));
+      const doc = {
         type: "Document",
         frontmatter: fm,
-        title: null,
-        narrative: null,
-        structure: null,
-        history: null,
-        body,
+        title: split.title,
+        narrative: split.narrative,
+        structure: split.structure,
+        history: split.history,
       };
+      if (split.legacyBody !== undefined) doc.body = split.legacyBody;
+      else doc.body = blocks;
+      return doc;
     }
-  / body:Block* {
-      return {
+  / blocks:Block* {
+      const split = splitDocumentByHeadings(blocks, loc(location()));
+      const doc = {
         type: "Document",
         frontmatter: null,
-        title: null,
-        narrative: null,
-        structure: null,
-        history: null,
-        body,
+        title: split.title,
+        narrative: split.narrative,
+        structure: split.structure,
+        history: split.history,
       };
+      if (split.legacyBody !== undefined) doc.body = split.legacyBody;
+      else doc.body = blocks;
+      return doc;
     }
 
 // ─── Frontmatter ──────────────────────────────────────────────────────────
