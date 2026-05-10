@@ -11,31 +11,31 @@
 
 ## §1 한 줄 요약 + 시각
 
-> **gen-design** = 디자이너가 chat markdown 으로 의도를 적으면, Paper 에서 시각화되고 React (shadcn + Tailwind) 코드로 *결정적으로* 컴파일되는, designer-publisher 페어 도구.
+> **gen-design** = 디자이너가 *자연어로 말하면* MCP agent 가 *3층 chat.md* (Narrative + Structure + History) 로 정리해주고, Paper 에서 시각화되고 React (shadcn + Tailwind) 코드로 *결정적으로* 컴파일되는, **designer-publisher 페어 도구**.
 
 핵심 흐름:
 
 ```mermaid
 flowchart LR
-  D[디자이너] -->|Paper 에서 그림 그림| P[Paper canvas]
-  P -->|paper-inference| S1[chat.md 초안]
-  D -->|텍스트로 의도 보강 + 글로벌 직접 편집| S2[chat.md 확정<br/>+ DESIGN/TOKEN/FRONT 슬라이스]
-  S1 --> S2
-  S2 -->|chat → Paper compiler| P2[Paper preview<br/>시각 fidelity]
-  S2 -->|chat → React compiler| R[React TSX<br/>shadcn registry]
-  S2 --> G[글로벌 SSOT<br/>DESIGN/TOKEN/FRONT/chats/]
-  G -.->|gen-design lint<br/>phase-8| L((정합 검증))
+  D[디자이너 자연어<br/>'메인 신 만들어줘'] -->|MCP 채팅| A[MCP agent<br/>Claude in Code]
+  A -->|컨텍스트 읽기| CTX[catalog.json<br/>+ chats/<br/>+ templates/]
+  CTX -.->|재사용/승격/제약 제안| A
+  A -->|3층 정리 작성| S[chat.md<br/>Narrative + Structure + History]
+  A -->|시각 반영| P[Paper artboard<br/>identity anchor]
+  P -->|디자이너 손 수정| A
+  S -->|chat → React| R[TSX<br/>shadcn registry]
+  S -->|글로벌 직접 편집| G[templates/<br/>DESIGN+TOKEN+FRONT.md]
   R -->|tsc + build| C[(소비자 codebase)]
 ```
 
-> **흐름의 핵심**: 디자이너의 *chat.md 편집* + *글로벌 SSOT 직접 편집* 이 같은 PR 안에 공존. ADR-008 옵션 B 의 현현. *chats/ 디렉토리 안 design 슬라이스 자동 생성 0*.
+> **흐름의 핵심**: *디자이너 자연어* 가 *입력*, *agent 의 정리* 가 *출력*, *Paper visual* 이 *시각 거울*, *글로벌 SSOT 직접 편집* 이 *영구 기록*. chat.md 는 *살아있는 소통 채널 + 명령 + 부산물* (재편집 가능).
 
 **4 축 어휘 정합** — 본 프로젝트의 *real & defensible* 차별화 portion:
 
 ```
 [디자이너 작성]   chat.md 의 <Component variant="x">
         ≡
-[Paper 시각]      Paper 노드 이름 + 컴포넌트 인스턴스
+[Paper 시각]      Paper 노드 이름 + 컴포넌트 인스턴스 + layer-name 식별자
         ≡
 [React 출력]      shadcn/ui 컴포넌트 + 프로젝트 composites
         ≡
