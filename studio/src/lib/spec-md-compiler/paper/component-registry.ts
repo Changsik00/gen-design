@@ -76,10 +76,56 @@ export const COMPONENT_REGISTRY: Record<string, ComponentType<Record<string, unk
   VariantWrapper: VariantWrapper as unknown as ComponentType<Record<string, unknown>>,
 };
 
+/**
+ * 각 컴포넌트의 실제 import 경로 — 위 import 문과 1:1 일치.
+ * imports-builder (spec-7-10) 가 정확한 디렉토리 + 파일 casing 으로 import 문을 생성하기 위해 사용.
+ *
+ * 컨벤션:
+ * - Tier 2 (shadcn ui primitive): @/components/ui/{lowercase}
+ * - Tier 3 composites: @/components/composites/{PascalCase}
+ * - Tier 3 templates: @/components/templates/{PascalCase}
+ */
+export const COMPONENT_IMPORT_PATHS: Record<string, string> = {
+  Button: "@/components/ui/button",
+
+  ActivitySummary: "@/components/composites/ActivitySummary",
+  ActivityTable: "@/components/composites/ActivityTable",
+  AvatarUpload: "@/components/composites/AvatarUpload",
+  BrandHeader: "@/components/composites/BrandHeader",
+  DashboardHeader: "@/components/composites/DashboardHeader",
+  ErrorIcon: "@/components/composites/ErrorIcon",
+  ErrorMessage: "@/components/composites/ErrorMessage",
+  HomeButton: "@/components/composites/HomeButton",
+  LoginForm: "@/components/composites/LoginForm",
+  ProfileHeader: "@/components/composites/ProfileHeader",
+  ProfileInfoCard: "@/components/composites/ProfileInfoCard",
+  SettingsGroup: "@/components/composites/SettingsGroup",
+  SettingsHeader: "@/components/composites/SettingsHeader",
+  SettingsSelectRow: "@/components/composites/SettingsSelectRow",
+  SettingsSliderRow: "@/components/composites/SettingsSliderRow",
+  SettingsToggleRow: "@/components/composites/SettingsToggleRow",
+  Sidebar: "@/components/composites/Sidebar",
+  SignupForm: "@/components/composites/SignupForm",
+  SocialAuthBlock: "@/components/composites/SocialAuthBlock",
+  StatCard: "@/components/composites/StatCard",
+
+  DashboardPage: "@/components/templates/DashboardPage",
+  ErrorPage: "@/components/templates/ErrorPage",
+  LoginPage: "@/components/templates/LoginPage",
+  MyPage: "@/components/templates/MyPage",
+  SettingsPage: "@/components/templates/SettingsPage",
+  SignupPage: "@/components/templates/SignupPage",
+  VariantWrapper: "@/components/templates/VariantWrapper",
+};
+
 export function lookupComponent(
   name: string,
 ): ComponentType<Record<string, unknown>> | undefined {
   return COMPONENT_REGISTRY[name];
+}
+
+export function lookupImportPath(name: string): string | undefined {
+  return COMPONENT_IMPORT_PATHS[name];
 }
 
 export function registeredNames(): string[] {
