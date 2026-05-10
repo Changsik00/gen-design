@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — 11 spec — 다음: (spec 없음)
+(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -101,4 +101,5 @@
 - **phase-4** — 협업 Flow 정의 — completed 2026-04-24
 - **phase-5** — PoC 검증 (End-to-End) — completed 2026-05-05
 - **phase-6** — Studio v1 — completed 2026-05-09
+- **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — completed 2026-05-10
 <!-- sdd:done:end -->
