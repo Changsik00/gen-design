@@ -16,7 +16,7 @@
 
 ## Task 1: 브랜치 생성 + 라우터 / NAV 갱신
 
-- [ ] `git checkout -b spec-7-06-studio-reorg` (base: `phase-7-design-md`)
+- [x] `git checkout -b spec-7-06-studio-reorg` (base: `phase-7-design-md`)
 - [ ] `studio/src/lib/router.ts` 갱신
   - `StudioRoute` 타입에 `spec`, `new`, `design` 추가
   - `ROUTE_PATHS` 갱신 (spec/new/design/tokens/export)
@@ -79,7 +79,7 @@
 
 ## Task 5: "Download TSX" 버튼 + 회귀 테스트
 
-- [ ] SpecEditorPage 헤더에 "Download TSX" 버튼 추가
+- [x] SpecEditorPage 헤더에 "Download TSX" 버튼 추가
   - `compileToReact(text).tsx` → Blob 다운로드 (`<a download>`)
   - 에러 시 버튼 비활성화
 - [ ] `pnpm --filter studio test` 전체 회귀 PASS 확인
