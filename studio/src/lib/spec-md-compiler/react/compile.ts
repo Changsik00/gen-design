@@ -6,7 +6,11 @@ import { extractSections } from "./section-parser";
 import { emitHooks } from "./behavior-emitter";
 import { emitVariants } from "./variant-emitter";
 import { buildImports } from "./imports-builder";
-import { toRegistryEntry, type RegistryEntry } from "./registry-writer";
+import {
+  toRegistryEntry,
+  validateShadcnRegistryItem,
+  type RegistryEntry,
+} from "./registry-writer";
 
 export interface CompileInput {
   text?: string;
@@ -67,16 +71,16 @@ export function compileToReact(input: CompileInput): CompileResult {
 
   const needsUseState = hookLines.includes("useState");
   const reactImports = needsUseState ? "import { useState } from 'react';" : "import React from 'react';";
-  const importBlock = buildImports(ctx, usedComponents);
-
-  const bodyContent = [hookLines, jsxBody].filter(Boolean).join("\n  ");
+  const importBlock = buildImports(ctx, usedComponents, {
+    excludeName: input.componentName,
+  });
 
   const functionBody = [
     `${reactImports}`,
     importBlock,
     "",
     `export function ${input.componentName}() {`,
-    `  ${bodyContent.split("\n").join("\n  ")}`,
+    ...(hookLines ? [`  ${hookLines.split("\n").join("\n  ")}`] : []),
     `  return (`,
     `    <>`,
     jsxBody
@@ -93,6 +97,13 @@ export function compileToReact(input: CompileInput): CompileResult {
   const tsx = variantBlock ? `${functionBody}\n\n${variantBlock}` : functionBody;
 
   const registry = toRegistryEntry(input.componentName, tsx, usedComponents);
+  const validation = validateShadcnRegistryItem(registry);
+  if (!validation.ok) {
+    return {
+      ok: false,
+      errors: validation.errors.map((m) => ({ message: m, stage: "compile" as const })),
+    };
+  }
 
   return { ok: true, tsx, registry, errors: [] };
 }

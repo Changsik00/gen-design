@@ -1,6 +1,19 @@
 import type { EmitContext } from "./jsx-emitter";
+import { lookupImportPath } from "../paper/component-registry";
 
-export function buildImports(ctx: EmitContext, usedComponents: string[]): string {
+export interface BuildImportsOptions {
+  /**
+   * 일치 시 해당 컴포넌트 import 를 생략. 함수명-import 충돌 회피용 (C9).
+   * 예: componentName="LoginPage" + body 의 root 가 <LoginPage /> 인 경우.
+   */
+  excludeName?: string;
+}
+
+export function buildImports(
+  ctx: EmitContext,
+  usedComponents: string[],
+  options: BuildImportsOptions = {},
+): string {
   const lines: string[] = [];
 
   if (ctx.usedI18nKeys.size > 0) {
@@ -12,7 +25,9 @@ export function buildImports(ctx: EmitContext, usedComponents: string[]): string
   }
 
   for (const name of [...usedComponents].sort()) {
-    lines.push(`import { ${name} } from '@/components/ui/${name.toLowerCase()}';`);
+    if (options.excludeName && name === options.excludeName) continue;
+    const path = lookupImportPath(name) ?? `@/components/ui/${name.toLowerCase()}`;
+    lines.push(`import { ${name} } from '${path}';`);
   }
 
   return lines.join("\n");

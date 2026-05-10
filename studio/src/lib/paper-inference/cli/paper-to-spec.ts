@@ -64,6 +64,7 @@ export function runInfer(args: CliArgs, catalogMap: CatalogMap): CliResult {
     tree = JSON.parse(raw) as PaperTreeNode;
   } catch (e) {
     const msg = e instanceof Error ? e.message : String(e);
+    process.stderr.write(`Error reading ${args.file}: ${msg}\n`);
     return { text: "", report: "", exitCode: 1 };
   }
 
