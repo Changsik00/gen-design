@@ -15,7 +15,7 @@
  */
 
 import { resolve } from "node:path";
-import { writeFileSync } from "node:fs";
+import { readFileSync, writeFileSync } from "node:fs";
 import { compileToPaper } from "../paper/compile";
 
 export interface CliArgs {
@@ -46,10 +46,8 @@ export function parseArgs(argv: string[]): CliArgs | { error: string } {
 }
 
 export function runCompile(args: CliArgs): CliResult {
-  const r = compileToPaper(
-    { path: resolve(args.file) },
-    { withTailwind: args.withTailwind },
-  );
+  const text = readFileSync(resolve(args.file), "utf-8");
+  const r = compileToPaper(text, { withTailwind: args.withTailwind });
   const output = args.payload ? r.payload : r.html;
   const errors = r.errors?.length ?? 0;
   return {

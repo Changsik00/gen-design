@@ -2,7 +2,8 @@ import { describe, it, expect } from "vitest";
 import { writeFileSync, mkdtempSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
-import { parse, parseFile } from "../index";
+import { parse } from "../index";
+import { parseFile } from "../node";
 import type { ComponentInstance, Placeholder } from "../ast-types";
 
 describe("parse() — public API 결과 envelope", () => {

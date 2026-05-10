@@ -1,13 +1,30 @@
 import { useState } from "react";
 import { inferSpec } from "@/lib/paper-inference/infer";
 import type { CatalogMap } from "@/lib/paper-inference/ast-builder";
+import type { CatalogAxisDef } from "@/lib/paper-inference/variant-extractor";
+import catalogJson from "@/lib/vocabulary/catalog/catalog.json";
 
 interface Props {
   onResult: (specText: string) => void;
 }
 
-// catalog.json 이 없는 경우 빈 Map fallback — 컴포넌트 이름 매칭은 되지만 axis 추론 불가
-const EMPTY_CATALOG: CatalogMap = new Map();
+interface CatalogComponent {
+  name: string;
+  axes: CatalogAxisDef[];
+}
+
+function buildCatalogMap(): CatalogMap {
+  const map: CatalogMap = new Map();
+  const tiers = (catalogJson as { tiers: Record<string, { components?: CatalogComponent[] }> }).tiers;
+  for (const tier of Object.values(tiers)) {
+    for (const comp of tier.components ?? []) {
+      map.set(comp.name, comp.axes ?? []);
+    }
+  }
+  return map;
+}
+
+const CATALOG: CatalogMap = buildCatalogMap();
 
 export function PaperImportPanel({ onResult }: Props) {
   const [json, setJson] = useState("");
@@ -27,7 +44,7 @@ export function PaperImportPanel({ onResult }: Props) {
 
     try {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      const result = inferSpec(tree as any, EMPTY_CATALOG);
+      const result = inferSpec(tree as any, CATALOG);
       setReport(
         `confident ${result.report.confident.length} / confirm ${result.report.confirm.length} / unknown ${result.report.unknown.length}`
       );

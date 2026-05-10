@@ -3,8 +3,9 @@
  *
  * 입력 형식:
  *   - string: spec.md 텍스트
- *   - { path: string }: 파일 경로
  *   - Document: 미리 파싱된 AST
+ *
+ * 파일 경로 입력은 브라우저 호환을 위해 CLI 레이어에서 처리 (readFileSync → string 변환 후 전달).
  *
  * 출력:
  *   { html, payload, ast?, errors? }
@@ -20,7 +21,6 @@
  *   4. Tailwind CDN + CSS vars wrap
  */
 
-import { readFileSync } from "node:fs";
 import { parse } from "../../spec-md/parser";
 import type { Document, ParseError } from "../../spec-md/parser/ast-types";
 import koBundle from "../../../i18n/ko.json";
@@ -29,7 +29,7 @@ import { buildReactTree } from "./react-builder";
 import { renderTreeToHtml } from "./ssr-render";
 import { wrapPage } from "./page-wrapper";
 
-export type CompileInput = string | Document | { path: string };
+export type CompileInput = string | Document;
 
 export interface CompileOptions {
   /** Tailwind play CDN 포함 (기본 true). offline 환경에서 false. */
@@ -83,11 +83,6 @@ function resolveAst(input: CompileInput): {
 } {
   if (typeof input === "string") {
     const r = parse(input);
-    return r.ok ? { ast: r.ast } : { errors: r.errors };
-  }
-  if ("path" in input) {
-    const text = readFileSync(input.path, "utf-8");
-    const r = parse(text);
     return r.ok ? { ast: r.ast } : { errors: r.errors };
   }
   return { ast: input };

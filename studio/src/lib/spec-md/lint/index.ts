@@ -9,7 +9,8 @@
  * Stage 1 실패 시 즉시 중단 (AST 없음). Stage 2-4 는 모두 실행하여 누적 에러 반환.
  */
 
-import { parse, parseFile } from "../parser";
+import { parse } from "../parser";
+import { parseFile } from "../parser/node";
 import type { Document, ParseError, ParseResult } from "../parser/ast-types";
 import type { VocabularyCatalog } from "../../vocabulary/catalog";
 import { checkCatalog } from "./catalog-check";

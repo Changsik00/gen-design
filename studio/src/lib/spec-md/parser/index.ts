@@ -11,7 +11,6 @@
  * peggy 의 raw exception 을 ParseError 로 정규화 (line/col/offset/length).
  */
 
-import { readFileSync } from "node:fs";
 import { parser } from "../grammar";
 import type { Document, ParseError, ParseResult } from "./ast-types";
 
@@ -22,11 +21,6 @@ export function parse(text: string): ParseResult {
   } catch (e) {
     return { ok: false, errors: [toParseError(e)] };
   }
-}
-
-export function parseFile(path: string): ParseResult {
-  const text = readFileSync(path, "utf-8");
-  return parse(text);
 }
 
 interface PeggyError {
