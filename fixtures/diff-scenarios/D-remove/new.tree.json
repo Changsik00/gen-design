@@ -1,0 +1,12 @@
+{
+  "id": "root",
+  "name": "[chat:scenes/login]",
+  "component": "Frame",
+  "children": [
+    {
+      "id": "c1",
+      "name": "LoginForm.default.md",
+      "component": "Frame"
+    }
+  ]
+}
