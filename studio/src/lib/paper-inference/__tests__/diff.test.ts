@@ -1,26 +1,19 @@
-import { describe, it, expect, beforeAll } from "vitest";
-import { readFileSync } from "node:fs";
-import { join } from "node:path";
+import { describe, it, expect } from "vitest";
 import { inferChatDiff } from "../diff";
 import type { CatalogMap } from "../ast-builder";
 import type { PaperTreeNode } from "../tree-types";
-import type { VocabularyCatalog } from "../../vocabulary/catalog";
 
-const STUDIO_ROOT = join(__dirname, "..", "..", "..", "..");
-const CATALOG_PATH = join(STUDIO_ROOT, "src", "lib", "vocabulary", "catalog", "catalog.json");
-
-let catalog: CatalogMap;
-
-beforeAll(() => {
-  const raw = JSON.parse(readFileSync(CATALOG_PATH, "utf-8")) as VocabularyCatalog;
-  catalog = new Map();
-  const all = [
-    ...raw.tiers.tier2Shadcn.components,
-    ...raw.tiers.tier3Project.composites,
-    ...raw.tiers.tier3Project.templates,
-  ] as Array<{ name: string; axes: { name: string; values: string[] }[] }>;
-  for (const c of all) catalog.set(c.name, c.axes);
-});
+// 테스트용 catalog — LoginForm / Button 에 axis (variant, size) 정의.
+// 실제 catalog.json 의 LoginForm 은 axes [] 이므로 별도 inline 정의가 더 격리됨.
+const catalog: CatalogMap = new Map();
+catalog.set("LoginForm", [
+  { name: "variant", values: ["default", "filled"] },
+  { name: "size", values: ["sm", "md", "lg"] },
+]);
+catalog.set("Button", [
+  { name: "variant", values: ["primary", "ghost"] },
+  { name: "size", values: ["sm", "md", "lg"] },
+]);
 
 const baseChat = `---
 type: scene
@@ -37,7 +30,7 @@ identity: chats/scenes/login
 ## 🧩 Structure
 
 \`\`\`jsx
-<LoginForm extra_0="default" extra_1="md" />
+<LoginForm variant="default" size="md" />
 \`\`\`
 
 ## 📜 History

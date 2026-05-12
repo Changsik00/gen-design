@@ -32,4 +32,15 @@ describe("gen-design router", () => {
     expect(r.exitCode).toBe(2);
     expect(r.stderr).toMatch(/Missing/);
   });
+
+  it("diff subcommand 라우팅", async () => {
+    const r = await runRouter(["diff", "--help"]);
+    expect(r.exitCode).toBe(0);
+    expect(r.stdout).toMatch(/Usage: gen-design diff/);
+  });
+
+  it("--help 가 diff 도 표시", async () => {
+    const r = await runRouter(["--help"]);
+    expect(r.stdout).toMatch(/diff/);
+  });
 });
