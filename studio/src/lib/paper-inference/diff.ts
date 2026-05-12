@@ -104,11 +104,11 @@ export function inferChatDiff(
     stats,
     historyLineAdded,
     preserved: {
-      frontmatter: oldDoc.frontmatter !== null && merged.frontmatter === oldDoc.frontmatter,
-      narrative: oldDoc.narrative !== null
+      frontmatter: oldDoc.frontmatter != null && merged.frontmatter === oldDoc.frontmatter,
+      narrative: oldDoc.narrative
         ? merged.narrative?.markdown === oldDoc.narrative.markdown
         : true,
-      history: oldDoc.history !== null
+      history: oldDoc.history
         ? newHistoryMarkdown.includes(oldDoc.history.markdown.trim())
         : true,
     },
