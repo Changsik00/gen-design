@@ -62,6 +62,7 @@ phase-8 종료 시:
 | `spec-08-03` | adr-010-chat-promotion-policy | P? | Merged | `specs/spec-08-03-adr-010-chat-promotion-policy/` |
 | `spec-08-04` | chat-md-grammar | P? | Merged | `specs/spec-08-04-chat-md-grammar/` |
 | `spec-08-05` | paper-mcp-adapter | P? | Merged | `specs/spec-08-05-paper-mcp-adapter/` |
+| `spec-08-06` | infer-chat-diff | P? | Merged | `specs/spec-08-06-infer-chat-diff/` |
 <!-- sdd:specs:end -->
 
 > 의존성:
