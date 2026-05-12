@@ -18,17 +18,20 @@
 
 import { runPaperImport } from "./gen-design/paper-import";
 import { runDiff } from "./gen-design/diff";
+import { runReact } from "./gen-design/react";
 
 type Handler = (argv: string[]) => Promise<{ exitCode: number; stdout: string; stderr: string }>;
 
 const COMMANDS: Record<string, Handler> = {
   "paper-import": runPaperImport,
   "diff": runDiff,
+  "react": runReact,
 };
 
 const COMMAND_DESCRIPTIONS: Record<string, string> = {
   "paper-import": "Paper tree.json → enriched JSON or chat.md (spec-08-05)",
   "diff": "Apply Paper tree changes to existing chat.md, preserving Narrative/History (spec-08-06)",
+  "react": "Compile scene chat (with shell.inherit) to single TSX file (spec-08-07)",
 };
 
 export interface RouterResult {

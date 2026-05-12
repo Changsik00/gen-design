@@ -43,4 +43,15 @@ describe("gen-design router", () => {
     const r = await runRouter(["--help"]);
     expect(r.stdout).toMatch(/diff/);
   });
+
+  it("react subcommand 라우팅", async () => {
+    const r = await runRouter(["react", "--help"]);
+    expect(r.exitCode).toBe(0);
+    expect(r.stdout).toMatch(/Usage: gen-design react/);
+  });
+
+  it("--help 가 react 도 표시", async () => {
+    const r = await runRouter(["--help"]);
+    expect(r.stdout).toMatch(/react/);
+  });
 });
