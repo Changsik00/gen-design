@@ -63,6 +63,7 @@ phase-8 종료 시:
 | `spec-08-04` | chat-md-grammar | P? | Merged | `specs/spec-08-04-chat-md-grammar/` |
 | `spec-08-05` | paper-mcp-adapter | P? | Merged | `specs/spec-08-05-paper-mcp-adapter/` |
 | `spec-08-06` | infer-chat-diff | P? | Merged | `specs/spec-08-06-infer-chat-diff/` |
+| `spec-08-07` | chat-react-compiler | P? | Merged | `specs/spec-08-07-chat-react-compiler/` |
 <!-- sdd:specs:end -->
 
 > 의존성:
