@@ -1,0 +1,17 @@
+{
+  "id": "shell-1",
+  "name": "[chat:_shell] AppShell / 1440",
+  "component": "Frame",
+  "children": [
+    {
+      "id": "shell-2",
+      "name": "BrandHeader.default.lg",
+      "component": "Frame"
+    },
+    {
+      "id": "shell-3",
+      "name": "AppFooter.default.lg",
+      "component": "Frame"
+    }
+  ]
+}

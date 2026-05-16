@@ -38,7 +38,8 @@ export function extractSections(doc: Document): SectionResult {
   const variantBlocks: MarkdownText[] = [];
   const bodyWithoutSections: Block[] = [];
 
-  for (const block of doc.body) {
+  const blocks = doc.structure?.body ?? doc.body ?? [];
+  for (const block of blocks) {
     if (block.type !== "MarkdownText") {
       bodyWithoutSections.push(block);
       continue;

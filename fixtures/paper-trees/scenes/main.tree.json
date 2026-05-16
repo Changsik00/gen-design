@@ -1,0 +1,12 @@
+{
+  "id": "main-1",
+  "name": "[chat:scenes/main] MainScene / 1440",
+  "component": "Frame",
+  "children": [
+    {
+      "id": "main-2",
+      "name": "EmptyState.default.lg",
+      "component": "Frame"
+    }
+  ]
+}

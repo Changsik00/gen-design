@@ -17,8 +17,16 @@ function comment(text: string): Comment {
 function ph(kind: "i18n" | "token", path: string): Placeholder {
   return { type: "Placeholder", kind, path, location: NULL_LOC };
 }
-function doc(...body: Document["body"]): Document {
-  return { type: "Document", body };
+function doc(...body: NonNullable<Document["body"]>): Document {
+  return {
+    type: "Document",
+    frontmatter: null,
+    title: null,
+    narrative: null,
+    structure: null,
+    history: null,
+    body,
+  };
 }
 
 /** location 제외, 공백 전용 MarkdownText 제거 후 비교 */
@@ -100,6 +108,11 @@ describe("emit — Document → spec.md 텍스트", () => {
     // theme 은 ComponentInstance.theme 필드에 저장 (props 아님)
     const original: Document = {
       type: "Document",
+      frontmatter: null,
+      title: null,
+      narrative: null,
+      structure: null,
+      history: null,
       body: [
         {
           type: "ComponentInstance",
