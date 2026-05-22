@@ -2,3 +2,4 @@ packages:
   - 'studio'
   - 'poc/app-a'
   - 'poc/app-b'
+  - 'packages/*'
