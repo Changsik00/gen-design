@@ -21,7 +21,8 @@
     "paper-to-chat": "tsx --tsconfig tsconfig.app.json src/lib/paper-inference/cli/paper-to-spec.ts",
     "paper-inference:bench": "vitest run src/lib/paper-inference/__tests__/benchmark.test.ts",
     "chat-react": "tsx --tsconfig tsconfig.app.json src/lib/chat-md-compiler/react/cli/spec-react.ts",
-    "gen-design": "tsx --tsconfig tsconfig.app.json scripts/gen-design.ts"
+    "gen-design": "tsx --tsconfig tsconfig.app.json scripts/gen-design.ts",
+    "dogfooding": "tsx scripts/dogfooding-score.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
