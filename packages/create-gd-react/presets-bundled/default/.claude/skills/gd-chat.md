@@ -69,6 +69,8 @@ chats/scenes/login.chat.md 작성하시려는 거 맞나요?
 
 ## §4 frontmatter 자동 삽입
 
+> 💡 **디자이너 안내** (spec-11-07 fix #v2-7): 아래 frontmatter (`type` / `name` / `identity` / `shell.inherit` 등) 는 *agent 가 자동으로 채워주는 메타데이터* 입니다. **미경님 / 디자이너는 안 만지셔도 OK** — 그냥 *어떤 신을 만들지* 만 알려주시면 됩니다.
+
 신 (scene) 기본:
 
 ```yaml
@@ -199,6 +201,17 @@ B. Tier 3 composite 으로 등재 — 3회 룰 적용
 ~~~
 
 이 경우 `gd react` 가 *빈 외각만* 출력하고 본문은 사라집니다 (spec-11-05 fix #1 의 원인).
+
+### 디자이너 안내 (spec-11-07 fix #v2-5, #v2-6)
+
+본 §7 Structure 안의 두 종류 *영어* 는 *agent / 도구가 자동 처리* — 디자이너가 *이해할 필요 없음*:
+
+| 영어 표기 | 의미 | 디자이너 행동 |
+|---|---|---|
+| `{{i18n.ko.<도메인>.<액션>.<속성>}}` | *다국어 텍스트 자리* — 나중에 *실제 한국어* 로 바뀝니다 (`src/i18n/locales/ko.json`) | "여기에 무슨 글자가 들어갈지" 만 agent 에게 말씀. agent 가 i18n 키로 변환. |
+| `className="space-y-4 grid-cols-4 ..."` 같은 *Tailwind 클래스* | *레이아웃 명령* (간격 / 그리드 / 색) — *자동 처리* | "이렇게 배치해주세요" 만 알려주면 agent 가 클래스 작성. *직접 수정 X.* |
+
+→ 둘 다 *결과는 브라우저에서 확인* — `pnpm dev` (Vite 서버) 후 시각 검토.
 
 ### 규칙
 
