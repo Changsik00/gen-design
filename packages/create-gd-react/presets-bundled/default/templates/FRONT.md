@@ -134,7 +134,7 @@ pnpm add -D vite-ssg
 | **UI** | shadcn/ui + Tailwind 4 + cva + cn (clsx + tailwind-merge) | — | 복사 소유 모델 (§8) |
 | **State (server)** | TanStack Query | v5 | 캐시/재시도/invalidation 표준 |
 | **State (global)** | zustand | v5 | store 단위, selector 패턴 |
-| **State (atomic, optional)** | jotai | v2 | 파인그레인 — 필요할 때만 |
+| **State (지역 / Context 대체, optional)** | jotai | v2 | 지역 scope 의 fine-grained 리렌더 최적화. Context API 대체 |
 | **Form** | react-hook-form + zod | 7 + 4 | ref-based + 스키마 검증 |
 | **HTTP** | ky (fetch wrapper) | 1+ | retry/timeout/interceptors 기본 |
 | **Env** | @env-kit/node-settings | 1+ | 자작 — zod + 시크릿 자동 감지 + K8s |
@@ -175,20 +175,24 @@ src/
 ├── main.tsx                 # entry — StrictMode + Providers + Router
 ├── router.tsx               # React Router 설정 (lazy + Suspense)
 ├── scenes/                  # 🤖 gd react 자동 출력 — // @gd: chats/scenes/X
-├── features/                # 도메인 묶음
+│
+├── features/                # 도메인 묶음 (대부분의 코드가 여기)
 │   └── auth/
-│       ├── api/             # API 함수 + Query 훅 (도메인 layer)
-│       ├── components/      # 이 기능 전용
-│       ├── hooks/
-│       ├── stores/          # 이 기능 전용 zustand
-│       ├── atoms/           # (옵션) jotai
+│       ├── api/             # 이 기능의 API 함수 + Query 훅
+│       ├── components/      # 이 기능 전용 컴포넌트
+│       ├── hooks/           # 이 기능 전용 훅
+│       ├── stores/          # 이 기능의 *지역* zustand (필요 시)
+│       ├── atoms/           # (옵션) jotai — *지역 scope*, Context API 대체
+│       ├── providers/       # (옵션) 이 feature 의 Provider (jotai scope 시작점 등)
 │       ├── schemas/         # zod 스키마
 │       └── types/
-├── components/
-│   ├── ui/                  # 🔒 shadcn (patch 정책 §8)
-│   ├── composites/          # ✏️ Tier 3 — LoginForm 등
+│
+├── components/              # 전역 공유 UI (도메인 무관)
+│   ├── ui/                  # 🔒 shadcn (patch 정책 §9)
+│   ├── composites/          # ✏️ Tier 3 — LoginForm 등 (3회 룰로 승격)
 │   └── templates/           # ✏️ 페이지 매크로 — AppShell 등
-├── lib/
+│
+├── lib/                     # 도메인 무관 인프라
 │   ├── http/                # HTTP 인프라
 │   │   ├── client.ts        # ky 인스턴스
 │   │   ├── errors.ts        # AppError 표준 타입
@@ -198,23 +202,48 @@ src/
 │   ├── monitoring/          # Sentry + PostHog 초기화
 │   ├── utils.ts             # cn
 │   └── logger.ts            # consola
-├── api/                     # 도메인 API (cross-feature)
-├── stores/                  # 전역 zustand (auth / ui-mode)
-├── atoms/                   # (옵션) 전역 jotai
-├── hooks/                   # 전역 공유 훅
-├── providers/               # 컨텍스트 / Theme / QueryClient wrap
+│
+├── mocks/                   # MSW — API contract single source (§8)
+│   ├── browser.ts           # dev mode worker
+│   ├── server.ts            # vitest node
+│   ├── fixtures/            # 결정적 시드 데이터
+│   └── handlers/            # http handler + zod schema
+│       ├── index.ts         # aggregation
+│       └── <domain>.ts
+│
+├── stores/                  # *진짜 전역* zustand (auth / ui-mode 만)
+├── hooks/                   # 전역 공유 훅 (useLocalStorage 등)
+├── providers/               # *전역* Provider 만 (Theme / QueryClient / I18nextProvider)
+│                            #   — jotai Provider 는 features/<f>/providers/ 에 둠 (지역)
 ├── config/env.ts            # 환경변수 single source
 ├── i18n/                    # i18next + locales/{ko,en}.json
 ├── styles/globals.css       # Tailwind + 토큰 CSS vars
-├── types/                   # 공유 타입
-└── tests/                   # 테스트 유틸 (MSW server / TestProviders)
+├── types/                   # *진짜 공유* 타입 (도메인 별 타입은 features/<f>/types/)
+└── tests/                   # 테스트 유틸 (TestProviders / RTL render wrapper)
 ```
+
+> **`src/api/` 는 두지 않음.** API 호출 인프라 = `src/lib/http/` / 도메인 API = `features/<f>/api/`. 두 곳으로 충분.
+
+### 지역 vs 전역 — 결정 룰
+
+| 종류 | 지역 (`features/<f>/...`) | 전역 (`src/...`) |
+|---|---|---|
+| **API 함수 / Query 훅** | 항상 (도메인 = feature) | ❌ 두지 않음 |
+| **컴포넌트** | feature 전용 — 항상 지역 | 도메인 무관 + 재사용 3회 ↑ → `components/composites/` |
+| **zustand store** | feature 안에서만 쓰면 지역 | 진짜 글로벌 (auth / theme 등) |
+| **jotai atoms** | 항상 지역 (Provider scope) | ❌ 전역 두지 않음 |
+| **hooks** | feature 전용 | 도메인 무관 utility |
+| **schemas / types** | 도메인 → features/<f>/ | 공유 (User / ID 등) |
+
+→ *의심되면 features 안에 먼저 두기.* 3회 이상 쓰이면 전역으로 승격.
 
 ### 금지 안티 패턴
 
 - ❌ **Barrel files (`index.ts` 가 모두 re-export)** — Vite tree-shaking 방해 + 순환 의존
-- ❌ **Feature 간 직접 import** — 공유는 `shared` 로 승격 후 사용
-- ❌ **`components/` 에 도메인 컴포넌트** — `<LoginForm>` 은 `features/auth/components/` 또는 `composites/`
+- ❌ **Feature 간 직접 import** — 공유는 `components/` / `lib/` / `stores/` 로 승격 후 사용
+- ❌ **`components/` 에 도메인 컴포넌트** — `<LoginForm>` 은 `features/auth/components/`. 재사용되면 `composites/` 로 승격.
+- ❌ **`src/atoms/` 또는 `src/api/` 디렉토리 생성** — 위 룰 위반
+- ❌ **전역 jotai atom + Provider 없이 사용** — Context 대체의 의도 무력화
 
 ---
 
@@ -226,7 +255,7 @@ src/
 |---|---|---|---|
 | **1. 서버 데이터** | **TanStack Query v5** | 모든 fetch 결과. 캐시 / 재시도 / invalidation. | `useState` 로 보관 / `useEffect` 안 fetch / Zustand 에 캐시 |
 | **2. 클라이언트 글로벌** | **zustand v5** | 인증 / UI 모드 / 모달 / 위저드 step | 서버 데이터 보관 / Context 남용 |
-| **3. 아토믹 (옵션)** | **jotai v2** | 폼·필터 등 *상호 의존적 atom 들* / canvas / editor | 첫 store 부터 jotai 금지 |
+| **3. 지역 atomic (옵션, Context API 대체)** | **jotai v2** | *지역 scope* 에서 상호 의존적 atom 들 / canvas / editor / 폼 필터. Provider 로 트리 분리. | 전역으로 사용 금지 / 첫 store 부터 jotai 금지 |
 | **4. 로컬** | `useState` / `useReducer` / `useRef` | 한 컴포넌트 안 | — |
 | **5. URL** | React Router `searchParams` | filter / pagination / sorting / tab / 검색 | local state 에 보관 |
 
@@ -268,15 +297,48 @@ export const useUIStore = create<UIState>((set) => ({
 }));
 ```
 
-### 5.3 jotai 사용 기준
+### 5.3 jotai 사용 기준 — 지역 / Context API 대체
 
-다음 경우에만:
+> jotai 는 **전역 상태 라이브러리가 아닙니다.** *Context API 의 대체* — 컴포넌트 트리의 *지역 scope* 에서 fine-grained 리렌더 최적화를 제공합니다.
+
+**위치**: `src/features/<feature>/atoms/` *만* — 전역 `src/atoms/` 두지 않음.
+
+**사용 시점:**
 - visual / canvas / editor — 자주 변하는 fine-grained 상태
 - spreadsheet-like UI
-- atom dependency graph 가 유의미한 경우
-- zustand store 가 한 화면 전체를 차지할 때 분해
+- atom dependency graph 가 유의미한 경우 (`derivedAtom` 등)
+- 폼 / 필터 등 *상호 의존적* 상태 묶음 (한 feature 안)
+- 컴포넌트 트리의 *일부 subtree* 만 상태를 공유 — Context API 대체
 
-→ *단순 글로벌* 에는 jotai 사용 *금지*.
+**Provider 로 scope 분리** (Context 대체의 핵심):
+
+```tsx
+// src/features/editor/atoms/index.ts
+import { atom } from "jotai";
+export const canvasZoomAtom = atom(1);
+export const selectedNodeAtom = atom<string | null>(null);
+
+// src/features/editor/EditorRoot.tsx
+import { Provider } from "jotai";
+
+export function EditorRoot() {
+  return (
+    <Provider>            {/* ← scope 시작 — 이 subtree 안에서만 atom 유효 */}
+      <Toolbar />
+      <Canvas />
+      <Inspector />
+    </Provider>
+  );
+}
+```
+
+→ 같은 `canvasZoomAtom` 도 다른 Provider 안에서는 *별개 인스턴스*. Context Provider 와 동일 모델.
+
+**금지:**
+- ❌ 전역 `src/atoms/` 디렉토리 — feature 별 *지역 atoms/* 만
+- ❌ 인증 / UI 모드 등 *진짜 전역* 상태에 jotai — zustand 사용
+- ❌ 첫 store 부터 jotai — zustand 가 단순한 경우 항상 우선
+- ❌ Provider 없이 atom 전역 import 후 사용 — scope 의도 무력화
 
 ### 5.4 폼 상태 룰
 
@@ -1317,7 +1379,7 @@ agent 가 매번 다른 패턴을 생성하지 않도록:
 | 5 | SSR-by-default 마인드 | SSG-first (→ §2) |
 | 6 | Hydration 의존 아키텍처 | client-side fetch + Suspense |
 | 7 | 혼합 fetch client (axios + fetch) | ky 단일 |
-| 8 | Context API 과사용 | zustand 또는 jotai |
+| 8 | Context API 과사용 | zustand (전역) 또는 jotai (지역 + Provider scope) |
 | 9 | Barrel files (`index.ts` 모두 re-export) | 직접 import |
 | 10 | feature 간 직접 import | shared 로 승격 후 사용 |
 | 11 | 인라인 `style={{...}}` | Tailwind + cn |
@@ -1332,7 +1394,11 @@ agent 가 매번 다른 패턴을 생성하지 않도록:
 | 20 | 직접 `vi.fn(fetch)` 모킹 | MSW |
 | 21 | snapshot 테스트 남용 | role / label query |
 | 22 | shadcn 컴포넌트 API 직접 변경 | Tier 3 composite 으로 분리 |
-| 23 | god component (200+ 줄) | 분해 (§8) |
+| 23 | god component (200+ 줄) | 분해 (§9) |
+| 24 | jotai 를 *전역* 으로 사용 (`src/atoms/`) | features/<f>/atoms/ + Provider scope (Context 대체) |
+| 25 | `src/api/` 디렉토리 신설 | `src/lib/http/` (인프라) + `features/<f>/api/` (도메인) |
+| 26 | feature 내부 코드가 *전역* `components/composites/` 컴포넌트를 *수정* | 자체 composite 생성 (도메인 specific) |
+| 27 | MSW handler 가 schema 없이 임의 JSON 반환 | zod schema + `schema.parse()` 자체 검증 |
 
 ---
 

@@ -13,7 +13,7 @@
 1. **SSR / RSC 도입 금지** (default preset). Server Components / `getServerSideProps` / server-only fetch 패턴 사용 금지. 본 프로젝트는 **SSG-first** (→ FRONT.md §0). 데이터는 client-side TanStack Query 로 fetch.
 2. **`useState` 로 서버 데이터 보관 금지**. TanStack Query 훅을 만들어 사용한다.
 3. **`useEffect` 안에서 직접 `fetch` 또는 `setState` 호출 금지**. 데이터는 query 훅, 상태 변경은 이벤트 핸들러로 분리.
-4. **직접 `fetch()` 호출 금지**. 모든 HTTP 는 `src/api/client.ts` 의 `api` 인스턴스 (ky) 사용.
+4. **직접 `fetch()` 호출 금지**. 모든 HTTP 는 `src/lib/http/client.ts` 의 `api` 인스턴스 (ky) 사용.
 5. **`import.meta.env.X` 직접 접근 금지**. `src/config/env.ts` 의 `env` 객체만 사용.
 6. **`if (typeof window !== "undefined")` 패턴 금지**. SPA/SSG 에서는 항상 client — 분기 자체가 불필요.
 7. **인라인 `style={{...}}` 금지**. Tailwind 클래스 또는 `cn()` 으로 처리.
@@ -22,6 +22,9 @@
 10. **`dayjs` / `moment` 사용 금지**. `date-fns` 만.
 11. **`dangerouslySetInnerHTML` 단독 사용 금지**. 항상 `isomorphic-dompurify` 로 sanitize.
 12. **외부 링크에 `rel="noopener noreferrer"` 누락 금지**.
+13. **`src/atoms/` 또는 `src/api/` 디렉토리 생성 금지**. jotai atom 은 항상 `features/<f>/atoms/` (지역 Provider scope) / API 는 `src/lib/http/` (인프라) + `features/<f>/api/` (도메인).
+14. **jotai 를 *전역* 으로 사용 금지**. jotai 는 Context API 대체 — 항상 Provider 로 *지역 scope* 시작.
+15. **MSW handler 가 zod schema 없이 임의 JSON 반환 금지**. handler 는 *반드시* schema 정의 + `schema.parse()` 자체 검증 (§8 contract).
 
 ### ✅ 필수
 
