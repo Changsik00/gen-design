@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm fixtures:gen && vite",
+    "dev": "vite",
     "tokens": "node tokens/build.mjs",
     "fixtures:gen": "tsx scripts/generate-fixtures-index.ts",
     "build": "pnpm fixtures:gen && node tokens/build.mjs && tsc -b && vite build",

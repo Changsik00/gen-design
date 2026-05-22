@@ -20,6 +20,7 @@ import { EditorPage } from "@/features/editor";
 import { TokensPage } from "@/features/tokens";
 import { ExportPage } from "@/features/export";
 import { Playground } from "@/features/playground";
+import { ChatViewerPage } from "@/features/chat-viewer/ChatViewerPage";
 
 function App() {
   const route = useCurrentRoute();
@@ -35,6 +36,7 @@ function App() {
       {route === "design" && <EditorPage />}
       {route === "tokens" && <TokensPage />}
       {route === "export" && <ExportPage />}
+      {route === "chats" && <ChatViewerPage />}
     </StudioLayout>
   );
 }
