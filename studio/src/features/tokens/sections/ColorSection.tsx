@@ -78,6 +78,7 @@ function ColorRow({
       >
         <input
           type="color"
+          aria-label={label}
           className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
           value={value.startsWith("#") && value.length === 7 ? value : "#000000"}
           onChange={(e) => onUpdate(e.target.value)}

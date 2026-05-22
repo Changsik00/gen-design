@@ -13,6 +13,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
+    "test:a11y": "playwright test e2e/a11y.spec.ts",
     "vocab": "tsx scripts/extract-vocabulary.ts",
     "vocab:check": "tsx scripts/extract-vocabulary.ts --check",
     "chat-lint": "tsx src/lib/chat-md/cli/spec-lint.ts",

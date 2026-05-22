@@ -31,20 +31,17 @@ for (const { hash, label } of ROUTES) {
     const blocking = results.violations.filter(
       (v) => v.impact === "critical" || v.impact === "serious"
     );
-    if (blocking.length > 0) {
-      const detail = blocking
-        .map(
-          (v) =>
-            `  [${v.impact}] ${v.id}: ${v.description}\n` +
-            v.nodes
-              .slice(0, 3)
-              .map((n) => `    selector: ${n.target}`)
-              .join("\n")
-        )
-        .join("\n");
-      expect.fail(`a11y violations on ${hash}:\n${detail}`);
-    }
+    const detail = blocking
+      .map(
+        (v) =>
+          `[${v.impact}] ${v.id}: ${v.description}\n` +
+          v.nodes
+            .slice(0, 3)
+            .map((n) => `  selector: ${n.target}`)
+            .join("\n")
+      )
+      .join("\n");
 
-    expect(blocking).toHaveLength(0);
+    expect(blocking, `a11y violations on ${hash}:\n${detail}`).toHaveLength(0);
   });
 }

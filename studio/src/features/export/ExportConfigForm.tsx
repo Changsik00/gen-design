@@ -34,7 +34,7 @@ export function ExportConfigForm({ config, onChange }: Props) {
           value={config.appType}
           onValueChange={(v) => v && onChange({ appType: v as ExportConfig["appType"] })}
         >
-          <SelectTrigger>
+          <SelectTrigger aria-label="앱 유형 선택">
             <SelectValue placeholder="앱 유형 선택" />
           </SelectTrigger>
           <SelectPopup>
@@ -63,7 +63,7 @@ export function ExportConfigForm({ config, onChange }: Props) {
           value={config.packageManager}
           onValueChange={(v) => v && onChange({ packageManager: v as ExportConfig["packageManager"] })}
         >
-          <SelectTrigger>
+          <SelectTrigger aria-label="패키지 매니저 선택">
             <SelectValue placeholder="패키지 매니저 선택" />
           </SelectTrigger>
           <SelectPopup>
