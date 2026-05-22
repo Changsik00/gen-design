@@ -44,8 +44,8 @@
 
 ## Task 4: handbook 보정 적용
 
-- [ ] 보고서의 보정 후보에서 임팩트 가장 큰 1 항목 이상 `docs/handbook.md` 에 반영
-- [ ] Commit: `docs(spec-09-04): apply handbook corrections from external-alpha-1`
+- [x] 보고서의 보정 후보에서 임팩트 가장 큰 1 항목 이상 `docs/handbook.md` 에 반영
+- [x] Commit: `docs(spec-09-04): apply handbook corrections from external-alpha-1`
 
 ---
 
