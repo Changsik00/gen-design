@@ -175,7 +175,7 @@ export function applyPromotion(
     join(chatRoot, "playground", "chats", "_shell.chat.md"),
     join(chatRoot, "chats", "_shell.chat.md"),
   ];
-  const shellPath = shellPaths.find(existsSync);
+  const shellPath = shellPaths.find((p) => existsSync(p));
   if (!shellPath) {
     throw new Error("_shell.chat.md not found in playground/chats/ or chats/");
   }
