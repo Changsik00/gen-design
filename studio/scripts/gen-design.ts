@@ -21,6 +21,7 @@ import { runDiff } from "./gen-design/diff";
 import { runReact } from "./gen-design/react";
 import { runMerge } from "./gen-design/merge";
 import { runLint } from "./gen-design/lint";
+import { runDoctor } from "./gen-design/doctor";
 
 type Handler = (argv: string[]) => Promise<{ exitCode: number; stdout: string; stderr: string }>;
 
@@ -30,6 +31,7 @@ const COMMANDS: Record<string, Handler> = {
   "react": runReact,
   "merge": runMerge,
   "lint": runLint,
+  "doctor": runDoctor,
 };
 
 const COMMAND_DESCRIPTIONS: Record<string, string> = {
@@ -38,6 +40,7 @@ const COMMAND_DESCRIPTIONS: Record<string, string> = {
   "react": "Compile scene chat (with shell.inherit) to single TSX file (spec-08-07)",
   "merge": "Shell promotion helper — detect common components across scenes (spec-09-01, ADR-010)",
   "lint": "Validate chat.md consistency — 6 categories (spec-09-02, ADR-009)",
+  "doctor": "DESIGN/TOKEN/chat 정합 + drift 감지 + WCAG AA — 12 categories (spec-11-03)",
 };
 
 export interface RouterResult {
