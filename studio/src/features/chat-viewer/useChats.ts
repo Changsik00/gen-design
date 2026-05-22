@@ -35,6 +35,7 @@ export function useChats(): UseChatsResult {
 
   useEffect(() => {
     if (!import.meta.env.DEV) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setChats(fixturesAsFallback());
       setLoading(false);
       return;

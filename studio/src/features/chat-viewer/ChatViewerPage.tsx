@@ -63,7 +63,7 @@ function FileList({ chats, selected, onSelect }: FileListProps) {
                 }`}
               >
                 {entry.name}
-                <span className="ml-1 text-xs text-muted-foreground opacity-60">[{entry.source}]</span>
+                <span className="ml-1 text-xs text-muted-foreground">[{entry.source}]</span>
               </button>
             ))}
           </div>

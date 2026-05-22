@@ -68,7 +68,7 @@ function emitFmField(lines: string[], key: string, value: unknown, indent: numbe
       lines.push(`${pad}${key}: []`);
     } else if (value.every((v) => typeof v !== "object" || v === null)) {
       // 스칼라 array — 인라인 또는 block sequence
-      if (shouldUseBlockSequence(key, value)) {
+      if (shouldUseBlockSequence(key)) {
         lines.push(`${pad}${key}:`);
         for (const item of value) {
           lines.push(`${pad}  - ${formatScalar(item)}`);
@@ -96,7 +96,7 @@ function emitFmField(lines: string[], key: string, value: unknown, indent: numbe
   }
 }
 
-function shouldUseBlockSequence(key: string, _values: unknown[]): boolean {
+function shouldUseBlockSequence(key: string): boolean {
   // references / paths 같은 긴 경로 list 는 block sequence 가 가독성 좋음.
   return key === "references";
 }

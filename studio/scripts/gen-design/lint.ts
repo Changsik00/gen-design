@@ -313,17 +313,6 @@ export function checkCatalogRef(
 // Category: shell-inherit
 // ---------------------------------------------------------------------------
 
-function getShellComponents(chatRoot: string): Set<string> {
-  const shellPath = join(chatRoot, "_shell.chat.md");
-  if (!existsSync(shellPath)) return new Set();
-  const raw = readFileSync(shellPath, "utf-8");
-  const components = new Set<string>();
-  for (const m of raw.matchAll(/<([A-Z][A-Za-z0-9]*)/g)) {
-    components.add(m[1]);
-  }
-  return components;
-}
-
 function getCatalogNames(catalogPath: string): Set<string> {
   if (!existsSync(catalogPath)) return new Set();
   try {
