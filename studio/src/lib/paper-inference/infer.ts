@@ -13,7 +13,7 @@ import { buildAst } from "./ast-builder";
 import { classify } from "./classify";
 import { emit } from "./emit";
 
-export interface InferOptions extends ClassifyOptions {}
+export type InferOptions = ClassifyOptions;
 
 export interface InferResult {
   ast: Document;

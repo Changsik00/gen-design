@@ -4,9 +4,6 @@ export interface ChatSections {
   history: string;
 }
 
-// 섹션 헤더 패턴 — suffix(예: "(4축)") 허용, 이모지 포함
-const SECTION_RE = /^## (?:💬 Narrative|🧩 Structure|📜 History)(?:\s.*)?$/m;
-
 const HEADERS: Record<keyof ChatSections, RegExp> = {
   narrative: /^## 💬 Narrative(?:\s.*)?$/m,
   structure: /^## 🧩 Structure(?:\s.*)?$/m,

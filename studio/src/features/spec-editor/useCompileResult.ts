@@ -61,6 +61,7 @@ export function useCompileResult(text: string, debounceMs = 300): CompileResult 
 
   useEffect(() => {
     if (!text.trim()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setResult(EMPTY);
       return;
     }

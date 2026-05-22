@@ -34,7 +34,7 @@ describe("emitDocument — frontmatter serialize", () => {
       shell: { inherit: true, exclude: ["BrandHeader"] },
     };
     const text = emitDocument(baseDoc({ frontmatter: fm }));
-    expect(text).toMatch(/shell:\n  inherit: true/);
+    expect(text).toMatch(/shell:\n {2}inherit: true/);
     expect(text).toMatch(/exclude: \[BrandHeader\]/);
   });
 
@@ -46,7 +46,7 @@ describe("emitDocument — frontmatter serialize", () => {
     };
     const text = emitDocument(baseDoc({ frontmatter: fm }));
     expect(text).toMatch(/references:\n {2}- chats\/components\/a\.chat\.md/);
-    expect(text).toMatch(/  - chats\/components\/b\.chat\.md/);
+    expect(text).toMatch(/ {2}- chats\/components\/b\.chat\.md/);
   });
 });
 
