@@ -1,129 +1,172 @@
 # {{project-name}} — FRONT.md (Agent Stack Guide)
 
 > 🔒 **본 파일은 *고정 surface* 입니다.** 디자이너 / 사용자가 수정하지 않습니다.
-> agent (Claude / Cursor 등) 가 *코드를 작성할 때 반드시 따라야 할 React stack 의 single source of truth* 입니다.
-> 명령형 행동 규칙 / 안티 패턴은 별도 `AGENT.md` 참조.
+> agent (Claude / Cursor 등) 가 *코드를 작성할 때 반드시 따라야 할* React stack 의 *single source of truth* 입니다.
+> 명령형 행동 규칙 / 안티 패턴 요약 / 코드 패턴 예시는 별도 `AGENT.md` 참조.
 >
-> 본 문서의 모든 결정은 *외부에서 검증된 베스트 프랙티스* 를 기반으로 합니다. 주요 레퍼런스:
-> - **[bulletproof-react](https://github.com/alan2207/bulletproof-react)** — Feature-based 폴더 구조 + unidirectional architecture
-> - **[TkDodo's blog](https://tkdodo.eu/blog)** — TanStack Query 의 사실상 표준 best practices
-> - **[shadcn/ui](https://ui.shadcn.com/)** — 컴포넌트 카탈로그 + cn / cva 패턴
-> - **[Vite Guide](https://vite.dev/guide/)** — 빌드 / env / plugin 표준
-> - **[Web Content Accessibility Guidelines (WCAG) 2.1 AA](https://www.w3.org/WAI/WCAG21/quickref/)** — a11y 자동 기준
+> **Version**: 2026.05 / **Target**: SSG-first React 19+ / **Philosophy**: AI-Agent-friendly architecture
 
 ---
 
 ## 목차
 
-0. [Rendering Strategy — SSG-first](#0-rendering-strategy--ssg-first)
-1. [Stack 결정](#1-stack-결정)
-2. [폴더 구조 — Feature-based + Unidirectional](#2-폴더-구조--feature-based--unidirectional)
-3. [State Management — 4축 분리](#3-state-management--4축-분리)
-4. [HTTP Client (ky) + TanStack Query](#4-http-client-ky--tanstack-query)
-5. [환경변수 — @env-kit/node-settings](#5-환경변수--env-kitnode-settings)
-6. [Sentry — DSN 없어도 자리잡기](#6-sentry--dsn-없어도-자리잡기)
-7. [Logger (consola)](#7-logger-consola)
-8. [Pre-check — 단일 명령 품질 게이트](#8-pre-check--단일-명령-품질-게이트)
-9. [i18n — react-i18next + chat.md 통합](#9-i18n--react-i18next--chatmd-통합)
-10. [Form (react-hook-form + zod)](#10-form-react-hook-form--zod)
-11. [Date / Time / Async 유틸](#11-date--time--async-유틸)
-12. [E2E + a11y (Playwright + axe)](#12-e2e--a11y-playwright--axe)
-13. [DRY 룰 — `gd doctor` 가 검사하는 항목](#13-dry-룰--gd-doctor-가-검사하는-항목)
-14. [Performance defaults](#14-performance-defaults)
-15. [보안 defaults](#15-보안-defaults)
-16. [TypeScript strict 패턴](#16-typescript-strict-패턴)
-17. [에러 처리 전략](#17-에러-처리-전략)
-18. [React 19 활용 가이드](#18-react-19-활용-가이드)
-19. [테스트 피라미드](#19-테스트-피라미드)
-20. [AGENT.md — 행동 규칙](#20-agentmd--행동-규칙)
+1. [Core Philosophy](#1-core-philosophy)
+2. [Rendering Strategy — SSG-first](#2-rendering-strategy--ssg-first)
+3. [Tech Stack](#3-tech-stack)
+4. [Folder Structure — Feature-based + Unidirectional](#4-folder-structure--feature-based--unidirectional)
+5. [State Management — 5축 분리](#5-state-management--5축-분리)
+6. [Fetch Strategy](#6-fetch-strategy)
+7. [TanStack Query Rules](#7-tanstack-query-rules)
+8. [Mock-first API Contract (MSW)](#8-mock-first-api-contract-msw) ⭐
+9. [Component Architecture & Patch Strategy](#9-component-architecture--patch-strategy) ⭐
+10. [Styling Strategy](#10-styling-strategy)
+11. [환경변수 — @env-kit/node-settings](#11-환경변수--env-kitnode-settings)
+12. [Error Handling Strategy](#12-error-handling-strategy)
+13. [Logger (consola)](#13-logger-consola)
+14. [Monitoring — Sentry + PostHog](#14-monitoring--sentry--posthog)
+15. [Pre-check — 품질 게이트](#15-pre-check--품질-게이트)
+16. [i18n — react-i18next + chat.md 통합](#16-i18n--react-i18next--chatmd-통합)
+17. [Form + Date / Async](#17-form--date--async)
+18. [Accessibility (WCAG 2.1 AA)](#18-accessibility-wcag-21-aa)
+19. [E2E + a11y (Playwright + axe)](#19-e2e--a11y-playwright--axe)
+20. [Testing Pyramid](#20-testing-pyramid)
+21. [Performance defaults](#21-performance-defaults)
+22. [보안 defaults](#22-보안-defaults)
+23. [TypeScript strict 패턴](#23-typescript-strict-패턴)
+24. [React 19 활용 가이드](#24-react-19-활용-가이드)
+25. [AI-Agent Compatibility Rules](#25-ai-agent-compatibility-rules) ⭐
+26. [Anti-Patterns 모음](#26-anti-patterns-모음) ⭐
+27. [Recommended Defaults](#27-recommended-defaults)
+28. [Final Principle — Keep it boring](#28-final-principle--keep-it-boring)
+29. [AGENT.md 안내](#29-agentmd-안내)
+
+레퍼런스: [bulletproof-react](https://github.com/alan2207/bulletproof-react) · [TkDodo's blog](https://tkdodo.eu/blog) · [shadcn/ui](https://ui.shadcn.com/) · [Vite Guide](https://vite.dev/guide/) · [WCAG 2.1 AA](https://www.w3.org/WAI/WCAG21/quickref/)
 
 ---
 
-## 0. Rendering Strategy — SSG-first
+## 1. Core Philosophy
 
-> **본 프로젝트는 SSG-first 아키텍처를 채택합니다.** SSR 의 운영 난이도 (Node 서버 / hydration mismatch / streaming 등) 를 회피하고, *정적 출력 + 클라이언트 hydration + TanStack Query 의 client fetch* 로 단순함을 우선합니다.
+본 프로젝트는 *디자이너 / agent 와의 페어 작업* 을 우선합니다. 그래서 *복잡함을 의도적으로 제거*합니다.
+
+**우선순위 (순서대로):**
+
+1. **Predictability** — 같은 입력 → 같은 출력. 결정적 변환.
+2. **Debuggability** — 무엇이 잘못됐는지 *즉시* 알 수 있을 것.
+3. **Simplicity** — 두 방법이 있으면 *단순한 쪽*.
+4. **Maintainability** — 6개월 후 다시 봐도 이해 가능할 것.
+5. **AI-Agent-friendly** — agent 가 *명확히 매핑 가능*한 구조.
+
+**의도적으로 회피:**
+
+- 불필요한 아키텍처 복잡도
+- hydration mismatch / streaming SSR 문제
+- 상태 경계 모호함 (서버 ↔ 클라이언트)
+- fetch 행위 불일치 (axios + fetch 혼용 등)
+- 장기 유지보수 부담
+
+---
+
+## 2. Rendering Strategy — SSG-first
 
 ### 결정
 
-- ✅ **SSG-first**: 빌드 시 정적 HTML 출력. 정적 호스팅 (Vercel / Netlify / S3 + CloudFront / Cloudflare Pages) 가능.
-- ✅ **TanStack Query 로 client-side fetching**: 인증 / 동적 데이터는 hydration 후 client 가 fetch. 캐시 / 재시도 / loading state 표준화.
-- ❌ **SSR 최소화**: 페이지 단위 SSR 안 함. 진짜 필요한 SEO / OG 메타는 *빌드 타임 SSG* 로 처리.
-- ❌ **불필요한 hydration 복잡도 회피**: streaming SSR / Suspense boundary SSR 등 *SSR-specific 패턴* 도입 금지.
-- 🟡 **Server Components 는 optional**: default 가 아님. `--preset next-app-router` 후속에서 *opt-in* 으로만.
+| 원칙 | 내용 |
+|---|---|
+| ✅ **SSG-first** | 빌드 시 정적 HTML. 정적 호스팅 (Vercel / Netlify / S3 + CloudFront / Cloudflare Pages) |
+| ✅ **Client fetching default** | 동적 데이터는 *hydration 후 client* 가 fetch (TanStack Query) |
+| ❌ **SSR 최소화** | 페이지 단위 SSR 안 함. Server Components 는 *opt-in only* |
+| ❌ **불필요한 hydration 복잡도 회피** | streaming SSR / Suspense boundary SSR 등 SSR-specific 패턴 도입 금지 |
 
-### 구현 (Vite SPA → SSG)
+### Flow
 
-본 default preset 은 **Vite SPA 빌드** — `pnpm build` 가 `dist/index.html` + JS bundle 생성. 정적 호스팅에 deploy 하면 그대로 SSG 와 동일한 UX.
-
-페이지 prerender (SEO 필요 시):
-- `vite-ssg` plugin 추가 → 라우트별로 빌드 시 HTML prerender
-- `vite-plugin-pages` + sitemap 자동 생성
-
-설치 (필요 시):
-```bash
-pnpm add -D vite-ssg
+```
+Static HTML (빌드 시 출력)
+   ↓
+Client Hydration
+   ↓
+TanStack Query fetch (필요 시)
+   ↓
+Cache Management
 ```
 
-### 왜 SSG-first 인가?
+### SSR 사용 허용 조건 (예외)
+
+SSR 은 *오직* 다음 경우에만:
+
+1. SEO 가 *결정적으로 필수* — 검색 트래픽이 비즈니스 핵심
+2. 인증을 *반드시 서버 측에서* 해소해야 함 — 세션 hijack 방지 등
+3. 개인화가 *법적/규제 의무* — GDPR opt-in 같은 경우
+4. 보안 요구사항이 서버 렌더링 강제
+
+→ 위 조건 미달 시 **무조건 SSG**.
+
+### 왜 SSG 인가?
 
 | 항목 | SSG | SSR |
 |---|---|---|
-| 호스팅 | 정적 (CDN) | Node 서버 필요 |
-| TTFB | 최단 | 서버 응답 대기 |
-| 운영 부담 | 0 | 서버 관리 + 스케일링 |
+| 호스팅 | 정적 (CDN) | Node 서버 + 스케일링 |
+| TTFB | 최단 (CDN edge) | 서버 응답 대기 |
+| 운영 부담 | 0 | 인프라 관리 |
 | Hydration mismatch | 없음 (정적 HTML) | 빈번한 디버깅 |
 | 인증 / 동적 데이터 | client fetch (TanStack Query) | 서버 세션 |
-| SEO | 정적 출력 + meta tag | 동적 가능 |
+| AI 디버깅 친화도 | ⭐⭐⭐⭐⭐ | ⭐⭐ |
 
-**디자이너 페르소나** 에 SSR 운영은 과도. *publisher-ready ceiling* (→ vision.md §D6) 안에서 SSG 가 충분.
+### 구현
 
-### 안티 패턴 (금지)
+본 default preset 은 **Vite SPA 빌드** — `pnpm build` 가 `dist/index.html` + JS bundle 생성. 정적 호스팅에 deploy 하면 그대로 SSG 와 동일한 UX.
 
-- ❌ Next.js `getServerSideProps` / RSC 의 server-only fetch — 본 preset 미지원
-- ❌ `useEffect` 안에서 SEO meta 동적 변경 (검색엔진은 첫 HTML 만 봄)
-- ❌ Hydration mismatch warning 무시 — 무조건 server / client 결과 일치
-- ❌ `if (typeof window !== "undefined")` 패턴 남발 — SPA 에서는 항상 client
-
-### SEO 필요 시 권장 접근
-
-1. **정적 메타** (대부분 충분): `index.html` 에 OG / Twitter Card 메타 직접 작성
-2. **route 별 메타**: `vite-ssg` 도입 → 빌드 시 라우트별 HTML prerender
-3. **동적 메타**: `react-helmet-async` 로 client 측 변경 — 검색엔진은 못 보지만 share preview 는 client renderer 가 처리
+라우트 prerender (SEO 시):
+```bash
+pnpm add -D vite-ssg
+# 또는 vite-plugin-pages + sitemap
+```
 
 ---
 
-## 1. Stack 결정
+## 3. Tech Stack
 
 | 영역 | 선택 | 버전 | 결정 이유 |
 |---|---|---|---|
-| Build / Bundle | **Vite** | 7+ | ESM-first, dev HMR 100ms 미만, **SSG 빌드 (정적 HTML + JS bundle)**. CRA deprecated. SSR 회피 (→ §0). |
-| React | **React** | 19+ | `use()` / Async Transitions / React Compiler 호환. Server Components 는 optional (default 아님, → §0). |
-| TypeScript | strict + `noUncheckedIndexedAccess` | 5.9+ | 타입 안전성 최대, `arr[0]` 가 `T \| undefined` 로 강제 |
-| Router | **React Router v7** | data API | data router 의 loader / action 패턴 / TanStack Router 보다 학습 곡선 ↓ |
-| Image | `@unpic/react` (옵션 — 본 preset 미포함) | — | next/image 의 universal 버전. 추가 필요 시 install |
+| **Build / Bundle** | Vite | 7+ | ESM-first, SSG 빌드, dev HMR < 100ms. CRA deprecated. |
+| **React** | React | 19+ | `use()` / Async Transitions / React Compiler 호환 |
+| **TypeScript** | strict + `noUncheckedIndexedAccess` | 5.9+ | 타입 안전 최대 |
+| **Router** | React Router | v7 (data API) | loader/action 패턴, 학습 곡선 ↓ |
+| **UI** | shadcn/ui + Tailwind 4 + cva + cn (clsx + tailwind-merge) | — | 복사 소유 모델 (§8) |
+| **State (server)** | TanStack Query | v5 | 캐시/재시도/invalidation 표준 |
+| **State (global)** | zustand | v5 | store 단위, selector 패턴 |
+| **State (atomic, optional)** | jotai | v2 | 파인그레인 — 필요할 때만 |
+| **Form** | react-hook-form + zod | 7 + 4 | ref-based + 스키마 검증 |
+| **HTTP** | ky (fetch wrapper) | 1+ | retry/timeout/interceptors 기본 |
+| **Env** | @env-kit/node-settings | 1+ | 자작 — zod + 시크릿 자동 감지 + K8s |
+| **Error Boundary** | react-error-boundary (옵션) + Sentry ErrorBoundary | — | 4 계층 분리 (§11) |
+| **i18n** | react-i18next | 15+ | chat.md `{{i18n.ko.X}}` 호환 |
+| **Date** | date-fns | 4+ | ESM, 트리쉐이킹 |
+| **Async sanitize** | isomorphic-dompurify | 2+ | XSS 방어 |
+| **Logger** | consola | 3+ | scoped, dev/prod 분리 |
+| **Monitoring** | @sentry/react + posthog-js | 8+ / latest | crash + product analytics |
+| **Test (unit)** | vitest + RTL + jest-dom + user-event v14 | 4+ | jsdom 환경 |
+| **Test (mock)** | MSW | 2+ | network level mock |
+| **Test (e2e)** | Playwright + @axe-core/playwright | 1.50+ | 6 라우트 smoke + a11y |
+| **Lint / Format** | eslint 9 (flat) + prettier 3 | — | jsx-a11y / react-hooks 포함 |
+| **Git hook** | lefthook | 1+ | husky 보다 4-5배 빠름 |
 
-> 향후 `--preset next-app-router`: Next.js 15+ / App Router / next/image. SSG 모드 (`output: "export"`) 권장. RSC 는 *opt-in only*. 본 default preset 은 *Vite SSG-first*.
-
-**왜 Vite SSG 인가?**
-- 디자이너가 받는 *첫 번째 표면* — Server / SSR / RSC 복잡도 회피 (→ §0 Rendering Strategy)
-- 정적 호스팅 (Vercel / Netlify / S3 + CloudFront / Cloudflare Pages) — 인프라 비용 0, TTFB 최단
-- next preset 으로 후속 마이그레이션 가능 (chats / templates / FRONT.md / AGENT.md 그대로 호환)
+> 향후 `--preset next-app-router`: Next.js 15+ App Router / SSG 모드 (`output: "export"`) 권장 / next/image.
 
 ---
 
-## 2. 폴더 구조 — Feature-based + Unidirectional
+## 4. Folder Structure — Feature-based + Unidirectional
 
-bulletproof-react 의 *Unidirectional Codebase Architecture* 패턴 채택:
+bulletproof-react 의 *Unidirectional Codebase Architecture*:
 
 ```
-shared (components, lib, types, utils, api, stores)
+shared (components, lib, types, utils, stores)
     ↑
 features
     ↑
 app (main.tsx, router, scenes)
 ```
 
-**규칙**: shared 는 어디서나 사용 가능 / features 는 shared 만 import / app 은 features + shared.
+**규칙**: shared 는 어디서나 / features 는 shared 만 import / app 은 features + shared.
 
 ### 표준 디렉토리
 
@@ -132,59 +175,214 @@ src/
 ├── main.tsx                 # entry — StrictMode + Providers + Router
 ├── router.tsx               # React Router 설정 (lazy + Suspense)
 ├── scenes/                  # 🤖 gd react 자동 출력 — // @gd: chats/scenes/X
-├── features/                # 도메인 묶음 — 한 기능에만 쓰는 모든 것
+├── features/                # 도메인 묶음
 │   └── auth/
-│       ├── api/             # API 함수 + Query 훅
-│       │   ├── login.ts
-│       │   └── hooks/
-│       ├── components/      # 이 기능 전용 컴포넌트
-│       ├── stores/          # 이 기능 전용 zustand store
-│       ├── hooks/           # 이 기능 전용 훅
-│       ├── types/           # 이 기능 전용 타입
-│       └── utils/           # 이 기능 전용 유틸
+│       ├── api/             # API 함수 + Query 훅 (도메인 layer)
+│       ├── components/      # 이 기능 전용
+│       ├── hooks/
+│       ├── stores/          # 이 기능 전용 zustand
+│       ├── atoms/           # (옵션) jotai
+│       ├── schemas/         # zod 스키마
+│       └── types/
 ├── components/
-│   ├── ui/                  # 🔒 shadcn (locked) — Button / Card / Input 등
-│   ├── composites/          # ✏️ Tier 3 — LoginForm / DashboardStats 등
-│   └── templates/           # ✏️ 페이지 매크로 — AppShell / EmptyState
-├── lib/                     # 순수 유틸 (cn / sentry / logger)
-├── api/
-│   ├── client.ts            # ky 인스턴스 — 모든 HTTP 의 진입점
-│   ├── keys.ts              # queryKey factory (전역 도메인)
-│   └── hooks/               # cross-feature query 훅
-├── stores/                  # 전역 zustand store (auth / ui-mode)
+│   ├── ui/                  # 🔒 shadcn (patch 정책 §8)
+│   ├── composites/          # ✏️ Tier 3 — LoginForm 등
+│   └── templates/           # ✏️ 페이지 매크로 — AppShell 등
+├── lib/
+│   ├── http/                # HTTP 인프라
+│   │   ├── client.ts        # ky 인스턴스
+│   │   ├── errors.ts        # AppError 표준 타입
+│   │   ├── auth.ts          # 토큰/인증 인터셉터
+│   │   └── interceptors.ts  # 로그/Sentry 후크
+│   ├── query/               # TanStack QueryClient + 글로벌 error
+│   ├── monitoring/          # Sentry + PostHog 초기화
+│   ├── utils.ts             # cn
+│   └── logger.ts            # consola
+├── api/                     # 도메인 API (cross-feature)
+├── stores/                  # 전역 zustand (auth / ui-mode)
+├── atoms/                   # (옵션) 전역 jotai
+├── hooks/                   # 전역 공유 훅
+├── providers/               # 컨텍스트 / Theme / QueryClient wrap
 ├── config/env.ts            # 환경변수 single source
 ├── i18n/                    # i18next + locales/{ko,en}.json
+├── styles/globals.css       # Tailwind + 토큰 CSS vars
 ├── types/                   # 공유 타입
-└── styles/globals.css       # Tailwind + 토큰 CSS vars
+└── tests/                   # 테스트 유틸 (MSW server / TestProviders)
 ```
 
-### 안티 패턴 (금지)
+### 금지 안티 패턴
 
-- **Barrel files (`index.ts` 가 모든 걸 re-export)** — Vite tree-shaking 방해 + 순환 의존 위험. 직접 import 사용.
-- **Feature 간 직접 import** — `features/auth/...` 에서 `features/billing/...` import 금지. 공유는 `shared` 로 승격 후 사용.
-- **`components/` 에 도메인 컴포넌트** — `<LoginForm>` 은 `features/auth/components/` 또는 `components/composites/` (재사용 시).
-
-### 새 도메인 추가 워크플로
-
-1. `src/features/<domain>/` 생성 — components / api / stores / hooks 폴더만 (`.gitkeep`)
-2. ESLint *boundaries* (선택) 로 features 간 import 차단 가능 — `.eslintrc` 의 `no-restricted-imports` rule
+- ❌ **Barrel files (`index.ts` 가 모두 re-export)** — Vite tree-shaking 방해 + 순환 의존
+- ❌ **Feature 간 직접 import** — 공유는 `shared` 로 승격 후 사용
+- ❌ **`components/` 에 도메인 컴포넌트** — `<LoginForm>` 은 `features/auth/components/` 또는 `composites/`
 
 ---
 
-## 3. State Management — 4축 분리
+## 5. State Management — 5축 분리
 
-**어떤 상태인가** 에 따라 *반드시* 다음 매핑을 따른다.
+**어떤 상태인가** 에 따라 *반드시* 다음 매핑.
 
-| 상태 종류 | 라이브러리 | 사용 기준 | 안티 패턴 |
+| 축 | 라이브러리 | 사용 기준 | 안티 패턴 |
 |---|---|---|---|
-| **서버 데이터** | **TanStack Query v5** | 모든 fetch 결과. 캐시 / 재시도 / invalidation 표준화. | `useState` 로 fetch 결과 보관 금지. `useEffect` 안 fetch 금지. |
-| **클라이언트 글로벌** | **zustand v5** | 로그인 사용자 / UI 모드 / 모달 상태 | Context 남용 금지 (re-render 문제). prop drilling 시에만 store. |
-| **아토믹 / 파인그레인** | **jotai v2** | 폼·필터 등 *상호 의존적 atom 들* | 첫 store 부터 jotai 금지 — zustand 가 거대화될 때만. |
-| **로컬 컴포넌트** | `useState` / `useReducer` / `useRef` | 한 컴포넌트 안에서만 쓰는 상태 | — |
+| **1. 서버 데이터** | **TanStack Query v5** | 모든 fetch 결과. 캐시 / 재시도 / invalidation. | `useState` 로 보관 / `useEffect` 안 fetch / Zustand 에 캐시 |
+| **2. 클라이언트 글로벌** | **zustand v5** | 인증 / UI 모드 / 모달 / 위저드 step | 서버 데이터 보관 / Context 남용 |
+| **3. 아토믹 (옵션)** | **jotai v2** | 폼·필터 등 *상호 의존적 atom 들* / canvas / editor | 첫 store 부터 jotai 금지 |
+| **4. 로컬** | `useState` / `useReducer` / `useRef` | 한 컴포넌트 안 | — |
+| **5. URL** | React Router `searchParams` | filter / pagination / sorting / tab / 검색 | local state 에 보관 |
 
-### TanStack Query 패턴 (TkDodo 표준)
+### 5.1 서버 상태 룰
 
-**Query Key Factory** (계층적 + 중앙화):
+서버 상태 특징: 비동기 / 캐시 가능 / stale 가능 / 화면 간 공유.
+
+**룰:**
+- 서버 데이터를 zustand 에 *복제 금지*
+- API 응답을 *수동 캐시 금지*
+- 동기화 보다는 *query invalidation* 으로 처리
+
+### 5.2 클라이언트 글로벌 (zustand) 룰
+
+**zustand 가 *보관해선 안 되는* 것:**
+
+- ❌ API 응답 (→ TanStack Query)
+- ❌ 서버 캐시
+- ❌ 페이지네이션 데이터
+- ❌ 가져온 리스트
+- ❌ 인증 *토큰* (httpOnly cookie 권장, 어쩔 수 없으면 메모리 only)
+- ❌ Query 데이터 복제
+
+**예시 (좋음):**
+```ts
+// src/stores/ui-mode.ts
+import { create } from "zustand";
+interface UIState {
+  sidebarOpen: boolean;
+  theme: "light" | "dark";
+  toggleSidebar: () => void;
+  setTheme: (t: "light" | "dark") => void;
+}
+export const useUIStore = create<UIState>((set) => ({
+  sidebarOpen: true,
+  theme: "light",
+  toggleSidebar: () => set((s) => ({ sidebarOpen: !s.sidebarOpen })),
+  setTheme: (t) => set({ theme: t }),
+}));
+```
+
+### 5.3 jotai 사용 기준
+
+다음 경우에만:
+- visual / canvas / editor — 자주 변하는 fine-grained 상태
+- spreadsheet-like UI
+- atom dependency graph 가 유의미한 경우
+- zustand store 가 한 화면 전체를 차지할 때 분해
+
+→ *단순 글로벌* 에는 jotai 사용 *금지*.
+
+### 5.4 폼 상태 룰
+
+- **반드시 react-hook-form** 사용. 수동 `useState` form 금지.
+- **검증은 zod** 만. 수동 if-else 검증 금지.
+- 스키마는 *공유 가능*하면 `src/features/<feature>/schemas/` 에서 export.
+
+### 5.5 URL 상태 룰
+
+navigable 한 UI 상태는 *URL 이 source of truth*:
+
+```ts
+import { useSearchParams } from "react-router";
+
+function UserList() {
+  const [params, setParams] = useSearchParams();
+  const page = Number(params.get("page") ?? "1");
+  const filter = params.get("filter") ?? "all";
+
+  const { data } = useQuery({
+    queryKey: userKeys.list({ page, filter }),
+    queryFn: () => fetchUsers({ page, filter }),
+  });
+
+  return <Pagination page={page} onChange={(p) => setParams({ page: String(p), filter })} />;
+}
+```
+
+→ URL 공유 / 뒤로가기 / 북마크 가능. **local state 로 보관하지 말 것.**
+
+---
+
+## 6. Fetch Strategy
+
+### 6.1 Single HTTP Client
+
+애플리케이션은 **단 하나의 HTTP client 추상화** 를 사용한다.
+
+- 선택: **`ky`** (fetch wrapper) — retry/timeout/interceptors/hooks
+- **금지**: axios + fetch 혼용, 직접 `fetch()`, 중복 retry 로직, 일관성 없는 timeout
+
+### 6.2 API Layer 구조
+
+```
+src/lib/http/
+├── client.ts         # ky 인스턴스 (싱글톤)
+├── errors.ts         # AppError 표준 타입 + 변환
+├── auth.ts           # 토큰 인터셉터
+└── interceptors.ts   # 로그 / Sentry 후크
+
+src/api/              # (선택, cross-feature 도메인)
+src/features/<feat>/api/  # 도메인별 (대부분)
+```
+
+**Flow**: UI → hooks → api → http client. UI 가 fetch 직접 호출 *금지*.
+
+### 6.3 표준 에러 형태 (AppError)
+
+모든 HTTP 에러는 *정규화*된다:
+
+```ts
+// src/lib/http/errors.ts
+export interface AppError {
+  code: string;        // 'network' | 'unauthorized' | 'not-found' | ...
+  message: string;     // i18n 키 또는 한국어 사용자 메시지
+  status?: number;     // HTTP status (있을 때)
+  cause?: unknown;     // 원본 에러
+}
+
+export function toAppError(err: unknown): AppError {
+  // ky HTTPError, Error, unknown → AppError 표준화
+  ...
+}
+```
+
+→ raw backend error 를 UI 에 *직접 노출 금지*.
+
+### 6.4 Retry 정책
+
+| 상황 | 재시도 |
+|---|---|
+| 네트워크 실패 | ✅ |
+| 5xx (일시적) | ✅ |
+| 검증 에러 (400) | ❌ |
+| 인증 실패 (401) | ❌ |
+| 비즈니스 로직 에러 (422) | ❌ |
+
+ky 기본:
+```ts
+retry: { limit: 2, methods: ["get", "head", "options"] }
+```
+
+### 6.5 Timeout 정책
+
+**모든 요청은 timeout 정의 필수.** 무한 대기 *금지*.
+
+- 일반 GET: 10s
+- 업로드 / 무거운 POST: 30s
+- streaming: 별도 처리 (timeout 비활성화 시 명시 주석)
+
+---
+
+## 7. TanStack Query Rules
+
+### Query Key Factory (TkDodo 표준)
+
 ```ts
 // src/features/users/api/keys.ts
 export const userKeys = {
@@ -196,269 +394,608 @@ export const userKeys = {
 };
 ```
 
-**Query 훅** (`useXQuery`):
-```ts
-// src/features/users/api/hooks/useUser.ts
-import { useQuery } from "@tanstack/react-query";
-import { fetchUser } from "../user";
-import { userKeys } from "../keys";
+**룰:**
+- 항상 배열 + as const
+- *generic → specific* 순서
+- `useQuery` 와 `useInfiniteQuery` 에 *동일 키 사용 금지*
+- 키는 deterministic — `["random"]` 금지
 
-export const useUser = (id: string) =>
-  useQuery({
-    queryKey: userKeys.detail(id),
-    queryFn: () => fetchUser(id),
-    staleTime: 30_000, // 30s — 대부분의 도메인 데이터
-  });
-```
+### staleTime 기준
 
-**Mutation + Invalidation**:
+| 유형 | 권장 값 |
+|---|---|
+| 정적 config | `Infinity` |
+| 메타데이터 (locale list 등) | `5 * 60_000` (5분) |
+| 일반 도메인 데이터 | `30_000` (30s) — 기본 |
+| 실시간 대시보드 | `0` |
+
+### Mutation + Invalidation
+
 ```ts
-const queryClient = useQueryClient();
 const mutation = useMutation({
   mutationFn: updateUser,
   onSuccess: (data, vars) => {
-    // 1) 변경된 detail 은 setQueryData 로 즉시 갱신
+    // detail 은 setQueryData 로 즉시 갱신
     queryClient.setQueryData(userKeys.detail(vars.id), data);
-    // 2) list 는 invalidate (re-fetch)
+    // list 는 invalidate
     queryClient.invalidateQueries({ queryKey: userKeys.lists() });
   },
 });
 ```
 
-**staleTime 권장값**:
-- `0` — 즉시 stale (자주 변하는 데이터)
-- `30_000` (30s) — 일반 도메인 데이터 (기본값)
-- `5 * 60_000` (5분) — 거의 안 변하는 메타데이터
-- `Infinity` — 정적 데이터 (locale list 등)
+**룰:**
+- *상위 레벨* 무효화 (`userKeys.all`) 는 신중히
+- *선택적 업데이트*: 활성 쿼리는 `setQueryData`, 나머지는 invalidate
+- 전체 캐시 reset 금지 (`queryClient.clear()`) — 인증 변경 시에만
 
-### zustand 패턴
-
-```ts
-// src/stores/auth.ts
-import { create } from "zustand";
-
-interface AuthState {
-  user: User | null;
-  token: string | null;
-  login: (user: User, token: string) => void;
-  logout: () => void;
-}
-
-export const useAuthStore = create<AuthState>((set) => ({
-  user: null,
-  token: null,
-  login: (user, token) => set({ user, token }),
-  logout: () => set({ user: null, token: null }),
-}));
-
-// 사용 — selector 로 re-render 최소화
-const user = useAuthStore((s) => s.user);
-```
-
-### jotai 사용 기준
-
-- form 의 *서로 의존적 필드* — `emailAtom` + `passwordAtom` + `submitDisabledAtom` (computed)
-- 그래프 / 트리 데이터 — 한 노드 변경이 전체 리렌더 유발 안 하게
-- zustand 의 store 가 한 화면을 전부 차지할 때만 jotai 분해 검토
-
----
-
-## 4. HTTP Client (ky) + TanStack Query
-
-### ky 인스턴스 — 단일 진입점
-
-**표준 위치**: `src/api/client.ts` — 모든 HTTP 요청이 이 인스턴스 통과.
+### 글로벌 Error Handler
 
 ```ts
-import ky from "ky";
-import { env } from "@/config/env";
-import { useAuthStore } from "@/stores/auth";
-
-export const api = ky.create({
-  prefixUrl: env.PUBLIC_API_URL || undefined,
-  timeout: 10_000,
-  retry: { limit: 2, methods: ["get", "head", "options"] },
-  hooks: {
-    beforeRequest: [
-      (req) => {
-        const token = useAuthStore.getState().token;
-        if (token) req.headers.set("authorization", `Bearer ${token}`);
-      },
-    ],
-    afterResponse: [
-      (req, _opts, res) => {
-        if (!res.ok && res.status >= 500) {
-          // Sentry 5xx 보고
-          import("@/lib/sentry").then(({ captureHttpError }) =>
-            captureHttpError(req, res),
-          );
-        }
-      },
-    ],
-    beforeError: [
-      (error) => {
-        // 표준화된 APIError 로 변환
-        return error;
-      },
-    ],
-  },
+// src/lib/query/client.ts
+new QueryClient({
+  queryCache: new QueryCache({
+    onError: (error, query) => {
+      // toast 또는 Sentry
+      if (query.state.data === undefined) {
+        toast.error(toAppError(error).message);
+      }
+    },
+  }),
 });
 ```
 
-### 도메인 함수 + Query 훅 분리
+---
 
-```ts
-// src/features/users/api/user.ts — 순수 함수
-export const fetchUser = (id: string) => api.get(`users/${id}`).json<User>();
-export const updateUser = (input: UpdateUserInput) =>
-  api.patch(`users/${input.id}`, { json: input }).json<User>();
+## 8. Mock-first API Contract (MSW) ⭐
 
-// src/features/users/api/hooks/useUser.ts — TanStack Query wrap
-// (위 §3 예시 참조)
+> **MSW handler 는 단순 *테스트 모킹* 이 아니라 *API contract 의 single source of truth*.**
+> chat.md 가 화면을 정의하면, 그 화면이 필요로 하는 API 가 MSW handler (+ zod schema) 로 추출되고, **백엔드는 그 schema 를 보고 구현**합니다. 디자이너는 백엔드 없이 *실제 동작하는 React* 를 즉시 받습니다.
+
+### 8.1 5축 어휘 정합 (vision.md 의 4축 → 5축으로 확장)
+
+```
+[디자이너 작성]   chat.md 의 <Component variant="x">
+        ≡
+[Paper 시각]      Paper 노드 + layer-name anchor
+        ≡
+[React 출력]      shadcn/ui 컴포넌트 + composites
+        ≡
+[LLM 학습]        shadcn 이름 = LLM 훈련 데이터 풍부
+        ≡
+[API contract]    MSW handler + zod schema  ← NEW
+                  ↓
+                  OpenAPI / 백엔드 구현 stub
 ```
 
-### 안티 패턴
+### 8.2 흐름
 
-- ❌ 컴포넌트에서 `ky.get(...)` 직접 호출 — `api` 인스턴스만 사용
-- ❌ `useEffect` 안 fetch — 항상 Query 훅
-- ❌ `fetch()` 또는 `axios` 사용 — `ky` 만
+```
+chat.md (화면 명세 — 디자이너)
+   │
+   ├── gd react   → src/scenes/X.tsx (UI 코드)
+   │
+   └── gd api     → src/mocks/handlers/<domain>.ts (MSW handler + zod schema)
+                         │
+                         ├── 개발 (dev / test 에서 MSW 가 응답)
+                         ├── 프로토타이핑 (백엔드 없이 화면 동작)
+                         ├── e2e 테스트 (Playwright + MSW)
+                         └── 백엔드 contract (schema → OpenAPI export 가능)
+```
+
+> 💡 `gd api` 는 phase-12 후속 명령. spec-11-01 은 *MSW 셋업과 contract 정책* 만 박음.
+
+### 8.3 MSW handler 표준 구조
+
+```ts
+// src/mocks/handlers/users.ts
+import { http, HttpResponse } from "msw";
+import { z } from "zod";
+
+// API contract — schema 가 곧 백엔드 spec
+export const userSchema = z.object({
+  id: z.string().uuid(),
+  name: z.string(),
+  email: z.string().email(),
+});
+export type User = z.infer<typeof userSchema>;
+
+export const usersListSchema = z.object({
+  items: z.array(userSchema),
+  total: z.number().int().nonnegative(),
+  page: z.number().int().positive(),
+});
+
+export const handlers = [
+  http.get("/api/users/:id", ({ params }) => {
+    const user: User = {
+      id: params.id as string,
+      name: "Test User",
+      email: "t@example.com",
+    };
+    return HttpResponse.json(userSchema.parse(user));  // 응답이 contract 따르는지 자체 검증
+  }),
+
+  http.get("/api/users", ({ request }) => {
+    const url = new URL(request.url);
+    const page = Number(url.searchParams.get("page") ?? "1");
+    return HttpResponse.json(usersListSchema.parse({
+      items: [{ id: "u1", name: "A", email: "a@b.c" }],
+      total: 1,
+      page,
+    }));
+  }),
+];
+```
+
+**룰:**
+- handler 는 *반드시* schema 정의 + `schema.parse()` 로 응답 자체 검증
+- type 은 `z.infer<typeof schema>` 로 자동 추론 — 별도 type 정의 금지
+- handler 는 *순수* — DB / 외부 호출 없음 (in-memory fixture)
+- 응답 시간 시뮬레이션은 `delay()` 사용
+
+### 8.4 폴더 구조
+
+```
+src/mocks/
+├── browser.ts          # dev mode 시작 (worker)
+├── server.ts           # vitest 시작 (node)
+├── fixtures/           # 결정적 시드 데이터
+│   ├── users.ts
+│   └── ...
+└── handlers/
+    ├── index.ts        # 모든 handler aggregation (export const handlers = [...])
+    ├── auth.ts         # POST /api/login, POST /api/logout
+    ├── users.ts
+    └── ...
+```
+
+### 8.5 Dev 모드에서 MSW 활성화
+
+```ts
+// src/main.tsx
+if (MODE === "development" && env.PUBLIC_USE_MOCK === "true") {
+  const { worker } = await import("@/mocks/browser");
+  await worker.start({ onUnhandledRequest: "warn" });
+}
+```
+
+`.env.local` 에 `PUBLIC_USE_MOCK=true` → 백엔드 없이 dev 가능.
+
+### 8.6 백엔드와의 contract 동기화
+
+```bash
+# 1. zod schema → OpenAPI 자동 변환 (zod-to-openapi 또는 우리 자체 export)
+pnpm gd api export --format openapi --out api.yaml
+
+# 2. 백엔드는 api.yaml 을 보고 구현 — 디자이너 / 프론트와 병렬 가능
+
+# 3. 백엔드 stub 자동 생성 (NestJS / FastAPI 등)
+pnpm gd api export --format nestjs --out backend-stub/
+```
+
+> `gd api export` 는 후속 spec — 현재는 *철학 / 정책* 만 박힘.
+
+### 8.7 이점
+
+| 항목 | 전통 방식 | Mock-first contract |
+|---|---|---|
+| 디자이너 첫 동작 | 백엔드 완료 대기 | **즉시** (MSW) |
+| 백엔드 작업 시점 | 디자이너 후 | **병렬** |
+| Contract drift | 문서 + 수동 검증 | **schema = 코드** |
+| e2e 환경 의존 | DB / API 서버 필요 | **MSW 만** |
+| 타입 안정성 | 별도 OpenAPI codegen | **z.infer 자동** |
+
+### 8.8 안티 패턴 (금지)
+
+- ❌ handler 가 schema 없이 *임의 JSON 반환* — contract 약화
+- ❌ MSW 외 `vi.fn(fetch)` 직접 모킹 — 일관성 깨짐, 테스트만의 mock 됨
+- ❌ MSW 를 *테스트에서만* — dev mode 에서도 활성화해 prototyping 가속
+- ❌ handler 가 *side effect* (DB / 외부 호출) — 순수 fixture 만
+- ❌ schema 와 별도로 type 수동 정의 — 항상 `z.infer<typeof schema>`
+
+### 8.9 chat.md ↔ MSW handler 매핑 (gd api 의 책임 — 후속)
+
+`chat.md` 의 Structure 섹션에서 데이터 사용 패턴을 분석:
+
+```chat
+<UserList>
+  <UserCard for={user in users} />
+</UserList>
+```
+
+↓ `gd api` (후속 명령) 가 자동 추출:
+
+```ts
+// src/mocks/handlers/users.ts
+export const usersListSchema = z.object({
+  items: z.array(userSchema),
+  total: z.number().int(),
+});
+
+export const handlers = [
+  http.get("/api/users", () => HttpResponse.json(usersListSchema.parse({...}))),
+];
+```
+
+→ chat.md 가 곧 *화면 spec + API spec*. 디자이너가 만진 적 없어도 contract 가 생성됨.
 
 ---
 
-## 5. 환경변수 — `@env-kit/node-settings`
+## 9. Component Architecture & Patch Strategy ⭐
 
-> **`@env-kit/node-settings`** (Changsik00 작) — Vite / Next / dotenv-flow 컨벤션 호환. zod 기반 검증 + 자동 시크릿 감지 + K8s Secret 분리 + CLI (`validate` / `check` / `generate`).
+> **shadcn 의 핵심 철학**: 컴포넌트를 *npm install 하지 않고 복사해서 소유* 한다. 따라서 *직접 수정 (패치) 가능*. 이는 강력하지만, *일관된 패치 전략* 이 없으면 카오스가 됨.
+
+### 8.1 3-tier 컴포넌트 카탈로그
+
+```
+┌─────────────────────────────────────────────┐
+│ Tier 1: ARIA roles (자동 a11y)              │  — Radix UI 가 기반 제공
+├─────────────────────────────────────────────┤
+│ Tier 2: shadcn/ui (src/components/ui/)      │  🔒 LOCKED (패치 정책)
+│   Button / Card / Input / Label / ...       │
+├─────────────────────────────────────────────┤
+│ Tier 3: composites (src/components/composi…)│  ✏️ EDITABLE (도메인 어휘)
+│   LoginForm / DashboardStats / EmptyState   │
+├─────────────────────────────────────────────┤
+│ Tier 3+: templates (src/components/template…)│  ✏️ 페이지 macro
+│   AppShell / EmptyLayout / AuthLayout       │
+└─────────────────────────────────────────────┘
+```
+
+**규칙:**
+- Tier 1 은 *자동* — 직접 다루지 않음
+- Tier 2 는 *제한적 패치만* (아래 §8.2)
+- Tier 3 는 *자유 편집* (도메인 어휘 = 본 프로젝트 가치)
+
+### 8.2 Tier 2 (shadcn) 패치 정책
+
+**`src/components/ui/` 의 shadcn 컴포넌트는 lock 처리. 단 다음 패치는 허용:**
+
+| 패치 종류 | 허용 | 예시 |
+|---|---|---|
+| **cva variant 추가** | ✅ | `Button` 에 `variant: "soft"` 추가 |
+| **색상 토큰 매핑 조정** | ✅ | `bg-primary` → `bg-brand` |
+| **className 기본값 수정** | ✅ | 기본 padding 조정 |
+| **a11y 속성 추가** | ✅ | 기본 `aria-label` |
+| **Radix prop 변경** | ⚠️ 신중히 | side effect 분석 필요 |
+| **컴포넌트 API 변경** | ❌ | `<Button onClick>` → `<Button onPress>` 같은 변경 |
+| **컴포넌트 삭제** | ❌ | catalog 일관성 깨짐 |
+
+### 8.3 신규 shadcn 컴포넌트 추가
+
+```bash
+# 1. shadcn CLI 로 add (`src/components/ui/` 에 복사)
+npx shadcn@latest add dialog
+
+# 2. catalog 등재 — gd lint 가 자동 감지
+pnpm gd lint
+
+# 3. 패치 필요 시 (variant / 색상) — 위 §8.2 규칙 안에서
+```
+
+### 8.4 upstream 변경 추적 (drift 관리)
+
+shadcn 은 *수동 갱신* 모델. upstream 에 새 버전이 나와도 자동 반영 안 됨.
+
+```bash
+# upstream diff 확인
+npx shadcn@latest diff button
+
+# 강제 갱신 (덮어쓰기 — 주의: 패치 손실)
+npx shadcn@latest add button --overwrite
+```
+
+**워크플로 (안전):**
+1. `git stash` 또는 `feature branch` 분리
+2. `npx shadcn diff <component>` 로 변경 확인
+3. *3-way merge* — base / 우리 패치 / upstream 통합
+4. `pnpm precheck` PASS 확인
+5. 머지
+
+### 8.5 Tier 3 (composite) 승격 기준 — "3회 룰"
+
+같은 마크업이 **3회 이상 반복** 되면 *반드시 composite 으로 승격*.
+
+```
+같은 패턴 3회 발견 (gd doctor 가 AST 매칭으로 감지)
+    ↓
+src/components/composites/<Name>/ 생성
+    ↓
+├── index.tsx          # cva 로 variant 표현
+├── <Name>.test.tsx    # 단위 + 스냅샷 테스트
+└── __snapshots__/
+    ↓
+pnpm gd lint           # catalog.json 자동 등재
+    ↓
+chat.md 에서 <Name> 어휘 사용 가능
+```
+
+### 8.6 composite 작성 표준 (cva 패턴)
+
+```ts
+// src/components/composites/StatCard/index.tsx
+import { cva, type VariantProps } from "class-variance-authority";
+import { cn } from "@/lib/utils";
+import { Card, CardContent } from "@/components/ui/card";
+
+const statCardVariants = cva("", {
+  variants: {
+    variant: {
+      default: "",
+      compact: "py-2 [&_.value]:text-xl",
+      highlighted: "border-2 border-primary",
+    },
+  },
+  defaultVariants: { variant: "default" },
+});
+
+export interface StatCardProps extends VariantProps<typeof statCardVariants> {
+  label: string;
+  value: string;
+}
+
+export function StatCard({ label, value, variant }: StatCardProps) {
+  return (
+    <Card className={cn(statCardVariants({ variant }))}>
+      <CardContent>
+        <p className="text-xs text-muted-foreground">{label}</p>
+        <p className="value mt-1 text-2xl font-bold">{value}</p>
+      </CardContent>
+    </Card>
+  );
+}
+```
+
+**룰:**
+- 모든 variant 는 cva `variants` 안에 정의 — 임의 `if/else` 분기 금지
+- prop 은 `VariantProps<typeof X>` 로 자동 추론
+- `cn()` 으로 className 병합 (Tailwind 충돌 자동 해소)
+- 외부에서 `className` 추가 가능하게 `props.className` 받기 (선택)
+
+### 8.7 의사결정 트리 — 패치 vs 새 composite
+
+```
+변경하려는 것이 무엇?
+   │
+   ├─ 색상 / spacing / variant 조정만? → Tier 2 패치 (§8.2)
+   │
+   ├─ 구조 / 조합 / 도메인 의미 추가? → 새 Tier 3 composite (§8.5)
+   │
+   ├─ 컴포넌트 동작 (a11y / interaction)? → ⚠️ 신중 — 보통 새 composite 권장
+   │                                       (Radix 기반 패치 시 side effect ↑)
+   │
+   └─ 페이지 전체 레이아웃? → Tier 3+ template (src/components/templates/)
+```
+
+### 8.8 등록 / catalog 동기화
+
+`templates/FRONT.md` 의 카탈로그 표 (Tier 2/3) 는 `pnpm vocab` (vocab CLI) 또는 `pnpm gd lint` 가 자동 갱신:
+
+- `src/components/ui/<Name>.tsx` → Tier 2 entry
+- `src/components/composites/<Name>/index.tsx` → Tier 3 entry
+- cva `variants.<axis>` → catalog 의 axis 자동 추출
+
+→ chat.md 에서 `<StatCard variant="compact">` 사용 시 `gd doctor` 가 catalog 매칭 검증.
+
+### 8.9 외부 공유 — shadcn registry export
+
+자체 composite 를 다른 프로젝트로 공유:
+
+```bash
+pnpm gd react --registry > registry.json
+# 또는 별도 npm package 로 publish
+
+# 소비 측에서:
+npx shadcn@latest add @my-project/login-form
+```
+
+→ Tier 3 composite 가 *시장의 표준 install 채널* 로 흘러감. (vision.md §D3)
+
+### 8.10 안티 패턴 (금지)
+
+- ❌ `src/components/ui/` 에 *새로* 컴포넌트 추가 (shadcn CLI 외 직접 작성) — Tier 3 composite 으로 만들 것
+- ❌ composite 에서 도메인 데이터를 *컴포넌트 내부 fetch* — props 로 받기 (UI / 로직 분리)
+- ❌ variant 를 *동적 className 문자열 조합* — cva 만 사용
+- ❌ shadcn 컴포넌트의 *Radix prop 직접 변경* — 분석 없이는 위험
+- ❌ god component (한 파일에 모든 것) — 200줄 넘으면 분해 검토
+
+---
+
+## 10. Styling Strategy
+
+### 표준
+
+- **Tailwind CSS** 4 — utility-first
+- **cva** — variant 시스템
+- **cn()** (`clsx` + `tailwind-merge`) — 조건부 + 충돌 해소
+- **CSS vars + 토큰** — `src/styles/globals.css` 의 `@theme inline`
+
+### 금지
+
+- ❌ 거대한 global CSS — 토큰 / `globals.css` 외 추가 CSS 파일 금지
+- ❌ 깊게 중첩된 selector — `.a .b .c .d {...}` 금지
+- ❌ 인라인 `style={{...}}` — Tailwind 클래스로 변환
+- ❌ CSS-in-JS (styled-components, emotion) — Tailwind 가 표준
+
+### 패턴
+
+```tsx
+// ❌ 안티
+<div style={{ padding: 16, color: '#475569' }}>...
+
+// ❌ 안티 — magic
+<div className="p-4 text-[#475569]">...
+
+// ✅ 좋음 — 토큰 + cn
+<div className={cn("p-4 text-muted-foreground", isActive && "bg-primary")}>...
+```
+
+---
+
+## 11. 환경변수 — `@env-kit/node-settings`
+
+> 자작 라이브러리 — Vite / Next / dotenv-flow 컨벤션. zod 검증 + 자동 시크릿 감지 + K8s Secret 분리 + CLI.
 > ref: https://github.com/changsik00/node-settings
 
 ### 정책
 
-- Vite 의 `PUBLIC_` prefix env 만 client bundle 에 노출됨 (vite.config.ts envPrefix)
-- **prefix 는 *definition 시점* 에 enforce** — 스키마가 prefix 위반 키 포함 시 build-time error
-- zod schema 로 *런타임 검증* — 필수 키 누락 시 시작 거부 (`NodeSettingsError`)
-- 모든 env 접근은 `src/config/env.ts` 를 거침 (직접 `import.meta.env.X` 금지)
+- `PUBLIC_` prefix 만 client bundle 노출 (Vite envPrefix)
+- **prefix 는 definition 시점에 enforce** — schema 가 prefix 위반 키 포함 시 build 거부
+- zod schema 로 런타임 검증 — 필수 키 누락 시 `NodeSettingsError`
+- 모든 env 접근은 `src/config/env.ts` 통과 (직접 `import.meta.env.X` 금지)
 
-### 표준 패턴
+### 표준 패턴 (2단계)
 
 ```ts
-// src/config/env.ts
 import { z } from "zod";
 import { defineClientEnv } from "@env-kit/node-settings";
 
-const clientEnvSchema = z.object({
+const schema = z.object({
   PUBLIC_API_URL: z.string().default(""),
   PUBLIC_SENTRY_DSN: z.string().default(""),
+  PUBLIC_POSTHOG_KEY: z.string().default(""),
   PUBLIC_LOG_LEVEL: z.enum(["silent", "error", "warn", "info", "debug"]).optional(),
 });
 
-// 1) definition — prefix + schema 검증
-const getClientEnv = defineClientEnv({ prefix: "PUBLIC_", schema: clientEnvSchema });
+// 1단계: definition (검증 함수 반환)
+const getClientEnv = defineClientEnv({ prefix: "PUBLIC_", schema });
 
-// 2) 호출 — Vite import.meta.env 를 raw source 로 전달
+// 2단계: 호출 (import.meta.env 를 raw 로 전달)
 export const env = getClientEnv(import.meta.env as Record<string, string | undefined>);
 export const MODE = (import.meta.env.MODE as string) ?? "development";
 ```
 
-### `.env` 파일 계층 (Vite + dotenv-flow 컨벤션)
+### .env 파일 계층
 
 ```
-.env                # 모든 환경 공통 (커밋 OK)
+.env                # 공통 (커밋 OK)
 .env.local          # 로컬 override (.gitignore — 시크릿 OK)
 .env.development    # dev mode
 .env.production     # prod mode
-.env.[mode].local   # mode 별 로컬 override (.gitignore)
+.env.[mode].local   # mode 별 로컬
 ```
 
-뒤 소스가 앞 소스를 덮어씀.
-
-### 서버측 / build script 에서 사용 (선택)
-
-Vite plugin / build script 에서 server 환경변수 (시크릿 포함) 가 필요할 때:
+### 서버측 (build script / Node)
 
 ```ts
-import { z } from "zod";
 import { defineSettings, loadDotenvCascade } from "@env-kit/node-settings";
 
 const settings = defineSettings({
-  envSchema: z.object({
-    NODE_ENV: z.enum(["development", "production", "test"]),
-    DATABASE_URL: z.string(),
-    API_SECRET: z.string(),  // DEFAULT_SECRET_PATTERNS 자동 감지
-  }),
+  envSchema: z.object({ DATABASE_URL: z.string(), API_SECRET: z.string() }),
   envKey: "NODE_ENV",
   defaults: { logLevel: "info" },
-  perEnv: {
-    production: { logLevel: "warn" },
-  },
-  build: (env, config) => ({
-    db: { url: env.DATABASE_URL },
-    apiSecret: env.API_SECRET,
-    logLevel: config.logLevel,
-  }),
+  perEnv: { production: { logLevel: "warn" } },
+  build: (env, config) => ({ db: { url: env.DATABASE_URL }, ...config }),
 });
 
 const { env } = loadDotenvCascade();
 export const serverConfig = settings(env);  // frozen + validated
 ```
 
-### CLI 명령 (CI 통합)
+### CLI (CI 통합)
 
 ```bash
-# 검증 (CI 게이트)
-npx node-settings validate .env.production
-
-# 환경 완성도 (다환경 동시 검증)
-npx node-settings check --env prod,stage
-
-# K8s 매니페스트 자동 생성 (시크릿 분리)
-npx node-settings generate k8s --name my-app --out k8s.yaml
-
-# 환경변수 문서 자동 생성
-npx node-settings generate docs --out ENV.md
+npx node-settings validate .env.production     # 검증 게이트
+npx node-settings check --env prod,stage       # 다환경 동시 검증
+npx node-settings generate k8s --name app --out k8s.yaml  # K8s 매니페스트
+npx node-settings generate docs --out ENV.md   # 환경변수 문서
 ```
 
-### 런타임 오버라이드 (canary / 인시던트 대응)
+### 런타임 오버라이드 (canary / 인시던트)
 
 ```bash
 APP_CONFIG_JSON='{"logLevel":"debug"}' node server.js
 ```
 
-같은 이미지로 다른 설정 — canary 배포 / 장애 대응에 활용.
+---
 
-### 에러 처리
+## 12. Error Handling Strategy
 
-```ts
-import { NodeSettingsError } from "@env-kit/node-settings";
+### 4 계층 분리
 
-try {
-  const env = getClientEnv(rawEnv);
-} catch (err) {
-  if (err instanceof NodeSettingsError) {
-    if (err.severity === "runtime") {
-      // 운영자 대응 (환경변수 누락 / 잘못된 값)
-      console.error(`env error: ${err.code}, docs: ${err.docsUrl}`);
-    } else if (err.severity === "config") {
-      // 개발자 대응 (스키마 정의 자체가 잘못됨)
-    }
-  }
-  throw err;
+| 계층 | 위치 | 책임 |
+|---|---|---|
+| **1. HTTP** | `src/lib/http/errors.ts` 의 `toAppError()` | raw → AppError 표준화 |
+| **2. Query** | `QueryCache.onError` | 전역 Query 실패 → toast + Sentry |
+| **3. Component** | `<ErrorBoundary>` (route / feature) | 렌더 실패 → fallback UI |
+| **4. Form** | react-hook-form + zod | 입력 검증 → field-level 메시지 |
+
+### Error Boundary (3 종)
+
+```tsx
+// 1) 루트 boundary (catch-all)
+<SentryErrorBoundary fallback={RootErrorFallback}>
+  <App />
+</SentryErrorBoundary>
+
+// 2) Route boundary (페이지 단위)
+{
+  path: "/dashboard",
+  element: (
+    <ErrorBoundary FallbackComponent={DashboardErrorFallback}>
+      <Dashboard />
+    </ErrorBoundary>
+  ),
 }
+
+// 3) Feature boundary (위험한 영역)
+<ErrorBoundary FallbackComponent={WidgetErrorFallback}>
+  <ThirdPartyWidget />
+</ErrorBoundary>
 ```
+
+### Async Fallback
+
+```tsx
+<Suspense fallback={<Skeleton />}>
+  <LazyScene />
+</Suspense>
+```
+
+### 사용자 메시지
+
+- 모든 에러 메시지는 *한국어* + *해결 방법 한 줄*
+- 기술 스택 누설 금지 (`SQL error` 같은 거 노출 X)
+- i18n 키 사용 (`error.network`, `error.unauthorized`)
 
 ---
 
-## 6. Sentry — DSN 없어도 자리잡기
+## 13. Logger (consola)
+
+- **표준 위치**: `src/lib/logger.ts`
+- 사용:
+  ```ts
+  import { logger, createLogger } from "@/lib/logger";
+  logger.info("app boot");
+  const log = createLogger("auth"); log.debug("login attempt");
+  ```
+- 환경별 레벨: dev=debug, prod=warn (env `PUBLIC_LOG_LEVEL` 로 override)
+- production 빌드 자동 silent (DOM 노출 방지)
+
+### 금지
+
+- ❌ `console.log` 잔존 — `logger.debug` 로
+- ❌ 시크릿 / 토큰 logging
+- ❌ 사용자 PII logging — GDPR 준수
+
+---
+
+## 14. Monitoring — Sentry + PostHog
+
+### Sentry — Crash + 에러 모니터링
 
 - **`@sentry/react`** 8+
-- **표준 위치**: `src/lib/sentry.ts` — `initSentry()` 가 DSN 환경변수 없으면 **no-op**
-- 로컬 dev 마찰 0 — DSN 환경변수 없어도 앱 동작
-- production 빌드 시 자동으로 DSN 주입
-
-### 패턴
+- **표준 위치**: `src/lib/monitoring/sentry.ts`
+- DSN 없으면 **no-op** — 로컬 dev 마찰 0
+- 자동 capture 지점:
+  - ky `afterResponse` → 4xx/5xx
+  - TanStack Query `QueryCache.onError`
+  - React Error Boundary
+  - unhandled rejection
 
 ```ts
-import { initSentry, SentryErrorBoundary } from "@/lib/sentry";
+import { initSentry, SentryErrorBoundary } from "@/lib/monitoring/sentry";
 
-// main.tsx
 initSentry();
 createRoot(rootEl).render(
   <SentryErrorBoundary fallback={<ErrorFallback />}>
@@ -467,109 +1004,66 @@ createRoot(rootEl).render(
 );
 ```
 
-### 자동 capture 지점
+### PostHog — Product Analytics
 
-- ky `afterResponse` hook → 4xx/5xx
-- TanStack Query `QueryCache` onError → query 실패
-- React Error Boundary → 렌더 실패
-- unhandled rejection → window.onunhandledrejection
-
-### DSN 주입
-
-`.env.local` 또는 CI:
-```
-PUBLIC_SENTRY_DSN=https://your-dsn@sentry.io/project-id
-```
-
-> Sentry source map upload 는 production build script 에 별도 추가 (CI 에서만 실행).
-
----
-
-## 7. Logger (consola)
-
-- **`consola`** 3+ (Nuxt 팀, DX 친화, scoped logger)
-- **표준 위치**: `src/lib/logger.ts`
-
-### 패턴
+- **`posthog-js`**
+- **표준 위치**: `src/lib/monitoring/posthog.ts`
+- KEY 없으면 **no-op**
+- 추적 지점:
+  - 페이지뷰 (자동)
+  - 핵심 이벤트 (`onboarding-complete`, `subscription-paid`)
+  - feature flag (옵션)
 
 ```ts
-// 전역
-import { logger } from "@/lib/logger";
-logger.info("app boot");
-logger.debug("user state:", user);
+import { posthog } from "@/lib/monitoring/posthog";
 
-// scoped (feature 별)
-import { createLogger } from "@/lib/logger";
-const log = createLogger("auth");
-log.info("login attempt");
-log.warn("session expired");
+posthog.capture("button-clicked", { button: "subscribe" });
 ```
 
-### 환경별 레벨
+### 추적 대상
 
-- `dev`: `debug` (모두 출력)
-- `prod`: `warn` (warn / error 만)
-- override: `.env.local` 의 `PUBLIC_LOG_LEVEL=info`
-
-> production 빌드는 `__VITE_PROD__` define 으로 `debug` / `info` 자동 silent 가능 (Vite plugin 추가 시).
+- ✅ frontend crashes (Sentry)
+- ✅ API failures (Sentry)
+- ✅ UX 흐름 / 핵심 funnel (PostHog)
+- ❌ PII / 토큰 — *절대* 보내지 않음
 
 ---
 
-## 8. Pre-check — 단일 명령 품질 게이트
+## 15. Pre-check — 품질 게이트
 
-`pnpm precheck` 한 줄로 lint + typecheck + test 모두 실행.
+`pnpm precheck` = lint + typecheck + test 단일 명령.
 
-| 검사 | 도구 | 명령 | 비고 |
-|---|---|---|---|
-| Lint | **eslint 9** (flat config) | `pnpm lint` | `@typescript-eslint`, `react`, `react-hooks`, `jsx-a11y` |
-| Format | **prettier 3** + `eslint-config-prettier` | `pnpm format` | 충돌 방지 |
-| Type | tsc strict + `noUncheckedIndexedAccess` | `pnpm typecheck` | `tsc --noEmit` |
-| Test | **vitest 4** + RTL + `jest-dom` + `user-event 14` | `pnpm test` | jsdom 환경 |
-| Git hook | **`lefthook`** | 자동 (pre-commit + pre-push) | husky 보다 4-5배 빠름 |
+| 검사 | 도구 | 명령 |
+|---|---|---|
+| Lint | eslint 9 flat config | `pnpm lint` |
+| Format | prettier 3 | `pnpm format` |
+| Type | tsc strict | `pnpm typecheck` |
+| Test | vitest 4 + RTL + jest-dom + user-event v14 | `pnpm test` |
+| Git hook | lefthook | 자동 |
 
-### Git Hook 자동화 (lefthook.yml)
+### lefthook.yml
 
 ```yaml
 pre-commit:
   parallel: true
   commands:
-    lint:
-      glob: "*.{ts,tsx,js,jsx}"
-      run: pnpm eslint {staged_files}
-    format:
-      glob: "*.{ts,tsx,js,jsx,json,md,css}"
-      run: pnpm prettier --check {staged_files}
-    typecheck:
-      glob: "*.{ts,tsx}"
-      run: pnpm typecheck
+    lint: { glob: "*.{ts,tsx,js,jsx}", run: pnpm eslint {staged_files} }
+    format: { glob: "*.{ts,tsx,json,md,css}", run: pnpm prettier --check {staged_files} }
+    typecheck: { glob: "*.{ts,tsx}", run: pnpm typecheck }
 
 pre-push:
   commands:
-    precheck:
-      run: pnpm precheck
+    precheck: { run: pnpm precheck }
 ```
-
-설치: `pnpm exec lefthook install` (git init 이후 자동).
 
 ---
 
-## 9. i18n — react-i18next + chat.md 통합
+## 16. i18n — react-i18next + chat.md 통합
 
-- **`react-i18next` 15+** + `i18next-browser-languagedetector`
 - **표준 위치**: `src/i18n/index.ts` + `src/i18n/locales/{ko,en}.json`
-- 자동 감지 순서: `querystring` → `localStorage` → `navigator`
-
-### 키 명명 규칙
-
-```
-<도메인>.<액션>.<속성>
-```
-
-예: `auth.login.email-label`, `dashboard.stats.total-users`, `error.network`.
+- 키 명명: `<도메인>.<액션>.<속성>` — `auth.login.email-label`
 
 ### chat.md ↔ React 자동 변환
-
-chat.md 의 placeholder 가 `gd react` 컴파일 시 `t()` 호출로 변환:
 
 ```chat
 <Button>{{i18n.ko.welcome.cta}}</Button>
@@ -580,101 +1074,60 @@ const { t } = useTranslation();
 <Button>{t("welcome.cta")}</Button>
 ```
 
-### 안티 패턴
+### 금지
 
-- ❌ 컴포넌트에 한국어 / 영어 하드코딩 — 모두 i18n 키
-- ❌ 즉시 평가 (`t("foo")` 가 `null` 반환 시점) — 항상 hook 내 / Suspense fallback 처리
+- ❌ 한국어 / 영어 하드코딩 — 모두 i18n 키
+- ❌ 즉시 평가 (`t("foo")` 가 hook 밖에서) — 항상 hook 내부
 
 ---
 
-## 10. Form (react-hook-form + zod)
+## 17. Form + Date / Async
 
-### 표준 조합
+### Form — react-hook-form + zod
 
 ```ts
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-
-const loginSchema = z.object({
+const schema = z.object({
   email: z.string().email("올바른 이메일을 입력하세요"),
   password: z.string().min(8, "8자 이상 입력하세요"),
 });
-type LoginInput = z.infer<typeof loginSchema>;
+type Input = z.infer<typeof schema>;
 
-function LoginForm() {
-  const form = useForm<LoginInput>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: { email: "", password: "" },
-  });
-
-  const onSubmit = form.handleSubmit(async (values) => {
-    await login(values);
-  });
-
-  return (
-    <form onSubmit={onSubmit}>
-      <Input {...form.register("email")} />
-      {form.formState.errors.email && (
-        <p role="alert">{form.formState.errors.email.message}</p>
-      )}
-      <Button type="submit" disabled={form.formState.isSubmitting}>
-        로그인
-      </Button>
-    </form>
-  );
-}
+const form = useForm<Input>({ resolver: zodResolver(schema), defaultValues: { email: "", password: "" } });
+const onSubmit = form.handleSubmit(async (v) => await login(v));
 ```
 
-### shadcn `<Form>` 통합
+shadcn `<Form>` 사용 시 `<FormField>` + `<FormLabel>` + `<FormMessage>` 가 a11y 자동.
 
-shadcn 의 `<Form>` 컴포넌트 사용 시 — `npx shadcn add form` 후 표준 패턴 사용. `<FormField>` + `<FormLabel>` + `<FormMessage>` 가 a11y 자동 처리.
-
-### 안티 패턴
-
-- ❌ uncontrolled form 직접 작성 — RHF 가 표준
-- ❌ submit 핸들러에 zod 검증 없음 — 항상 resolver 통과
-- ❌ `useState` 로 form state 관리 — RHF 의 ref-based 가 성능 ↑
-
----
-
-## 11. Date / Time / Async 유틸
-
-| 영역 | 라이브러리 | 사용 |
-|---|---|---|
-| Date / Time | **`date-fns` 4** | 트리쉐이킹, ESM. `import { format } from "date-fns"` |
-| Timezone | `date-fns-tz` (추가 install) | TZ 지원 필요 시 |
-| Async / Promise | native + `p-limit` (큰 배열 동시성 제한 시) | — |
-
-### 안티 패턴
-
-- ❌ `moment` — deprecated, 번들 ↑
-- ❌ `dayjs` — date-fns 가 tree-shaking 우위
-- ❌ `Date.now()` 비교로 시간 차 계산 — `differenceInMinutes` 등 명시 함수 사용
-
----
-
-## 12. E2E + a11y (Playwright + axe)
-
-### 셋업
-
-- **`@playwright/test` 1.50+** + **`@axe-core/playwright` 4+**
-- `e2e/smoke.spec.ts` — 라우트 로딩 검증 (각 신 200 OK + 렌더 완료)
-- `e2e/a11y.spec.ts` — WCAG 2.1 AA 자동 스캔
-
-### a11y 게이트 정책
+### Date — date-fns 4
 
 ```ts
-const blocking = results.violations.filter(
-  (v) => v.impact === "critical" || v.impact === "serious",
-);
-expect(blocking).toHaveLength(0);
+import { format, differenceInMinutes } from "date-fns";
+const display = format(date, "yyyy-MM-dd HH:mm");
 ```
 
-- `critical` / `serious` → CI 실패 (게이트)
-- `moderate` / `minor` → console.warn (수정 권장, 게이트 아님)
+`dayjs` / `moment` *금지*.
 
-### 색 대비비 (WCAG 2.1 AA 기준)
+### Async sanitize (XSS 방어)
+
+```ts
+import DOMPurify from "isomorphic-dompurify";
+const safe = DOMPurify.sanitize(userInput);
+```
+
+`dangerouslySetInnerHTML` *단독* 사용 *절대* 금지.
+
+---
+
+## 18. Accessibility (WCAG 2.1 AA)
+
+### 요구사항
+
+- **WCAG 2.1 AA target**
+- 키보드 네비게이션 지원 (`tab` 순회, `focus-visible` 표준)
+- 시맨틱 HTML (`<button>`, `<nav>`, `<main>` 등)
+- 올바른 ARIA (Radix UI 가 대부분 자동)
+
+### 색 대비 기준
 
 | 텍스트 | 기준 |
 |---|---|
@@ -682,124 +1135,92 @@ expect(blocking).toHaveLength(0);
 | Large text (≥ 18pt / 14pt bold) | **3:1** |
 | UI components / graphics | **3:1** |
 
-`gd doctor` 가 토큰 페어를 자동 측정 + 미달 시 *가장 가까운 합격 컬러* 제안.
+`gd doctor` 가 토큰 페어 자동 측정 + 미달 시 *가장 가까운 합격 컬러* 제안.
 
-### 추천 라이브러리
+### 자동 검사
 
-- `@axe-core/playwright` — Playwright 통합
-- `eslint-plugin-jsx-a11y` — 정적 분석 (이미 포함)
-- Radix UI (shadcn 기반) — 컴포넌트 a11y 자동 처리
-
----
-
-## 13. DRY 룰 — `gd doctor` 가 검사하는 항목
-
-| 위반 | 감지 방법 | 권장 조치 |
-|---|---|---|
-| 같은 마크업 3회 이상 반복 | AST 패턴 매칭 | composite 승격 (`src/components/composites/<Name>/`) |
-| 인라인 `style={{...}}` 사용 | `eslint-plugin-react/forbid-component-props` 또는 정규식 | Tailwind 클래스로 변환 |
-| Magic number / hex / rem | 정규식 + token 매칭 | `templates/TOKEN.md` 토큰 참조 |
-| 동일 type alias 중복 | tsc + AST | `src/types/<Name>.ts` 공유 |
-| `useEffect` 안 직접 `fetch` | eslint custom rule | TanStack Query 훅으로 추출 |
-| `useEffect` 안 직접 `setState` | `react-hooks/set-state-in-effect` | 이벤트 핸들러 분리 |
-| `console.log` 잔존 | `no-console` rule | `logger.debug` 로 교체 |
-| chat.md ↔ TSX drift | `// @gd:` annotation + mtime 비교 | `gd react <chat>` 재실행 |
-| FRONT.md 카탈로그 외 컴포넌트 | catalog.json 매칭 + Levenshtein | 가장 가까운 카탈로그 컴포넌트 제안 |
+- `eslint-plugin-jsx-a11y` — 정적 분석
+- `@axe-core/playwright` — runtime 스캔
+- Radix UI (shadcn 기반) — 컴포넌트 a11y 자동
 
 ---
 
-## 14. Performance defaults
+## 19. E2E + a11y (Playwright + axe)
 
-### Route-level lazy
+- `e2e/smoke.spec.ts` — 6 라우트 로딩 + 렌더 완료
+- `e2e/a11y.spec.ts` — axe 스캔, WCAG 2.1 AA
+- 게이트 정책:
+  - `critical` / `serious` → CI 실패
+  - `moderate` / `minor` → console.warn (게이트 아님)
 
-```tsx
-// src/router.tsx
-const Login = lazy(() => import("./scenes/login"));
-// → Suspense fallback 으로 wrap
+### 핵심 flow (E2E 우선)
+
+- 인증 (회원가입 → 로그인 → 로그아웃)
+- 결제 (가능 시)
+- onboarding
+- 대시보드 주요 워크플로
+
+---
+
+## 20. Testing Pyramid
+
+```
+      ▲ E2E (Playwright)  — 10%
+     / \  핵심 user flow 1-3개
+    /   \
+   / 통합 (RTL + MSW)  — 20%
+  /  ───  feature 단위, network mock
+ /
+/ 단위 (vitest)  — 70%
+─────────────────  순수 함수 / 훅 / store / pure component
 ```
 
-각 신 (scene) 은 lazy import — 초기 번들 크기 ↓.
-
-### `React.memo` 사용 기준
-
-- ✅ 큰 리스트 아이템 (`Row`, `Card`) — props 가 같으면 리렌더 skip
-- ✅ 자주 리렌더되는 부모의 자식
-- ❌ 모든 컴포넌트에 적용 — 메모이제이션 자체 비용
-
-### TanStack Query 설정
+### MSW 표준 (network mock)
 
 ```ts
-new QueryClient({
-  defaultOptions: {
-    queries: {
-      staleTime: 30_000,        // 30s 캐시
-      retry: 1,                 // 1회 재시도
-      refetchOnWindowFocus: false,  // 데스크탑 앱 톤
-    },
-  },
-});
+import { http, HttpResponse } from "msw";
+import { setupServer } from "msw/node";
+
+export const server = setupServer(
+  http.get("/api/users/:id", ({ params }) =>
+    HttpResponse.json({ id: params.id, name: "Test User" }),
+  ),
+);
 ```
 
-### 가상 스크롤 (큰 리스트)
+직접 `vi.fn(fetch)` 모킹 *금지* — 항상 MSW.
 
-10,000+ items: `@tanstack/react-virtual` (필요 시 추가).
+### 금지
 
-### Code splitting 전략
-
-- Route 단위 — 기본 (위 lazy 패턴)
-- Feature 단위 — `import("./features/dashboard")` (lazy 가능)
-- Heavy lib — `import("monaco-editor")` 등 무거운 deps 는 동적 import
-
-### React Compiler (선택)
-
-React 19 호환. 수동 `useMemo` / `useCallback` 제거 가능. 추가 후 검토.
+- ❌ 구현 detail 테스트 — *사용자 관점* (role / label / text) 으로 query
+- ❌ snapshot 남용 — 가독성 ↓
+- ❌ E2E 가 단위 테스트 대체 — 느림 + 플레이키
 
 ---
 
-## 15. 보안 defaults
+## 21. Performance defaults
 
-### 입력 sanitize
+- Route-level lazy (`React.lazy` + `<Suspense>`)
+- `React.memo` 는 *큰 리스트 / 자주 리렌더되는 컴포넌트* 만
+- TanStack Query: `staleTime` 표준값 (§7)
+- 큰 list: `@tanstack/react-virtual`
+- React Compiler (React 19+) — 자동 메모이제이션 (옵션)
 
-```ts
-import DOMPurify from "isomorphic-dompurify";
-
-const safe = DOMPurify.sanitize(userInput, { USE_PROFILES: { html: true } });
-return <div dangerouslySetInnerHTML={{ __html: safe }} />;
-```
-
-> `dangerouslySetInnerHTML` *단독* 사용 절대 금지.
-
-### 환경변수 분리
-
-- `PUBLIC_` prefix 만 client bundle 노출 — Vite envPrefix 강제
-- 서버 시크릿 (`API_SECRET` 등) 은 `defineSettings()` (서버측) 로만 접근
-- `@env-kit/node-settings` 가 `DEFAULT_SECRET_PATTERNS` (PASSWORD / TOKEN / KEY / SECRET) 자동 감지 → K8s Secret 분리
-
-### 외부 링크
-
-```tsx
-<a href={url} rel="noopener noreferrer" target="_blank">
-```
-
-ESLint `react/jsx-no-target-blank` rule 로 자동 강제.
-
-### CSP / 헤더
-
-- Vite SPA 는 정적 호스팅 — CSP 는 호스팅 platform 설정 (`vercel.json`, `_headers` 등)
-- Next preset 후속에서 미들웨어로 자동화
-
-### 의존성 보안
-
-```bash
-pnpm audit                    # 알려진 취약점 스캔
-pnpm outdated                 # 업데이트 가능 항목
-```
-
-CI 에 통합 권장.
+**금지**: premature optimization. 측정 후 최적화.
 
 ---
 
-## 16. TypeScript strict 패턴
+## 22. 보안 defaults
+
+- 사용자 HTML 입력 렌더: `isomorphic-dompurify` 만 (`dangerouslySetInnerHTML` 단독 금지)
+- env `PUBLIC_` prefix 강제 — 시크릿 노출 방지
+- 외부 링크: `rel="noopener noreferrer"` (eslint rule)
+- 의존성: `pnpm audit` + `pnpm outdated` 정기 CI
+- CSP / 헤더: 호스팅 platform 설정 (`vercel.json`, `_headers`)
+
+---
+
+## 23. TypeScript strict 패턴
 
 ### 필수 옵션 (tsconfig.app.json)
 
@@ -815,216 +1236,199 @@ CI 에 통합 권장.
 }
 ```
 
-### Utility types 활용
+### Utility types
 
 | 상황 | 패턴 |
 |---|---|
-| API 응답 일부만 사용 | `Pick<User, "id" \| "name">` |
-| 필드 추가 | `User & { token: string }` |
-| 모든 필드 옵션 | `Partial<User>` |
-| 깊은 옵션 | `DeepPartial<User>` (`type-fest` 추가 install) |
-| 함수 인자 타입 추출 | `Parameters<typeof fetchUser>` |
-| 함수 반환 타입 추출 | `ReturnType<typeof useUser>` |
-| zod schema → 타입 | `z.infer<typeof userSchema>` |
+| 일부 필드만 | `Pick<User, "id" \| "name">` |
+| 옵션 | `Partial<User>` |
+| 깊은 옵션 | `DeepPartial<User>` (type-fest) |
+| 함수 인자 / 반환 | `Parameters<typeof fn>` / `ReturnType<typeof fn>` |
+| zod 스키마 → 타입 | `z.infer<typeof schema>` |
 
-### 안티 패턴
+### 금지
 
-- ❌ `any` — `unknown` 후 type guard
+- ❌ `any` — `unknown` + type guard
 - ❌ `as` 캐스팅 남용 — 정말 필요할 때만
-- ❌ `// @ts-ignore` — `// @ts-expect-error` 와 *왜 그런지 한 줄 주석* 필수
+- ❌ `@ts-ignore` — `@ts-expect-error` + *왜 그런지 한 줄 주석* 필수
 
 ---
 
-## 17. 에러 처리 전략
+## 24. React 19 활용 가이드
 
-### 4 계층 분리
+### 새 API
 
-| 계층 | 위치 | 책임 |
+| API | 용도 |
+|---|---|
+| `use(promise)` | Promise / Context unwrap (+ Suspense) |
+| `useActionState` | form action 통합 |
+| `useFormStatus` | 자식에서 부모 form pending |
+| `useOptimistic` | 낙관적 업데이트 |
+| `useTransition` | non-blocking 전환 |
+
+### 금지
+
+- ❌ `forwardRef` 새로 작성 — React 19 는 ref 가 prop
+- ❌ `useEffect` 로 fetch — `use()` + Suspense + TanStack Query
+- ❌ 수동 `useMemo` 남용 — React Compiler 가 자동
+
+---
+
+## 25. AI-Agent Compatibility Rules
+
+> agent (Claude / Cursor) 가 *코드를 작성할 때 잘 동작* 하도록 *예측 가능한 구조* 를 유지한다.
+
+### 선호
+
+- ✅ **명시적 네이밍** — `useUser` (`useFetch` X)
+- ✅ **결정적 폴더 구조** — feature-based, agent 가 *어디에 무엇이 있는지* 예측 가능
+- ✅ **격리된 책임** — 한 파일 / 한 함수 = 한 가지 일
+- ✅ **단순한 렌더 흐름** — SSG → hydrate → query, *예외 없음*
+
+### 회피
+
+- ❌ **숨겨진 magic** — context / provider 가 *어디서 주입되는지* 불명확
+- ❌ **과도한 추상화** — 사용처 1곳인데 추상 클래스 / interface 제공
+- ❌ **깊게 결합된 상태** — 여러 store 가 서로 참조
+- ❌ **예측 불가능한 side effect** — `useEffect` 안에서 다른 effect 트리거
+
+### 표준화
+
+agent 가 매번 다른 패턴을 생성하지 않도록:
+- *모든* HTTP → `src/lib/http/client.ts` 의 `api` 인스턴스
+- *모든* 서버 상태 → TanStack Query 훅
+- *모든* form → react-hook-form + zod
+- *모든* 신 → chat.md → `gd react` 컴파일
+
+→ FRONT.md 의 결정이 *모든* 코드에 적용. *예외 만들지 않음*.
+
+---
+
+## 26. Anti-Patterns 모음
+
+> 본 프로젝트에서 *절대* 피해야 할 패턴 모음. 발견 시 `gd doctor` 가 보고하고, agent 는 *자동 거부* 한다.
+
+| # | 안티 패턴 | 대안 |
 |---|---|---|
-| **API** | `src/api/client.ts` 의 `beforeError` | HTTP 에러 → 표준 `APIError` 변환 |
-| **Query** | `QueryClient.QueryCache.onError` | 전역 Query 실패 → Sentry + toast |
-| **Component** | `<ErrorBoundary>` | 렌더 실패 → fallback UI |
-| **Form** | `react-hook-form` + zod | 입력 검증 → field-level 메시지 |
-
-### React Error Boundary
-
-```tsx
-import { SentryErrorBoundary } from "@/lib/sentry";
-
-<SentryErrorBoundary
-  fallback={({ error, resetError }) => (
-    <ErrorFallback error={error} onReset={resetError} />
-  )}
->
-  <App />
-</SentryErrorBoundary>
-```
-
-### TanStack Query Global Error Handler
-
-```ts
-new QueryClient({
-  queryCache: new QueryCache({
-    onError: (error, query) => {
-      // toast 또는 Sentry
-      if (query.state.data === undefined) {
-        // 처음 fetch 실패 — 사용자에게 표시
-        toast.error("불러오기 실패");
-      }
-    },
-  }),
-});
-```
-
-### 사용자 친화 메시지
-
-- 모든 에러 메시지는 *한국어* + *해결 방법 한 줄*
-- 기술 스택 누설 금지 (`SQL error` 같은 거 노출 X)
-- i18n 키 사용 (`error.network`, `error.unauthorized`)
+| 1 | 서버 데이터를 zustand 에 보관 | TanStack Query 훅 |
+| 2 | UI 컴포넌트 안 `fetch()` 직접 호출 | `src/lib/http/client.ts` 의 `api` 인스턴스 |
+| 3 | 거대 글로벌 store | feature 별 분리 (`src/features/<f>/stores/`) |
+| 4 | 중복 검증 로직 | zod 스키마 공유 (`src/features/<f>/schemas/`) |
+| 5 | SSR-by-default 마인드 | SSG-first (→ §2) |
+| 6 | Hydration 의존 아키텍처 | client-side fetch + Suspense |
+| 7 | 혼합 fetch client (axios + fetch) | ky 단일 |
+| 8 | Context API 과사용 | zustand 또는 jotai |
+| 9 | Barrel files (`index.ts` 모두 re-export) | 직접 import |
+| 10 | feature 간 직접 import | shared 로 승격 후 사용 |
+| 11 | 인라인 `style={{...}}` | Tailwind + cn |
+| 12 | magic number / hex | TOKEN.md 토큰 |
+| 13 | `useEffect` 안 fetch / setState | Query 훅 / 이벤트 핸들러 분리 |
+| 14 | `if (typeof window !== "undefined")` 분기 | SPA/SSG 에서 불필요 |
+| 15 | `console.log` 잔존 | `logger.debug` |
+| 16 | `dayjs` / `moment` | date-fns |
+| 17 | `dangerouslySetInnerHTML` 단독 | isomorphic-dompurify sanitize |
+| 18 | `forwardRef` 새로 작성 | React 19 — ref 가 prop |
+| 19 | `any` / `@ts-ignore` | `unknown` + guard / `@ts-expect-error` |
+| 20 | 직접 `vi.fn(fetch)` 모킹 | MSW |
+| 21 | snapshot 테스트 남용 | role / label query |
+| 22 | shadcn 컴포넌트 API 직접 변경 | Tier 3 composite 으로 분리 |
+| 23 | god component (200+ 줄) | 분해 (§8) |
 
 ---
 
-## 18. React 19 활용 가이드
+## 27. Recommended Defaults
 
-### 새 hooks / API
+빠른 참조용 표:
 
-| API | 용도 | 예시 |
-|---|---|---|
-| `use(promise)` | Promise / Context 직접 unwrap | Suspense 와 통합 |
-| `useActionState` | form action + 상태 통합 | `<form action={action}>` 패턴 |
-| `useFormStatus` | 자식에서 부모 form 의 pending 읽기 | `<SubmitButton>` 안에서 |
-| `useOptimistic` | 낙관적 업데이트 | mutation 즉시 반영 |
-| `useTransition` | non-blocking 상태 전환 | tab switch 등 |
-
-### Async Transitions
-
-```tsx
-const [isPending, startTransition] = useTransition();
-
-const onSubmit = () => {
-  startTransition(async () => {
-    await mutation.mutateAsync(input);
-  });
-};
 ```
+Build       Vite 7 (SSG-first)
+React       19+
+TypeScript  5.9+ strict + noUncheckedIndexedAccess
 
-### Server Components (Next preset 후속)
+UI          Tailwind 4 + shadcn/ui + cva + cn (clsx + tailwind-merge)
+State       TanStack Query v5 (server) + zustand v5 (global) + jotai v2 (optional atomic)
+Form        react-hook-form 7 + zod 4
+HTTP        ky 1
+Env         @env-kit/node-settings 1
+i18n        react-i18next 15
+Date        date-fns 4
+Sanitize    isomorphic-dompurify 2
 
-- RSC 는 `--preset next-app-router` 에서만 — SPA preset 은 client only
-- 마이그레이션 시 `"use client"` directive 로 점진 적용
-
-### 안티 패턴
-
-- ❌ `forwardRef` 새로 작성 — React 19 는 ref 를 prop 으로 직접 전달 가능
-- ❌ `useEffect` 로 fetch — `use()` + Suspense
-- ❌ 수동 `useMemo` 남용 — React Compiler 가 자동 처리 (적용 시)
+Logger      consola 3
+Monitor     @sentry/react 8 + posthog-js
+Test        vitest 4 + RTL 16 + jest-dom + user-event 14 + MSW 2 + Playwright 1.50 + @axe-core/playwright
+Lint/Fmt    eslint 9 (flat) + prettier 3 + lefthook 1
+```
 
 ---
 
-## 19. 테스트 피라미드
+## 28. Final Principle — Keep it boring
 
-### 분포 권장
+> **지루한 아키텍처가 더 잘 확장된다.**
 
-```
-      ▲ E2E (Playwright)
-     / \  — 6 라우트 smoke + 핵심 user flow
-    /   \
-   / 통합 (RTL + MSW)
-  /  ───  — feature 단위, network mock
- /
-/ 단위 (vitest)  — 유틸 / 훅 / store / pure function
-─────────────────
-```
+단순한 시스템은:
+- 더 빠르게 디버깅된다
+- 새 팀원 / agent 가 더 빠르게 적응한다
+- AI 출력이 더 일관적이다
+- 덜 실패한다
+- 더 안전하게 진화한다
 
-비율: 단위 70% / 통합 20% / E2E 10%.
+**유혹**: 새 lib / 새 패턴 / 새 아키텍처. **답**: 측정 가능한 이득 없으면 *현재 stack 유지*.
 
-### 단위 테스트 (vitest)
-
-- 순수 함수 / 유틸 (`cn`, date 포맷)
-- zustand store
-- TanStack Query 훅 (queryClient mock 으로)
-
-### 통합 테스트 (RTL + MSW)
-
-```ts
-import { render, screen } from "@testing-library/react";
-import userEvent from "@testing-library/user-event";
-import { http, HttpResponse } from "msw";
-
-it("로그인 성공 → /dashboard 이동", async () => {
-  server.use(
-    http.post("/api/login", () => HttpResponse.json({ token: "x" })),
-  );
-
-  render(<LoginPage />, { wrapper: TestProviders });
-  await userEvent.type(screen.getByLabelText("이메일"), "a@b.c");
-  await userEvent.type(screen.getByLabelText("비밀번호"), "pw12345678");
-  await userEvent.click(screen.getByRole("button", { name: "로그인" }));
-
-  expect(await screen.findByText("환영합니다")).toBeInTheDocument();
-});
-```
-
-### E2E (Playwright)
-
-- 6 라우트 smoke (이미 셋업)
-- 핵심 user flow 1-2 개 (회원가입 → 첫 액션)
-- a11y 자동 스캔 (이미 셋업)
-
-### 안티 패턴
-
-- ❌ 구현 detail 테스트 — 사용자 관점 (role / label / text) 으로 query
-- ❌ snapshot 남용 — 가독성 ↓, 변경 시 진단 어려움. 단순 출력에만.
-- ❌ E2E 가 단위 테스트 대체 — 느림 + 플레이키
+본 FRONT.md 는 *한 번 정해진 결정* 이다. 변경하려면 *합의된 ADR* 작성 후 본 문서 직접 갱신.
 
 ---
 
-## 20. AGENT.md — 행동 규칙
+## 29. AGENT.md 안내
 
-본 FRONT.md 는 *stack 결정 + 패턴* 만 담는다. *agent 가 코드 작성 시 따라야 할 명령형 규칙* (❌금지 + ✅필수) 은 별도 `templates/AGENT.md` 참조.
+본 FRONT.md 는 *stack 결정 + 패턴* 만 담는다.
+
+*agent 가 코드 작성 시 따라야 할 명령형 규칙* (❌금지 / ✅필수 / 코드 패턴 예시 / 작업 흐름) 은 별도 `templates/AGENT.md` 참조.
 
 ---
 
-## 외부 레퍼런스 (보강용)
+## 외부 레퍼런스
 
-### 아키텍처 / 패턴
-- [bulletproof-react](https://github.com/alan2207/bulletproof-react) — feature-based 아키텍처
-- [React Patterns](https://react-patterns.com/) — 일반 React 패턴 모음
-- [Epic Web by Kent C. Dodds](https://www.epicweb.dev/) — 풀스택 React 패턴
+### 아키텍처
+- [bulletproof-react](https://github.com/alan2207/bulletproof-react) — feature-based + unidirectional
+- [Epic Web by Kent C. Dodds](https://www.epicweb.dev/)
 
 ### State / Data
-- [TkDodo's blog (TanStack Query maintainer)](https://tkdodo.eu/blog) — TanStack Query best practices
-- [zustand docs](https://zustand.docs.pmnd.rs/) — 공식 가이드
-- [jotai docs](https://jotai.org/) — atomic state
+- [TkDodo's blog (TanStack Query maintainer)](https://tkdodo.eu/blog) — Query best practices
+- [zustand docs](https://zustand.docs.pmnd.rs/)
+- [jotai docs](https://jotai.org/)
 
 ### UI / Component
-- [shadcn/ui docs](https://ui.shadcn.com/docs) — 컴포넌트 카탈로그
-- [Radix UI](https://www.radix-ui.com/) — 헤드리스 + a11y 기반
-- [Tailwind CSS](https://tailwindcss.com/docs) — 유틸리티 클래스
+- [shadcn/ui docs](https://ui.shadcn.com/docs)
+- [Radix UI](https://www.radix-ui.com/)
+- [Tailwind CSS](https://tailwindcss.com/docs)
 
 ### Form / Validation
-- [React Hook Form docs](https://react-hook-form.com/) — 폼 라이브러리
-- [Zod docs](https://zod.dev/) — 스키마 검증
+- [React Hook Form](https://react-hook-form.com/)
+- [Zod](https://zod.dev/)
 
 ### Build / Tooling
-- [Vite Guide](https://vite.dev/guide/) — 빌드 / env / plugin
-- [@env-kit/node-settings](https://github.com/changsik00/node-settings) — 환경변수 + K8s
-- [lefthook](https://lefthook.dev/) — Git hooks (husky 대체)
+- [Vite Guide](https://vite.dev/guide/)
+- [@env-kit/node-settings](https://github.com/changsik00/node-settings)
+- [lefthook](https://lefthook.dev/)
+- [react-error-boundary](https://github.com/bvaughn/react-error-boundary)
 
-### Performance
-- [web.dev / Core Web Vitals](https://web.dev/articles/vitals) — 성능 측정 기준
-- [React Compiler](https://react.dev/learn/react-compiler) — 자동 메모이제이션
-
-### Accessibility
-- [WCAG 2.1 AA Quickref](https://www.w3.org/WAI/WCAG21/quickref/) — 기준 점검
-- [The A11y Project](https://www.a11yproject.com/) — 실무 체크리스트
-- [eslint-plugin-jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y) — 정적 검사
+### Performance / a11y
+- [web.dev / Core Web Vitals](https://web.dev/articles/vitals)
+- [React Compiler](https://react.dev/learn/react-compiler)
+- [WCAG 2.1 AA Quickref](https://www.w3.org/WAI/WCAG21/quickref/)
+- [The A11y Project](https://www.a11yproject.com/)
+- [eslint-plugin-jsx-a11y](https://github.com/jsx-eslint/eslint-plugin-jsx-a11y)
 
 ### Testing
-- [Testing Library Guide](https://testing-library.com/docs/) — 사용자 관점 테스트
-- [Playwright](https://playwright.dev/) — E2E
-- [MSW (Mock Service Worker)](https://mswjs.io/) — network mock
+- [Testing Library Guide](https://testing-library.com/docs/)
+- [Playwright](https://playwright.dev/)
+- [MSW (Mock Service Worker)](https://mswjs.io/)
+
+### Monitoring
+- [Sentry React](https://docs.sentry.io/platforms/javascript/guides/react/)
+- [PostHog](https://posthog.com/docs)
 
 ### 한국어 자료
-- [React Query 시작하기 (Velog)](https://velog.io/@boyeon_jeong/tags/react-query)
-- [Effective TypeScript (번역)](https://github.com/danvk/effective-typescript) — 타입 베스트 프랙티스
+- [Effective TypeScript (번역)](https://github.com/danvk/effective-typescript)
+- [React Query velog 시리즈](https://velog.io/tags/react-query)
