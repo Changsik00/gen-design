@@ -16,33 +16,33 @@
 
 ## Task 1: 브랜치 생성
 
-- [ ] `git checkout -b spec-10-01-playwright-e2e-setup`
-- [ ] Commit: 없음 (브랜치 생성만)
+- [x] `git checkout -b spec-10-01-playwright-e2e-setup`
+- [x] Commit: 없음 (브랜치 생성만)
 
 ---
 
 ## Task 2: Playwright 설치 + 설정
 
-- [ ] `pnpm --filter studio add -D @playwright/test`
-- [ ] `studio/playwright.config.ts` 작성 (webServer + Chromium)
-- [ ] `studio/package.json` 에 `"test:e2e": "playwright test"` 추가
-- [ ] `pnpm --filter studio exec playwright install chromium`
-- [ ] Commit: `feat(spec-10-01): install playwright and add config`
+- [x] `pnpm --filter studio add -D @playwright/test`
+- [x] `studio/playwright.config.ts` 작성 (webServer + Chromium)
+- [x] `studio/package.json` 에 `"test:e2e": "playwright test"` 추가
+- [x] `pnpm --filter studio exec playwright install chromium`
+- [x] Commit: `feat(spec-10-01): install playwright and add config`
 
 ---
 
 ## Task 3: smoke.spec.ts 작성 + TDD
 
-- [ ] `studio/e2e/smoke.spec.ts` 작성 (6개 라우트)
-- [ ] `pnpm --filter studio test:e2e` → 6 PASS 확인
-- [ ] Commit: `test(spec-10-01): add smoke e2e tests for 6 routes`
+- [x] `studio/e2e/smoke.spec.ts` 작성 (6개 라우트)
+- [x] `pnpm --filter studio test:e2e` → 6 PASS 확인
+- [x] Commit: `test(spec-10-01): add smoke e2e tests for 6 routes`
 
 ---
 
 ## Task 4: CI 통합
 
-- [ ] `.github/workflows/ci.yml` 에 `e2e` job 추가
-- [ ] Commit: `ci(spec-10-01): add playwright e2e job`
+- [x] `.github/workflows/ci.yml` 에 `e2e` job 추가
+- [x] Commit: `ci(spec-10-01): add playwright e2e job`
 
 ---
 
