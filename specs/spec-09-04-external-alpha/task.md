@@ -33,12 +33,12 @@
 
 ## Task 3: external-alpha-1.md 보고서 작성
 
-- [ ] `docs/external-alpha-1.md` 작성
+- [x] `docs/external-alpha-1.md` 작성
   - 방법론 섹션 (역할극 명시)
   - 차단점 표 (최소 3 건)
   - 매끄러운 부분 (최소 2 건)
   - handbook 보정 후보 표 (최소 3 건)
-- [ ] Commit: `docs(spec-09-04): add external-alpha-1 report`
+- [x] Commit: `docs(spec-09-04): add external-alpha-1 report`
 
 ---
 
