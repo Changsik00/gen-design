@@ -202,9 +202,9 @@ Spec: ARIA 1.3 (W3C Editor's Draft 2025-08) ([source](https://w3c.github.io/aria
 ### StatCard
 
 - **File**: `src/components/composites/StatCard/index.tsx`
-- **Pattern**: manual
-- **ARIA role**: `group`
-- **Axes**: (no cva variants — composite/template)
+- **Pattern**: cva
+- **Axes**:
+  - `variant`: **default** · compact · highlighted *(default: default)*
 
 ## Tier 3 — Project templates (7)
 

@@ -36,4 +36,25 @@ describe("StatCard", () => {
     );
     expect(screen.getByText(/Stable/)).toBeInTheDocument();
   });
+
+  it("default variant renders without extra border", () => {
+    const { container } = render(
+      <StatCard label="X" value="1" change="-" trend="stable" variant="default" />
+    );
+    expect(container.querySelector(".border-primary")).toBeFalsy();
+  });
+
+  it("highlighted variant adds border-primary class", () => {
+    const { container } = render(
+      <StatCard label="X" value="1" change="-" trend="stable" variant="highlighted" />
+    );
+    expect(container.querySelector(".border-primary")).toBeTruthy();
+  });
+
+  it("compact variant adds compact class", () => {
+    const { container } = render(
+      <StatCard label="X" value="1" change="-" trend="stable" variant="compact" />
+    );
+    expect(container.firstChild).toHaveClass("compact");
+  });
 });

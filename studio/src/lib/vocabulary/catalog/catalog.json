@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "generatedAt": "2026-05-10",
+  "generatedAt": "2026-05-22",
   "tiers": {
     "tier1Aria": {
       "specMeta": {
@@ -666,10 +666,20 @@
         {
           "name": "StatCard",
           "filePath": "src/components/composites/StatCard/index.tsx",
-          "axes": [],
-          "defaultVariants": {},
-          "pattern": "manual",
-          "ariaRole": "group"
+          "axes": [
+            {
+              "name": "variant",
+              "values": [
+                "default",
+                "compact",
+                "highlighted"
+              ]
+            }
+          ],
+          "defaultVariants": {
+            "variant": "default"
+          },
+          "pattern": "cva"
         }
       ],
       "templates": [

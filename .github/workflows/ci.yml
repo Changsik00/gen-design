@@ -32,6 +32,9 @@ jobs:
       - name: gen-design lint (--no-compile)
         run: pnpm --filter studio exec tsx scripts/gen-design.ts lint --chat-root playground/chats --no-compile
 
+      - name: Dogfooding score
+        run: pnpm --filter studio dogfooding
+
   e2e:
     name: E2E Smoke
     runs-on: ubuntu-latest

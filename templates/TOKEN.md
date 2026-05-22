@@ -6,7 +6,7 @@
 > Design tokens — DTCG 1.0 (W3C 2025-10 stable).
 > 외부 도구 (Style Dictionary v4+, Tokens Studio, Stitch DESIGN.md) 와 호환.
 
-**Total tokens**: 91
+**Total tokens**: 94
 
 ## Primitive
 
@@ -33,6 +33,8 @@
 | `primitive.indigo.700` | `#4338CA` | color |  |
 | `primitive.red.400` | `#F87171` | color |  |
 | `primitive.red.500` | `#EF4444` | color |  |
+| `primitive.red.600` | `#DC2626` | color |  |
+| `primitive.red.700` | `#B91C1C` | color |  |
 | `primitive.green.500` | `#22C55E` | color |  |
 | `primitive.green.600` | `#16A34A` | color |  |
 | `primitive.blue.500` | `#3B82F6` | color |  |
@@ -48,26 +50,27 @@
 | `semantic.color.light.card-foreground` | `{primitive.neutral.900}` | color |  |
 | `semantic.color.light.popover` | `{primitive.neutral.0}` | color |  |
 | `semantic.color.light.popover-foreground` | `{primitive.neutral.900}` | color |  |
-| `semantic.color.light.primary` | `{primitive.indigo.500}` | color |  |
+| `semantic.color.light.primary` | `{primitive.indigo.600}` | color |  |
 | `semantic.color.light.primary-foreground` | `{primitive.neutral.0}` | color |  |
 | `semantic.color.light.secondary` | `{primitive.neutral.100}` | color |  |
 | `semantic.color.light.secondary-foreground` | `{primitive.neutral.900}` | color |  |
 | `semantic.color.light.muted` | `{primitive.neutral.100}` | color |  |
-| `semantic.color.light.muted-foreground` | `{primitive.neutral.500}` | color |  |
+| `semantic.color.light.muted-foreground` | `{primitive.neutral.600}` | color |  |
 | `semantic.color.light.accent` | `{primitive.indigo.50}` | color |  |
 | `semantic.color.light.accent-foreground` | `{primitive.indigo.700}` | color |  |
-| `semantic.color.light.destructive` | `{primitive.red.500}` | color |  |
+| `semantic.color.light.destructive` | `{primitive.red.700}` | color |  |
+| `semantic.color.light.destructive-foreground` | `{primitive.neutral.0}` | color |  |
 | `semantic.color.light.border` | `{primitive.neutral.200}` | color |  |
 | `semantic.color.light.input` | `{primitive.neutral.200}` | color |  |
 | `semantic.color.light.ring` | `{primitive.indigo.400}` | color |  |
-| `semantic.color.light.chart-1` | `{primitive.indigo.500}` | color |  |
+| `semantic.color.light.chart-1` | `{primitive.indigo.600}` | color |  |
 | `semantic.color.light.chart-2` | `{primitive.green.500}` | color |  |
 | `semantic.color.light.chart-3` | `{primitive.blue.500}` | color |  |
 | `semantic.color.light.chart-4` | `{primitive.neutral.400}` | color |  |
 | `semantic.color.light.chart-5` | `{primitive.red.500}` | color |  |
 | `semantic.color.light.sidebar` | `{primitive.neutral.900}` | color |  |
 | `semantic.color.light.sidebar-foreground` | `{primitive.neutral.100}` | color |  |
-| `semantic.color.light.sidebar-primary` | `{primitive.indigo.500}` | color |  |
+| `semantic.color.light.sidebar-primary` | `{primitive.indigo.600}` | color |  |
 | `semantic.color.light.sidebar-primary-foreground` | `{primitive.neutral.0}` | color |  |
 | `semantic.color.light.sidebar-accent` | `{primitive.neutral.800}` | color |  |
 | `semantic.color.light.sidebar-accent-foreground` | `{primitive.neutral.100}` | color |  |
