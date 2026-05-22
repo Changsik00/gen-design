@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-10** — 검증 자동화 — 1 spec — 다음: spec-10-01-playwright-e2e-setup
+- **phase-11** — designer-onboarding-skill — 0/0 spec — (다음: 첫 spec 생성 대기)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
