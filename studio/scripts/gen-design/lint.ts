@@ -120,36 +120,46 @@ function parseFrontmatter(raw: string): Record<string, unknown> | null {
   const block = match[1];
   const result: Record<string, unknown> = {};
 
-  for (const line of block.split(/\r?\n/)) {
-    const kvMatch = /^([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$/.exec(line);
-    if (!kvMatch) continue;
-    const [, key, val] = kvMatch;
+  const lines = block.split(/\r?\n/);
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    // top-level key
+    const topMatch = /^([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$/.exec(line);
+    if (!topMatch) { i++; continue; }
+    const [, key, val] = topMatch;
     const trimmed = val.trim();
-    if (trimmed === "") {
-      // nested object — mark as present
-      result[key] = {};
+    if (trimmed === "" || trimmed === "|" || trimmed === ">") {
+      // nested block — collect indented sub-lines
+      const sub: Record<string, unknown> = {};
+      i++;
+      while (i < lines.length && /^[ \t]+\S/.test(lines[i])) {
+        const subLine = lines[i];
+        const subMatch = /^\s+([a-zA-Z_][a-zA-Z0-9_]*):\s*(.*)$/.exec(subLine);
+        if (subMatch) {
+          const [, sk, sv] = subMatch;
+          const st = sv.replace(/#.*$/, "").trim();
+          if (st === "true") sub[sk] = true;
+          else if (st === "false") sub[sk] = false;
+          else if (/^\d+$/.test(st)) sub[sk] = parseInt(st, 10);
+          else if (st !== "") sub[sk] = st.replace(/^["']|["']$/g, "");
+        }
+        i++;
+      }
+      result[key] = sub;
     } else if (trimmed === "true") {
       result[key] = true;
+      i++;
     } else if (trimmed === "false") {
       result[key] = false;
+      i++;
     } else if (/^\d+$/.test(trimmed)) {
       result[key] = parseInt(trimmed, 10);
+      i++;
     } else {
-      result[key] = trimmed.replace(/^["']|["']$/g, "");
+      result[key] = trimmed.replace(/#.*$/, "").trim().replace(/^["']|["']$/g, "");
+      i++;
     }
-  }
-
-  // nested: catalog.tier — parse sub-keys
-  const catalogBlock = /^catalog:\s*\n((?:[ \t]+\S[^\n]*\n?)+)/m.exec(block);
-  if (catalogBlock) {
-    const sub: Record<string, unknown> = {};
-    for (const line of catalogBlock[1].split(/\r?\n/)) {
-      const m = /^\s+(\w+):\s*(.+)$/.exec(line);
-      if (!m) continue;
-      const [, k, v] = m;
-      sub[k] = /^\d+$/.test(v.trim()) ? parseInt(v.trim(), 10) : v.trim();
-    }
-    result["catalog"] = sub;
   }
 
   return result;
