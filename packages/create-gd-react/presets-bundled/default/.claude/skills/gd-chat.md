@@ -164,33 +164,49 @@ B. Tier 3 composite 으로 등재 — 3회 룰 적용
 
 3층 중 2층 — *어떻게* 그릴 것인가. **카탈로그 어휘만** 사용.
 
-```chat
+> ⚠️ **중요**: Structure 본문의 `<Component>` 태그는 *bare* 형식으로 작성합니다. ` ```chat ` 같은 *코드 펜스 안에 넣으면* chat.md grammar 가 *예시 코드 블록* 으로 처리하여 컴파일러가 무시합니다. 결과는 *빈 화면*.
+
+### ✅ 올바른 형식 (bare — markdown 본문에 직접 작성)
+
+다음을 chat.md 의 `## 🧩 Structure` 섹션 *직후 본문* 에 그대로 적습니다:
+
 <Card>
   <CardHeader>
     <CardTitle>{{i18n.ko.auth.login.title}}</CardTitle>
     <CardDescription>{{i18n.ko.auth.login.subtitle}}</CardDescription>
   </CardHeader>
   <CardContent className="space-y-4">
-    <Form>
-      <Field name="email">
-        <Label>{{i18n.ko.auth.login.email-label}}</Label>
-        <Input type="email" placeholder={{i18n.ko.auth.login.email-placeholder}} />
-      </Field>
-      <Field name="password">
-        <Label>{{i18n.ko.auth.login.password-label}}</Label>
-        <Input type="password" />
-      </Field>
-      <Button type="submit" variant="default">{{i18n.ko.auth.login.submit}}</Button>
-    </Form>
+    <Field name="email">
+      <Label>{{i18n.ko.auth.login.email-label}}</Label>
+      <Input type="email" placeholder={{i18n.ko.auth.login.email-placeholder}} />
+    </Field>
+    <Field name="password">
+      <Label>{{i18n.ko.auth.login.password-label}}</Label>
+      <Input type="password" />
+    </Field>
+    <Button type="submit" variant="default">{{i18n.ko.auth.login.submit}}</Button>
   </CardContent>
 </Card>
-```
 
-**규칙:**
+### ❌ 잘못된 형식 (펜스 안 — 컴파일 무시됨)
+
+다음과 같이 ` ```chat ` 또는 ` ``` ` 안에 넣지 *마세요*:
+
+~~~markdown
+```chat
+<Card>...</Card>
+```
+~~~
+
+이 경우 `gd react` 가 *빈 외각만* 출력하고 본문은 사라집니다 (spec-11-05 fix #1 의 원인).
+
+### 규칙
+
 - 모든 텍스트는 `{{i18n.ko.<도메인>.<액션>.<속성>}}` placeholder — 하드코딩 금지
 - variant 는 카탈로그 axes 안의 값만 (`variant="default"` OK, `variant="awesome"` X)
 - spacing 은 Tailwind 표준 (`space-y-4`, `gap-2`) — 임의 px 금지
 - 색은 토큰 클래스 (`bg-primary`, `text-muted-foreground`) — 임의 hex 금지
+- **bare 형식 강제** — chat.md grammar 가 ComponentTag 를 *최상위 블록* 으로만 인식
 
 ---
 
@@ -263,6 +279,7 @@ chat 작성 중 *주요 결정* 이 있었으면 `.gd/memory/decisions.md` 에 a
 - ❌ frontmatter `name` 을 *snake_case* / *kebab-case* — TSX 함수명과 일치하려면 PascalCase
 - ❌ `chats/scenes/` 외 위치에 신 작성 — 표준 경로 강제
 - ❌ Narrative / History 없이 Structure 만 작성 — 3층 모두 채움
+- ❌ **Structure 본문을 ` ```chat ` 펜스 안에 작성** (spec-11-05 fix #1) — 컴파일러가 *예시 코드* 로 처리해 본문 누락. *bare* 형식 사용.
 
 ---
 
