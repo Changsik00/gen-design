@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — 5 spec — 다음: spec-11-05-fix-dogfooding-findings
+- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — 6 spec — 다음: spec-11-06-designer-persona-alpha
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
