@@ -15,8 +15,10 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "precheck": "pnpm lint && pnpm typecheck && pnpm test",
-    "gd": "gd",
-    "prepare": "lefthook install || true"
+    "gd": "gd"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": ["esbuild", "@tailwindcss/oxide"]
   },
   "dependencies": {
     "@radix-ui/react-label": "^2.1.0",
@@ -26,7 +28,7 @@
     "@tanstack/react-query": "^5.62.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
-    "consola": "^4.0.0",
+    "consola": "^3.2.3",
     "date-fns": "^4.1.0",
     "i18next": "^24.0.5",
     "i18next-browser-languagedetector": "^8.0.2",
