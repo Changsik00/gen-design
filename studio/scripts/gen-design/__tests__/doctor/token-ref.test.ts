@@ -54,6 +54,27 @@ describe("extractChatMdTokenClasses — chat.md 의 Tailwind 토큰 클래스", 
     expect(tokens).toContain("accent");
     expect(tokens).toContain("ring");
   });
+
+  it("Tailwind size scale 은 토큰으로 추출 안 함 (spec-11-07 fix #v2-1)", () => {
+    const text = `<p className="text-xs text-sm text-base text-lg text-xl text-2xl text-muted-foreground">`;
+    const tokens = extractChatMdTokenClasses(text);
+    expect(tokens).toContain("muted-foreground");
+    expect(tokens).not.toContain("xs");
+    expect(tokens).not.toContain("sm");
+    expect(tokens).not.toContain("base");
+    expect(tokens).not.toContain("lg");
+    expect(tokens).not.toContain("xl");
+    expect(tokens).not.toContain("2xl");
+  });
+
+  it("Tailwind 다른 size 키워드도 제외 (3xl/4xl 등)", () => {
+    const text = `<h1 className="text-3xl text-4xl text-5xl text-primary">`;
+    const tokens = extractChatMdTokenClasses(text);
+    expect(tokens).toContain("primary");
+    expect(tokens).not.toContain("3xl");
+    expect(tokens).not.toContain("4xl");
+    expect(tokens).not.toContain("5xl");
+  });
 });
 
 describe("checkTokenRef — 통합 검증", () => {

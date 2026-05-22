@@ -69,6 +69,13 @@ const CLASS_PATTERN = new RegExp(
 // shadcn 표준 토큰 이름만 추출 — 나머지 (red-500 같은 Tailwind 기본 색) 는 통과
 const SHADCN_TOKEN_PATTERN = /^([a-z]+(?:-[a-z]+)*)$/;
 
+// Tailwind size scale keywords — text-xs / text-lg 등 size modifier 는 *토큰* 이 아님
+// (spec-11-07 fix #v2-1 — v2 dogfooding 에서 xs/sm/lg 가 token-ref FP 발생)
+const TAILWIND_SIZE_KEYWORDS = new Set([
+  "xs", "sm", "base", "md", "lg", "xl",
+  "2xl", "3xl", "4xl", "5xl", "6xl", "7xl", "8xl", "9xl",
+]);
+
 export function extractChatMdTokenClasses(text: string): string[] {
   // HTML 주석 + 코드 블록 제거 (spec-11-05 fix #3)
   const stripped = stripHtmlComments(stripCodeBlocks(text));
@@ -79,6 +86,8 @@ export function extractChatMdTokenClasses(text: string): string[] {
     if (!SHADCN_TOKEN_PATTERN.test(tokenName)) continue;
     // Tailwind 기본 색 (red-500 / blue-700 등) 제외 — 숫자 segment 포함
     if (/-\d+$/.test(tokenName)) continue;
+    // Tailwind size keyword 제외 (xs/sm/lg/xl/2xl 등) — spec-11-07 fix #v2-1
+    if (TAILWIND_SIZE_KEYWORDS.has(tokenName)) continue;
     set.add(tokenName);
   }
   return Array.from(set);
