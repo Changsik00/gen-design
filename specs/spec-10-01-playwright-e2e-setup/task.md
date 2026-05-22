@@ -33,9 +33,9 @@
 
 ## Task 3: smoke.spec.ts 작성 + TDD
 
-- [ ] `studio/e2e/smoke.spec.ts` 작성 (6개 라우트)
-- [ ] `pnpm --filter studio test:e2e` → 6 PASS 확인
-- [ ] Commit: `test(spec-10-01): add smoke e2e tests for 6 routes`
+- [x] `studio/e2e/smoke.spec.ts` 작성 (6개 라우트)
+- [x] `pnpm --filter studio test:e2e` → 6 PASS 확인
+- [x] Commit: `test(spec-10-01): add smoke e2e tests for 6 routes`
 
 ---
 
