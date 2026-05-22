@@ -52,6 +52,7 @@ phase-10 까지 기술 자산 (chat.md grammar + Paper/React 컴파일러 + gen-
 | `spec-11-02` | gd-skills-content | P? | Merged | `specs/spec-11-02-gd-skills-content/` |
 | `spec-11-03` | gd-doctor | P? | Merged | `specs/spec-11-03-gd-doctor/` |
 | `spec-11-04` | dogfooding-alpha | P? | Active | `specs/spec-11-04-dogfooding-alpha/` |
+| `spec-11-05` | fix-dogfooding-findings | P? | Active | `specs/spec-11-05-fix-dogfooding-findings/` |
 <!-- sdd:specs:end -->
 
 > 상태 허용값: `Backlog` / `In Progress` / `Merged`
