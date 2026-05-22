@@ -32,6 +32,22 @@ describe("extractChatComponents — chat.md 의 <Component> 태그 추출", () =
     expect(names).not.toContain("NotARealComponent");
   });
 
+  it("HTML 주석 안은 무시 (spec-11-05 fix #3)", () => {
+    const text = `<!-- 예시:\n<Header>\n  <Logo />\n  <Nav />\n</Header>\n-->\n실제: <Button>`;
+    const names = extractChatComponents(text);
+    expect(names).toContain("Button");
+    expect(names).not.toContain("Header");
+    expect(names).not.toContain("Logo");
+    expect(names).not.toContain("Nav");
+  });
+
+  it("inline HTML 주석 안 어휘도 무시", () => {
+    const text = `<Card> <!-- TODO: <Tooltip> 추가 --> </Card>`;
+    const names = extractChatComponents(text);
+    expect(names).toContain("Card");
+    expect(names).not.toContain("Tooltip");
+  });
+
   it("중복은 한 번만", () => {
     const text = `<Button> <Button variant="x"> <Button />`;
     const names = extractChatComponents(text);

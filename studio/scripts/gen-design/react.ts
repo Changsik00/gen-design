@@ -114,9 +114,13 @@ export async function runReact(argv: string[], opts: RunReactOptions = {}): Prom
   }
 
   const rawTsx = result.tsx ?? "";
-  // workspace 상대 경로 (process.cwd() 기준) — doctor 가 같은 형식으로 비교
+  // project root 기준 상대 경로 (chatRoot 의 부모 = project root 컨벤션)
+  // spec-11-05 fix #2 — 이전엔 process.cwd() 기준이라 pnpm --filter studio 호출 시
+  // ../experiments/... 같은 부정확한 경로 출력. 이제 chatRoot 부모 기준으로 안정.
+  // doctor 가 같은 기준 (chatRoot 부모 = project root) 로 비교.
   const chatPath = resolve(chatRoot, "scenes", `${parsed.slug}.chat.md`);
-  const chatRelPath = relative(process.cwd(), chatPath);
+  const projectRoot = resolve(chatRoot, "..");
+  const chatRelPath = relative(projectRoot, chatPath);
   const tsx = prependGdAnnotation(rawTsx, chatRelPath);
 
   if (parsed.output) {

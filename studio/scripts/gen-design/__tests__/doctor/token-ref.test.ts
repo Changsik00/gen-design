@@ -24,6 +24,13 @@ describe("extractDesignMdTokenRefs — DESIGN.md 의 {token} 참조", () => {
     const text = "토큰 참조 없는 문서";
     expect(extractDesignMdTokenRefs(text)).toEqual([]);
   });
+
+  it("HTML 주석 안 placeholder 는 무시 (spec-11-05 fix #3)", () => {
+    const text = "<!-- 예시: {fake-token} -->\n실제: {primary}";
+    const refs = extractDesignMdTokenRefs(text);
+    expect(refs).toContain("primary");
+    expect(refs).not.toContain("fake-token");
+  });
 });
 
 describe("extractChatMdTokenClasses — chat.md 의 Tailwind 토큰 클래스", () => {

@@ -21,8 +21,14 @@ function stripCodeBlocks(text: string): string {
   return text.replace(/```[\s\S]*?```/g, "");
 }
 
+function stripHtmlComments(text: string): string {
+  return text.replace(/<!--[\s\S]*?-->/g, "");
+}
+
 export function extractChatComponents(text: string): string[] {
-  const stripped = stripCodeBlocks(text);
+  // HTML 주석 (예: <!-- 예시: <Header>... -->) + 코드 블록 모두 제거 후 추출
+  // spec-11-05 fix #3 — dogfooding alpha 의 _shell.chat.md false positive 해소
+  const stripped = stripHtmlComments(stripCodeBlocks(text));
   const set = new Set<string>();
   for (const m of stripped.matchAll(TAG_RE)) {
     if (m[1]) set.add(m[1]);

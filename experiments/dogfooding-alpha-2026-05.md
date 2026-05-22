@@ -122,13 +122,21 @@ All checks passed. (3 files)
 
 ### 3.1 진짜 막힘 (외부 디자이너도 막혔을 것)
 
-| # | 막힘 | 원인 | 영향 |
-|---|---|---|---|
-| 1 | `gd react` 의 Structure 본문 누락 | ` ```chat ` 코드 블록을 *예시* 로 처리 | **치명적** — 결과물이 *빈 화면* |
-| 2 | `// @gd:` annotation 경로 부정확 | studio/ cwd 기준 상대 | doctor scene-drift 불능 |
-| 3 | `_shell.chat.md` 주석 예시 어휘 false positive | doctor extractChatComponents 가 주석 무시 안 함 | 노이즈 진단 |
-| 4 | preset 의 `pnpm gd doctor` 미동작 | `@gd/cli` 분리 안 됨 | scaffold 사용자가 doctor 못 씀 |
-| 5 | dark destructive 페어 AA 미달 | shadcn default 토큰 자체 | 본 시스템 default 의 *진짜 결함* — fix 필요 |
+> **2026-05-23 갱신** — spec-11-05 에서 4 건 해소. PR #68 머지 후 main 반영.
+
+| # | 막힘 | 원인 | 영향 | 상태 |
+|---|---|---|---|---|
+| 1 | `gd react` 의 Structure 본문 누락 | ` ```chat ` 코드 블록을 *예시* 로 처리 | **치명적** — 결과물이 *빈 화면* | ✅ **spec-11-05 해소** — gd-chat 스킬 §7 의 펜스 제거 + bare 형식 강제. 재dogfooding: 328 bytes → 1943 bytes (본문 컴파일됨) |
+| 2 | `// @gd:` annotation 경로 부정확 | studio/ cwd 기준 상대 | doctor scene-drift 불능 | ✅ **spec-11-05 해소** — react.ts: `relative(resolve(chatRoot, ".."), chatPath)`. 재dogfooding: `chats/scenes/login.chat.md` (project root 기준) |
+| 3 | `_shell.chat.md` 주석 예시 어휘 false positive | doctor extractChatComponents 가 주석 무시 안 함 | 노이즈 진단 | ✅ **spec-11-05 해소** — `stripHtmlComments` 추가. 재dogfooding: false positive 5건 (Header/Logo/Nav/Footer/Copyright) 제거 |
+| 4 | preset 의 `pnpm gd doctor` 미동작 | `@gd/cli` 분리 안 됨 | scaffold 사용자가 doctor 못 씀 | ⏸ **phase-12 남음** — 큰 인프라 작업 (npm publish + monorepo 재구성 + preset 통합) |
+| 5 | dark destructive 페어 AA 미달 | shadcn default 토큰 자체 | 본 시스템 default 의 *진짜 결함* | ✅ **spec-11-05 해소** — dark destructive-foreground: `oklch(0.985 0 0)` → `oklch(0.205 0 0)`. doctor 의 contrast 진단 사라짐 |
+
+**별도 발견 (재dogfooding 에서 추가 노출)**:
+
+| # | 항목 | 비고 |
+|---|---|---|
+| 6 | catalog.json 에 shadcn 표준 컴포넌트 (Card / CardHeader / CardTitle / Form / Field 등) 미등재 | doctor vocab-similar 가 *Tier 2 컴포넌트도* 외부 어휘로 판정. 카탈로그 자동 추출이 *프로젝트 composite* 만 인식. phase-12 후보. |
 
 ### 3.2 알고 있어서 우회 (외부 디자이너는 막혔을 것)
 
@@ -163,37 +171,49 @@ All checks passed. (3 files)
 
 ## §4 phase-12 후보 (우선순위)
 
+> **2026-05-23 갱신** — spec-11-05 에서 #1, #3, #4, #5 (구 표 기준) = 4 건 해소. 남은 항목만 phase-12.
+
 | # | 우선순위 | 항목 | 출처 |
 |---|---|---|---|
-| 1 | 🔴 **HIGH** | `gd react` 의 Structure 본문 컴파일 — ```chat 코드 블록 처리 | §2.4 / §3.1 #1 |
-| 2 | 🔴 **HIGH** | `@gd/cli` 별도 npm package 분리 — preset 의 `pnpm gd` 실 동작 | §3.1 #4 |
-| 3 | 🟠 MID | `// @gd:` annotation 경로 — workspace root 기준 | §3.1 #2 |
-| 4 | 🟠 MID | doctor extractChatComponents — 코드 블록 / 주석 무시 | §3.1 #3 |
-| 5 | 🟠 MID | shadcn default 의 dark destructive 페어 — hue 조정해 AA 통과 | §3.1 #5 |
-| 6 | 🟠 MID | `<Form>` / `<Field>` 같은 react-hook-form 어휘 — Tier 3 composite 으로 카탈로그 등재 | §3.3 (gd-chat) |
-| 7 | 🟡 LOW | gd-start §5 5축 어휘 시각 다이어그램 | §3.3 (gd-start) |
-| 8 | 🟡 LOW | gd-token §5 hex → OKLCH 자동 변환 예시 | §3.3 (gd-token) |
-| 9 | 🟡 LOW | scaffold README "Claude Code 설치" 안내 | §2.1 |
-| 10 | 🟢 OPT | 실 외부 디자이너 alpha 채용 / 인터뷰 | (편향 해소) |
-| 11 | 🟢 OPT | `gd api` (MSW handler 자동 생성, FRONT.md §8) | (phase-11 §8 후속) |
-| 12 | 🟢 OPT | `gd doctor --fix` 자동 수정 모드 | (편의성) |
+| 1 | 🔴 **HIGH** | `@gd/cli` 별도 npm package 분리 — preset 의 `pnpm gd` 실 동작 | §3.1 #4 (유일하게 남은 HIGH) |
+| 2 | 🔴 **HIGH** | catalog.json 에 shadcn 표준 컴포넌트 (Card / Form / Field 등) 등재 — doctor false positive 회피 | §3.1 #6 (재dogfooding 발견) |
+| 3 | 🟠 MID | `<Form>` / `<Field>` 같은 react-hook-form 어휘 — Tier 3 composite 으로 카탈로그 등재 | §3.3 (gd-chat) |
+| 4 | 🟡 LOW | gd-start §5 5축 어휘 시각 다이어그램 | §3.3 (gd-start) |
+| 5 | 🟡 LOW | gd-token §5 hex → OKLCH 자동 변환 예시 | §3.3 (gd-token) |
+| 6 | 🟡 LOW | scaffold README "Claude Code 설치" 안내 | §2.1 |
+| 7 | 🟢 OPT | 실 외부 디자이너 alpha 채용 / 인터뷰 | (편향 해소) |
+| 8 | 🟢 OPT | `gd api` (MSW handler 자동 생성, FRONT.md §8) | (phase-11 §8 후속) |
+| 9 | 🟢 OPT | `gd doctor --fix` 자동 수정 모드 | (편의성) |
+| 10 | 🟢 OPT | chat.md grammar — ` ```chat ` info-string fenced block 도 parse | (호환성 확장. spec-11-05 는 스킬 본문 수정으로 회피) |
+
+✅ 해소됨 (spec-11-05):
+- ~~`gd react` Structure 본문 컴파일~~ (스킬 펜스 제거로 회피)
+- ~~`// @gd:` annotation 경로 workspace root 기준~~ (chatRoot 부모 기준으로)
+- ~~doctor extractChatComponents 주석 무시~~ (`stripHtmlComments` 추가)
+- ~~shadcn default dark destructive 페어~~ (foreground L 조정으로 AA 통과)
 
 ---
 
 ## §5 결론
 
-phase-11 의 *기술 자산* 은 *작동* 한다. 그러나 *외부 디자이너가 끊김 없이* 진행하기는 *2개 HIGH issue 가 막힘*:
+**2026-05-23 갱신**: phase-11 의 *기술 자산* 은 *작동* 한다. spec-11-05 hotfix 로 **5 진짜 막힘 중 4건 해소**:
 
-1. **`gd react` Structure 컴파일 결함** — 결과물이 빈 화면 (#1)
-2. **preset 의 `pnpm gd` 미동작** — scaffold 사용자가 doctor 못 씀 (#2)
+✅ **해소** (spec-11-05 — phase-11 안에서):
+1. `gd react` Structure 본문 컴파일 결함 — gd-chat 스킬의 펜스 안내 정정 + bare 형식 강제
+2. `// @gd:` annotation 경로 — chatRoot 부모 기준 (project root)
+3. doctor false positive — HTML 주석 무시
+4. dark destructive 페어 — foreground L 조정으로 AA 통과
 
-이 둘 수정 → 외부 디자이너 alpha 시도 가능 (실 시간 측정 + 진짜 막힘 추출).
+⏸ **phase-12 남음**:
+1. **#4 `@gd/cli` npm 분리** — 큰 인프라 작업 (npm publish + monorepo 재구성)
+2. **재dogfooding 새 발견**: catalog.json 에 shadcn 표준 컴포넌트 미등재 — doctor false positive
 
-**phase-12 의 첫 두 spec** 후보:
-- spec-12-01: `gd react` Structure 본문 컴파일 + annotation 경로 수정
-- spec-12-02: `@gd/cli` npm package 분리 + scaffold preset 의 실 `pnpm gd` 동작
+**phase-12 spec 후보**:
+- spec-12-01: `@gd/cli` npm 분리 + scaffold preset 통합 (`pnpm gd` 실 동작)
+- spec-12-02: catalog 에 Tier 2 shadcn 컴포넌트 등재 (vocab-similar 정밀도 ↑)
+- spec-12-03: 실 외부 디자이너 alpha — 본 simulation 가정 검증
 
-이후 *외부 디자이너 alpha* (spec-12-03) 로 본 simulation 의 가정 검증.
+→ phase-11 의 *외부 alpha 가능 깃발* 이 *진정* 정합. PR #68 머지 가능.
 
 ---
 
