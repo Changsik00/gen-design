@@ -15,7 +15,7 @@
  *   2 — 사용법 위반
  */
 
-import { existsSync, readFileSync, readdirSync, statSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { isAbsolute, join, resolve } from "node:path";
 import type { DoctorArgs, DoctorDiag, DoctorResult } from "./types";
 import { formatDiag, formatSummary } from "./messages";
