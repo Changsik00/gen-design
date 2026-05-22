@@ -48,6 +48,7 @@ phase-10 까지 기술 자산 (chat.md grammar + Paper/React 컴파일러 + gen-
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
+| `spec-11-01` | create-gd-react-scaffold | P? | Active | `specs/spec-11-01-create-gd-react-scaffold/` |
 <!-- sdd:specs:end -->
 
 > 상태 허용값: `Backlog` / `In Progress` / `Merged`

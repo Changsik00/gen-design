@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-11** — designer-onboarding-skill — 0/0 spec — (다음: 첫 spec 생성 대기)
+- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — 1 spec — 다음: spec-11-01-create-gd-react-scaffold
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
