@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-10** — verification-automation — 0/0 spec — (다음: 첫 spec 생성 대기)
+- **phase-10** — 검증 자동화 — 1 spec — 다음: spec-10-01-playwright-e2e-setup
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기

@@ -44,6 +44,7 @@ phase-09 까지 gen-design CLI (5 명령) + Studio `#/chats` 뷰어 + `docs/hand
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
+| `spec-10-01` | playwright-e2e-setup | P? | Active | `specs/spec-10-01-playwright-e2e-setup/` |
 <!-- sdd:specs:end -->
 
 > 상태 허용값: `Backlog` / `In Progress` / `Merged`
