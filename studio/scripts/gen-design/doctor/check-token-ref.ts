@@ -21,8 +21,13 @@ function stripCodeBlocks(text: string): string {
     .replace(/`[^`]*`/g, "");
 }
 
+// HTML 주석 제거 (spec-11-05 fix #3) — false positive 회피
+function stripHtmlComments(text: string): string {
+  return text.replace(/<!--[\s\S]*?-->/g, "");
+}
+
 export function extractDesignMdTokenRefs(text: string): string[] {
-  const stripped = stripCodeBlocks(text);
+  const stripped = stripHtmlComments(stripCodeBlocks(text));
   const set = new Set<string>();
   for (const m of stripped.matchAll(DESIGN_TOKEN_RE)) {
     // `{primary}` → primary, `{color.primary}` → color.primary
@@ -65,8 +70,10 @@ const CLASS_PATTERN = new RegExp(
 const SHADCN_TOKEN_PATTERN = /^([a-z]+(?:-[a-z]+)*)$/;
 
 export function extractChatMdTokenClasses(text: string): string[] {
+  // HTML 주석 + 코드 블록 제거 (spec-11-05 fix #3)
+  const stripped = stripHtmlComments(stripCodeBlocks(text));
   const set = new Set<string>();
-  for (const m of text.matchAll(CLASS_PATTERN)) {
+  for (const m of stripped.matchAll(CLASS_PATTERN)) {
     const tokenName = m[2] ?? "";
     if (!tokenName) continue;
     if (!SHADCN_TOKEN_PATTERN.test(tokenName)) continue;
