@@ -10,14 +10,25 @@
 
 ## 만지는 곳 vs 안 만지는 곳
 
-| ✏️ 디자이너가 만짐 | 🔒 자동 / 잠금 |
+| ✏️ 디자이너가 만짐 | 🔒 자동 / 잠금 (이미 셋업됨) |
 |---|---|
-| `chats/*.chat.md` (화면 명세) | `src/components/ui/` (shadcn) |
-| `templates/DESIGN.md` (디자인 가이드) | `templates/FRONT.md` (어휘 카탈로그) |
-| `templates/TOKEN.md` (디자인 토큰) | `tailwind.config.ts`, `components.json` |
+| `chats/*.chat.md` (화면 명세) | `src/components/ui/` (shadcn 5종 기본 포함) |
+| `templates/DESIGN.md` (디자인 가이드) | `src/lib/utils.ts` — `cn()` 헬퍼 (clsx + tailwind-merge) |
+| `templates/TOKEN.md` (디자인 토큰) | `src/components/ui/button.tsx` — `cva()` variant 예시 |
+|  | `tailwind.config.ts`, `components.json`, `vite.config.ts` |
 |  | `src/scenes/*.tsx` (gd react 출력) |
 
-shadcn / Tailwind / cn / cva 를 *몰라도 됨* — 도구가 처리.
+> **shadcn / Tailwind / cn / cva 모두 사전 설치 + 셋업 완료**. 디자이너가 코드를 *직접 짤 필요는 없지만*, `gd react` 가 컴파일하는 결과물은 `cn()` + `cva()` 를 *사용한다*. 동작 원리는 `templates/AGENT.md` 참고.
+
+## 📖 핵심 참고 문서 (읽기 권장 / agent 자동 로딩)
+
+| 파일 | 역할 |
+|---|---|
+| **`templates/FRONT.md`** | React stack agent guide — Vite 7 + React 19 + zustand + jotai + TanStack Query + ky + Sentry + consola + i18next + RHF/zod + date-fns + eslint/prettier/vitest 등 **15 절** 의 결정 모음 |
+| **`templates/AGENT.md`** | agent 가 코드 작성 시 따라야 할 **명령형 행동 규칙** (❌금지 10건 + ✅필수 10건 + 코드 패턴 예시) |
+| `templates/DESIGN.md` | 디자인 명세 (편집) |
+| `templates/TOKEN.md` | 디자인 토큰 (편집) |
+| `.gd/memory/MEMORY.md` | 디자이너 정보 디스크 캐시 (gd-* 스킬 자동 로딩) |
 
 ## 명령어 cheatsheet
 
