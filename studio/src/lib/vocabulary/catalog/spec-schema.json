@@ -1083,12 +1083,20 @@
           ],
           "properties": {
             "name": {
-              "const": "StatCard",
-              "description": "ARIA role: group"
+              "const": "StatCard"
             },
             "props": {
               "type": "object",
-              "properties": {},
+              "properties": {
+                "variant": {
+                  "enum": [
+                    "default",
+                    "compact",
+                    "highlighted"
+                  ],
+                  "description": "cva axis. defaults: default"
+                }
+              },
               "additionalProperties": {
                 "anyOf": [
                   {

@@ -67,6 +67,7 @@ export interface StatCardData {
   value: string;
   change: string;
   trend: "up" | "down" | "stable";
+  variant?: "default" | "compact" | "highlighted";
 }
 
 /** Activity 한 행에 필요한 데이터 */
