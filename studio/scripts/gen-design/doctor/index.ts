@@ -195,10 +195,9 @@ export async function runDoctor(argv: string[]): Promise<{ exitCode: number; std
   if (lintResult.stdout.trim()) {
     lines.push(lintResult.stdout.trim());
   }
-  // 신규 6 카테고리 진단
-  for (const d of diags) {
-    lines.push(formatDiag(d));
-  }
+  // 신규 진단 — severity / category 별 정렬 + 그룹화 (spec-11-07 fix #v2-3)
+  const verbose = argv.includes("--verbose");
+  lines.push(...formatDiagsGrouped(diags, verbose));
   lines.push("");
   lines.push(formatSummary(errorCount + (lintResult.exitCode !== 0 ? 1 : 0), warnCount, durationMs));
 
@@ -207,6 +206,46 @@ export async function runDoctor(argv: string[]): Promise<{ exitCode: number; std
     stdout: lines.join("\n") + "\n",
     stderr: lintResult.stderr,
   };
+}
+
+/**
+ * 진단 그룹화 출력 (spec-11-07 fix #v2-3):
+ * - severity 별: error → warn → info
+ * - 같은 카테고리는 *최대 3건* 표시 + 나머지 "+N more" 요약
+ * - --verbose 시 전체 표시
+ *
+ * 디자이너 입장: 한 화면에 13건 동시 노출되면 *멈춤*. top 3 + N more 가 정신 부담 ↓.
+ */
+function formatDiagsGrouped(diags: DoctorDiag[], verbose: boolean): string[] {
+  const lines: string[] = [];
+  const severityOrder: Array<"error" | "warn" | "info"> = ["error", "warn", "info"];
+
+  for (const sev of severityOrder) {
+    const ofSev = diags.filter((d) => d.severity === sev);
+    if (ofSev.length === 0) continue;
+
+    // 카테고리별 그룹화
+    const byCategory = new Map<string, DoctorDiag[]>();
+    for (const d of ofSev) {
+      const bucket = byCategory.get(d.category) ?? [];
+      bucket.push(d);
+      byCategory.set(d.category, bucket);
+    }
+
+    for (const [cat, group] of byCategory) {
+      const limit = verbose ? group.length : 3;
+      for (let i = 0; i < Math.min(limit, group.length); i++) {
+        const diag = group[i];
+        if (diag) lines.push(formatDiag(diag));
+      }
+      const hidden = group.length - limit;
+      if (hidden > 0) {
+        lines.push(`  ... ${cat} ${hidden}건 더 (--verbose 로 전체 보기)`);
+      }
+    }
+  }
+
+  return lines;
 }
 
 function loadCatalog(projectRoot: string): Set<string> {

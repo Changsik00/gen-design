@@ -107,4 +107,38 @@ describe("checkVocabSimilar — 카탈로그 외 어휘 + Did you mean?", () => 
       "chats/scenes/b.chat.md",
     ]);
   });
+
+  it("shadcn Tier 2 어휘는 catalog 외라도 진단 안 함 (spec-11-07 fix #v2-2)", () => {
+    const smallCatalog = new Set(["Button", "Input"]);
+    const chatFiles = [
+      {
+        path: "chats/scenes/dashboard.chat.md",
+        content: "<Card><CardHeader><CardTitle>X</CardTitle></CardHeader></Card>",
+      },
+    ];
+    const diags = checkVocabSimilar(chatFiles, smallCatalog);
+    expect(diags).toHaveLength(0);
+  });
+
+  it("shadcn 화이트리스트 외 진짜 미지 어휘는 진단", () => {
+    const smallCatalog = new Set(["Button"]);
+    const chatFiles = [
+      { path: "chats/scenes/x.chat.md", content: "<MagicalThing />" },
+    ];
+    const diags = checkVocabSimilar(chatFiles, smallCatalog);
+    expect(diags.length).toBeGreaterThan(0);
+    expect(diags[0]?.message).toContain("MagicalThing");
+  });
+
+  it("Form / FormField / FormItem / Field 등 form 어휘도 화이트리스트 통과", () => {
+    const smallCatalog = new Set(["Button"]);
+    const chatFiles = [
+      {
+        path: "chats/scenes/login.chat.md",
+        content: "<Form><FormField><FormLabel>X</FormLabel><FormControl /></FormField></Form>",
+      },
+    ];
+    const diags = checkVocabSimilar(chatFiles, smallCatalog);
+    expect(diags).toHaveLength(0);
+  });
 });

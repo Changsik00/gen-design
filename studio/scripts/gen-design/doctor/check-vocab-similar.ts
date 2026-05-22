@@ -36,6 +36,61 @@ export function extractChatComponents(text: string): string[] {
   return Array.from(set);
 }
 
+/**
+ * shadcn 표준 컴포넌트 화이트리스트 (Tier 2) — catalog.json 에 미등재여도 *알려진 어휘*.
+ * (spec-11-07 fix #v2-2 — v2 dogfooding 에서 Card/CardHeader 등이 vocab-similar FP 발생)
+ *
+ * 보수적 화이트리스트 — shadcn/ui 의 *공식 컴포넌트* + 일반적 sub-component.
+ */
+export const SHADCN_KNOWN_COMPONENTS = new Set([
+  // Layout / Surface
+  "Card", "CardHeader", "CardTitle", "CardDescription", "CardContent", "CardFooter",
+  "Separator",
+  // Form
+  "Form", "FormField", "FormItem", "FormLabel", "FormControl", "FormDescription", "FormMessage",
+  "Field",
+  "Input", "Textarea", "Label", "Checkbox", "RadioGroup", "RadioGroupItem",
+  "Select", "SelectTrigger", "SelectValue", "SelectContent", "SelectItem", "SelectGroup", "SelectLabel",
+  "Switch", "Slider",
+  // Button / Interaction
+  "Button", "Toggle", "ToggleGroup", "ToggleGroupItem",
+  // Overlay
+  "Dialog", "DialogTrigger", "DialogContent", "DialogHeader", "DialogTitle", "DialogDescription", "DialogFooter", "DialogClose",
+  "Sheet", "SheetTrigger", "SheetContent", "SheetHeader", "SheetTitle", "SheetDescription", "SheetFooter", "SheetClose",
+  "Popover", "PopoverTrigger", "PopoverContent",
+  "DropdownMenu", "DropdownMenuTrigger", "DropdownMenuContent", "DropdownMenuItem", "DropdownMenuLabel", "DropdownMenuSeparator", "DropdownMenuGroup", "DropdownMenuSub", "DropdownMenuSubTrigger", "DropdownMenuSubContent", "DropdownMenuRadioGroup", "DropdownMenuRadioItem", "DropdownMenuCheckboxItem",
+  "ContextMenu", "ContextMenuTrigger", "ContextMenuContent", "ContextMenuItem",
+  "HoverCard", "HoverCardTrigger", "HoverCardContent",
+  "Tooltip", "TooltipTrigger", "TooltipContent", "TooltipProvider",
+  // Navigation
+  "Tabs", "TabsList", "TabsTrigger", "TabsContent",
+  "NavigationMenu", "NavigationMenuList", "NavigationMenuItem", "NavigationMenuTrigger", "NavigationMenuContent", "NavigationMenuLink",
+  "Breadcrumb", "BreadcrumbList", "BreadcrumbItem", "BreadcrumbLink", "BreadcrumbSeparator", "BreadcrumbPage",
+  "Pagination", "PaginationContent", "PaginationItem", "PaginationLink", "PaginationPrevious", "PaginationNext", "PaginationEllipsis",
+  // Status / Feedback
+  "Alert", "AlertTitle", "AlertDescription",
+  "Toast", "ToastProvider", "Toaster",
+  "Badge",
+  "Progress",
+  "Skeleton",
+  "Spinner",
+  // Data
+  "Table", "TableHeader", "TableBody", "TableRow", "TableHead", "TableCell", "TableCaption", "TableFooter",
+  "Accordion", "AccordionItem", "AccordionTrigger", "AccordionContent",
+  "Collapsible", "CollapsibleTrigger", "CollapsibleContent",
+  // Media
+  "Avatar", "AvatarImage", "AvatarFallback",
+  "AspectRatio",
+  // Calendar / Date
+  "Calendar", "DatePicker",
+  // Layout
+  "ScrollArea", "ScrollBar",
+  "ResizablePanelGroup", "ResizablePanel", "ResizableHandle",
+  // Common HTML semantic via shadcn
+  "Command", "CommandInput", "CommandList", "CommandEmpty", "CommandGroup", "CommandItem", "CommandSeparator",
+  "Drawer", "DrawerTrigger", "DrawerContent", "DrawerHeader", "DrawerTitle", "DrawerDescription", "DrawerFooter", "DrawerClose",
+]);
+
 export function checkVocabSimilar(
   chatFiles: Array<{ path: string; content: string }>,
   catalog: Set<string>,
@@ -45,7 +100,9 @@ export function checkVocabSimilar(
   for (const { path, content } of chatFiles) {
     const used = extractChatComponents(content);
     for (const name of used) {
+      // catalog 등재 OR shadcn 표준 화이트리스트 통과 → 진단 X
       if (catalog.has(name)) continue;
+      if (SHADCN_KNOWN_COMPONENTS.has(name)) continue;
 
       const similar = findSimilar(name, catalog, { maxDist: 3, topN: 3 });
       const hint =
