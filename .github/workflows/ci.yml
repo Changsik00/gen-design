@@ -53,3 +53,25 @@ jobs:
 
       - name: E2E smoke tests
         run: pnpm --filter studio test:e2e
+
+  a11y:
+    name: A11y Check
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - uses: pnpm/action-setup@v4
+
+      - name: Install dependencies
+        run: pnpm --filter studio install --frozen-lockfile
+
+      - name: Install Chromium
+        run: pnpm --filter studio exec playwright install --with-deps chromium
+
+      - name: A11y check
+        run: pnpm --filter studio test:a11y
