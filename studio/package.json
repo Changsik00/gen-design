@@ -12,6 +12,7 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
     "vocab": "tsx scripts/extract-vocabulary.ts",
     "vocab:check": "tsx scripts/extract-vocabulary.ts --check",
     "chat-lint": "tsx src/lib/chat-md/cli/spec-lint.ts",
@@ -40,6 +41,7 @@
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.60.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/culori": "^4.0.1",

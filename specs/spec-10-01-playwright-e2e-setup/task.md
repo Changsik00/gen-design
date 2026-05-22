@@ -16,18 +16,18 @@
 
 ## Task 1: 브랜치 생성
 
-- [ ] `git checkout -b spec-10-01-playwright-e2e-setup`
-- [ ] Commit: 없음 (브랜치 생성만)
+- [x] `git checkout -b spec-10-01-playwright-e2e-setup`
+- [x] Commit: 없음 (브랜치 생성만)
 
 ---
 
 ## Task 2: Playwright 설치 + 설정
 
-- [ ] `pnpm --filter studio add -D @playwright/test`
-- [ ] `studio/playwright.config.ts` 작성 (webServer + Chromium)
-- [ ] `studio/package.json` 에 `"test:e2e": "playwright test"` 추가
-- [ ] `pnpm --filter studio exec playwright install chromium`
-- [ ] Commit: `feat(spec-10-01): install playwright and add config`
+- [x] `pnpm --filter studio add -D @playwright/test`
+- [x] `studio/playwright.config.ts` 작성 (webServer + Chromium)
+- [x] `studio/package.json` 에 `"test:e2e": "playwright test"` 추가
+- [x] `pnpm --filter studio exec playwright install chromium`
+- [x] Commit: `feat(spec-10-01): install playwright and add config`
 
 ---
 
