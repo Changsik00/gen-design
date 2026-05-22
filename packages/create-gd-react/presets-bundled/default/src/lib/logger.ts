@@ -1,12 +1,12 @@
 import { consola } from "consola";
-import { env } from "@/config/env";
+import { env, MODE } from "@/config/env";
 
 /**
  * 구조화 로거 — consola wrapper.
  * 환경별 레벨 자동 적용 (dev: debug / prod: warn).
  * production 빌드는 자동 silent (`__VITE_PROD__` define 으로 무력화 가능).
  */
-const level = env.PUBLIC_LOG_LEVEL ?? (env.MODE === "production" ? "warn" : "debug");
+const level = env.PUBLIC_LOG_LEVEL ?? (MODE === "production" ? "warn" : "debug");
 
 export const logger = consola.create({
   level: levelToNumber(level),

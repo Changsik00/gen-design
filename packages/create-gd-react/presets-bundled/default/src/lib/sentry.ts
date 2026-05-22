@@ -1,5 +1,5 @@
 import * as Sentry from "@sentry/react";
-import { env } from "@/config/env";
+import { env, MODE } from "@/config/env";
 import { logger } from "./logger";
 
 /**
@@ -15,7 +15,7 @@ export function initSentry(): void {
 
   Sentry.init({
     dsn,
-    environment: env.MODE,
+    environment: MODE,
     tracesSampleRate: 0.1,
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 0.1,

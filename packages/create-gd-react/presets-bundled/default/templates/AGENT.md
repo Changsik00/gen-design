@@ -10,16 +10,18 @@
 
 ### ❌ 금지
 
-1. **`useState` 로 서버 데이터 보관 금지**. TanStack Query 훅을 만들어 사용한다.
-2. **`useEffect` 안에서 직접 `fetch` 또는 `setState` 호출 금지**. 데이터는 query 훅, 상태 변경은 이벤트 핸들러로 분리.
-3. **직접 `fetch()` 호출 금지**. 모든 HTTP 는 `src/api/client.ts` 의 `api` 인스턴스 (ky) 사용.
-4. **`import.meta.env.X` 직접 접근 금지**. `src/config/env.ts` 의 `env` 객체만 사용.
-5. **인라인 `style={{...}}` 금지**. Tailwind 클래스 또는 `cn()` 으로 처리.
-6. **Magic number / hex / rem 하드코딩 금지**. `templates/TOKEN.md` / `templates/assets/tokens/tokens.json` 의 토큰 참조.
-7. **`console.log` 잔존 금지**. `import { logger } from "@/lib/logger"` 후 `logger.debug(...)`.
-8. **`dayjs` / `moment` 사용 금지**. `date-fns` 만.
-9. **`dangerouslySetInnerHTML` 단독 사용 금지**. 항상 `isomorphic-dompurify` 로 sanitize.
-10. **외부 링크에 `rel="noopener noreferrer"` 누락 금지**.
+1. **SSR / RSC 도입 금지** (default preset). Server Components / `getServerSideProps` / server-only fetch 패턴 사용 금지. 본 프로젝트는 **SSG-first** (→ FRONT.md §0). 데이터는 client-side TanStack Query 로 fetch.
+2. **`useState` 로 서버 데이터 보관 금지**. TanStack Query 훅을 만들어 사용한다.
+3. **`useEffect` 안에서 직접 `fetch` 또는 `setState` 호출 금지**. 데이터는 query 훅, 상태 변경은 이벤트 핸들러로 분리.
+4. **직접 `fetch()` 호출 금지**. 모든 HTTP 는 `src/api/client.ts` 의 `api` 인스턴스 (ky) 사용.
+5. **`import.meta.env.X` 직접 접근 금지**. `src/config/env.ts` 의 `env` 객체만 사용.
+6. **`if (typeof window !== "undefined")` 패턴 금지**. SPA/SSG 에서는 항상 client — 분기 자체가 불필요.
+7. **인라인 `style={{...}}` 금지**. Tailwind 클래스 또는 `cn()` 으로 처리.
+8. **Magic number / hex / rem 하드코딩 금지**. `templates/TOKEN.md` / `templates/assets/tokens/tokens.json` 의 토큰 참조.
+9. **`console.log` 잔존 금지**. `import { logger } from "@/lib/logger"` 후 `logger.debug(...)`.
+10. **`dayjs` / `moment` 사용 금지**. `date-fns` 만.
+11. **`dangerouslySetInnerHTML` 단독 사용 금지**. 항상 `isomorphic-dompurify` 로 sanitize.
+12. **외부 링크에 `rel="noopener noreferrer"` 누락 금지**.
 
 ### ✅ 필수
 
