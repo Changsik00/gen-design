@@ -28,6 +28,115 @@
 | #v2-6 Tailwind 자동 처리 안내 | 도훈 "Tailwind 클래스 안 만질게요" — 즉시 이해 ✓ |
 | #v2-7 frontmatter 메타용어 안내 | 도훈 frontmatter 자동 확인 후 즉시 진행 ✓ |
 
+## §1.5 도훈의 단계별 대화 (retro 추가 — 2026-05-23)
+
+> v2 미경 보고서 §2 와 같은 형식. 단계별 turn-by-turn 대화.
+
+### scaffold
+
+```
+dennis: 도훈님, 이 명령 실행해주세요.
+        node packages/create-gd-react/dist/cli.js taskflow-v3 --offline --no-install
+도훈:   "tsx 빌드 결과물 직접 실행. --offline 은 GitHub fetch 안 함이죠?"
+        (실행) "0.057s. ls 로 53 파일 확인."
+도훈:   "Vite + React + Tailwind + shadcn. devDep 에 lefthook 도. 좋네."
+```
+
+→ 도훈은 *명령 / package.json* 자체를 *읽고 이해* (미경과 차이).
+
+### /gd-start
+
+```
+agent: "어떻게 호칭?"
+도훈:  "도훈이요. 백엔드, 사내 admin 만들어요."
+
+agent: "스타일?"
+도훈:  "동작 정확 우선. minimal 좋아함."
+
+agent: "taskflow-v3 는?"
+도훈:  "사내 어드민. 직원만. 정보 밀도 ↑."
+
+agent: "🎨 추천: 바로 /gd-chat 으로 화면부터"
+도훈:  "A/B/C 안 묻고 바로 추천 — 좋네요. 어떤 화면?"
+agent: "설정 페이지 (form pattern 검증) 좋습니다."
+도훈:  "OK 가시죠."
+```
+
+→ Fix #v2-4 검증: gd-start "강한 추천" 효과 — 도훈 *결정 부담 0*.
+
+### /gd-chat (settings.chat.md)
+
+```
+agent: "표준 조합: Card + Form (FormField x 5) + Select + Switch + Button"
+도훈:  "FormField 가 shadcn 폼 wrapper 죠? FormControl 안에 Input?"
+agent: "맞습니다. react-hook-form 표준 패턴."
+도훈:  "OK. Select 는 Trigger/Content/Item 분리?"
+
+(frontmatter 자동 삽입 후)
+도훈:  "type/name/identity/shell.inherit — shell 은 _shell.chat.md inherit?"
+agent: "맞습니다. exclude 옵션도."
+도훈:  "OK 안 만질게요. 자동 삽입 좋네."
+
+(Structure 작성 — bare, 5 FormField + Select + Switch + Button x 2)
+도훈:  "{{i18n.ko.settings.profile.X}} — 나중에 ko.json 에 채우면 되죠?"
+agent: "정확."
+도훈:  "className 의 grid-cols/space-y — 직접 쓸 일 없죠?"
+agent: "agent 자동 처리. 직접 수정 안 권장."
+도훈:  "OK 명확."
+```
+
+→ Fix #v2-2 (shadcn 화이트리스트), #v2-5 (i18n), #v2-6 (Tailwind), #v2-7 (frontmatter) 모두 *도훈 바로 이해*.
+
+### gd react
+
+```
+도훈:  pnpm gd react settings ... (1.17s, 4496 bytes)
+도훈:  "터미널 log 깔끔. 4496 bytes — form heavy 치고 작네."
+       (cat settings.tsx)
+도훈:  "// @gd: chats/scenes/settings.chat.md — annotation 좋네. lat.md?"
+agent: "정확. doctor scene-drift 기반."
+도훈:  "Form/FormField/Input/Select/Switch/Button — 카탈로그 어휘 그대로. 결정적 매핑이네."
+```
+
+→ Fix #v2-1 검증 (text-sm 같은 클래스 있는 신인데 token-ref FP 0). 도훈은 TSX *직접 읽고 검증* (미경과 차이).
+
+### gd doctor
+
+```
+도훈:  pnpm gd doctor ... (3ms)
+도훈:  "✓ 모든 검증 통과 — 한 번에 통과네요. 일관성 좋아요."
+       (--verbose 시도)
+도훈:  "verbose 도 진단 0. 깔끔."
+도훈:  "이 한국어 메시지 친절도 — 사내 도구에도 좋겠네요."
+```
+
+→ Fix #v2-3 (우선순위): 진단 0이라 효과 검증 N/A. --verbose 동작 확인. 도훈 *멈춤 0*.
+
+### (옵션) pnpm dev — skip
+
+```
+도훈: "install 5분 걸리니까 본 세션 skip. 컴파일 결과로 충분."
+```
+
+### 페르소나 strict 점수
+
+agent (Claude) 의 *도훈 roleplay* 평가:
+- ✅ 답변 *기술적* — "tsup / lefthook / react-hook-form / lat.md" 같은 *백엔드 용어* 일관
+- ✅ TSX 직접 읽음 — 미경과 분명 다름
+- ✅ "OK 가시죠" 같은 *명확한 결정* 패턴
+- ⚠️ **1회 깨짐**: doctor 한국어 메시지 칭찬 ("사내 도구에도 좋겠네요") — 약간 *agent (시스템 작성자) 시선* 같은 우호적 평가. 진짜 도훈은 *"통과하면 OK"* 정도일 수도.
+
+### 발견 (대화 retro 로 보임)
+
+🟢 **0건 신규** — 모든 단계에서 도훈 *멈춤 / 막힘 0*. 다만 다음은 *명확화 가능*:
+
+| # | 항목 | 우선순위 |
+|---|---|---|
+| 1 | **`pnpm install` 5분 → 시각 확인 skip** — 미경/도훈 둘 다 skip. *사내 admin* 같은 환경에서 *진정* 시각 확인 필요 | 🟢 OPT (phase-12 — `pnpm dev` 자동화 / sample dist 미리 빌드) |
+| 2 | shadcn 90+ 화이트리스트 — *진짜 카탈로그 등재* (auto-extract) 가 phase-12 후보로 더 견고 | 🟢 OPT |
+
+→ 둘 다 OPT. 종료 조건 (converge) 영향 없음.
+
 ## §2 정량 (v1 vs v2 vs v3)
 
 | 단계 | v1 (dennis/login) | v2 (미경/dashboard) | v3 (도훈/settings) |
