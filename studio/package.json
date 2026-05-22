@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "pnpm fixtures:gen && vite",
+    "dev": "vite",
     "tokens": "node tokens/build.mjs",
     "fixtures:gen": "tsx scripts/generate-fixtures-index.ts",
     "build": "pnpm fixtures:gen && node tokens/build.mjs && tsc -b && vite build",
@@ -12,6 +12,8 @@
     "preview": "vite preview",
     "test": "vitest run",
     "test:watch": "vitest",
+    "test:e2e": "playwright test",
+    "test:a11y": "playwright test e2e/a11y.spec.ts",
     "vocab": "tsx scripts/extract-vocabulary.ts",
     "vocab:check": "tsx scripts/extract-vocabulary.ts --check",
     "chat-lint": "tsx src/lib/chat-md/cli/spec-lint.ts",
@@ -19,7 +21,8 @@
     "paper-to-chat": "tsx --tsconfig tsconfig.app.json src/lib/paper-inference/cli/paper-to-spec.ts",
     "paper-inference:bench": "vitest run src/lib/paper-inference/__tests__/benchmark.test.ts",
     "chat-react": "tsx --tsconfig tsconfig.app.json src/lib/chat-md-compiler/react/cli/spec-react.ts",
-    "gen-design": "tsx --tsconfig tsconfig.app.json scripts/gen-design.ts"
+    "gen-design": "tsx --tsconfig tsconfig.app.json scripts/gen-design.ts",
+    "dogfooding": "tsx scripts/dogfooding-score.ts"
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
@@ -39,7 +42,9 @@
     "tw-animate-css": "^1.4.0"
   },
   "devDependencies": {
+    "@axe-core/playwright": "^4.11.3",
     "@eslint/js": "^9.39.4",
+    "@playwright/test": "^1.60.0",
     "@testing-library/jest-dom": "^6.9.1",
     "@testing-library/react": "^16.3.2",
     "@types/culori": "^4.0.1",

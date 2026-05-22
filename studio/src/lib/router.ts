@@ -17,6 +17,7 @@ export type StudioRoute =
   | "design"
   | "tokens"
   | "export"
+  | "chats"
   | "playground"
   // legacy — redirect 대상으로만 존재, NAV 에는 미노출
   | "blueprint"
@@ -29,6 +30,7 @@ export const ROUTE_PATHS: Record<StudioRoute, string> = {
   design: "/design",
   tokens: "/tokens",
   export: "/export",
+  chats: "/chats",
   playground: "/__playground",
   // legacy paths (redirect 용)
   blueprint: "/blueprint",

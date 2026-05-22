@@ -20,6 +20,7 @@ const NAV_ITEMS: NavItem[] = [
   { route: "design", label: "Design MD" },
   { route: "tokens", label: "Tokens" },
   { route: "export", label: "Export" },
+  { route: "chats", label: "Chats" },
 ];
 
 export function StudioLayout({ children }: { children: ReactNode }) {

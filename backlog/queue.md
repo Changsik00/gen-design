@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+- **phase-10** — 검증 자동화 — 1 spec — 다음: spec-10-01-playwright-e2e-setup
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -103,4 +103,5 @@
 - **phase-6** — Studio v1 — completed 2026-05-09
 - **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — completed 2026-05-10
 - **08** — ? — completed 2026-05-16
+- **phase-09** — gen-design 활성화 + 외부 alpha — completed 2026-05-22
 <!-- sdd:done:end -->

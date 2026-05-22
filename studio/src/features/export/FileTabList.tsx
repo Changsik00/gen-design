@@ -54,7 +54,7 @@ export function FileTabList({ activeTab, onSelectTab, contents }: Props) {
         </Button>
       </div>
 
-      <pre className="flex-1 overflow-auto text-xs font-mono bg-muted rounded-md p-4 whitespace-pre-wrap leading-relaxed min-h-0">
+      <pre tabIndex={0} className="flex-1 overflow-auto text-xs font-mono bg-muted rounded-md p-4 whitespace-pre-wrap leading-relaxed min-h-0">
         {contents[activeTab]}
       </pre>
     </div>

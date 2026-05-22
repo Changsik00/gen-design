@@ -537,7 +537,23 @@ catalog / chat.md / Paper 노드명 = *심볼 PascalCase 그대로*.
 - i18n placeholder: `{{i18n.ko.path}}` (1급 시민)
 - token placeholder: `{{token.semantic.color.primary}}`
 - `## Behavior` (state / events) / `## Variants` (L1-L4 변형 선언) 섹션
-- frontmatter 미사용 (현재). 향후 도입 시 chat-md grammar 갱신 필수
+- **frontmatter**: spec-08-01 이후 사용 중. 모든 chat.md 파일 상단에 작성 (필수 + 선택 필드 아래 표 참조)
+
+#### chat.md frontmatter 필드
+
+| 필드 | 필수 | 타입 | 설명 | 예시 |
+|---|---|---|---|---|
+| `type` | ✅ | `scene` \| `component` \| `shell` | 파일 종류 | `type: scene` |
+| `name` | ✅ | string (PascalCase) | 컴포넌트/신 이름 | `name: ProfileScene` |
+| `identity` | ✅ | `chats/{type}/{slug}` | 고유 식별자 (파일 경로 기반) | `identity: chats/scenes/profile` |
+| `created` | ✅ | `YYYY-MM-DD` | 최초 작성일 | `created: 2026-05-22` |
+| `shell` | ✅ (scene) | `{ inherit: true/false, exclude?: [...] }` | shell 상속 여부 | `shell:\n  inherit: true` |
+| `catalog` | ✅ | `{ tier: 2\|3, family: string, status: new\|existing }` | catalog 등재 상태 | `catalog:\n  tier: 3\n  family: templates\n  status: new` |
+| `paper` | ✅ | `{ artboard: string\|null, layerNameAnchor: string }` | Paper 연결 정보. `artboard: null` = 미생성 허용 | `paper:\n  artboard: null\n  layerNameAnchor: "[chat:scenes/profile]"` |
+| `applies` | ✅ (shell) | `scenes` | shell 적용 대상 | `applies: scenes` |
+| `references` | ☐ 선택 | `string[]` | 참조하는 컴포넌트 chat.md 경로 목록 | `references:\n  - chats/components/stat-card.chat.md` |
+
+> **Paper 없이 시작 가능**: Paper MCP 환경 미준비 시 `paper: artboard: null` 로 chat.md 를 먼저 작성하고, Paper 생성은 이후 단계로 이월 가능. §4 Day 1 워크플로는 Paper-first 를 *권장* 하지만 강제하지 않음.
 
 #### 카피로 시작하는 minimal chat.md 예시
 

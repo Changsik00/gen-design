@@ -27,7 +27,7 @@ export function MarkdownPreview({ doc }: Props) {
           ⬇ 다운로드
         </Button>
       </div>
-      <pre className="flex-1 overflow-auto text-xs font-mono bg-muted rounded-md p-4 mt-3 whitespace-pre-wrap leading-relaxed">
+      <pre tabIndex={0} className="flex-1 overflow-auto text-xs font-mono bg-muted rounded-md p-4 mt-3 whitespace-pre-wrap leading-relaxed">
         {markdown}
       </pre>
     </div>

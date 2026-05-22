@@ -6,7 +6,7 @@ import type { EditableTokens } from "../types";
 describe("toCssVars", () => {
   it("primary → --primary", () => {
     const vars = toCssVars(DEFAULT_TOKENS);
-    expect(vars["--primary"]).toBe("#6366F1");
+    expect(vars["--primary"]).toBe("#4F46E5");
   });
 
   it("primaryForeground → --primary-foreground", () => {

@@ -11,7 +11,7 @@ const PRIORITY_LABELS: Record<PagePriority, string> = {
 };
 
 const PRIORITY_CLASSES: Record<PagePriority, string> = {
-  required: "bg-destructive/10 text-destructive",
+  required: "bg-destructive/10 text-foreground",
   recommended: "bg-primary/10 text-primary",
   optional: "bg-muted text-muted-foreground",
 };

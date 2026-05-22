@@ -10,16 +10,16 @@ import {
 } from "../render-helpers";
 
 describe("RESOLVED_LIGHT (paper-sync resolver 통합)", () => {
-  it("primary 토큰이 indigo.500 으로 해소", () => {
-    expect(RESOLVED_LIGHT["--primary"]).toBe("#6366F1");
+  it("primary 토큰이 indigo.600 으로 해소", () => {
+    expect(RESOLVED_LIGHT["--primary"]).toBe("#4F46E5");
   });
 
   it("background 토큰이 neutral.50 으로 해소", () => {
     expect(RESOLVED_LIGHT["--background"]).toBe("#F8FAFC");
   });
 
-  it("destructive 토큰이 red.500 으로 해소", () => {
-    expect(RESOLVED_LIGHT["--destructive"]).toBe("#EF4444");
+  it("destructive 토큰이 red.700 으로 해소", () => {
+    expect(RESOLVED_LIGHT["--destructive"]).toBe("#B91C1C");
   });
 
   it("light scheme 의 모든 키가 -- prefix", () => {
@@ -49,7 +49,7 @@ describe("cssVarsBlock", () => {
   it(":root 블록을 생성하고 모든 토큰을 포함", () => {
     const block = cssVarsBlock();
     expect(block).toMatch(/^:root \{/);
-    expect(block).toContain("--primary: #6366F1;");
+    expect(block).toContain("--primary: #4F46E5;");
     expect(block).toContain("--radius:");
     expect(block).toMatch(/\}$/);
   });
