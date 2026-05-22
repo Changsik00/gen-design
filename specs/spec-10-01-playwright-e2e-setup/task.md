@@ -41,8 +41,8 @@
 
 ## Task 4: CI 통합
 
-- [ ] `.github/workflows/ci.yml` 에 `e2e` job 추가
-- [ ] Commit: `ci(spec-10-01): add playwright e2e job`
+- [x] `.github/workflows/ci.yml` 에 `e2e` job 추가
+- [x] Commit: `ci(spec-10-01): add playwright e2e job`
 
 ---
 
