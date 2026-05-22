@@ -20,6 +20,7 @@ import { runPaperImport } from "./gen-design/paper-import";
 import { runDiff } from "./gen-design/diff";
 import { runReact } from "./gen-design/react";
 import { runMerge } from "./gen-design/merge";
+import { runLint } from "./gen-design/lint";
 
 type Handler = (argv: string[]) => Promise<{ exitCode: number; stdout: string; stderr: string }>;
 
@@ -28,6 +29,7 @@ const COMMANDS: Record<string, Handler> = {
   "diff": runDiff,
   "react": runReact,
   "merge": runMerge,
+  "lint": runLint,
 };
 
 const COMMAND_DESCRIPTIONS: Record<string, string> = {
@@ -35,6 +37,7 @@ const COMMAND_DESCRIPTIONS: Record<string, string> = {
   "diff": "Apply Paper tree changes to existing chat.md, preserving Narrative/History (spec-08-06)",
   "react": "Compile scene chat (with shell.inherit) to single TSX file (spec-08-07)",
   "merge": "Shell promotion helper — detect common components across scenes (spec-09-01, ADR-010)",
+  "lint": "Validate chat.md consistency — 6 categories (spec-09-02, ADR-009)",
 };
 
 export interface RouterResult {
