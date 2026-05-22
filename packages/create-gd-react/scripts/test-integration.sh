@@ -104,7 +104,10 @@ EXPECTED_FILES=(
   ".claude/skills/gd-token.md"
   ".claude/skills/gd-design.md"
   ".gd/memory/MEMORY.md"
+  ".gd/memory/designer.md"
   ".gd/memory/project.md"
+  ".gd/memory/decisions.md"
+  ".gd/memory/feedback.md"
 )
 MISSING=0
 for f in "${EXPECTED_FILES[@]}"; do
@@ -117,6 +120,46 @@ if [ $MISSING -eq 0 ]; then
   echo -e "  ${GREEN}✓${NC} ${#EXPECTED_FILES[@]}개 파일 모두 존재"
 else
   echo -e "  ${RED}✗ $MISSING 개 누락${NC}"
+  exit 1
+fi
+
+# 스킬 본문 길이 검증 (placeholder 가 아닌 실제 내용)
+SKILLS=("gd-start" "gd-chat" "gd-token" "gd-design")
+SKILL_FAIL=0
+for skill in "${SKILLS[@]}"; do
+  path="$PROJECT_DIR/.claude/skills/${skill}.md"
+  lines=$(wc -l < "$path")
+  if [ "$lines" -lt 100 ]; then
+    echo -e "  ${RED}✗${NC} ${skill}.md 본문 부족 (${lines} 줄, 최소 100)"
+    SKILL_FAIL=$((SKILL_FAIL + 1))
+  fi
+done
+if [ $SKILL_FAIL -eq 0 ]; then
+  echo -e "  ${GREEN}✓${NC} 4 스킬 본문 모두 100+ 줄"
+else
+  exit 1
+fi
+
+# Memory entry frontmatter 형식 검증
+MEMORY_ENTRIES=("designer" "project" "decisions" "feedback")
+MEMORY_FAIL=0
+for entry in "${MEMORY_ENTRIES[@]}"; do
+  path="$PROJECT_DIR/.gd/memory/${entry}.md"
+  if ! head -1 "$path" | grep -q "^---$"; then
+    echo -e "  ${RED}✗${NC} ${entry}.md frontmatter 누락"
+    MEMORY_FAIL=$((MEMORY_FAIL + 1))
+    continue
+  fi
+  for field in "name:" "description:" "type:"; do
+    if ! head -10 "$path" | grep -q "$field"; then
+      echo -e "  ${RED}✗${NC} ${entry}.md '${field}' 필드 누락"
+      MEMORY_FAIL=$((MEMORY_FAIL + 1))
+    fi
+  done
+done
+if [ $MEMORY_FAIL -eq 0 ]; then
+  echo -e "  ${GREEN}✓${NC} 4 memory entry frontmatter 정합 (name/description/type)"
+else
   exit 1
 fi
 echo ""
