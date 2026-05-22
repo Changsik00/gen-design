@@ -23,7 +23,6 @@ created: 2026-05-22
 
 ## 🧩 Structure
 
-```chat
 <Card className="w-full max-w-md">
   <CardHeader>
     <CardTitle>{{i18n.ko.auth.login.title}}</CardTitle>
@@ -47,7 +46,6 @@ created: 2026-05-22
     </Button>
   </CardContent>
 </Card>
-```
 
 ## 📜 History
 
