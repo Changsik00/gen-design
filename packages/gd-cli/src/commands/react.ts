@@ -17,8 +17,9 @@
  */
 
 import { writeFileSync } from "node:fs";
-import { isAbsolute, relative, resolve } from "node:path";
+import { isAbsolute, join, relative, resolve } from "node:path";
 import { compileScene } from "../../../../studio/src/lib/chat-md-compiler/react/compile-scene";
+import { parseOrderFile, generateOrderTsx } from "./order";
 
 /**
  * gd doctor 의 scene-drift / orphan-scene 검증을 위해 컴파일된 TSX 의 *최상단* 에
@@ -113,7 +114,16 @@ export async function runReact(argv: string[], opts: RunReactOptions = {}): Prom
     return { exitCode: 1, stdout: "", stderr: stderrLines.join("\n") };
   }
 
-  const rawTsx = result.tsx ?? "";
+  let rawTsx = result.tsx ?? "";
+
+  // .order.md 자동 탐지 — 있으면 zod schema + useForm 주입
+  const orderPath = join(chatRoot, "scenes", `${parsed.slug}.order.md`);
+  const orderSpec = parseOrderFile(orderPath);
+  if (orderSpec) {
+    const chunks = generateOrderTsx(orderSpec);
+    rawTsx = injectOrderChunks(rawTsx, chunks);
+  }
+
   // project root 기준 상대 경로 (chatRoot 의 부모 = project root 컨벤션)
   // spec-11-05 fix #2 — 이전엔 process.cwd() 기준이라 pnpm --filter studio 호출 시
   // ../experiments/... 같은 부정확한 경로 출력. 이제 chatRoot 부모 기준으로 안정.
@@ -132,6 +142,45 @@ export async function runReact(argv: string[], opts: RunReactOptions = {}): Prom
   }
 
   return { exitCode: 0, stdout: stdoutLines.join("\n") + "\n", stderr: stderrLines.join("\n") };
+}
+
+function injectOrderChunks(tsx: string, chunks: ReturnType<typeof generateOrderTsx>): string {
+  if (!chunks.imports && !chunks.schemaDecl) return tsx;
+
+  const lines = tsx.split("\n");
+
+  // import 블록 끝 위치를 찾아서 chunks.imports 삽입
+  let lastImportIdx = -1;
+  for (let i = 0; i < lines.length; i++) {
+    if (lines[i].startsWith("import ")) lastImportIdx = i;
+  }
+
+  const insertIdx = lastImportIdx >= 0 ? lastImportIdx + 1 : 0;
+  const importLines = chunks.imports ? [chunks.imports, ""] : [];
+  const schemaLines = chunks.schemaDecl ? [chunks.schemaDecl, ""] : [];
+
+  lines.splice(insertIdx, 0, ...importLines, ...schemaLines);
+
+  // useForm + onSubmit 은 컴포넌트 함수 본문 첫 줄 직후 삽입
+  const hookLines: string[] = [];
+  if (chunks.formInit) hookLines.push(`  ${chunks.formInit}`);
+  if (chunks.onSubmit) {
+    for (const l of chunks.onSubmit.split("\n")) hookLines.push(`  ${l}`);
+  }
+
+  if (hookLines.length > 0) {
+    const result = lines.join("\n");
+    // export default function Component() { 다음 줄에 삽입
+    const fnMatch = result.match(/(export default function \w+\(\)[^{]*\{)\n/);
+    if (fnMatch) {
+      return result.replace(
+        fnMatch[0],
+        fnMatch[0] + hookLines.join("\n") + "\n",
+      );
+    }
+  }
+
+  return lines.join("\n");
 }
 
 function helpText(): string {
