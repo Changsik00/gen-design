@@ -77,10 +77,10 @@
 
 ## Task 7: Ship
 
-- [ ] 최종 검토: DoD 체크 / 테스트 전체 PASS
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
-- [ ] **Ship Commit**: `docs(spec-12-06): ship walkthrough and pr description`
+- [x] 최종 검토: DoD 체크 / 테스트 전체 PASS (241 + 875 + 28 Green)
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
+- [x] **Ship Commit**: `docs(spec-12-06): ship walkthrough and pr description`
 - [ ] **Push**: `git push -u origin spec-12-06-unified-fetch-skeleton`
 - [ ] **PR 생성**: `gh pr create` (base: `phase-12-conversation-depth-and-orchestration`)
 - [ ] **사용자 알림**: PR URL 보고
