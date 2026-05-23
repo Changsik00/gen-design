@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-12** — conversation-depth-and-orchestration — 1 spec — 다음: spec-12-01-gd-cli-npm-split
+- **phase-12** — conversation-depth-and-orchestration — 1 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기

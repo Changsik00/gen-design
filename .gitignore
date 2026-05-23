@@ -20,3 +20,6 @@ dist/
 # harness-kit
 .harness-backup-*/
 .claude/state/
+
+# vitest cache (spec-12-01)
+studio/test-results/
