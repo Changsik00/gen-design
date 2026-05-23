@@ -81,9 +81,9 @@
 - [x] **walkthrough.md 작성**
 - [x] **pr_description.md 작성**
 - [x] **Ship Commit**: `docs(spec-12-06): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-12-06-unified-fetch-skeleton`
-- [ ] **PR 생성**: `gh pr create` (base: `phase-12-conversation-depth-and-orchestration`)
-- [ ] **사용자 알림**: PR URL 보고
+- [x] **Push**: `git push -u origin spec-12-06-unified-fetch-skeleton`
+- [x] **PR 생성**: `gh pr create` (base: `phase-12-conversation-depth-and-orchestration`)
+- [x] **사용자 알림**: PR URL 보고 → https://github.com/Changsik00/gen-design/pull/79
 
 ---
 
