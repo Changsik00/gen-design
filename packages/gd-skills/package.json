@@ -1,0 +1,39 @@
+{
+  "name": "@gen-design/skills",
+  "version": "0.1.1",
+  "description": "Install gen-design AI skills (gd-chat, gd-start, gd-design, gd-token) into your project",
+  "type": "module",
+  "bin": {
+    "gd-skills": "dist/cli.js"
+  },
+  "files": [
+    "dist",
+    "skills",
+    "README.md"
+  ],
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "build": "tsup src/cli.ts --format esm --target node20 --clean --shims",
+    "sync-skills": "cp ../create-gd-react/presets-bundled/default/.claude/skills/*.md skills/",
+    "prebuild": "pnpm sync-skills",
+    "test": "vitest run",
+    "prepublishOnly": "pnpm build"
+  },
+  "devDependencies": {
+    "@types/node": "^24.12.2",
+    "tsup": "^8.3.5",
+    "typescript": "~5.9.3",
+    "vitest": "^4.0.0"
+  },
+  "keywords": [
+    "gen-design",
+    "claude",
+    "claude-code",
+    "skills",
+    "designer",
+    "ai"
+  ],
+  "license": "MIT"
+}

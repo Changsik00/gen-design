@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+없음
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -114,4 +114,5 @@
 - **phase-09** — gen-design 활성화 + 외부 alpha — completed 2026-05-22
 - **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — completed 2026-05-23
 - **phase-12** — conversation-depth-and-orchestration — completed 2026-05-23
+- **spec-x-01** — skills-installer — @gen-design/skills npm 배포 + README 개편 — completed 2026-05-23
 <!-- sdd:done:end -->
