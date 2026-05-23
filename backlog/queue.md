@@ -27,7 +27,7 @@
 ## 📥 spec-x 대기
 
 <!-- sdd:specx:start -->
-없음
+- **spec-x-01** — `@gd/skills` installer + README 개편 | `specs/spec-x-01-skills-installer/` | Planning
 <!-- sdd:specx:end -->
 
 ## 🧊 Icebox
