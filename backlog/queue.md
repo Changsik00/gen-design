@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-12** — conversation-depth-and-orchestration — 7 spec — 다음: spec-12-07-pluginarch
+(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -34,6 +34,14 @@
 
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
+
+### spec-12-07 이월 — ComponentRegistry 플러그인 인터페이스 (2026-05-23 등재)
+
+- **문서 위치**: `specs/spec-12-07-pluginarch/` (spec.md + plan.md + task.md 작성 완료, 구현 미착수)
+- **핵심 내용**: `react/compile.ts` 가 `paper/component-registry-metadata` 를 직접 import 하는 결합 해소. `ComponentRegistry` 인터페이스 + DI 패턴으로 react 컴파일러를 paper 디렉토리에서 완전 분리. `gd-start.md` 에 디자인 도구 선택 단계(Paper / Figma / 손작성) 추가.
+- **우선순위**: 낮음 — 현재 런타임 문제 없음, 아키텍처 명확성 + 커스텀 레지스트리 확장성 목적
+- **승격 조건**: 외부 alpha 사용자가 커스텀 컴포넌트 등록을 요청하거나, npm 패키지 외부 publish 시 경로 의존 문제 발생 시
+- **연관**: phase-12 → spec-12-07, ADR 후보: `ADR-010-component-registry-di`
 
 ### phase-7 진행 중 follow-ups (2026-05-10 등재 / 처리 완료)
 
@@ -105,4 +113,5 @@
 - **08** — ? — completed 2026-05-16
 - **phase-09** — gen-design 활성화 + 외부 alpha — completed 2026-05-22
 - **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — completed 2026-05-23
+- **phase-12** — conversation-depth-and-orchestration — completed 2026-05-23
 <!-- sdd:done:end -->
