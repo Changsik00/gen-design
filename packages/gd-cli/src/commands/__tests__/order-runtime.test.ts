@@ -166,3 +166,52 @@ validation:
     expect(r.stdout).toContain("useForm");
   });
 });
+
+// ─── generateOrderTsx — data (useQuery + Skeleton) ───────────────────────────
+
+describe("generateOrderTsx — data fetch", () => {
+  it("data 항목 없으면 useQuery import 미생성", () => {
+    const chunks = generateOrderTsx({ scene: "dashboard" });
+    expect(chunks.imports).not.toContain("react-query");
+    expect(chunks.imports).not.toContain("Skeleton");
+  });
+
+  it("data 1개 → useQuery + Skeleton import 생성", () => {
+    const chunks = generateOrderTsx({
+      scene: "dashboard",
+      data: [{ queryKey: "tasks.list", endpoint: "GET /tasks" }],
+    });
+    expect(chunks.imports).toContain("@tanstack/react-query");
+    expect(chunks.imports).toContain("@/components/ui/skeleton");
+  });
+
+  it("queryKey camelCase 변환 — tasks.list → tasks_list", () => {
+    const chunks = generateOrderTsx({
+      scene: "dashboard",
+      data: [{ queryKey: "tasks.list", endpoint: "GET /tasks" }],
+    });
+    expect(chunks.formInit).toContain("tasks_listData");
+    expect(chunks.formInit).toContain("tasks_listPending");
+  });
+
+  it("isPending → <Skeleton /> early return 생성", () => {
+    const chunks = generateOrderTsx({
+      scene: "dashboard",
+      data: [{ queryKey: "tasks.list", endpoint: "GET /tasks" }],
+    });
+    expect(chunks.onSubmit).toContain("tasks_listPending");
+    expect(chunks.onSubmit).toContain("<Skeleton />");
+  });
+
+  it("복수 data (2개) → useQuery 2개 생성", () => {
+    const chunks = generateOrderTsx({
+      scene: "dashboard",
+      data: [
+        { queryKey: "tasks.list", endpoint: "GET /tasks" },
+        { queryKey: "stats.summary", endpoint: "GET /stats" },
+      ],
+    });
+    expect(chunks.formInit).toContain("tasks_listData");
+    expect(chunks.formInit).toContain("stats_summaryData");
+  });
+});
