@@ -6,6 +6,21 @@ type: project
 
 <!-- gd-* 스킬들이 결정 시점에 한 entry 씩 append. 최신이 위에 추가됩니다. -->
 
+## 2026-05-23 SettingsScene 토큰 재사용/확장 결정 (v5 신 5 — §5.7)
+
+- **필요 토큰**: 성공 메시지용 초록색 (brand accent)
+- **gd tokens find 결과**: `gd tokens find green` → 해당 없음 / `gd tokens find success` → 해당 없음
+- **결정**: (C) 보류 — 현재는 `primary` 토큰으로 대체, 향후 디자인 시스템 확장 시 재검토
+- **이유**: MVP 단계에서 단일 브랜드 컬러만 사용; 성공/실패 semantic 토큰은 phase-13 이후 검토
+- **출처 스킬**: gd-chat (spec-12-04 §5.7)
+
+## 2026-05-23 SettingsScene 유사 신 재사용 결정 (v5 신 5 — §5.6)
+
+- **유사 신**: `chats/scenes/login.chat.md` (최상위 Card + Form + password 필드 50% 겹침)
+- **결정**: (B) 기반 확장 — login 씬의 Card + Form 어휘 기반, 비밀번호 3-필드 + Switch 추가
+- **이유**: 동일 Card 레이아웃 재사용으로 시각 일관성 유지; 신규 어휘(Switch) 만 추가
+- **출처 스킬**: gd-chat (spec-12-04 §5.6)
+
 ## 2026-05-23 MypageScene 다중 재사용 + StatCard 승격 (v5 신 4)
 
 - **결정**: StatCard 4 회째 등장 → *Tier 3 composite 승격 확정* (phase-12 후속에서 구현). 신 1/2 form pattern 도 설정 탭에서 재사용 (F1 2 회차).
