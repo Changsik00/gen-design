@@ -5,7 +5,7 @@ import { fileURLToPath } from "node:url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const SKILLS_SRC = join(__dirname, "..", "skills");
-const SKILLS_DEST = join(process.cwd(), ".claude", "skills");
+const SKILLS_DEST = join(process.cwd(), ".claude", "commands");
 
 const force = process.argv.includes("--force");
 

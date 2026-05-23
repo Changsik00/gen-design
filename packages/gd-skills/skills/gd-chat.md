@@ -142,6 +142,212 @@ B. Tier 3 composite 으로 등재 — 3회 룰 적용
 
 ---
 
+## §5.5 대화 깊이 checklist (spec-12-02)
+
+`chat.md` 컴파일 *전* 다음 5 단계를 *모두* 확인하세요. **하나라도 미확인이면 계속 대화** — 성급히 컴파일하지 않습니다.
+
+1. **의도** — Narrative 1층 작성 (왜 / 누가 / 목적). 비어 있으면 안 됨.
+2. **토큰 후보** — 사용할 radius / color / spacing 이 *현 24 standard 토큰* 과 매칭 (예: `bg-primary` / `rounded-lg`). 새 토큰 필요 시 *decisions.md 에 등록 의도* 명시.
+3. **비슷한 화면 발견** — **§5.6 가이드 실행** (탐지 → 4-옵션 결정 → decisions.md 기록).
+4. **form validation 의도** — Structure 에 `<Input>` 또는 `<Form>` 이 있으면 **§7.5 묻기 강제**.
+5. **버튼 의도** — Structure 에 `<Button>` 이 있으면 **§7.6 묻기 강제** (CTA / navigation / submit / external).
+
+각 단계의 결과는 *대화 turn* 으로 남고, 주요 결정은 `.gd/memory/decisions.md` 에 append.
+
+> 💡 디자이너가 "그냥 컴파일해주세요" 라고 해도 *위 5 단계 빠진 게 있으면* 짧게 한 번 더 확인. 페르소나에 따라 (i) 초보 = 모두 묻기 / (ii) 숙련 = 빠르게 확인 + 짧은 한 줄 답.
+
+---
+
+## §5.6 비슷한 화면 발견 + 재사용 결정 (spec-12-04)
+
+> §5.5 checklist 3단계 실행 절차. 새 신 작성 시 *항상* 수행.
+
+### 탐지 절차
+
+기존 `chats/scenes/*.chat.md` 파일을 읽고 *Structure 최상위 컴포넌트* + *주요 Form 필드* 를 비교합니다.
+
+**유사 판정 기준** (둘 다 해당 시 "유사"):
+- 최상위 컴포넌트 동일 (예: 새 신도 `<Card>` / 기존도 `<Card>`)
+- Form 필드 ≥ 50% 겹침 (예: 새 신에 `email` + `password` / `login.chat.md` 에도 동일)
+
+유사 신이 없으면 → "신규 패턴으로 진행합니다." 라고 한 줄 안내 후 계속.
+
+### 4-옵션 결정 가이드 (유사 신 발견 시)
+
+디자이너에게 다음을 제시합니다:
+
+```
+'<기존 신 이름>' 과 구조가 비슷해요. 어떻게 할까요?
+
+(A) 어휘 재사용    — 기존 씬의 컴포넌트 / 어휘 그대로 (중복 최소화)
+(B) 기반 확장      — 기존 씬 기반 + 새 요소 추가 (부분 신규)
+(C) 신규 패턴      — 독립적으로 작성 (완전히 다른 의도)
+(D) composite 후보 — 두 씬에서 공통 블록 추출 검토 (decisions.md 에 후보 등록)
+```
+
+### 결정 후 decisions.md 기록
+
+**A/B 선택 시**:
+```markdown
+## YYYY-MM-DD <SceneName> 유사 신 재사용 결정
+
+- **유사 신**: `<기존 씬 경로>` (구조: <최상위 컴포넌트>)
+- **결정**: (A) 어휘 재사용 / (B) 기반 확장
+- **이유**: <한 줄>
+- **출처 스킬**: gd-chat (spec-12-04 §5.6)
+```
+
+**D 선택 시**:
+```markdown
+## YYYY-MM-DD <ComponentName> composite 승격 후보 등록
+
+- **등장 씬**: `<씬1>`, `<씬2>` (N회 등장)
+- **결정**: composite 후보 — <N+1>회 등장 시 승격 확정
+- **출처 스킬**: gd-chat (spec-12-04 §5.6)
+```
+
+---
+
+## §5.7 토큰 재사용 vs 확장 결정 (spec-12-04)
+
+> Structure 작성 중 `tokens.json` 에 없는 색 / 반경 / 폰트 필요 시 진입.
+
+### 트리거
+
+디자이너가 표준 토큰에 없는 값을 요청할 때 (예: "브랜드 오렌지 컬러", "더 큰 radius"):
+
+```
+먼저 기존 토큰에서 찾아볼게요:
+  gd tokens find <keyword>
+```
+
+### 3-옵션 결정 가이드
+
+```
+'<keyword>' 관련 기존 토큰:
+  <gd tokens find 결과>
+
+어떻게 할까요?
+
+(A) 재사용    — 가장 가까운 기존 토큰 사용 (<token-name>)
+(B) 확장      — tokens.json 에 신규 토큰 추가 결정 (이번 신에서 정의)
+(C) 보류      — 일단 기존 토큰으로 진행, decisions.md 에 "나중에 검토" 기록
+```
+
+### 결정 후 decisions.md 기록
+
+```markdown
+## YYYY-MM-DD <SceneName> 토큰 재사용/확장 결정
+
+- **필요 토큰**: <설명> (예: "brand accent color")
+- **gd tokens find 결과**: <가장 가까운 기존 토큰> / 없음
+- **결정**: (A) <token-name> 재사용 / (B) <new-token-name> 확장 / (C) 보류
+- **이유**: <한 줄>
+- **출처 스킬**: gd-chat (spec-12-04 §5.7)
+```
+
+---
+
+## §5.8 디자인 주문 명세 `.order.md` draft 생성 (spec-12-05)
+
+> §5.5 checklist 5단계 완료 후, `compile` 직전에 실행. **Form + Button 있는 신에서만**.
+
+### 트리거
+
+§5.5 체크리스트 완료 → `gd react` 안내 직전. Form/Input/Button 이 있는 신이면:
+
+```
+decisions.md 에 기록된 내용을 바탕으로 `.order.md` 를 만들어 볼까요?
+이걸 만들면 `gd react` 가 zod schema 와 useForm binding 을 자동 생성해요.
+```
+
+### `.order.md` draft 예시
+
+대화 중 확인한 validation + 버튼 의도를 정리해서 제안:
+
+```yaml
+---
+scene: <slug>
+validation:
+  <field>:
+    - required
+    - <rule>   # email / min(N) / max(N)
+actions:
+  submit:
+    type: form-submit
+    target: <METHOD /endpoint>
+  <button-id>:
+    type: nav
+    target: <route>
+---
+```
+
+### 에이전트 행동
+
+1. decisions.md 의 validation 결정 + 버튼 의도를 draft 로 변환 (에이전트가 직접 파일 작성)
+2. `chats/scenes/<slug>.order.md` 에 저장
+3. 사용자 확인: "이대로 저장할까요?" → 승인 후 commit
+
+### decisions.md 기록 (해당 시)
+
+```markdown
+## YYYY-MM-DD <SceneName> 주문 명세 생성 (§5.8)
+
+- **생성 파일**: `chats/scenes/<slug>.order.md`
+- **validation 필드 수**: N개
+- **actions 수**: M개
+- **출처 스킬**: gd-chat (spec-12-05 §5.8)
+```
+
+> ⚡ Form/Input/Button 없는 신 (예: Dashboard 통계 카드만 있는 신) 은 §5.8 skip OK.
+
+---
+
+## §5.9 fetch 의도 안내 + `.order.md data:` 추가
+
+> 디자이너가 서버 데이터 fetch 를 언급할 때 진입. **API 연결 있는 신에서만**.
+
+### 트리거
+
+디자이너가 다음 중 하나를 언급할 때:
+- "서버에서 가져와요", "API 연결", "실시간 데이터"
+- "로딩 중에 뭔가 보여줘야 해요"
+- "데이터가 올 때까지 기다려야 해요"
+
+### 에이전트 응답
+
+1. `.order.md` 의 `data:` 섹션 추가를 제안
+2. `queryKey` (예: `tasks.list`) + `endpoint` (예: `GET /tasks`) 수집
+3. 아래 형식으로 `data:` 블록 작성:
+
+```yaml
+data:
+  - queryKey: tasks.list
+    endpoint: GET /tasks
+  - queryKey: stats.summary
+    endpoint: GET /stats
+```
+
+### 생성 결과 (gd react 실행 시)
+
+- `useQuery` hook 자동 주입 (TanStack Query v5)
+- `isPending` 시 `<Skeleton />` early return 자동 삽입
+- import: `@tanstack/react-query`, `@/components/ui/skeleton`
+
+### decisions.md 기록
+
+```markdown
+## YYYY-MM-DD <SceneName> fetch 명세 추가 (§5.9)
+
+- **추가 파일**: `chats/scenes/<slug>.order.md` (data: 섹션)
+- **queryKey 수**: N개
+- **출처 스킬**: gd-chat (spec-12-06 §5.9)
+```
+
+> ⚡ 서버 데이터 없는 신 (정적 UI, 로컬 상태만) 은 §5.9 skip OK.
+
+---
+
 ## §6 Narrative (의도) walkthrough
 
 3층 중 1층 — *왜* 이 신이 필요한가, *누가* 보는가.
@@ -223,6 +429,74 @@ B. Tier 3 composite 으로 등재 — 3회 룰 적용
 
 ---
 
+## §7.5 Input/Form 만나면 — validation 의도 묻기 (spec-12-02)
+
+Structure 에 `<Input>` 또는 `<Form>` 이 있으면 **반드시** 묻습니다:
+
+```
+이 form 의 validation 어떻게 할까요? preset 의 표준은 react-hook-form + zod 입니다.
+
+각 필드별로:
+  - <field>: required? format (email/url/number 등)? min/max 길이? 기타?
+
+예시 답:
+  - email: required + email format
+  - password: required + min 8자
+  - terms: required (checkbox)
+```
+
+→ 디자이너 답 받고 `.gd/memory/decisions.md` 에 entry append:
+
+```markdown
+## YYYY-MM-DD <SceneName> form validation 결정
+
+- **필드별 규칙**:
+  - email: required + z.string().email()
+  - password: required + z.string().min(8)
+- **이유**: <사용자 답 — 예: "8자 정도면 충분, MVP">
+- **출처 스킬**: gd-chat (spec-12-02)
+```
+
+> 💡 코드 직접 작성 안 함 — 디자이너는 *규칙만* 결정. 실 zod schema 생성은 향후 spec-12-05 (order.md) 또는 수동.
+
+---
+
+## §7.6 Button 만나면 — 버튼 의도 묻기 (spec-12-02)
+
+Structure 에 `<Button>` 이 있으면 **반드시** 묻습니다 (4 옵션):
+
+```
+이 버튼의 의도는?
+
+  A) form submit       — 폼 제출 (validation 후 API)
+  B) page navigation   — 다른 페이지로 이동 (앱 내 라우터)
+  C) external link     — 외부 URL (새 탭)
+  D) modal/dialog open — 모달 열기
+
+각각의 chat.md 표현 안내:
+  A: <Button type="submit">{{i18n.ko.<scene>.submit}}</Button>
+  B: <Link to="/path"><Button asChild>{{i18n.ko.<scene>.go}}</Button></Link>
+  C: <a href="..." target="_blank"><Button asChild>{{i18n.ko.<scene>.external}}</Button></a>
+  D: <Dialog>
+       <DialogTrigger asChild><Button>{{i18n.ko.<scene>.open}}</Button></DialogTrigger>
+       ...
+     </Dialog>
+```
+
+→ 디자이너 답 받고 *해당 표현* 으로 chat.md 작성. decisions.md entry:
+
+```markdown
+## YYYY-MM-DD <SceneName> 버튼 의도
+
+- **<버튼이름>**: (A/B/C/D) — <간단 설명>
+- **이유**: <사용자 답>
+- **출처 스킬**: gd-chat (spec-12-02)
+```
+
+> 💡 추가 의도 (AI 호출 / 데이터 refresh) 는 *spec-12-05 design-order-spec* 에서 표준화 예정.
+
+---
+
 ## §8 History (이력) walkthrough
 
 3층 중 3층 — *언제 무엇이 결정* 됐는가.
@@ -281,6 +555,8 @@ chat 작성 중 *주요 결정* 이 있었으면 `.gd/memory/decisions.md` 에 a
 
 → 사소한 결정 (variant 선택 등) 은 *기록 안 함* — *방향성 / scope* 결정만.
 
+§5.6 / §5.7 결정 entry 템플릿은 해당 섹션 내에 정의되어 있습니다.
+
 ---
 
 ## §11 안티 패턴 (스킬 본인 행동)
@@ -293,16 +569,30 @@ chat 작성 중 *주요 결정* 이 있었으면 `.gd/memory/decisions.md` 에 a
 - ❌ `chats/scenes/` 외 위치에 신 작성 — 표준 경로 강제
 - ❌ Narrative / History 없이 Structure 만 작성 — 3층 모두 채움
 - ❌ **Structure 본문을 ` ```chat ` 펜스 안에 작성** (spec-11-05 fix #1) — 컴파일러가 *예시 코드* 로 처리해 본문 누락. *bare* 형식 사용.
+- ❌ **Input/Form 만났는데 validation 안 묻고 컴파일** (spec-12-02) — §7.5 의 질문 *강제*. 디자이너가 "필요 없어요" 라고 명시할 때만 skip + decisions.md 기록.
+- ❌ **Button 만났는데 의도 안 묻고 컴파일** (spec-12-02) — §7.6 의 4 옵션 (A/B/C/D) *반드시* 확인. 의도 모르면 form submit 도 nav 도 잘못된 코드 생성.
+- ❌ **기존 씬과 구조가 유사한데 §5.6 없이 바로 신규 패턴 작성** (spec-12-04) — scenes/*.chat.md 비교 *강제*. 재사용 가능성 확인 전 작성 금지.
+- ❌ **토큰에 없는 색/반경 필요한데 §5.7 없이 바로 신규 정의** (spec-12-04) — `gd tokens find` 먼저. 기존 토큰으로 대체 가능하면 재사용.
 
 ---
 
-## §12 종료 조건
+## §12 종료 조건 (spec-12-02/04/06 — 5 단계 강제)
 
-본 스킬 호출이 *완료* 되는 시점:
+본 스킬 호출이 *완료* 되는 시점. **모든 항목 충족 필수** — 미충족 시 *계속 대화*:
 
 - [ ] `chats/scenes/<name>.chat.md` (또는 `components/`) 파일 존재 + frontmatter + 3층 채움
 - [ ] 카탈로그 어휘로만 작성 (검증: `pnpm gd lint` 통과 가능)
+- [ ] §5.5 의 5 단계 모두 확인:
+  - [ ] (i) 의도 (Narrative 비어 있지 않음)
+  - [ ] (ii) 토큰 후보 매칭 — 없는 토큰은 §5.7 결정 완료
+  - [ ] (iii) 비슷한 화면 발견 — §5.6 4-옵션 결정 완료 (또는 "유사 없음" 확인)
+  - [ ] (iv) Input/Form 있으면 validation 의도 결정 (§7.5)
+  - [ ] (v) Button 있으면 버튼 의도 결정 (§7.6)
+- [ ] (해당 시) §5.8 `.order.md` draft 생성 완료 (Form/Button 있는 신)
+- [ ] (해당 시) §5.9 `.order.md data:` 섹션 추가 완료 (서버 데이터 fetch 있는 신)
 - [ ] `pnpm gd react ...` 명령 안내 (또는 실행)
-- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append
+- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append — §5.6 재사용/확장 + §5.7 토큰 + validation + 버튼 의도 + §5.8 order.md 생성 + §5.9 fetch 명세 기록
 
 → 사용자가 *시각 확인* 후 수정 필요하면 다시 chat.md 만 편집 → `gd react` 재실행.
+
+> 💡 디자이너가 "빨리 끝내고 싶어요" 라고 해도 위 5 단계 중 *결정 안 된 것* 은 한 번씩 짧게 확인 (페르소나 fit). 진정 *불필요한 단계* (예: form 없는 신에서 validation) 는 자동 skip OK.

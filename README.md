@@ -10,7 +10,7 @@
 ## TL;DR
 
 ```bash
-npm create gd-react@latest my-app   # 새 프로젝트 (토큰 + 스킬 자동 포함)
+npx create-gd-react@latest my-app  # 새 프로젝트 (토큰 + 스킬 자동 포함)
 npx @gen-design/skills              # 기존 프로젝트에 스킬만 추가
 ```
 
@@ -199,7 +199,7 @@ chat.md를 수정하고 다시 컴파일하면 됩니다. 중간 번역 레이�
 ## 새 프로젝트 시작
 
 ```bash
-npm create gd-react@latest my-app
+npx create-gd-react@latest my-app
 cd my-app && pnpm install
 ```
 
@@ -216,7 +216,7 @@ my-app/
 ├── chats/                ← chat.md 누적 위치
 │   ├── scenes/
 │   └── components/
-├── .claude/skills/       ← Claude Code 스킬 4종 자동 설치
+├── .claude/commands/     ← Claude Code 스킬 4종 자동 설치
 │   ├── gd-start.md
 │   ├── gd-chat.md
 │   ├── gd-design.md
