@@ -6,6 +6,30 @@ type: project
 
 <!-- gd-* 스킬들이 결정 시점에 한 entry 씩 append. 최신이 위에 추가됩니다. -->
 
+## 2026-05-23 SignupScene 재사용 + 신규 (v5 신 2)
+
+- **결정**: 신 1 의 form pattern (Card+Form+FormField+Input+Button) *재사용* + Checkbox 신규 어휘
+- **이유**: 첫 *Tier 발견* 순간 — 신 2 만에 form pattern 재등장 (1 회차)
+- **영향**: chats/scenes/signup.chat.md / 향후 input form 모두 이 패턴
+- **출처 스킬**: gd-chat (spec-12-02 §5.5 (iii))
+
+## 2026-05-23 SignupScene form validation (v5 신 2)
+
+- **필드별 규칙**:
+  - name: required + z.string().min(2)
+  - email: required + z.string().email()
+  - password: required + z.string().min(8)
+  - terms: required (체크 안 하면 가입 X)
+- **이유**: 4 필드 — agent 가 *각 필드별 안내* 후 디자이너가 *4 개 한번에 결정* (v4 대비 빠름)
+- **영향**: chats/scenes/signup.chat.md 의 Input/Checkbox 4 개
+- **출처 스킬**: gd-chat (spec-12-02 §7.5)
+
+## 2026-05-23 SignupScene 버튼 의도 (v5 신 2)
+
+- **가입하기 버튼**: (A) form submit — validation 통과 후 API 호출
+- **이유**: 단일 버튼 신 (회원가입 form), 명확한 form submit
+- **출처 스킬**: gd-chat (spec-12-02 §7.6)
+
 ## 2026-05-23 LoginScene 표준 form pattern (v5 신 1)
 
 - **결정**: `Card + Form + FormField (x2) + Input + Button (x2)` 표준 로그인 form
