@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-12** — conversation-depth-and-orchestration — 1 spec — 다음: (spec 없음)
+- **phase-12** — conversation-depth-and-orchestration — 2 spec — 다음: spec-12-02-gd-chat-depth-and-intent
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
