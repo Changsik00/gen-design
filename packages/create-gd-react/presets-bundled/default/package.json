@@ -15,7 +15,7 @@
     "format": "prettier --write .",
     "typecheck": "tsc --noEmit",
     "precheck": "pnpm lint && pnpm typecheck && pnpm test",
-    "gd": "gd"
+    "gd": "gen-design"
   },
   "pnpm": {
     "onlyBuiltDependencies": ["esbuild", "@tailwindcss/oxide"]
@@ -46,6 +46,7 @@
     "zustand": "^5.0.2"
   },
   "devDependencies": {
+    "@gd/cli": "workspace:*",
     "@axe-core/playwright": "^4.10.0",
     "@playwright/test": "^1.50.0",
     "@tailwindcss/vite": "^4.0.0-beta.7",
