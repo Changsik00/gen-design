@@ -13,14 +13,14 @@
 - [x] `pnpm build` 통과 + 수동 검증
 - [x] commit: `feat(spec-x-01): add @gd/skills installer package`
 
-## Task 3 — README.md 개편
+## Task 3 — README.md 개편 ✅
 
-- [ ] 기존 동기/배경 내용 → `docs/motivation.md` 이동
-- [ ] README 재작성: 30s 퀵스타트 + 워크플로 + 스킬 테이블 + CLI 테이블 + details 아코디언
-- [ ] commit: `docs(spec-x-01): overhaul README with quickstart and skills guide`
+- [x] 기존 동기/배경 내용 → `docs/motivation.md` 이동
+- [x] README 재작성: 30s 퀵스타트 + 워크플로 + 스킬 테이블 + CLI 테이블 + details 아코디언
+- [x] commit: `docs(spec-x-01): overhaul README with quickstart and skills guide`
 
-## Task 4 — Ship
+## Task 4 — Ship ✅
 
-- [ ] walkthrough.md 작성
-- [ ] pr_description.md 작성
+- [x] walkthrough.md 작성
+- [x] pr_description.md 작성
 - [ ] push + PR (target: main)
