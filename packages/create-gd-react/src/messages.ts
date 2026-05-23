@@ -50,7 +50,10 @@ export const messages = {
     `${kleur.yellow("⚠")} 의존성 설치 실패. ${kleur.cyan("--no-install")} 로 건너뛰거나 수동으로 ${kleur.cyan("pnpm install")} 실행하세요.`,
 
   warnOfflineFallback: () =>
-    `${kleur.yellow("⚠")} offline 모드 — 번들된 default preset 사용 (latest 가 아닐 수 있음)`,
+    `${kleur.yellow("⚠")} offline 모드 — 번들된 preset 사용`,
+
+  warnBundledFallback: () =>
+    `${kleur.yellow("⚠")} 원격 preset 접근 실패 — 번들된 preset 으로 대체합니다`,
 
   help: () =>
     `

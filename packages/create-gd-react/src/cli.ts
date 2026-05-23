@@ -77,26 +77,11 @@ export async function main(argv: string[] = process.argv.slice(2)): Promise<numb
       process.stdout.write(messages.fetchProgress(args.preset) + "\n");
       try {
         await fetchAndExtractPreset(args.presetRepo, args.preset, targetDir);
-      } catch (err) {
-        const errMsg = err instanceof Error ? err.message : String(err);
-        // 네트워크 실패 시 fallback 시도
-        if (
-          errMsg.includes("타임아웃") ||
-          errMsg.includes("HTTP") ||
-          errMsg.includes("ENOTFOUND") ||
-          errMsg.includes("ECONNREFUSED")
-        ) {
-          process.stderr.write(messages.errorNetwork() + "\n");
-          return 2;
-        }
-        if (errMsg.includes("을 tarball 에서 찾을 수 없")) {
-          process.stderr.write(
-            messages.errorPresetNotFound(args.preset, args.presetRepo) + "\n",
-          );
-          return 3;
-        }
-        process.stderr.write(messages.errorExtractFailed(errMsg) + "\n");
-        return 4;
+      } catch {
+        // 원격 실패 시 번들 preset으로 자동 fallback
+        process.stdout.write(messages.warnBundledFallback() + "\n");
+        const bundled = resolveBundledPresetDir(args.preset);
+        await copyPreset(bundled, targetDir);
       }
     }
   } catch (err) {
