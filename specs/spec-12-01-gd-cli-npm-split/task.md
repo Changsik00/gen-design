@@ -1,6 +1,7 @@
 # Task List: spec-12-01
 
 > 모든 task 는 한 commit 에 대응합니다 (One Task = One Commit).
+> Task 2 진행 중 ADR 재결정 (A → C) — chat-md-compiler 는 studio 에 그대로 유지.
 
 ## Pre-flight
 
@@ -9,35 +10,31 @@
 - [x] plan.md 작성
 - [x] task.md 작성
 - [x] 백로그 업데이트 (phase-12.md SPEC 표)
-- [ ] 사용자 Plan Accept
-- [ ] 브랜치 생성 (phase-12 base 에서)
+- [x] 사용자 Plan Accept
+- [x] 브랜치 생성
 
 ---
 
-## Task 1: pre-flight commit
+## Task 1: pre-flight commit ✅
 
-- [ ] Commit: `docs(spec-12-01): pre-flight spec plan task`
-
----
-
-## Task 2: `packages/chat-md-compiler/` 분리
-
-- [ ] 패키지 scaffold (package.json / tsconfig / tsup / vitest)
-- [ ] `git mv studio/src/lib/chat-md-compiler/ packages/chat-md-compiler/src/`
-- [ ] `src/index.ts` public API re-export
-- [ ] studio frontend (preview / chat-viewer) import 경로 갱신
-- [ ] studio package.json + tsconfig paths 갱신
-- [ ] studio `pnpm test` PASS
-- [ ] Commit: `refactor(spec-12-01): extract @gd/chat-md-compiler package`
+- [x] Commit: `docs(spec-12-01): pre-flight spec plan task`
 
 ---
 
-## Task 3: `packages/gd-cli/` 생성
+## Task 2: ADR 재결정 (A → C)
 
-- [ ] 패키지 scaffold (package.json / bin: gen-design / tsup)
-- [ ] `src/cli.ts` dispatcher 이전
-- [ ] `src/commands/` 각 subcommand 이전 (react / doctor / diff / lint / merge / paper-import)
-- [ ] import 경로 → `@gd/chat-md-compiler`
+- [ ] plan.md / task.md / spec.md 의 ADR-12-01-A 결정 갱신
+- [ ] Commit: `docs(spec-12-01): ADR-A revise to C — keep chat-md-compiler in studio`
+
+---
+
+## Task 3: `packages/gd-cli/` scaffold + 코드 이전
+
+- [ ] 패키지 scaffold (package.json `@gd/cli` / bin `gen-design` / tsup / vitest)
+- [ ] tsconfig path alias `@studio-compiler/*`
+- [ ] `src/cli.ts` — dispatcher 이전
+- [ ] `src/commands/` — react / doctor / diff / lint / merge / paper-import 이전
+- [ ] import 경로 갱신 (`../../src/lib/chat-md-compiler` → `@studio-compiler`)
 - [ ] `pnpm build` 성공
 - [ ] Commit: `feat(spec-12-01): create @gd/cli package with gen-design commands`
 
@@ -45,21 +42,21 @@
 
 ## Task 4: 테스트 이전
 
-- [ ] `studio/scripts/__tests__/gen-design.test.ts` → `packages/gd-cli/`
-- [ ] `studio/scripts/gen-design/doctor/*.test.ts` → `packages/gd-cli/`
-- [ ] chat-md-compiler 관련 *.test.ts → `packages/chat-md-compiler/`
-- [ ] 두 패키지 `pnpm test` PASS
-- [ ] Commit: `test(spec-12-01): migrate tests to new packages`
+- [ ] `studio/scripts/__tests__/gen-design.test.ts` → `packages/gd-cli/src/`
+- [ ] `studio/scripts/gen-design/doctor/*.test.ts` → `packages/gd-cli/src/commands/doctor/`
+- [ ] vitest config 동기
+- [ ] `pnpm --filter @gd/cli test` PASS
+- [ ] Commit: `test(spec-12-01): migrate gen-design tests to @gd/cli`
 
 ---
 
 ## Task 5: studio 정리
 
-- [ ] `studio/src/lib/chat-md-compiler/` 삭제
 - [ ] `studio/scripts/gen-design.ts` + `studio/scripts/gen-design/` 삭제
-- [ ] `studio/package.json` scripts 갱신
+- [ ] `studio/package.json` scripts → `gen-design` (bin) 호출
+- [ ] studio devDep `@gd/cli: workspace:*`
 - [ ] studio `pnpm test` PASS
-- [ ] Commit: `chore(spec-12-01): remove studio inline gen-design + chat-md-compiler`
+- [ ] Commit: `chore(spec-12-01): remove studio inline gen-design — use @gd/cli`
 
 ---
 
@@ -77,14 +74,14 @@
 - [ ] dogfood-alpha-v4 `pnpm gd react login` 0 errors
 - [ ] dogfood-alpha-v4 `pnpm gd doctor` 0 errors
 - [ ] 새 임시 디렉토리 create-gd-react + gd react 통합 시나리오
-- [ ] studio preview (vite dev) 동작 확인
+- [ ] studio preview 동작 확인 (chat-md-compiler 그대로라 회귀 최소)
 - [ ] Commit: `test(spec-12-01): integration — gd commands work from external dir`
 
 ---
 
 ## Task 8: Ship
 
-- [ ] walkthrough.md + pr_description.md 작성
+- [ ] walkthrough.md + pr_description.md
 - [ ] sdd ship + push + PR (`--base phase-12-conversation-depth-and-orchestration`)
 
 ---
@@ -94,4 +91,4 @@
 | 항목 | 값 |
 |---|---|
 | **총 Task 수** | 8 |
-| **현재 단계** | Pre-flight (Plan Accept 대기) |
+| **현재 단계** | Task 2 (ADR 갱신 commit) |

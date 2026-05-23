@@ -2,38 +2,31 @@
 
 ## 🎯 접근
 
-monorepo 안에 **2 새 패키지** 신설:
-1. `packages/chat-md-compiler/` — chat.md grammar + parser + compilers (paper / react / cli)
-2. `packages/gd-cli/` — `gen-design` CLI (react / doctor / diff / lint / merge / paper-import)
+monorepo 안에 **1 새 패키지** 신설:
+- `packages/gd-cli/` — `gen-design` CLI (react / doctor / diff / lint / merge / paper-import)
 
-studio 는 두 패키지를 *workspace dep* 으로 변경 (src/lib/chat-md-compiler 제거 + scripts/gen-design* 제거).
+studio 는 `@gd/cli` 를 workspace dep 으로 추가 + `scripts/gen-design*` 제거. **`src/lib/chat-md-compiler/` 는 studio 에 그대로 유지** (Task 2 진행 중 ADR 재결정 — 아래 §).
 
-## 📑 ADR-12-01-A — chat-md-compiler 위치 결정
+## 📑 ADR-12-01-A — chat-md-compiler 위치 결정 (갱신 2026-05-23)
 
 | 옵션 | 장점 | 단점 |
 |---|---|---|
-| (A) `packages/chat-md-compiler/` | studio frontend (preview/chat-viewer) + gd-cli 둘 다 깔끔. 의미적 정합. 향후 publish 가능 | 44 파일 이전 — 큰 작업 |
-| (B) `packages/gd-cli/src/lib/` 안 | gd-cli 단일 패키지. 작업 ↓ | studio frontend 가 `@gd/cli/lib/...` import — `@gd/cli` 이름과 의미 불일치 |
-| (C) studio 에 그대로 + workspace import | 가장 작음 | 외부 publish 불가. 사용자 결정 "완전 이전" 위배 |
+| (A) `packages/chat-md-compiler/` 분리 | gd-cli + studio 둘 다 깔끔 | **`chat-md` (parser) 도 같이 분리 필요 — 30+ import 영향, 작업 폭증** |
+| (B) `packages/gd-cli/src/lib/` 안 | gd-cli 단일 패키지 | studio frontend 가 `@gd/cli/lib/...` import — 이름 불일치 |
+| (C) studio 에 그대로 + workspace import | 작업 ↓ | 외부 publish 불가 (publish out of scope 이라 OK) |
 
-**결정**: **(A)** — 사용자 결정 "완전 이전" 정합 + studio frontend (preview / chat-viewer) 도 chat-md-compiler 사용 중 → 별도 패키지가 의미상 자연.
+**Task 2 진행 중 발견**:
+- `chat-md-compiler` 는 `studio/src/lib/chat-md/parser` 를 광범위 import
+- `chat-md/parser` 자체도 studio 의 paper-inference / figma-adapter / frontend features 등에서 15+ import 위치 사용 중
+- → (A) 가면 chat-md 까지 4 패키지 분리 = spec scope 폭증
 
-## 📦 디렉토리 구조
+**갱신 결정**: **(C)** — 사용자 확인 후 결정. chat-md-compiler 는 studio 에 두고 gd-cli 만 분리. workspace 안에서 *상대 경로 import* (또는 path alias). 외부 publish 불가 — *publish 후속* 결정과 정합.
+
+## 📦 디렉토리 구조 (갱신)
 
 ```
 packages/
-├── chat-md-compiler/          ← NEW
-│   ├── package.json           name: @gd/chat-md-compiler
-│   ├── tsconfig.json
-│   ├── tsup.config.ts
-│   ├── src/
-│   │   ├── index.ts           re-export public API
-│   │   ├── cli/               (이전: studio/src/lib/chat-md-compiler/cli/)
-│   │   ├── paper/             (이전: studio/src/lib/chat-md-compiler/paper/)
-│   │   └── react/             (이전: studio/src/lib/chat-md-compiler/react/)
-│   └── (tests src 옆 *.test.ts)
-│
-├── gd-cli/                    ← NEW
+├── gd-cli/                    ← NEW (단일 신규 패키지)
 │   ├── package.json           name: @gd/cli, bin: gen-design
 │   ├── tsconfig.json
 │   ├── tsup.config.ts
@@ -51,53 +44,56 @@ packages/
 └── create-gd-react/           (기존, preset package.json 만 갱신)
 
 studio/
-├── package.json               devDep: @gd/chat-md-compiler + @gd/cli (workspace:*)
-├── src/lib/chat-md-compiler/  ← 삭제
-├── src/features/.../          import: @/lib/... → @gd/chat-md-compiler
-└── scripts/gen-design*        ← 삭제
+├── package.json               devDep: @gd/cli (workspace:*)
+├── src/lib/chat-md-compiler/  ← 그대로 유지 (45 파일)
+├── src/lib/chat-md/           ← 그대로 유지
+└── scripts/gen-design*        ← 삭제 (gd-cli 가 대체)
 ```
 
-## 🔧 작업 단위
+### gd-cli ↔ studio chat-md-compiler import 방식
 
-### Task 1: pre-flight commit (spec/plan/task)
+`packages/gd-cli/src/commands/react.ts` 가 `studio/src/lib/chat-md-compiler/react/compile-scene` 를 import 해야 함. 옵션:
 
-### Task 2: `packages/chat-md-compiler/` scaffold + 이전
+- **상대 경로**: `from "../../../studio/src/lib/chat-md-compiler/react/compile-scene"` — 단순하지만 못생김
+- **path alias** (gd-cli tsconfig + tsup): `"@studio-compiler/*": "../studio/src/lib/chat-md-compiler/*"` → `from "@studio-compiler/react/compile-scene"` — 깔끔
 
-1. 패키지 scaffold (package.json / tsconfig / tsup / vitest)
-2. `studio/src/lib/chat-md-compiler/` → `packages/chat-md-compiler/src/` (`git mv`)
-3. `src/index.ts` — public API re-export
-4. studio frontend (preview / chat-viewer) 의 import 경로 갱신: `@/lib/chat-md-compiler/...` → `@gd/chat-md-compiler/...`
-5. `studio/package.json` devDep + tsconfig paths 갱신
-6. studio `pnpm test` PASS 확인
-7. **Commit**: `refactor(spec-12-01): extract @gd/chat-md-compiler package`
+→ **path alias 채택**.
 
-### Task 3: `packages/gd-cli/` scaffold
+## 🔧 작업 단위 (갱신)
+
+### Task 1: pre-flight commit (spec/plan/task) — ✅ 완료
+
+### Task 2: ADR 재결정 commit (plan/task 갱신)
+
+진행 중 발견 (chat-md parser 광범위 사용) 반영하여 ADR (A) → (C). plan/task.md 갱신만.
+
+**Commit**: `docs(spec-12-01): ADR-A revise to C — keep chat-md-compiler in studio`
+
+### Task 3: `packages/gd-cli/` scaffold + 코드 이전
 
 1. 패키지 scaffold (package.json / bin: gen-design / tsup / vitest)
-2. `src/cli.ts` — `studio/scripts/gen-design.ts` 의 dispatcher 이전
-3. `src/commands/` — 각 subcommand 이전
-   - `react.ts` (chat-md-compiler 의 compileScene import — `@gd/chat-md-compiler`)
-   - `doctor/` 디렉토리 통째 이전
-   - `diff.ts` / `lint.ts` / `merge.ts` / `paper-import.ts`
-4. import 경로 갱신 — `../../src/lib/chat-md-compiler` → `@gd/chat-md-compiler`
-5. **Commit**: `feat(spec-12-01): create @gd/cli package with all gen-design commands`
+2. tsconfig path alias: `"@studio-compiler/*": "../../studio/src/lib/chat-md-compiler/*"`
+3. `src/cli.ts` — `studio/scripts/gen-design.ts` 의 dispatcher 이전
+4. `src/commands/` — 각 subcommand 이전 (`react.ts`, `doctor/`, `diff.ts`, `lint.ts`, `merge.ts`, `paper-import.ts`)
+5. import 경로 갱신 — `../../src/lib/chat-md-compiler` → `@studio-compiler`
+6. tsup build 성공
+7. **Commit**: `feat(spec-12-01): create @gd/cli package with gen-design commands`
 
-### Task 4: 테스트 이전 (gd-cli + chat-md-compiler)
+### Task 4: 테스트 이전
 
-1. `studio/scripts/__tests__/gen-design.test.ts` → `packages/gd-cli/`
-2. `studio/scripts/gen-design/doctor/*.test.ts` → `packages/gd-cli/`
-3. chat-md-compiler 관련 테스트 (studio 의 src/lib 내부 *.test.ts) → `packages/chat-md-compiler/`
-4. vitest config 동기
-5. 두 패키지 `pnpm test` PASS
-6. **Commit**: `test(spec-12-01): migrate tests to new packages`
+1. `studio/scripts/__tests__/gen-design.test.ts` → `packages/gd-cli/src/`
+2. `studio/scripts/gen-design/doctor/*.test.ts` → `packages/gd-cli/src/commands/doctor/`
+3. vitest config 동기
+4. `pnpm --filter @gd/cli test` PASS
+5. **Commit**: `test(spec-12-01): migrate gen-design tests to @gd/cli`
 
 ### Task 5: studio 정리
 
-1. `studio/src/lib/chat-md-compiler/` 삭제
-2. `studio/scripts/gen-design.ts` + `studio/scripts/gen-design/` 삭제
-3. `studio/package.json` 의 `gd:*` scripts → `gen-design` (bin) 호출
+1. `studio/scripts/gen-design.ts` + `studio/scripts/gen-design/` 삭제
+2. `studio/package.json` 의 `gd:*` 또는 관련 scripts → `gen-design` (bin) 호출
+3. studio devDep 에 `@gd/cli: workspace:*` 추가
 4. studio `pnpm test` PASS (조정된 수치)
-5. **Commit**: `chore(spec-12-01): remove studio inline gen-design + chat-md-compiler`
+5. **Commit**: `chore(spec-12-01): remove studio inline gen-design — use @gd/cli`
 
 ### Task 6: preset (create-gd-react) 동기
 
@@ -134,8 +130,7 @@ studio/
 
 - [ ] `pnpm -r build` 전체 성공
 - [ ] studio `pnpm test` PASS
-- [ ] `packages/chat-md-compiler/ pnpm test` PASS
 - [ ] `packages/gd-cli/ pnpm test` PASS
 - [ ] `create-gd-react pnpm test` PASS
 - [ ] dogfood-alpha-v4 `pnpm gd react login` / `pnpm gd doctor` 0 errors
-- [ ] studio preview 페이지 (vite dev) chat 컴파일 동작
+- [ ] studio preview / chat-viewer 동작 (회귀 무 — chat-md-compiler 위치 그대로라 영향 최소)

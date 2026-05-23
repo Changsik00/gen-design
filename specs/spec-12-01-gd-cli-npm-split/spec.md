@@ -44,12 +44,10 @@ phase-11 의 dogfooding alpha (v1) 에서 발견한 잔여 HIGH:
    - 모든 subcommand 코드를 `packages/gd-cli/src/commands/` 로 이동
    - `studio/scripts/gen-design.ts` 제거 (또는 `@gd/cli` 의 cli.ts 를 호출하는 *얇은 shim*)
    - studio `package.json` 의 `gd` 관련 scripts 가 `@gd/cli` 를 호출하도록 갱신
-3. **chat-md-compiler 위치 (ADR-12-01-A)**
-   - 현재 `studio/src/lib/chat-md-compiler/` 의 44 파일. gd-cli 의 react/doctor 가 이를 import
-   - **plan 단계 결정** (옵션):
-     - (A) chat-md-compiler 도 `packages/chat-md-compiler/` 로 분리 (정석, 큰 작업)
-     - (B) chat-md-compiler 는 `packages/gd-cli/src/lib/` 로 통째 이전 (단일 패키지)
-     - (C) chat-md-compiler 는 studio 에 두고 gd-cli 가 workspace import (외부 publish 불가, 임시)
+3. **chat-md-compiler 위치 (ADR-12-01-A — 결정: (C))**
+   - 현재 `studio/src/lib/chat-md-compiler/` 의 45 파일. gd-cli 의 react/doctor 가 이를 import
+   - **결정**: **(C) studio 에 그대로**. gd-cli 가 path alias 로 import. 외부 publish 불가지만 publish 는 본 spec out of scope
+   - **이유**: chat-md (parser) 가 paper-inference / figma-adapter / frontend features 등 *광범위* 사용 → 분리 시 작업 폭증
 4. **preset 의 `package.json`** — `@gd/cli` 를 devDep 으로 (workspace 의존성: `"workspace:*"`)
 5. **`pnpm gd react <slug>`** 가 *외부 scaffold 디렉토리에서* 동작 (workspace 안)
 6. **회귀 무**: studio 1064 tests / create-gd-react 28 tests / dogfood-alpha-v1~v4 의 `gd react` `gd doctor` 모두 동작
