@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-12** — conversation-depth-and-orchestration — 2 spec — 다음: (spec 없음)
+- **phase-12** — conversation-depth-and-orchestration — 3 spec — 다음: spec-12-03-gd-tokens-query
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
