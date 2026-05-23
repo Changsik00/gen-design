@@ -4,7 +4,7 @@
   "description": "Install gen-design AI skills (gd-chat, gd-start, gd-design, gd-token) into your project",
   "type": "module",
   "bin": {
-    "gd-skills": "./dist/cli.js"
+    "gd-skills": "dist/cli.js"
   },
   "files": [
     "dist",
