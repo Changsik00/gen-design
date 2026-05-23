@@ -142,6 +142,22 @@ B. Tier 3 composite 으로 등재 — 3회 룰 적용
 
 ---
 
+## §5.5 대화 깊이 checklist (spec-12-02)
+
+`chat.md` 컴파일 *전* 다음 5 단계를 *모두* 확인하세요. **하나라도 미확인이면 계속 대화** — 성급히 컴파일하지 않습니다.
+
+1. **의도** — Narrative 1층 작성 (왜 / 누가 / 목적). 비어 있으면 안 됨.
+2. **토큰 후보** — 사용할 radius / color / spacing 이 *현 24 standard 토큰* 과 매칭 (예: `bg-primary` / `rounded-lg`). 새 토큰 필요 시 *decisions.md 에 등록 의도* 명시.
+3. **비슷한 화면 발견** — chats/scenes/ 안에 *같은 패턴* (예: 로그인 form ↔ 회원가입 form) 이 이미 있는지 확인. 있으면 *어휘 재사용* 안내. 없으면 신규.
+4. **form validation 의도** — Structure 에 `<Input>` 또는 `<Form>` 이 있으면 **§7.5 묻기 강제**.
+5. **버튼 의도** — Structure 에 `<Button>` 이 있으면 **§7.6 묻기 강제** (CTA / navigation / submit / external).
+
+각 단계의 결과는 *대화 turn* 으로 남고, 주요 결정은 `.gd/memory/decisions.md` 에 append.
+
+> 💡 디자이너가 "그냥 컴파일해주세요" 라고 해도 *위 5 단계 빠진 게 있으면* 짧게 한 번 더 확인. 페르소나에 따라 (i) 초보 = 모두 묻기 / (ii) 숙련 = 빠르게 확인 + 짧은 한 줄 답.
+
+---
+
 ## §6 Narrative (의도) walkthrough
 
 3층 중 1층 — *왜* 이 신이 필요한가, *누가* 보는가.
@@ -223,6 +239,74 @@ B. Tier 3 composite 으로 등재 — 3회 룰 적용
 
 ---
 
+## §7.5 Input/Form 만나면 — validation 의도 묻기 (spec-12-02)
+
+Structure 에 `<Input>` 또는 `<Form>` 이 있으면 **반드시** 묻습니다:
+
+```
+이 form 의 validation 어떻게 할까요? preset 의 표준은 react-hook-form + zod 입니다.
+
+각 필드별로:
+  - <field>: required? format (email/url/number 등)? min/max 길이? 기타?
+
+예시 답:
+  - email: required + email format
+  - password: required + min 8자
+  - terms: required (checkbox)
+```
+
+→ 디자이너 답 받고 `.gd/memory/decisions.md` 에 entry append:
+
+```markdown
+## YYYY-MM-DD <SceneName> form validation 결정
+
+- **필드별 규칙**:
+  - email: required + z.string().email()
+  - password: required + z.string().min(8)
+- **이유**: <사용자 답 — 예: "8자 정도면 충분, MVP">
+- **출처 스킬**: gd-chat (spec-12-02)
+```
+
+> 💡 코드 직접 작성 안 함 — 디자이너는 *규칙만* 결정. 실 zod schema 생성은 향후 spec-12-05 (order.md) 또는 수동.
+
+---
+
+## §7.6 Button 만나면 — 버튼 의도 묻기 (spec-12-02)
+
+Structure 에 `<Button>` 이 있으면 **반드시** 묻습니다 (4 옵션):
+
+```
+이 버튼의 의도는?
+
+  A) form submit       — 폼 제출 (validation 후 API)
+  B) page navigation   — 다른 페이지로 이동 (앱 내 라우터)
+  C) external link     — 외부 URL (새 탭)
+  D) modal/dialog open — 모달 열기
+
+각각의 chat.md 표현 안내:
+  A: <Button type="submit">{{i18n.ko.<scene>.submit}}</Button>
+  B: <Link to="/path"><Button asChild>{{i18n.ko.<scene>.go}}</Button></Link>
+  C: <a href="..." target="_blank"><Button asChild>{{i18n.ko.<scene>.external}}</Button></a>
+  D: <Dialog>
+       <DialogTrigger asChild><Button>{{i18n.ko.<scene>.open}}</Button></DialogTrigger>
+       ...
+     </Dialog>
+```
+
+→ 디자이너 답 받고 *해당 표현* 으로 chat.md 작성. decisions.md entry:
+
+```markdown
+## YYYY-MM-DD <SceneName> 버튼 의도
+
+- **<버튼이름>**: (A/B/C/D) — <간단 설명>
+- **이유**: <사용자 답>
+- **출처 스킬**: gd-chat (spec-12-02)
+```
+
+> 💡 추가 의도 (AI 호출 / 데이터 refresh) 는 *spec-12-05 design-order-spec* 에서 표준화 예정.
+
+---
+
 ## §8 History (이력) walkthrough
 
 3층 중 3층 — *언제 무엇이 결정* 됐는가.
@@ -293,16 +377,26 @@ chat 작성 중 *주요 결정* 이 있었으면 `.gd/memory/decisions.md` 에 a
 - ❌ `chats/scenes/` 외 위치에 신 작성 — 표준 경로 강제
 - ❌ Narrative / History 없이 Structure 만 작성 — 3층 모두 채움
 - ❌ **Structure 본문을 ` ```chat ` 펜스 안에 작성** (spec-11-05 fix #1) — 컴파일러가 *예시 코드* 로 처리해 본문 누락. *bare* 형식 사용.
+- ❌ **Input/Form 만났는데 validation 안 묻고 컴파일** (spec-12-02) — §7.5 의 질문 *강제*. 디자이너가 "필요 없어요" 라고 명시할 때만 skip + decisions.md 기록.
+- ❌ **Button 만났는데 의도 안 묻고 컴파일** (spec-12-02) — §7.6 의 4 옵션 (A/B/C/D) *반드시* 확인. 의도 모르면 form submit 도 nav 도 잘못된 코드 생성.
 
 ---
 
-## §12 종료 조건
+## §12 종료 조건 (spec-12-02 — 5 단계 강제)
 
-본 스킬 호출이 *완료* 되는 시점:
+본 스킬 호출이 *완료* 되는 시점. **모든 항목 충족 필수** — 미충족 시 *계속 대화*:
 
 - [ ] `chats/scenes/<name>.chat.md` (또는 `components/`) 파일 존재 + frontmatter + 3층 채움
 - [ ] 카탈로그 어휘로만 작성 (검증: `pnpm gd lint` 통과 가능)
+- [ ] §5.5 의 5 단계 모두 확인:
+  - [ ] (i) 의도 (Narrative 비어 있지 않음)
+  - [ ] (ii) 토큰 후보 매칭 (24 standard 또는 신규 등록 의도 명시)
+  - [ ] (iii) 비슷한 화면 발견 검토 (재사용 vs 신규 결정)
+  - [ ] (iv) Input/Form 있으면 validation 의도 결정 (§7.5)
+  - [ ] (v) Button 있으면 버튼 의도 결정 (§7.6)
 - [ ] `pnpm gd react ...` 명령 안내 (또는 실행)
-- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append
+- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append — validation / 버튼 의도 / 토큰 / 재사용 모두
 
 → 사용자가 *시각 확인* 후 수정 필요하면 다시 chat.md 만 편집 → `gd react` 재실행.
+
+> 💡 디자이너가 "빨리 끝내고 싶어요" 라고 해도 위 5 단계 중 *결정 안 된 것* 은 한 번씩 짧게 확인 (페르소나 fit). 진정 *불필요한 단계* (예: form 없는 신에서 validation) 는 자동 skip OK.
