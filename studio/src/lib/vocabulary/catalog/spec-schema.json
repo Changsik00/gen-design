@@ -102,6 +102,57 @@
           ],
           "properties": {
             "name": {
+              "const": "Skeleton"
+            },
+            "props": {
+              "type": "object",
+              "properties": {},
+              "additionalProperties": {
+                "anyOf": [
+                  {
+                    "$ref": "#/definitions/stringNoRawColor"
+                  },
+                  {
+                    "type": "number"
+                  },
+                  {
+                    "type": "boolean"
+                  },
+                  {
+                    "type": "object"
+                  },
+                  {
+                    "type": "array"
+                  }
+                ]
+              }
+            },
+            "tokens": {
+              "type": "object",
+              "additionalProperties": {
+                "$ref": "#/definitions/tokenReference"
+              }
+            },
+            "theme": {
+              "type": "string",
+              "description": "Theme context name (brand-a / brand-b / ...)"
+            },
+            "children": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/ComponentInstance"
+              }
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "name"
+          ],
+          "properties": {
+            "name": {
               "const": "ActivitySummary"
             },
             "props": {

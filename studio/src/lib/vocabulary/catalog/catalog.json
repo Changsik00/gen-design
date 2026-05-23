@@ -1,6 +1,6 @@
 {
   "version": "1",
-  "generatedAt": "2026-05-22",
+  "generatedAt": "2026-05-23",
   "tiers": {
     "tier1Aria": {
       "specMeta": {
@@ -513,6 +513,13 @@
           },
           "pattern": "cva",
           "ariaRole": "button"
+        },
+        {
+          "name": "Skeleton",
+          "filePath": "src/components/ui/skeleton.tsx",
+          "axes": [],
+          "defaultVariants": {},
+          "pattern": "manual"
         }
       ]
     },

@@ -54,12 +54,13 @@ phase-12 종료 시:
 <!-- sdd:specs:start -->
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
-| spec-12-01 | gd-cli-npm-split | 🔴 HIGH | Backlog | `specs/spec-12-01-gd-cli-npm-split/` |
-| spec-12-02 | gd-chat-depth-and-intent | 🟡 MID | Backlog | `specs/spec-12-02-gd-chat-depth-and-intent/` |
-| spec-12-03 | gd-tokens-query | 🟡 MID | Backlog | `specs/spec-12-03-gd-tokens-query/` |
-| spec-12-04 | similar-scenes-and-token-reuse | 🟡 MID | Backlog | `specs/spec-12-04-similar-scenes-and-token-reuse/` |
-| spec-12-05 | design-order-spec | 🔴 LARGE | Backlog | `specs/spec-12-05-design-order-spec/` |
-| spec-12-06 | unified-fetch-skeleton | 🟡 MID | Backlog | `specs/spec-12-06-unified-fetch-skeleton/` |
+| `spec-12-01` | gd-cli-npm-split | P? | Merged | `specs/spec-12-01-gd-cli-npm-split/` |
+| `spec-12-02` | gd-chat-depth-and-intent | P? | Merged | `specs/spec-12-02-gd-chat-depth-and-intent/` |
+| `spec-12-03` | gd-tokens-query | P? | Merged | `specs/spec-12-03-gd-tokens-query/` |
+| `spec-12-04` | similar-scenes-and-token-reuse | P? | Merged | `specs/spec-12-04-similar-scenes-and-token-reuse/` |
+| `spec-12-05` | design-order-spec | 🔴 LARGE | Merged | `specs/spec-12-05-design-order-spec/` |
+| `spec-12-06` | unified-fetch-skeleton | 🟡 MID | Merged | `specs/spec-12-06-unified-fetch-skeleton/` |
+| `spec-12-07` | pluginarch | 🟡 MID | Deferred | `specs/spec-12-07-pluginarch/` |
 <!-- sdd:specs:end -->
 
 ### spec-12-01 — gd-cli-npm-split
@@ -103,6 +104,21 @@ phase-12 종료 시:
 - **방향성**: TanStack Query 표준 (`useQuery` + isPending → `<Skeleton/>`). shadcn Skeleton 컴포넌트 카탈로그 등재. chat.md 가 `<DataCard query="..." />` 같은 의도 표현 → gd react 가 *loading / error / data* 3 상태 모두 자동 생성. 신마다 다른 코드 X
 - **참조**: v4 retro 추가 (사용자 후속)
 - **연관 모듈**: `packages/create-gd-react/presets-bundled/default/src/components/ui/skeleton.tsx`, `packages/gd-cli/` (data wrapper 코드 생성), `.claude/skills/gd-chat.md` (fetch 의도 안내)
+
+### spec-12-07 — tool-plugin-architecture (phase 마지막, *대규모*)
+
+- **요점**: chat-md-compiler 의 react/paper 결합을 *완전 분해* 하여 플러그인 아키텍처 도입. 디자인 도구 연동 (Paper / Figma / 손작성 / 기타) 을 사용자가 선택 → 해당 plugin 만 자동 install
+- **방향성**:
+  - `@gd/chat-md-core` (parser + AST + 기본 vocab)
+  - `@gd/chat-md-react` (React 컴파일러, plugin interface)
+  - `@gd/chat-md-paper` (Paper plugin — paper-import + paper-only registry)
+  - `@gd/chat-md-figma` (Figma plugin — figma-adapter)
+  - `@gd/cli` orchestrator — installed plugin 자동 감지 + 로딩
+  - gd-start 스킬에 *도구 선택 단계* 추가 → 선택에 따라 `@gd/chat-md-*` plugin 자동 add
+- **참조**: spec-12-01 진행 중 발견 (chat-md-compiler 의 react ↔ paper ↔ studio frontend 강결합). 현재 외부 디자이너는 모두 "기타 (손작성)" — paper 의존이 *완전 불필요* 한데도 끌어옴
+- **연관 모듈**: `studio/src/lib/chat-md-compiler/` (분해), `packages/gd-*` (4-5 신규 패키지), `.claude/skills/gd-start.md` (도구 선택 onboarding)
+- **선행 조건**: spec-12-01 ~ 12-06 모두 머지 후. 외부 alpha 채용 전 마지막 깃발
+- **의도된 결과**: 손작성 사용자가 npm install 시 *paper 의존 0* — lean 외부 publish 가능
 
 ## 📌 결정 기록 (Review)
 
@@ -157,7 +173,7 @@ phase-12 종료 시:
 
 ## 🏁 Phase Done 조건
 
-- [ ] 6 spec 모두 merge (base branch 모드: `phase-12-...` → main)
+- [ ] 7 spec 모두 merge (base branch 모드: `phase-12-...` → main)
 - [ ] 통합 테스트 4 시나리오 PASS
 - [ ] 성공 기준 6 항목 정량 측정 (본 문서 하단 "검증 결과" 섹션)
 - [ ] 사용자 최종 승인

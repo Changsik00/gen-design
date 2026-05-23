@@ -1,7 +1,7 @@
 import { describe, it, expect, beforeAll } from "vitest";
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
-import { runPaperImport } from "../../../../scripts/gen-design/paper-import";
+import { runPaperImport } from "../../../../../packages/gd-cli/src/commands/paper-import";
 import type { CatalogMap } from "../ast-builder";
 import type { VocabularyCatalog } from "../../vocabulary/catalog";
 

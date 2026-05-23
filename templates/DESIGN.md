@@ -17,7 +17,7 @@ version: 0.0.0
 
 **4-tier vocabulary**:
 - ARIA roles: 93
-- shadcn primitives: 1
+- shadcn primitives: 2
 - composites: 20
 - templates: 7
 
@@ -88,9 +88,9 @@ phase-7 후반 또는 phase-8 에서 elevation 토큰 추가 검토.
 
 3-tier 어휘 카탈로그. 상세는 `FRONT.md` 참조.
 
-### Tier 2 — shadcn/ui (1)
+### Tier 2 — shadcn/ui (2)
 
-`Button`
+`Button` · `Skeleton`
 
 ### Tier 3 — composites (20)
 

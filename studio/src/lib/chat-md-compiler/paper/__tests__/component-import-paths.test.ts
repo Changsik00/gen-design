@@ -24,16 +24,16 @@ describe("COMPONENT_IMPORT_PATHS", () => {
     expect(pathKeys).toEqual(registryKeys);
   });
 
-  it("composites 20개 + templates 7개 + Button 1개 = 28 entries", () => {
-    expect(Object.keys(COMPONENT_IMPORT_PATHS).length).toBe(28);
+  it("composites 20개 + templates 7개 + Button 1개 + Skeleton 1개 = 29 entries", () => {
+    expect(Object.keys(COMPONENT_IMPORT_PATHS).length).toBe(29);
   });
 
-  it("디렉토리 분류 — ui 1개, composites 20개, templates 7개", () => {
+  it("디렉토리 분류 — ui 2개, composites 20개, templates 7개", () => {
     const entries = Object.values(COMPONENT_IMPORT_PATHS);
     const ui = entries.filter((p) => p.startsWith("@/components/ui/"));
     const composites = entries.filter((p) => p.startsWith("@/components/composites/"));
     const templates = entries.filter((p) => p.startsWith("@/components/templates/"));
-    expect(ui.length).toBe(1);
+    expect(ui.length).toBe(2);
     expect(composites.length).toBe(20);
     expect(templates.length).toBe(7);
   });
