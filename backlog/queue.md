@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-12** — conversation-depth-and-orchestration — 5 spec — 다음: spec-12-05-spec-12-05
+- **phase-12** — conversation-depth-and-orchestration — 5 spec — 다음: spec-12-05-design-order-spec
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
