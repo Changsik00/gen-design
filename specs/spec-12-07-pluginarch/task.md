@@ -1,5 +1,11 @@
 # Task List: spec-12-07
 
+> ⚠️ **DEFERRED (구현 보류)** — 문서만 작성 완료, 구현 미착수.
+> 재개하려면: `sdd phase activate 12` → `/hk-plan-accept` 순서로 진행.
+> 재개 조건: 외부 alpha 커스텀 컴포넌트 요청 or npm 외부 publish 시 경로 문제 발생.
+
+---
+
 > 모든 task 는 한 commit 에 대응합니다 (One Task = One Commit).
 > 매 commit 직후 본 파일의 체크박스를 갱신해야 합니다.
 
@@ -9,8 +15,8 @@
 - [x] spec.md 작성
 - [x] plan.md 작성
 - [x] task.md 작성 (이 파일)
-- [ ] 백로그 업데이트 (phase-12.md SPEC 표 갱신)
-- [ ] 사용자 Plan Accept
+- [x] 백로그 업데이트 (phase-12.md — Deferred 처리, icebox 등재)
+- [ ] 사용자 Plan Accept ← **보류 (Deferred)**
 
 ---
 

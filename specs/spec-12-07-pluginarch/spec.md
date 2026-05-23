@@ -1,13 +1,17 @@
 # spec-12-07: ComponentRegistry 플러그인 인터페이스 — react 컴파일러 paper 의존 분리
 
+> ⚠️ **DEFERRED (구현 보류)** — 문서만 작성 완료, 구현 미착수.
+> 재개 조건: 외부 alpha 커스텀 컴포넌트 요청 or npm 외부 publish 시 경로 문제 발생.
+> icebox 참조: `backlog/queue.md` → "spec-12-07 이월" 섹션.
+
 ## 📋 메타
 
 | 항목 | 값 |
 |---|---|
 | **Spec ID** | `spec-12-07` |
 | **Phase** | `phase-12` |
-| **Branch** | `spec-12-07-pluginarch` |
-| **상태** | Planning |
+| **Branch** | `spec-12-07-pluginarch` (미생성) |
+| **상태** | **Deferred** |
 | **타입** | Refactor |
 | **Integration Test Required** | no |
 | **작성일** | 2026-05-23 |
