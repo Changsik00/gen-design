@@ -227,22 +227,45 @@ function buildZodField(rules: ZodRule[]): string {
   return chain;
 }
 
+function queryKeyToCamel(queryKey: string): string {
+  return queryKey.replace(/\./g, "_");
+}
+
+function buildQueryHook(dataSpec: DataSpec): string {
+  const camel = queryKeyToCamel(dataSpec.queryKey);
+  const [, ...pathParts] = dataSpec.endpoint.split(" ");
+  const endpoint = pathParts.join(" ");
+  return [
+    `const { data: ${camel}Data, isPending: ${camel}Pending } = useQuery({`,
+    `  queryKey: ['${dataSpec.queryKey}'],`,
+    `  queryFn: () => fetch('${endpoint}').then(r => r.json()),`,
+    `});`,
+  ].join("\n");
+}
+
 /** OrderSpec → TSX 코드 청크 생성. */
 export function generateOrderTsx(spec: OrderSpec): OrderTsxChunks {
   const hasValidation = spec.validation && Object.keys(spec.validation).length > 0;
+  const hasData = spec.data && spec.data.length > 0;
   const submitAction = spec.actions
     ? Object.entries(spec.actions).find(([, a]) => a.type === "form-submit")
     : null;
 
-  if (!hasValidation && !submitAction) {
+  if (!hasValidation && !submitAction && !hasData) {
     return { imports: "", schemaDecl: "", formInit: "", onSubmit: "" };
   }
 
-  const imports = [
-    `import { z } from 'zod';`,
-    `import { useForm } from 'react-hook-form';`,
-    `import { zodResolver } from '@hookform/resolvers/zod';`,
-  ].join("\n");
+  const importLines: string[] = [];
+  if (hasValidation || submitAction) {
+    importLines.push(`import { z } from 'zod';`);
+    importLines.push(`import { useForm } from 'react-hook-form';`);
+    importLines.push(`import { zodResolver } from '@hookform/resolvers/zod';`);
+  }
+  if (hasData) {
+    importLines.push(`import { useQuery } from '@tanstack/react-query';`);
+    importLines.push(`import { Skeleton } from '@/components/ui/skeleton';`);
+  }
+  const imports = importLines.join("\n");
 
   let schemaDecl = "";
   if (hasValidation) {
@@ -252,25 +275,43 @@ export function generateOrderTsx(spec: OrderSpec): OrderTsxChunks {
     schemaDecl = `const schema = z.object({\n${fields}\n});`;
   }
 
-  const formInit = hasValidation
-    ? `const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) });`
-    : "";
+  const formInitLines: string[] = [];
+  if (hasValidation) {
+    formInitLines.push(
+      `const form = useForm<z.infer<typeof schema>>({ resolver: zodResolver(schema) });`,
+    );
+  }
+  if (hasData) {
+    for (const d of spec.data!) {
+      formInitLines.push(buildQueryHook(d));
+    }
+  }
+  const formInit = formInitLines.join("\n");
 
-  let onSubmit = "";
+  const onSubmitLines: string[] = [];
+  if (hasData) {
+    for (const d of spec.data!) {
+      const camel = queryKeyToCamel(d.queryKey);
+      onSubmitLines.push(`if (${camel}Pending) return <Skeleton />;`);
+    }
+  }
   if (submitAction) {
     const [, action] = submitAction;
     const [method, ...pathParts] = action.target.split(" ");
     const endpoint = pathParts.join(" ");
-    onSubmit = [
-      `async function onSubmit(values: z.infer<typeof schema>) {`,
-      `  await fetch('${endpoint}', {`,
-      `    method: '${method}',`,
-      `    headers: { 'Content-Type': 'application/json' },`,
-      `    body: JSON.stringify(values),`,
-      `  });`,
-      `}`,
-    ].join("\n");
+    onSubmitLines.push(
+      ...[
+        `async function onSubmit(values: z.infer<typeof schema>) {`,
+        `  await fetch('${endpoint}', {`,
+        `    method: '${method}',`,
+        `    headers: { 'Content-Type': 'application/json' },`,
+        `    body: JSON.stringify(values),`,
+        `  });`,
+        `}`,
+      ],
+    );
   }
+  const onSubmit = onSubmitLines.join("\n");
 
   return { imports, schemaDecl, formInit, onSubmit };
 }

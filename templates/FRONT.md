@@ -56,7 +56,7 @@ Spec: ARIA 1.3 (W3C Editor's Draft 2025-08) ([source](https://w3c.github.io/aria
 
 </details>
 
-## Tier 2 — shadcn/ui primitives (1)
+## Tier 2 — shadcn/ui primitives (2)
 
 *components/ui 의 cva-based 컴포넌트. LLM 훈련 데이터 풍부 = 환각 ↓.*
 
@@ -68,6 +68,12 @@ Spec: ARIA 1.3 (W3C Editor's Draft 2025-08) ([source](https://w3c.github.io/aria
 - **Axes**:
   - `variant`: **default** · outline · secondary · ghost · destructive · link *(default: default)*
   - `size`: **default** · xs · sm · lg · icon · icon-xs · icon-sm · icon-lg *(default: default)*
+
+### Skeleton
+
+- **File**: `src/components/ui/skeleton.tsx`
+- **Pattern**: manual
+- **Axes**: (no cva variants — composite/template)
 
 ## Tier 3 — Project composites (20)
 

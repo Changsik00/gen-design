@@ -11,6 +11,7 @@ import type { ComponentType } from "react";
 
 // Tier 2 (shadcn UI primitive)
 import { Button } from "@/components/ui/button";
+import { Skeleton } from "@/components/ui/skeleton";
 
 // Tier 3 — composites (20)
 import { ActivitySummary } from "@/components/composites/ActivitySummary";
@@ -45,6 +46,7 @@ import { VariantWrapper } from "@/components/templates/VariantWrapper";
 
 export const COMPONENT_REGISTRY: Record<string, ComponentType<Record<string, unknown>>> = {
   Button: Button as unknown as ComponentType<Record<string, unknown>>,
+  Skeleton: Skeleton as unknown as ComponentType<Record<string, unknown>>,
 
   ActivitySummary: ActivitySummary as unknown as ComponentType<Record<string, unknown>>,
   ActivityTable: ActivityTable as unknown as ComponentType<Record<string, unknown>>,

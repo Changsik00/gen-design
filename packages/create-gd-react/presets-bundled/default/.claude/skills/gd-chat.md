@@ -303,6 +303,51 @@ actions:
 
 ---
 
+## §5.9 fetch 의도 안내 + `.order.md data:` 추가
+
+> 디자이너가 서버 데이터 fetch 를 언급할 때 진입. **API 연결 있는 신에서만**.
+
+### 트리거
+
+디자이너가 다음 중 하나를 언급할 때:
+- "서버에서 가져와요", "API 연결", "실시간 데이터"
+- "로딩 중에 뭔가 보여줘야 해요"
+- "데이터가 올 때까지 기다려야 해요"
+
+### 에이전트 응답
+
+1. `.order.md` 의 `data:` 섹션 추가를 제안
+2. `queryKey` (예: `tasks.list`) + `endpoint` (예: `GET /tasks`) 수집
+3. 아래 형식으로 `data:` 블록 작성:
+
+```yaml
+data:
+  - queryKey: tasks.list
+    endpoint: GET /tasks
+  - queryKey: stats.summary
+    endpoint: GET /stats
+```
+
+### 생성 결과 (gd react 실행 시)
+
+- `useQuery` hook 자동 주입 (TanStack Query v5)
+- `isPending` 시 `<Skeleton />` early return 자동 삽입
+- import: `@tanstack/react-query`, `@/components/ui/skeleton`
+
+### decisions.md 기록
+
+```markdown
+## YYYY-MM-DD <SceneName> fetch 명세 추가 (§5.9)
+
+- **추가 파일**: `chats/scenes/<slug>.order.md` (data: 섹션)
+- **queryKey 수**: N개
+- **출처 스킬**: gd-chat (spec-12-06 §5.9)
+```
+
+> ⚡ 서버 데이터 없는 신 (정적 UI, 로컬 상태만) 은 §5.9 skip OK.
+
+---
+
 ## §6 Narrative (의도) walkthrough
 
 3층 중 1층 — *왜* 이 신이 필요한가, *누가* 보는가.
@@ -531,7 +576,7 @@ chat 작성 중 *주요 결정* 이 있었으면 `.gd/memory/decisions.md` 에 a
 
 ---
 
-## §12 종료 조건 (spec-12-02/04 — 5 단계 강제)
+## §12 종료 조건 (spec-12-02/04/06 — 5 단계 강제)
 
 본 스킬 호출이 *완료* 되는 시점. **모든 항목 충족 필수** — 미충족 시 *계속 대화*:
 
@@ -544,8 +589,9 @@ chat 작성 중 *주요 결정* 이 있었으면 `.gd/memory/decisions.md` 에 a
   - [ ] (iv) Input/Form 있으면 validation 의도 결정 (§7.5)
   - [ ] (v) Button 있으면 버튼 의도 결정 (§7.6)
 - [ ] (해당 시) §5.8 `.order.md` draft 생성 완료 (Form/Button 있는 신)
+- [ ] (해당 시) §5.9 `.order.md data:` 섹션 추가 완료 (서버 데이터 fetch 있는 신)
 - [ ] `pnpm gd react ...` 명령 안내 (또는 실행)
-- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append — §5.6 재사용/확장 + §5.7 토큰 + validation + 버튼 의도 + §5.8 order.md 생성 기록
+- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append — §5.6 재사용/확장 + §5.7 토큰 + validation + 버튼 의도 + §5.8 order.md 생성 + §5.9 fetch 명세 기록
 
 → 사용자가 *시각 확인* 후 수정 필요하면 다시 chat.md 만 편집 → `gd react` 재실행.
 

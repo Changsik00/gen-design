@@ -12,6 +12,7 @@
 export const COMPONENT_IMPORT_PATHS: Record<string, string> = {
   // Tier 2 (shadcn UI primitive)
   Button: "@/components/ui/button",
+  Skeleton: "@/components/ui/skeleton",
 
   // Tier 3 — composites (20)
   ActivitySummary: "@/components/composites/ActivitySummary",
