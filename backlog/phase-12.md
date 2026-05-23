@@ -58,7 +58,7 @@ phase-12 종료 시:
 | `spec-12-02` | gd-chat-depth-and-intent | P? | Merged | `specs/spec-12-02-gd-chat-depth-and-intent/` |
 | `spec-12-03` | gd-tokens-query | P? | Merged | `specs/spec-12-03-gd-tokens-query/` |
 | `spec-12-04` | similar-scenes-and-token-reuse | P? | Merged | `specs/spec-12-04-similar-scenes-and-token-reuse/` |
-| `spec-12-05` | design-order-spec | 🔴 LARGE | Active | `specs/spec-12-05-design-order-spec/` |
+| `spec-12-05` | design-order-spec | 🔴 LARGE | Merged | `specs/spec-12-05-design-order-spec/` |
 | spec-12-06 | unified-fetch-skeleton | 🟡 MID | Backlog | `specs/spec-12-06-unified-fetch-skeleton/` |
 | spec-12-07 | tool-plugin-architecture | 🔴 LARGE | Backlog | `specs/spec-12-07-tool-plugin-architecture/` |
 <!-- sdd:specs:end -->
