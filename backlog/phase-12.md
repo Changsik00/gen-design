@@ -55,7 +55,7 @@ phase-12 종료 시:
 | ID | 슬러그 | 우선순위 | 상태 | 디렉토리 |
 |---|---|:---:|---|---|
 | `spec-12-01` | gd-cli-npm-split | P? | Merged | `specs/spec-12-01-gd-cli-npm-split/` |
-| spec-12-02 | gd-chat-depth-and-intent | 🟡 MID | Backlog | `specs/spec-12-02-gd-chat-depth-and-intent/` |
+| `spec-12-02` | gd-chat-depth-and-intent | P? | Merged | `specs/spec-12-02-gd-chat-depth-and-intent/` |
 | spec-12-03 | gd-tokens-query | 🟡 MID | Backlog | `specs/spec-12-03-gd-tokens-query/` |
 | spec-12-04 | similar-scenes-and-token-reuse | 🟡 MID | Backlog | `specs/spec-12-04-similar-scenes-and-token-reuse/` |
 | spec-12-05 | design-order-spec | 🔴 LARGE | Backlog | `specs/spec-12-05-design-order-spec/` |
