@@ -17,8 +17,27 @@
  */
 
 import { writeFileSync } from "node:fs";
-import { isAbsolute, resolve } from "node:path";
+import { isAbsolute, relative, resolve } from "node:path";
 import { compileScene } from "../../src/lib/chat-md-compiler/react/compile-scene";
+
+/**
+ * gd doctor 의 scene-drift / orphan-scene 검증을 위해 컴파일된 TSX 의 *최상단* 에
+ * `// @gd: <chat-relative-path>` annotation 자동 삽입.
+ *
+ * - 위치: 첫 줄 (lat.md 호환)
+ * - 경로: workspace 기준 *상대 경로* (예: `chats/scenes/login.chat.md`)
+ * - doctor 가 본 annotation 으로 chat ↔ TSX mtime 비교 + orphan 감지
+ */
+export function prependGdAnnotation(tsx: string, chatRelPath: string): string {
+  const annotation = `// @gd: ${chatRelPath}\n`;
+  // 이미 annotation 있으면 교체 (재컴파일 시 idempotent)
+  const firstLine = tsx.split("\n", 1)[0] ?? "";
+  if (/^\/\/\s*@gd:/.test(firstLine)) {
+    const rest = tsx.slice(firstLine.length + 1);
+    return annotation + rest;
+  }
+  return annotation + tsx;
+}
 
 export interface ReactArgs {
   slug?: string;
@@ -94,7 +113,16 @@ export async function runReact(argv: string[], opts: RunReactOptions = {}): Prom
     return { exitCode: 1, stdout: "", stderr: stderrLines.join("\n") };
   }
 
-  const tsx = result.tsx ?? "";
+  const rawTsx = result.tsx ?? "";
+  // project root 기준 상대 경로 (chatRoot 의 부모 = project root 컨벤션)
+  // spec-11-05 fix #2 — 이전엔 process.cwd() 기준이라 pnpm --filter studio 호출 시
+  // ../experiments/... 같은 부정확한 경로 출력. 이제 chatRoot 부모 기준으로 안정.
+  // doctor 가 같은 기준 (chatRoot 부모 = project root) 로 비교.
+  const chatPath = resolve(chatRoot, "scenes", `${parsed.slug}.chat.md`);
+  const projectRoot = resolve(chatRoot, "..");
+  const chatRelPath = relative(projectRoot, chatPath);
+  const tsx = prependGdAnnotation(rawTsx, chatRelPath);
+
   if (parsed.output) {
     if (opts.captureWrite) opts.captureWrite(parsed.output, tsx);
     else writeFileSync(parsed.output, tsx, "utf-8");

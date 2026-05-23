@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-10** — 검증 자동화 — 1 spec — 다음: spec-10-01-playwright-e2e-setup
+- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — 8 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
