@@ -6,6 +6,14 @@ type: project
 
 <!-- gd-* 스킬들이 결정 시점에 한 entry 씩 append. 최신이 위에 추가됩니다. -->
 
+## 2026-05-23 신 2 (회원가입) — form pattern 첫 재사용 + Checkbox 신규
+
+- **결정**: 신 1 의 *표준 form pattern* 을 그대로 재사용. Checkbox 만 신규 어휘로 추가
+- **이유**: 이지의 첫 *Tier 발견* 순간 — "신 1 이랑 거의 똑같네요?" 인지. shadcn 카탈로그의 Form pattern 이 *2 신* 에 등장 → 어휘 일관성
+- **영향**: 향후 input form 은 모두 이 패턴. 3 신 이상 등장하면 *Tier 3 composite* 승격 후보 (FormBlock)
+- **출처 스킬**: gd-chat (이지 재사용 발견)
+- **TSX bytes**: 3045 / doctor: 0 errors
+
 ## 2026-05-23 신 1 (로그인) — 표준 form pattern 결정
 
 - **결정**: `Card + Form + FormField (x2) + Input + Button` 조합을 *표준 로그인 form pattern* 으로 채택
