@@ -1,5 +1,5 @@
 import { describe, it, expect } from "vitest";
-import { runRouter } from "../gen-design";
+import { runRouter } from "./cli";
 
 describe("gen-design router", () => {
   it("--help → 도움말 + Subcommands 목록", async () => {

@@ -24,13 +24,13 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: Install dependencies
-        run: pnpm --filter studio install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Unit tests
         run: pnpm --filter studio test --run
 
       - name: gen-design lint (--no-compile)
-        run: pnpm --filter studio exec tsx scripts/gen-design.ts lint --chat-root playground/chats --no-compile
+        run: pnpm --filter studio exec gen-design lint --chat-root playground/chats --no-compile
 
       - name: Dogfooding score
         run: pnpm --filter studio dogfooding
@@ -49,7 +49,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: Install dependencies
-        run: pnpm --filter studio install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install Chromium
         run: pnpm --filter studio exec playwright install --with-deps chromium
@@ -71,7 +71,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: Install dependencies
-        run: pnpm --filter studio install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install Chromium
         run: pnpm --filter studio exec playwright install --with-deps chromium

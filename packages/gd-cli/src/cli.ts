@@ -16,12 +16,12 @@
  *   - diff           글로벌 SSOT vs studio 코드 비교
  */
 
-import { runPaperImport } from "./gen-design/paper-import";
-import { runDiff } from "./gen-design/diff";
-import { runReact } from "./gen-design/react";
-import { runMerge } from "./gen-design/merge";
-import { runLint } from "./gen-design/lint";
-import { runDoctor } from "./gen-design/doctor";
+import { runPaperImport } from "./commands/paper-import";
+import { runDiff } from "./commands/diff";
+import { runReact } from "./commands/react";
+import { runMerge } from "./commands/merge";
+import { runLint } from "./commands/lint";
+import { runDoctor } from "./commands/doctor";
 
 type Handler = (argv: string[]) => Promise<{ exitCode: number; stdout: string; stderr: string }>;
 
@@ -85,6 +85,6 @@ async function main(): Promise<void> {
 }
 
 const scriptUrl = `file://${process.argv[1]}`;
-if (import.meta.url === scriptUrl || process.argv[1].endsWith("gen-design.ts")) {
+if (import.meta.url === scriptUrl || process.argv[1].endsWith("cli.ts") || process.argv[1].endsWith("gen-design")) {
   void main();
 }

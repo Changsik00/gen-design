@@ -76,58 +76,12 @@ export const COMPONENT_REGISTRY: Record<string, ComponentType<Record<string, unk
   VariantWrapper: VariantWrapper as unknown as ComponentType<Record<string, unknown>>,
 };
 
-/**
- * 각 컴포넌트의 실제 import 경로 — 위 import 문과 1:1 일치.
- * imports-builder (spec-7-10) 가 정확한 디렉토리 + 파일 casing 으로 import 문을 생성하기 위해 사용.
- *
- * 컨벤션:
- * - Tier 2 (shadcn ui primitive): @/components/ui/{lowercase}
- * - Tier 3 composites: @/components/composites/{PascalCase}
- * - Tier 3 templates: @/components/templates/{PascalCase}
- */
-export const COMPONENT_IMPORT_PATHS: Record<string, string> = {
-  Button: "@/components/ui/button",
-
-  ActivitySummary: "@/components/composites/ActivitySummary",
-  ActivityTable: "@/components/composites/ActivityTable",
-  AvatarUpload: "@/components/composites/AvatarUpload",
-  BrandHeader: "@/components/composites/BrandHeader",
-  DashboardHeader: "@/components/composites/DashboardHeader",
-  ErrorIcon: "@/components/composites/ErrorIcon",
-  ErrorMessage: "@/components/composites/ErrorMessage",
-  HomeButton: "@/components/composites/HomeButton",
-  LoginForm: "@/components/composites/LoginForm",
-  ProfileHeader: "@/components/composites/ProfileHeader",
-  ProfileInfoCard: "@/components/composites/ProfileInfoCard",
-  SettingsGroup: "@/components/composites/SettingsGroup",
-  SettingsHeader: "@/components/composites/SettingsHeader",
-  SettingsSelectRow: "@/components/composites/SettingsSelectRow",
-  SettingsSliderRow: "@/components/composites/SettingsSliderRow",
-  SettingsToggleRow: "@/components/composites/SettingsToggleRow",
-  Sidebar: "@/components/composites/Sidebar",
-  SignupForm: "@/components/composites/SignupForm",
-  SocialAuthBlock: "@/components/composites/SocialAuthBlock",
-  StatCard: "@/components/composites/StatCard",
-
-  DashboardScene: "@/components/templates/DashboardScene",
-  ErrorScene: "@/components/templates/ErrorScene",
-  LoginScene: "@/components/templates/LoginScene",
-  MyScene: "@/components/templates/MyScene",
-  SettingsScene: "@/components/templates/SettingsScene",
-  SignupScene: "@/components/templates/SignupScene",
-  VariantWrapper: "@/components/templates/VariantWrapper",
-};
+// metadata (이름 → import path) 는 별도 파일로 분리 (spec-12-01).
+// CLI 가 React 컴포넌트 인스턴스 없이도 metadata 만 가져갈 수 있게 — paper 결합 차단.
+export { COMPONENT_IMPORT_PATHS, lookupImportPath, registeredNames } from "./component-registry-metadata";
 
 export function lookupComponent(
   name: string,
 ): ComponentType<Record<string, unknown>> | undefined {
   return COMPONENT_REGISTRY[name];
-}
-
-export function lookupImportPath(name: string): string | undefined {
-  return COMPONENT_IMPORT_PATHS[name];
-}
-
-export function registeredNames(): string[] {
-  return Object.keys(COMPONENT_REGISTRY).sort();
 }

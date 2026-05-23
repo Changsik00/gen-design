@@ -1,5 +1,5 @@
 import type { EmitContext } from "./jsx-emitter";
-import { lookupImportPath } from "../paper/component-registry";
+import { lookupImportPath } from "../paper/component-registry-metadata";
 
 export interface BuildImportsOptions {
   /**

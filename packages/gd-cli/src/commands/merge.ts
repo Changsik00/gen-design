@@ -21,7 +21,7 @@
 
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { join, resolve } from "node:path";
-import type { RouterResult } from "../gen-design";
+import type { RouterResult } from "../cli";
 
 export interface MergeArgs {
   chatRoot?: string;

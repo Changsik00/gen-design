@@ -18,7 +18,7 @@
 
 import { writeFileSync } from "node:fs";
 import { isAbsolute, relative, resolve } from "node:path";
-import { compileScene } from "../../src/lib/chat-md-compiler/react/compile-scene";
+import { compileScene } from "../../../../studio/src/lib/chat-md-compiler/react/compile-scene";
 
 /**
  * gd doctor 의 scene-drift / orphan-scene 검증을 위해 컴파일된 TSX 의 *최상단* 에
