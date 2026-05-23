@@ -6,6 +6,14 @@ type: project
 
 <!-- gd-* 스킬들이 결정 시점에 한 entry 씩 append. 최신이 위에 추가됩니다. -->
 
+## 2026-05-23 신 4 (마이페이지) — 다중 신 재사용 + StatCard 승격 확정
+
+- **결정**: 신 4 에서 신 1/2 form pattern 과 신 3 StatCard pattern 이 *동시에* 재등장. StatCard 는 4회 등장 → **Tier 3 composite 승격 확정** (다음 phase 에서 구현)
+- **이유**: 누적 학습의 *결실* — 4 신 만에 *2 개의 재사용 가능 블록* (FormBlock 후보, StatCard 후보) 자연 발견. Tabs / Avatar / Switch 는 신규 카탈로그 어휘로 자연 추가
+- **영향**: phase-12 에서 StatCard composite 구현 → 4 신 모두 점진 마이그레이션. FormBlock 도 같은 시점 검토
+- **출처 스킬**: gd-chat (이지의 *다중 신 패턴 인식*)
+- **TSX bytes**: 5015 / doctor: 0 errors
+
 ## 2026-05-23 신 3 (대시보드) — StatCard Tier 3 composite 후보 등록
 
 - **결정**: 동일한 `Card + CardHeader + CardDescription + CardTitle` 통계 카드가 **3 회 반복** → Tier 3 `StatCard` composite 승격 *후보* 로 등록
