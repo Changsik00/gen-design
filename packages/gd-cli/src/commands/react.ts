@@ -170,8 +170,8 @@ function injectOrderChunks(tsx: string, chunks: ReturnType<typeof generateOrderT
 
   if (hookLines.length > 0) {
     const result = lines.join("\n");
-    // export default function Component() { 다음 줄에 삽입
-    const fnMatch = result.match(/(export default function \w+\(\)[^{]*\{)\n/);
+    // export [default] function Component() { 다음 줄에 삽입
+    const fnMatch = result.match(/(export (?:default )?function \w+\([^)]*\)[^{]*\{)\n/);
     if (fnMatch) {
       return result.replace(
         fnMatch[0],
