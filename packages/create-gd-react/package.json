@@ -4,7 +4,7 @@
   "description": "Scaffold a React project with gen-design (gd) integrated",
   "type": "module",
   "bin": {
-    "create-gd-react": "./dist/cli.js"
+    "create-gd-react": "dist/cli.js"
   },
   "files": [
     "dist",

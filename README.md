@@ -2,16 +2,16 @@
 
 디자이너가 자연어로 말하면 AI가 chat.md로 정리하고, Paper에서 시각화되고, React TSX로 결정론적 컴파일되는 **designer-publisher 페어 도구**.
 
-[![npm](https://img.shields.io/npm/v/@gen-design/skills?label=%40gen-design%2Fskills)](https://www.npmjs.com/package/@gen-design/skills)
 [![npm](https://img.shields.io/npm/v/create-gd-react?label=create-gd-react)](https://www.npmjs.com/package/create-gd-react)
+[![npm](https://img.shields.io/npm/v/@gen-design/skills?label=%40gen-design%2Fskills)](https://www.npmjs.com/package/@gen-design/skills)
 
 ---
 
 ## TL;DR
 
 ```bash
-npm create gd-react@latest my-app   # 새 프로젝트
-npx @gen-design/skills              # 기존 프로젝트에 스킬 추가
+npm create gd-react@latest my-app   # 새 프로젝트 (토큰 + 스킬 자동 포함)
+npx @gen-design/skills              # 기존 프로젝트에 스킬만 추가
 ```
 
 Claude Code에서:
@@ -234,13 +234,46 @@ chat.md는 3개 등급으로 관리됩니다:
 
 ---
 
+## 새 프로젝트 시작 — create-gd-react
+
+```bash
+npm create gd-react@latest my-app
+cd my-app && pnpm install
+```
+
+스캐폴드 결과물에 이미 전부 포함되어 있습니다:
+
+```
+my-app/
+├── templates/
+│   ├── FRONT.md          ← React 스택 + 어휘 카탈로그 (컴파일 룰북)
+│   ├── TOKEN.md          ← 토큰 결정 근거 narrative
+│   ├── DESIGN.md         ← 화면 구조 + 인터랙션 명세
+│   └── assets/tokens/
+│       └── tokens.json   ← shadcn 표준 24개 토큰 (light/dark, DTCG 형식)
+├── chats/                ← chat.md 누적 위치
+│   ├── scenes/
+│   └── components/
+├── .claude/skills/       ← Claude Code 스킬 4종 자동 설치
+│   ├── gd-start.md
+│   ├── gd-chat.md
+│   ├── gd-design.md
+│   └── gd-token.md
+└── src/                  ← React + Tailwind + shadcn/ui 기본 구성
+```
+
+Claude Code에서 `/gd-start`를 호출하면 AI가 이 파일들을 전부 읽고 컨텍스트를 잡습니다.
+이후 `/gd-chat`으로 화면을 작성하면 `FRONT.md`의 어휘 카탈로그에 따라 코드가 결정됩니다.
+
+---
+
 ## 패키지 및 도구
 
 | | |
 |---|---|
-| [`create-gd-react`](https://www.npmjs.com/package/create-gd-react) | 신규 프로젝트 스캐폴드 |
-| [`@gen-design/skills`](https://www.npmjs.com/package/@gen-design/skills) | Claude Code 스킬 설치 |
-| `pnpm gd react <scene>` | chat.md → React TSX |
+| [`create-gd-react`](https://www.npmjs.com/package/create-gd-react) | 신규 프로젝트 스캐폴드 — FRONT.md + TOKEN.md + tokens.json + 스킬 4종 자동 포함 |
+| [`@gen-design/skills`](https://www.npmjs.com/package/@gen-design/skills) | 기존 프로젝트에 스킬만 추가 (`npx @gen-design/skills`) |
+| `pnpm gd react <scene>` | chat.md → React TSX (FRONT.md 룰 적용) |
 | `pnpm gd tokens` | 토큰 조회 (list / find / show) |
 | `pnpm gd doctor` | 품질 점검 |
 
