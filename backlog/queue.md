@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — 8 spec — 다음: (spec 없음)
+(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -104,4 +104,5 @@
 - **phase-7** — DESIGN.md 4축 어휘 + 컴파일러 — completed 2026-05-10
 - **08** — ? — completed 2026-05-16
 - **phase-09** — gen-design 활성화 + 외부 alpha — completed 2026-05-22
+- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — completed 2026-05-23
 <!-- sdd:done:end -->
