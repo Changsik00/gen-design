@@ -6,6 +6,27 @@ type: project
 
 <!-- gd-* 스킬들이 결정 시점에 한 entry 씩 append. 최신이 위에 추가됩니다. -->
 
+## 2026-05-23 MypageScene 다중 재사용 + StatCard 승격 (v5 신 4)
+
+- **결정**: StatCard 4 회째 등장 → *Tier 3 composite 승격 확정* (phase-12 후속에서 구현). 신 1/2 form pattern 도 설정 탭에서 재사용 (F1 2 회차).
+- **이유**: 4 신 누적의 결실 — *2 composite* (StatCard 확정, FormBlock 후보) 자연 발견. Tabs/Avatar/Switch 는 신규 어휘로 자연 추가
+- **영향**: 향후 phase-12 후속 spec 에서 StatCard composite 구현 + 4 신 마이그레이션
+- **출처 스킬**: gd-chat (spec-12-02 §5.5 (iii) 다중 신 인식)
+
+## 2026-05-23 MypageScene validation (v5 신 4)
+
+- **필드별 규칙**:
+  - nickname: required + z.string().min(2)
+  - notify switch: validation 없음 (boolean — 즉시 저장)
+- **이유**: 닉네임만 검증 필요. switch 는 toggle 즉시 저장 패턴 (validation X)
+- **출처 스킬**: gd-chat (spec-12-02 §7.5)
+
+## 2026-05-23 MypageScene 버튼 의도 (v5 신 4)
+
+- **'저장' 버튼**: (A) form submit — validation 후 PATCH /me 호출
+- **이유**: 설정 변경 — 명확한 form submit
+- **출처 스킬**: gd-chat (spec-12-02 §7.6)
+
 ## 2026-05-23 DashboardScene StatCard 3 회 룰 후보 (v5 신 3)
 
 - **결정**: Card x 3 통계 패턴 → Tier 3 `StatCard` composite *후보 등록*
