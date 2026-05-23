@@ -68,10 +68,10 @@
 
 ## Task 6: v5 시뮬레이션 검증
 
-- [ ] `experiments/dogfood-alpha-v5/chats/scenes/dashboard.order.md` 작성 (data: 2개)
-- [ ] `gd react dashboard` 실행 → `useQuery` + `<Skeleton>` 포함 TSX 확인
-- [ ] `experiments/dogfood-alpha-v5/transcripts/scene-7-fetch.md` 작성
-- [ ] Commit: `docs(spec-12-06): v5 fetch-skeleton simulation transcript`
+- [x] `experiments/dogfood-alpha-v5/chats/scenes/dashboard.order.md` 작성 (data: 2개)
+- [x] `gd react dashboard` 실행 → `useQuery` 2개 + `<Skeleton />` early return 2개 확인
+- [x] `experiments/dogfood-alpha-v5/transcripts/scene-7-fetch.md` 작성
+- [x] Commit: `docs(spec-12-06): v5 fetch-skeleton simulation transcript`
 
 ---
 
