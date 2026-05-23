@@ -15,5 +15,8 @@
     "build": "pnpm -r build",
     "lint": "pnpm -r lint",
     "gen-design": "pnpm --filter studio gen-design"
+  },
+  "devDependencies": {
+    "eslint": "^9.39.4"
   }
 }

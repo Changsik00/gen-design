@@ -6,7 +6,11 @@ settings:
 
 importers:
 
-  .: {}
+  .:
+    devDependencies:
+      eslint:
+        specifier: ^9.39.4
+        version: 9.39.4(jiti@2.6.1)
 
   packages/create-gd-react:
     dependencies:
