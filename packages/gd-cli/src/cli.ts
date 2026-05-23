@@ -22,6 +22,7 @@ import { runReact } from "./commands/react";
 import { runMerge } from "./commands/merge";
 import { runLint } from "./commands/lint";
 import { runDoctor } from "./commands/doctor";
+import { runTokens } from "./commands/tokens";
 
 type Handler = (argv: string[]) => Promise<{ exitCode: number; stdout: string; stderr: string }>;
 
@@ -32,6 +33,7 @@ const COMMANDS: Record<string, Handler> = {
   "merge": runMerge,
   "lint": runLint,
   "doctor": runDoctor,
+  "tokens": runTokens,
 };
 
 const COMMAND_DESCRIPTIONS: Record<string, string> = {
@@ -41,6 +43,7 @@ const COMMAND_DESCRIPTIONS: Record<string, string> = {
   "merge": "Shell promotion helper — detect common components across scenes (spec-09-01, ADR-010)",
   "lint": "Validate chat.md consistency — 6 categories (spec-09-02, ADR-009)",
   "doctor": "DESIGN/TOKEN/chat 정합 + drift 감지 + WCAG AA — 12 categories (spec-11-03)",
+  "tokens": "토큰 조회 — list / find / show (spec-12-03)",
 };
 
 export interface RouterResult {
