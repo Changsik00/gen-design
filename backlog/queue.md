@@ -115,4 +115,5 @@
 - **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — completed 2026-05-23
 - **phase-12** — conversation-depth-and-orchestration — completed 2026-05-23
 - **spec-x-01** — skills-installer — @gen-design/skills npm 배포 + README 개편 — completed 2026-05-23
+- **spec-x-02** — readme-overhaul — 3티어 아키텍처 + 사용 예시 강조 — completed 2026-05-23
 <!-- sdd:done:end -->
