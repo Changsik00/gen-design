@@ -1,6 +1,6 @@
 # gen-design
 
-디자이너가 자연어로 말하면 AI가 chat.md로 정리하고, React TSX로 결정론적 컴파일되는 **designer-publisher 페어 도구**.
+디자이너의 자연어를 chat.md로 정리하고, Figma · Stitch · Paper 같은 디자인 툴과 React TSX를 같은 언어로 연결하는 **designer-publisher 페어 도구**.
 
 [![npm](https://img.shields.io/npm/v/create-gd-react?label=create-gd-react)](https://www.npmjs.com/package/create-gd-react)
 [![npm](https://img.shields.io/npm/v/@gen-design/skills?label=%40gen-design%2Fskills)](https://www.npmjs.com/package/@gen-design/skills)
@@ -23,29 +23,77 @@ pnpm gd react <scene>  → React TSX 컴파일
 
 ---
 
-## 결정론적 컴파일 — 4축 어휘 정합
+## 디자이너의 고민
 
-이 도구의 핵심은 **디자이너의 언어, Paper 레이어, React 컴포넌트, LLM 훈련 데이터가 모두 같은 이름을 쓴다**는 것입니다.
+Figma나 Stitch에서 화면을 완성해도, 개발자에게 전달하는 순간 의도가 흐려집니다. 컴포넌트 이름이 달라지고, 비슷한 패턴이 중복으로 생기고, 재사용할 수 있었던 것들이 매번 처음부터 만들어집니다.
+
+gen-design은 이 문제를 **4축 어휘 정합**으로 해결합니다. 디자이너가 쓰는 이름, 디자인 툴의 레이어 이름, React 컴포넌트 이름, LLM이 아는 이름이 모두 같아야 번역 없이 연결됩니다.
+
+---
+
+## 아키텍처
+
+### 4축 어휘 정합
 
 ```
 [디자이너 작성]   chat.md 의 <Button variant="primary">
         ≡
-[Paper 시각]      Paper 노드 이름 + layer-name 식별자
+[디자인 툴 시각]  Figma / Stitch layer-name 식별자
         ≡
 [React 출력]      shadcn/ui Button 컴포넌트
         ≡
 [LLM 학습]        shadcn 이름은 LLM 훈련 데이터에 풍부
 ```
 
-`<LoginScene>`이라고 쓰면 Paper 레이어 이름, React 컴포넌트, LLM이 아는 이름 모두 `LoginScene`입니다. 번역이 없으니 오차가 없습니다.
+`<LoginScene>`이라고 쓰면 디자인 툴 레이어 이름, React 컴포넌트, LLM이 아는 이름 모두 `LoginScene`입니다. 번역이 없으니 오차가 없습니다.
 
 > 4축이 동일한 어휘로 통일된 도구는 현재 이 도구가 유일합니다.
 
+### 컴포넌트 3티어
+
+```
+Tier 1 · ARIA          button, textbox, dialog ...            W3C 시맨틱 토대 (93개)
+                ↑
+Tier 2 · shadcn/ui     Button, Input, Card, Skeleton ...      Radix 기반 Primitive
+                ↑
+Tier 3 · Project       LoginForm, StatCard    (Composite)
+                       LoginScene, Dashboard  (Scene)         페이지 통째 재사용
+```
+
+Scene 단위로 재사용하므로 새 앱에서 **토큰 / i18n만 교체**하면 됩니다:
+
+```tsx
+<LoginScene tokens={brandA.tokens} i18n={brandA.ko} />  // 한국어 + 인디고
+<LoginScene tokens={brandB.tokens} i18n={brandB.en} />  // 영어 + 그린
+```
+
+### 토큰 3티어
+
+W3C DTCG 표준. Primitive → Semantic → Component 단방향 참조로 브랜딩 한 줄 교체가 가능합니다.
+
+```
+Tier 1 · Primitive     indigo.{50..700}, neutral.{0..950}, red.{400..700}
+                ↑ {primitive.indigo.600}
+Tier 2 · Semantic      primary, background, destructive, border, ring
+                       light / dark 분리. 모드 전환은 여기서.
+                ↑ var(--primary)
+Tier 3 · Component     <Button class="bg-primary text-primary-foreground">
+                       Tailwind 유틸리티로 의미 토큰 소비.
+```
+
+```json
+// tokens.json — semantic만 바꾸면 전체 앱이 변함
+"primary": { "$value": "{primitive.indigo.600}" }
+"primary": { "$value": "{primitive.green.600}" }
+```
+
+CSS 변수로 자동 빌드 → Tailwind `bg-primary` → 즉시 반영.
+
 ---
 
-## AI가 먼저 제안한다
+## gd-skills — 내 디자인 도서관 사서
 
-화면을 작성할 때마다 AI가 기존 chat.md와 컴포넌트 카탈로그를 스캔해 능동적으로 제안합니다. 디자이너는 재사용할지 / 확장할지만 결정하면 됩니다.
+gd-skills은 단순한 AI 변환기가 아닙니다. 기존 화면과 컴포넌트를 기억하고, 새 화면을 만들 때마다 재사용 후보를 먼저 찾아 제안합니다.
 
 ```
 디자이너: "대시보드. 통계 카드 4개 + 최근 활동."
@@ -62,7 +110,8 @@ AI: 잠깐, 비슷한 게 이미 있어요.
 AI: destructive 토큰 활용 — 새 토큰 없이 처리됩니다.
 ```
 
-AI가 능동적으로 제안하는 항목:
+재사용할지 / 확장할지만 결정하면, 일관성은 AI가 유지합니다:
+
 - **재사용 후보** — "EmptyState가 이미 카탈로그에 있어요"
 - **글로벌 승격** — "BrandHeader가 3개 화면에 공통 — shell로 승격할까요?"
 - **제약 대화** — "login 화면은 보통 헤더 없이 — 어떻게 할까요?"
@@ -70,9 +119,9 @@ AI가 능동적으로 제안하는 항목:
 
 ---
 
-## chat.md — 화면의 살아있는 명세
+## chat.md — gd 채팅 가이드
 
-자연어 입력을 받아 AI가 정리하는 3층 구조입니다. 동결된 산출물이 아니라 **편집하면 Paper와 React가 따라오는 소통 채널**입니다.
+자연어로 대화해서 화면 명세를 만들고 수정하는 채널입니다. 동결된 산출물이 아니라 **편집하면 디자인 툴과 React가 따라오는 살아있는 문서**입니다.
 
 | 층 | 역할 | 예 |
 |---|---|---|
@@ -106,13 +155,11 @@ mineral 톤 — 절제. CTA 단일. 소셜 슬롯 하단.
 - SocialAuthBlock 추가 (소셜 로그인 요구사항)
 ```
 
-chat.md를 재편집하면 AI가 다시 정리하고, Paper와 React가 따라옵니다.
-
 ---
 
 ## 사용 흐름
 
-### 화면 설계
+### Step 1. 화면 설계
 
 ```
 디자이너: "로그인 화면 만들어줘. 브랜드 감성 + 빠른 입력. 소셜 로그인 슬롯 하단에."
@@ -126,20 +173,19 @@ AI: 새 화면이네요.
 AI: variant="primary" 적용. 업데이트됩니다.
 ```
 
-### 재사용 제안
+### Step 2. 재사용 제안
 
 ```
 디자이너: "이제 대시보드. 통계 카드 4개 + 최근 활동."
 
-AI: login 화면 기준으로 새 패턴이 필요하네요.
-    다만 welcome.chat.md에서 StatCard 발견 — 재사용할까요?
+AI: welcome.chat.md에서 StatCard 발견 — 재사용할까요?
 
 디자이너: "응. 마감 임박 카드만 빨갛게."
 AI: variant="destructive" — 새 토큰 없이 처리됩니다.
     chats/scenes/dashboard.chat.md 생성.
 ```
 
-### React 컴파일
+### Step 3. React 컴파일
 
 ```bash
 pnpm gd react chats/scenes/login.chat.md
@@ -147,56 +193,6 @@ pnpm gd react chats/scenes/dashboard.chat.md
 ```
 
 chat.md를 수정하고 다시 컴파일하면 됩니다. 중간 번역 레이어가 없어 오차가 생기지 않습니다.
-
----
-
-## 컴포넌트 3티어
-
-```
-Tier 1 · ARIA          button, textbox, dialog ...            W3C 시맨틱 토대 (93개)
-                ↑
-Tier 2 · shadcn/ui     Button, Input, Card, Skeleton ...      Radix 기반 Primitive
-                ↑
-Tier 3 · Project       LoginForm, StatCard    (Composite)
-                       LoginScene, Dashboard  (Scene)         페이지 통째 재사용
-```
-
-Scene 단위로 재사용하므로 새 앱에서 **토큰 / i18n만 교체**하면 됩니다:
-
-```tsx
-<LoginScene tokens={brandA.tokens} i18n={brandA.ko} />  // 한국어 + 인디고
-<LoginScene tokens={brandB.tokens} i18n={brandB.en} />  // 영어 + 그린
-```
-
----
-
-## 토큰 3티어
-
-W3C DTCG 표준. Primitive → Semantic → Component 단방향 참조로 브랜딩 한 줄 교체가 가능합니다.
-
-```
-Tier 1 · Primitive     indigo.{50..700}, neutral.{0..950}, red.{400..700}
-                ↑ {primitive.indigo.600}
-Tier 2 · Semantic      primary, background, destructive, border, ring
-                       light / dark 분리. 모드 전환은 여기서.
-                ↑ var(--primary)
-Tier 3 · Component     <Button class="bg-primary text-primary-foreground">
-                       Tailwind 유틸리티로 의미 토큰 소비.
-```
-
-```json
-// tokens.json — semantic만 바꾸면 전체 앱이 변함
-"primary": { "$value": "{primitive.indigo.600}" }
-"primary": { "$value": "{primitive.green.600}" }
-```
-
-CSS 변수로 자동 빌드 → Tailwind `bg-primary` → 즉시 반영.
-
-```bash
-pnpm gd tokens list           # 전체 토큰 (light/dark 비교)
-pnpm gd tokens find blue      # 검색
-pnpm gd tokens show primary   # 상세
-```
 
 ---
 
