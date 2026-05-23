@@ -1,6 +1,6 @@
 {
   "name": "create-gd-react",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Scaffold a React project with gen-design (gd) integrated",
   "type": "module",
   "bin": {
