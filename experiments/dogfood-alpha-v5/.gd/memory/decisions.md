@@ -6,6 +6,26 @@ type: project
 
 <!-- gd-* 스킬들이 결정 시점에 한 entry 씩 append. 최신이 위에 추가됩니다. -->
 
+## 2026-05-23 DashboardScene StatCard 3 회 룰 후보 (v5 신 3)
+
+- **결정**: Card x 3 통계 패턴 → Tier 3 `StatCard` composite *후보 등록*
+- **이유**: 3 회 반복 — 신 4 에서 또 등장 시 *승격 확정*. 지금은 표준 Card 어휘 사용
+- **영향**: chats/scenes/dashboard.chat.md / 신 4 의 같은 패턴 등장 시 승격
+- **출처 스킬**: gd-chat (spec-12-02 §5.5 (iii))
+
+## 2026-05-23 DashboardScene validation skip (v5 신 3)
+
+- **결정**: Input/Form 없음 → validation skip ✓
+- **이유**: 통계 표시만, 입력 없음
+- **출처 스킬**: gd-chat (spec-12-02 §7.5 — skip 정당)
+
+## 2026-05-23 DashboardScene 버튼 의도 (v5 신 3)
+
+- **'전체 보기' 버튼**: (B) page navigation — /activity 페이지로 이동
+- **이유**: 최근 활동 카드의 *더보기* CTA. 외부 X, modal X, form X
+- **영향**: 향후 router 통합 시 onClick navigation 명시 필요 (spec-12-05 order.md 후속)
+- **출처 스킬**: gd-chat (spec-12-02 §7.6)
+
 ## 2026-05-23 SignupScene 재사용 + 신규 (v5 신 2)
 
 - **결정**: 신 1 의 form pattern (Card+Form+FormField+Input+Button) *재사용* + Checkbox 신규 어휘
