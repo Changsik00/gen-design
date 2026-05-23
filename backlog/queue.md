@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-(active phase 없음. `bin/sdd phase new <slug>` 로 시작)
+- **spec-x** — ? — 0 spec — 다음: spec-x-01-skills-installer
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
