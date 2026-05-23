@@ -1,6 +1,6 @@
 # gen-design
 
-디자이너가 자연어로 말하면 AI가 chat.md로 정리하고, Paper에서 시각화되고, React TSX로 결정론적 컴파일되는 **designer-publisher 페어 도구**.
+디자이너가 자연어로 말하면 AI가 chat.md로 정리하고, React TSX로 결정론적 컴파일되는 **designer-publisher 페어 도구**.
 
 [![npm](https://img.shields.io/npm/v/create-gd-react?label=create-gd-react)](https://www.npmjs.com/package/create-gd-react)
 [![npm](https://img.shields.io/npm/v/@gen-design/skills?label=%40gen-design%2Fskills)](https://www.npmjs.com/package/@gen-design/skills)
@@ -23,9 +23,9 @@ pnpm gd react <scene>  → React TSX 컴파일
 
 ---
 
-## 왜 결정론적으로 컴파일되는가 — 4축 어휘 정합
+## 결정론적 컴파일 — 4축 어휘 정합
 
-이 프로젝트의 핵심 차별화는 **4개 레이어가 동일한 어휘(shadcn 이름)를 공유**한다는 점입니다.
+이 도구의 핵심은 **디자이너의 언어, Paper 레이어, React 컴포넌트, LLM 훈련 데이터가 모두 같은 이름을 쓴다**는 것입니다.
 
 ```
 [디자이너 작성]   chat.md 의 <Button variant="primary">
@@ -37,21 +37,21 @@ pnpm gd react <scene>  → React TSX 컴파일
 [LLM 학습]        shadcn 이름은 LLM 훈련 데이터에 풍부
 ```
 
-디자이너가 `<LoginScene>`이라고 쓰면, Paper 레이어 이름도 `LoginScene`, React 컴포넌트도 `LoginScene`, LLM도 이미 알고 있는 이름입니다. 번역이 없으니 오차가 없습니다.
+`<LoginScene>`이라고 쓰면 Paper 레이어 이름, React 컴포넌트, LLM이 아는 이름 모두 `LoginScene`입니다. 번역이 없으니 오차가 없습니다.
 
-> 시장에서 4축이 같은 어휘로 통일된 도구는 현재 이 프로젝트가 유일합니다.
+> 4축이 동일한 어휘로 통일된 도구는 현재 이 도구가 유일합니다.
 
 ---
 
-## AI는 단순 변환기가 아닙니다 — 도서관 사서
+## AI가 먼저 제안한다
 
-매 화면 작성 시 AI는 기존 `chats/`, `catalog.json`, `templates/`를 읽고 능동적으로 제안합니다:
+화면을 작성할 때마다 AI가 기존 chat.md와 컴포넌트 카탈로그를 스캔해 능동적으로 제안합니다. 디자이너는 재사용할지 / 확장할지만 결정하면 됩니다.
 
 ```
 디자이너: "대시보드. 통계 카드 4개 + 최근 활동."
 
 AI: 잠깐, 비슷한 게 이미 있어요.
-    mypage.chat.md — StatCard 3개 사용 중 (icon + value + label 패턴)
+    welcome.chat.md — StatCard 사용 중 (icon + value + label 패턴)
     토큰: bg-card, text-primary, border-border
 
     옵션:
@@ -59,36 +59,32 @@ AI: 잠깐, 비슷한 게 이미 있어요.
       B) 새 컴포넌트 — 다른 패턴 필요 시
 
 디자이너: A. 마감 임박은 빨강.
-AI: destructive 토큰 활용 — 새 토큰 추가 없이 처리.
-    decisions.md에 "StatCard 재사용 + variant=destructive" 기록.
+AI: destructive 토큰 활용 — 새 토큰 없이 처리됩니다.
 ```
 
 AI가 능동적으로 제안하는 항목:
-- **재사용 후보** — "EmptyState가 이미 catalog에 있어요"
-- **글로벌 승격** — "BrandHeader가 3 scene에 공통 — shell로 승격할까요?"
-- **제약 대화** — "login scene은 보통 헤더 없이, 어떻게?"
-- **어휘 검증** — "LoginPage라는 이름은 catalog에 없어요. LoginScene 의도?"
-
-재사용 / 확장만 결정하면 일관성은 AI가 자동 유지합니다.
+- **재사용 후보** — "EmptyState가 이미 카탈로그에 있어요"
+- **글로벌 승격** — "BrandHeader가 3개 화면에 공통 — shell로 승격할까요?"
+- **제약 대화** — "login 화면은 보통 헤더 없이 — 어떻게 할까요?"
+- **어휘 검증** — "LoginPage는 카탈로그에 없어요. LoginScene 의도인가요?"
 
 ---
 
 ## chat.md — 화면의 살아있는 명세
 
-AI가 자연어 입력을 받아 정리하는 3층 구조입니다. 동결된 산출물이 아니라 **재편집 가능한 살아있는 소통 채널**입니다.
+자연어 입력을 받아 AI가 정리하는 3층 구조입니다. 동결된 산출물이 아니라 **편집하면 Paper와 React가 따라오는 소통 채널**입니다.
 
 | 층 | 역할 | 예 |
 |---|---|---|
 | **Narrative** | 디자이너 의도 — 왜 / 무엇 / 어떤 결 | "mineral 톤. CTA 단일. 절제된 환영." |
 | **Structure** | machine-readable 컴포넌트 트리 | `<LoginScene><Button variant="primary">` |
-| **History** | 변경 이력 (언제 / 왜) | "2026-05-10 CTA copper → muted (절제 강화)" |
+| **History** | 변경 이력 (언제 / 왜) | "CTA copper → muted (절제 강화)" |
 
 ```markdown
 ---
 type: scene
 name: LoginScene
 identity: chats/scenes/login
-shell: { inherit: true, exclude: [header] }
 ---
 
 ## 💬 Narrative
@@ -99,69 +95,58 @@ mineral 톤 — 절제. CTA 단일. 소셜 슬롯 하단.
 <LoginScene>
   <BrandHeader />
   <LoginForm>
-    <Button variant="primary">{{i18n.ko.login.submit}}</Button>
-    <Button variant="ghost">{{i18n.ko.login.signupHint}}</Button>
+    <Button variant="primary">로그인</Button>
+    <Button variant="ghost">회원가입</Button>
   </LoginForm>
   <SocialAuthBlock />
 </LoginScene>
 
 ## 📜 History
-- 2026-05-10 초안 — Paper artboard에서 추출
-- 2026-05-12 SocialAuthBlock 추가 (요구사항 확대)
+- 초안 작성
+- SocialAuthBlock 추가 (소셜 로그인 요구사항)
 ```
 
 chat.md를 재편집하면 AI가 다시 정리하고, Paper와 React가 따라옵니다.
 
 ---
 
-## 디자이너 워크플로 — Profile Scene 추가 시나리오
+## 사용 흐름
 
-### Day 1 — Paper에서 시각 의도 표현
-
-```
-디자이너: "Profile Scene 만들 거야.
-           Avatar + 정보 카드 + 통계 3개 + 편집/로그아웃 CTA."
-
-AI: AvatarUpload가 catalog에 있어요. 사용 OK?
-    StatCard도 발견 — 재사용 제안.
-
-→ Paper artboard 생성 (layer-name: "ProfileScene [chat:scenes/profile]")
-→ AvatarUpload / ProfileInfoCard / StatCard×3 / 버튼 배치
-```
-
-### Day 2 — AI가 자연어 의도를 chat.md로 정리
+### 화면 설계
 
 ```
-디자이너: "mineral 톤. 정보 + 통계 + 액션 균형으로 정리해줘."
+디자이너: "로그인 화면 만들어줘. 브랜드 감성 + 빠른 입력. 소셜 로그인 슬롯 하단에."
 
-AI: Paper 트리 읽기 → 3층 chat.md 작성
-→ playground/chats/scenes/profile.chat.md 생성
+AI: 새 화면이네요.
+    → 브랜드 감성 = mineral 톤 (절제)
+    → CTA 1개, 소셜 슬롯 하단 배치
+    chats/scenes/login.chat.md 생성할게요.
+
+디자이너: "맞아. CTA는 진하게."
+AI: variant="primary" 적용. 업데이트됩니다.
 ```
 
-### Day 3 — 양방향 수정
+### 재사용 제안
 
 ```
-디자이너: "첫 번째 통계 카드 강조하고 싶어. variant=highlighted."
+디자이너: "이제 대시보드. 통계 카드 4개 + 최근 활동."
 
-AI: chat.md Structure 갱신 + Paper 반영 + History 1줄 추가.
-    (역방향) Paper 직접 수정 → "Paper 변경분 반영해줘" → chat.md 갱신.
+AI: login 화면 기준으로 새 패턴이 필요하네요.
+    다만 welcome.chat.md에서 StatCard 발견 — 재사용할까요?
+
+디자이너: "응. 마감 임박 카드만 빨갛게."
+AI: variant="destructive" — 새 토큰 없이 처리됩니다.
+    chats/scenes/dashboard.chat.md 생성.
 ```
 
-### Day 4 — 글로벌 SSOT 직접 편집
-
-신규 컴포넌트 / 토큰 / i18n 키가 추가됐다면 글로벌 파일을 직접 갱신합니다:
-
-- `templates/DESIGN.md` — ProfileScene 섹션 추가
-- `templates/assets/tokens/tokens.json` — 신규 토큰 (DTCG 형식)
-- `templates/assets/i18n/ko.json` — 신규 키 (`profile.edit`, `profile.logout`)
-
-### Day 5 — 컴파일 + 검증 + PR
+### React 컴파일
 
 ```bash
-pnpm gd react chats/scenes/profile.chat.md   # React TSX 컴파일
-pnpm --filter studio test                    # 회귀 테스트
-pnpm --filter studio build                   # 빌드 검증
+pnpm gd react chats/scenes/login.chat.md
+pnpm gd react chats/scenes/dashboard.chat.md
 ```
+
+chat.md를 수정하고 다시 컴파일하면 됩니다. 중간 번역 레이어가 없어 오차가 생기지 않습니다.
 
 ---
 
@@ -201,8 +186,8 @@ Tier 3 · Component     <Button class="bg-primary text-primary-foreground">
 
 ```json
 // tokens.json — semantic만 바꾸면 전체 앱이 변함
-"primary": { "$value": "{primitive.indigo.600}" }   // 인디고 브랜드
-"primary": { "$value": "{primitive.green.600}" }    // 그린 브랜드
+"primary": { "$value": "{primitive.indigo.600}" }
+"primary": { "$value": "{primitive.green.600}" }
 ```
 
 CSS 변수로 자동 빌드 → Tailwind `bg-primary` → 즉시 반영.
@@ -215,42 +200,23 @@ pnpm gd tokens show primary   # 상세
 
 ---
 
-## SSOT 4 문서
-
-| 문서 | 위치 | 역할 |
-|---|---|---|
-| **DESIGN.md** | `templates/DESIGN.md` | 페이지 / 화면 구조 + 인터랙션 명세 |
-| **TOKEN.md** | `templates/TOKEN.md` | 토큰 결정 근거 + `tokens.json` |
-| **FRONT.md** | `templates/FRONT.md` | 컴파일 룰북 + 3-tier 어휘 카탈로그 |
-| **chat.md** | `chats/{scenes,components}/` | 한 scene/component의 살아있는 명세 (3층) |
-
-chat.md는 3개 등급으로 관리됩니다:
-
-| 등급 | 위치 | 정책 |
-|---|---|---|
-| 회귀 (고정) | `fixtures/chats/` | 컴파일러 결정성 게이트 — 거의 안 변함 |
-| 정식 산출물 | `chats/` | 사용자 의뢰로 누적되는 영구 chat.md |
-| 도그푸딩 | `playground/chats/` | 자유 실험, 채택 시 chats/로 승격 |
-
----
-
-## 새 프로젝트 시작 — create-gd-react
+## 새 프로젝트 시작
 
 ```bash
 npm create gd-react@latest my-app
 cd my-app && pnpm install
 ```
 
-스캐폴드 결과물에 이미 전부 포함되어 있습니다:
+스캐폴드에 모든 것이 포함되어 있습니다:
 
 ```
 my-app/
 ├── templates/
-│   ├── FRONT.md          ← React 스택 + 어휘 카탈로그 (컴파일 룰북)
-│   ├── TOKEN.md          ← 토큰 결정 근거 narrative
+│   ├── FRONT.md          ← 스킬 룰북 (컴포넌트 카탈로그 + 컴파일 규칙)
+│   ├── TOKEN.md          ← 토큰 설계 narrative
 │   ├── DESIGN.md         ← 화면 구조 + 인터랙션 명세
 │   └── assets/tokens/
-│       └── tokens.json   ← shadcn 표준 24개 토큰 (light/dark, DTCG 형식)
+│       └── tokens.json   ← 24개 시맨틱 토큰 (light/dark, DTCG 형식)
 ├── chats/                ← chat.md 누적 위치
 │   ├── scenes/
 │   └── components/
@@ -259,11 +225,23 @@ my-app/
 │   ├── gd-chat.md
 │   ├── gd-design.md
 │   └── gd-token.md
+├── .gd/memory/           ← AI 프로젝트 메모리 (결정 이력 + 디자이너 컨텍스트)
 └── src/                  ← React + Tailwind + shadcn/ui 기본 구성
 ```
 
-Claude Code에서 `/gd-start`를 호출하면 AI가 이 파일들을 전부 읽고 컨텍스트를 잡습니다.
-이후 `/gd-chat`으로 화면을 작성하면 `FRONT.md`의 어휘 카탈로그에 따라 코드가 결정됩니다.
+Claude Code에서 `/gd-start`를 호출하면 AI가 이 파일들을 읽고 컨텍스트를 잡습니다.
+이후 `/gd-chat`으로 화면을 작성하면 `FRONT.md`의 카탈로그에 따라 코드가 결정됩니다.
+
+---
+
+## 스킬 4종
+
+| 스킬 | 역할 |
+|---|---|
+| `/gd-start` | DESIGN.md 읽기 + 프로젝트 컨텍스트 수집. 새 프로젝트 첫 시작 시 1회 |
+| `/gd-chat` | 자연어 → chat.md 3층 구조 작성. 화면마다 호출 |
+| `/gd-design` | DESIGN.md 빈 섹션 채우기. 화면 명세 정교화 |
+| `/gd-token` | 토큰 추가 / 수정. WCAG AA 검증 + light/dark 동기화 포함 |
 
 ---
 
@@ -271,7 +249,7 @@ Claude Code에서 `/gd-start`를 호출하면 AI가 이 파일들을 전부 읽�
 
 | | |
 |---|---|
-| [`create-gd-react`](https://www.npmjs.com/package/create-gd-react) | 신규 프로젝트 스캐폴드 — FRONT.md + TOKEN.md + tokens.json + 스킬 4종 자동 포함 |
+| [`create-gd-react`](https://www.npmjs.com/package/create-gd-react) | 신규 프로젝트 스캐폴드 — 템플릿 + 토큰 + 스킬 4종 자동 포함 |
 | [`@gen-design/skills`](https://www.npmjs.com/package/@gen-design/skills) | 기존 프로젝트에 스킬만 추가 (`npx @gen-design/skills`) |
 | `pnpm gd react <scene>` | chat.md → React TSX (FRONT.md 룰 적용) |
 | `pnpm gd tokens` | 토큰 조회 (list / find / show) |
@@ -284,7 +262,6 @@ Claude Code에서 `/gd-start`를 호출하면 AI가 이 파일들을 전부 읽�
 
 - [`docs/handbook.md`](docs/handbook.md) — 전체 아키텍처, 워크플로, 원칙, ADR 인덱스
 - [`docs/motivation.md`](docs/motivation.md) — 프로젝트 배경과 핵심 아이디어
-- [`backlog/queue.md`](backlog/queue.md) — 현재 진행 상황
 
 **스택**: DESIGN.md (Stitch 기반) · W3C DTCG 토큰 · shadcn/ui + Radix · Tailwind CSS · React + Vite + TypeScript · TanStack Query v5 · react-hook-form + zod · Paper MCP
 
