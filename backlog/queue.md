@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-12** — conversation-depth-and-orchestration — 6 spec — 다음: spec-12-06-unified-fetch-skeleton
+- **phase-12** — conversation-depth-and-orchestration — 7 spec — 다음: spec-12-07-pluginarch
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기

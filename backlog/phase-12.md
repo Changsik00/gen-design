@@ -60,7 +60,7 @@ phase-12 종료 시:
 | `spec-12-04` | similar-scenes-and-token-reuse | P? | Merged | `specs/spec-12-04-similar-scenes-and-token-reuse/` |
 | `spec-12-05` | design-order-spec | 🔴 LARGE | Merged | `specs/spec-12-05-design-order-spec/` |
 | `spec-12-06` | unified-fetch-skeleton | 🟡 MID | Merged | `specs/spec-12-06-unified-fetch-skeleton/` |
-| spec-12-07 | tool-plugin-architecture | 🔴 LARGE | Backlog | `specs/spec-12-07-tool-plugin-architecture/` |
+| `spec-12-07` | pluginarch | 🟡 MID | Active | `specs/spec-12-07-pluginarch/` |
 <!-- sdd:specs:end -->
 
 ### spec-12-01 — gd-cli-npm-split
