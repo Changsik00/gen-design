@@ -12,7 +12,7 @@ npm create gd-react@latest my-app
 cd my-app
 
 # 또는 기존 프로젝트에 스킬만 설치
-npx @gd/skills
+npx @gen-design/skills
 ```
 
 Claude Code 에서:
@@ -55,8 +55,8 @@ pnpm gd doctor          생성 코드 품질 점검
 기존 프로젝트에 추가:
 
 ```bash
-npx @gd/skills          # 설치
-npx @gd/skills --force  # 기존 파일 덮어쓰기
+npx @gen-design/skills          # 설치
+npx @gen-design/skills --force  # 기존 파일 덮어쓰기
 ```
 
 ---
@@ -81,7 +81,7 @@ Design/
 ├── packages/
 │   ├── create-gd-react/      ← npm create gd-react 스캐폴드
 │   ├── gd-cli/               ← pnpm gd 명령 (react / tokens / doctor)
-│   └── gd-skills/            ← npx @gd/skills 스킬 인스톨러
+│   └── gd-skills/            ← npx @gen-design/skills 스킬 인스톨러
 ├── studio/                   ← 컴파일러 엔진 + Paper 미리보기
 ├── docs/
 │   ├── handbook.md           ← 실무 진입점 (5분 통독)

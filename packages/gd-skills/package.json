@@ -1,5 +1,5 @@
 {
-  "name": "@gd/skills",
+  "name": "@gen-design/skills",
   "version": "0.1.0",
   "description": "Install gen-design AI skills (gd-chat, gd-start, gd-design, gd-token) into your project",
   "type": "module",

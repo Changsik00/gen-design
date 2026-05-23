@@ -49,7 +49,7 @@ if (skipped.length > 0) {
   for (const f of skipped) {
     console.log(`   ${dim("·")} .claude/skills/${f}`);
   }
-  console.log(dim(`   덮어쓰려면: npx @gd/skills --force`));
+  console.log(dim(`   덮어쓰려면: npx @gen-design/skills --force`));
 }
 
 if (installed.length === 0 && skipped.length === 0) {
