@@ -1,164 +1,122 @@
-# Design
+# gen-design
 
-AI-친화적 디자인 시스템 명세(`DESIGN.md`)를 중간 언어로 두어 **"기획 → 디자인 → 프론트엔드"를 하나의 파이프라인으로 연결하는 프로젝트**입니다.
-단순히 개별 컴포넌트(Button, Card 등)를 제공하는 것을 넘어, **AI 에이전트와 함께 "디자인 시안부터 최종 프로덕트(전체 페이지)까지 빠르게 찍어낼 수 있는" 자동화된 시스템(조립 공장)**을 구축하는 것을 궁극적인 목표로 합니다.
+AI와 대화로 화면을 설계하고, 즉시 React 코드로 컴파일하는 디자인 시스템 파이프라인.
 
-## 🚀 신규 진입자 — 시작 지점
+---
 
-처음 본 프로젝트를 만나신다면 **[`docs/handbook.md`](docs/handbook.md)** 부터 읽어주세요.
+## 30초 시작
 
-handbook 은 *지금 이 순간의 진실* 을 담은 살아있는 문서입니다.
-§1 (한 줄 요약 + 시각) → §4 (디자이너 워크플로) 까지 *5 분 안에* 통독 가능 — 이게 첫 spec.md (chat.md) 작성에 충분한 배경.
+```bash
+# 새 프로젝트 생성
+npm create gd-react@latest my-app
+cd my-app
 
-본 README 는 *프로젝트 동기와 인용 자료* 만. 실무 진입은 handbook.
-
-## 🎯 프로젝트 동기 및 해결하려는 문제
-
-현재 디자인 도구(Paper, Stitch, Figma)와 프론트엔드(React) 사이에는 여전히 사람이 직접 번역해야 하는 큰 간극이 존재합니다. `DESIGN.md`라는 AI가 읽을 수 있는 명세를 중간 언어로 두면, AI가 이 갭을 메울 수 있습니다.
-
-하지만 단순히 명세(`DESIGN.md`)만 도입하는 것으로는 부족합니다. 현재 생태계에는 다음과 같은 파편화된 한계들이 있습니다:
-- **비주얼 규칙**은 제공되지만, 정작 **"무엇을 만들지"**(페이지 구성, 기능 요구사항)에 대한 체계적인 명세가 없습니다.
-- **Button, Card** 같은 작은 단위의 UI 라이브러리는 많지만, **`LoginScene`나 `DashboardScene`같이 프론트엔드 단에서 통째로 재사용할 수 있는 페이지 수준의 템플릿**은 없습니다.
-- 기획 요구사항(`REQUIREMENTS.md`)에서부터 실제 코드까지 유기적으로 이어지는 **구조적 가이드와 자동화 체계**가 없습니다.
-- **디자이너 ↔ 프론트엔드 간의 AI 기반 순환 협업 Flow**(디자인→코드→렌더링 리뷰→수정)가 없습니다.
-
-이 프로젝트는 이 네 가지 갭을 메워, 파편화된 도구들을 **하나의 기획-제작 파이프라인**으로 묶어냅니다.
-
-### 영감
-
-- [Google Stitch DESIGN.md](https://stitch.withgoogle.com/docs/design-md/overview/) — 구조화된 디자인 명세 포맷
-- [awesome-design-md](https://github.com/VoltAgent/awesome-design-md) — 66개 브랜드의 DESIGN.md 컬렉션
-- [shadcn/ui](https://ui.shadcn.com/) — 코드 복사→소유 컴포넌트 배포 모델
-- [W3C Design Tokens](https://www.designtokens.org/) — 디자인 토큰 표준 (DTCG)
-
-## 핵심 아이디어
-
-### 1. 있는 건 쓰고, 없는 걸 만든다
-
-기존 도구와 표준을 최대한 활용하고, 생태계에 없는 부분만 직접 만든다.
-
-| 영역 | 채택 (이미 있는 것) | 직접 만드는 것 |
-|------|---------------------|---------------|
-| DESIGN.md 포맷 | Stitch/awesome-design-md 9섹션 | 확장 섹션 (중간 언어, 페이지 명세, 컴포넌트 매핑) |
-| 디자인 토큰 | W3C DTCG + Style Dictionary | 토큰↔Tailwind 자동 파이프라인 |
-| UI 컴포넌트 | shadcn/ui + Radix/React Aria | Page Template (페이지 단위 재사용) |
-| 앱 기획 | — (공백) | App Blueprint (질의서 → 요구사항 → 컴포넌트 매핑) |
-| 협업 Flow | — (공백) | 디자이너↔프론트 워크플로우 프로토콜 |
-
-> 의사결정 근거: [ADR-001](docs/decisions/ADR-001-phase-restructure.md)
-
-### 2. 중간 언어 (Intermediate Naming)
-
-페이지 내부 구조를 도구 중립적으로 기술한다. 디자인 툴에서는 레이어명, React에서는 컴포넌트명, 요구사항에서는 참조명으로 동일하게 사용한다.
-
-```
-Page > Section > Block > Element
-
-예) LoginScene > HeroSection > CredentialBlock > EmailInput
+# 또는 기존 프로젝트에 스킬만 설치
+npx @gd/skills
 ```
 
-### 3. Page Template — 3계층 컴포넌트
-
-단순 Button이 아닌 LoginScene 통째를 프로젝트 간 재사용한다.
+Claude Code 에서:
 
 ```
-Primitive          Button, Input, Select, Modal (shadcn/ui 기반)
+/gd-start   ← 첫 온보딩 (프로젝트 컨텍스트 수집)
+/gd-chat    ← 화면 설계 (AI와 대화 → chat.md 작성)
+pnpm gd react login   ← React TSX 컴파일
+```
+
+---
+
+## 워크플로
+
+```
+/gd-start               프로젝트 컨텍스트 + DESIGN.md 설정
     ↓
-Composite          LoginForm, SignupForm, StatCard (Primitive 조합)
+/gd-chat                화면 이름 입력 → AI가 5단계 대화로 chat.md 작성
+    ↓                   (의도 → 토큰 → 버튼 역할 → validation → 비슷한 화면)
+pnpm gd react <scene>   chat.md → React TSX 컴파일
     ↓
-Page Template      LoginScene, SignupScene, DashboardScene (Composite 조합)
-                   ├── variant: page / modal / bottom-sheet
-                   ├── 토큰 교체 → 브랜딩 변경
-                   └── i18n 교체 → 언어 변경
+pnpm gd doctor          생성 코드 품질 점검
 ```
 
-```
-LoginScene (Page Template)
-├── BrandHeader         ← 로고, 앱 이름 (토큰 슬롯)
-├── LoginForm           ← Composite (이메일, 비밀번호, 기억하기)
-├── SocialAuthBlock     ← Composite (Google, Apple, Kakao — 슬롯)
-├── ForgotPasswordLink  ← Primitive
-├── SignupPrompt        ← i18n ("계정이 없으신가요?")
-└── FooterLinks         ← Primitive (약관, 개인정보)
-```
+---
 
-### 4. App Blueprint — 체계적 앱 기획
+## Claude Code 스킬
 
-새 앱을 만들 때 구조화된 질의서로 페이지 구성을 가이드한다.
+| 스킬 | 설명 |
+|---|---|
+| `/gd-start` | 첫 온보딩 — DESIGN.md + 프로젝트 컨텍스트 수집 |
+| `/gd-chat` | 화면 설계 대화 — chat.md + .order.md 작성 |
+| `/gd-design` | DESIGN.md 토큰/컴포넌트 편집 |
+| `/gd-token` | 디자인 토큰 조회 (list / find / show) |
 
-```
-"나 SaaS 앱 만들래"
-    → 어떤 페이지? (대시보드, 로그인, 회원가입, 마이페이지...)
-    → 로그인은 모달? 페이지? OAuth 포함?
-    → 대시보드에 어떤 섹션? (통계카드, 최근활동, 차트...)
-    → 각 선택 → 기존 Page Template 자동 매핑
-    → REQUIREMENTS.md + DESIGN.md + AGENT.md 생성
-```
+### 스킬 설치
 
-### 5. 디자이너↔프론트 협업 Flow
+`create gd-react` 로 생성한 프로젝트는 스킬이 자동 포함됩니다.
 
-```
-디자이너                              프론트
-   │                                   │
-   ├─ Paper/Figma에서 시안 ──────────→ DESIGN.md 자동 추출
-   │                                   │
-   │                              Blueprint 질의서 실행
-   │                                   │
-   │                              Page Template 조합 + 코드 생성
-   │                                   │
-   ├─ Paper에서 결과 리뷰 ←─────────── 코드를 Paper에 렌더링
-   │                                   │
-   ├─ 수정사항 반영 ─────────────────→ DESIGN.md 업데이트 → 코드 재생성
-   │                                   │
-   └─ 최종 승인 ─────────────────────→ 머지
+기존 프로젝트에 추가:
+
+```bash
+npx @gd/skills          # 설치
+npx @gd/skills --force  # 기존 파일 덮어쓰기
 ```
 
-## 프로젝트 구조
+---
+
+## CLI 명령
+
+```bash
+pnpm gd react <scene>   # chat.md → React TSX
+pnpm gd tokens list     # 전체 토큰 목록
+pnpm gd tokens find blue  # 토큰 검색
+pnpm gd tokens show primary  # 토큰 상세 (light/dark)
+pnpm gd doctor          # 품질 점검
+```
+
+---
+
+<details>
+<summary>프로젝트 구조</summary>
 
 ```
 Design/
-├── schema/                   ← DESIGN.md 포맷 정의 (Stitch 기반 + 자체 확장)
-├── studio/                   ← React 웹앱 — 산출물 생성 가이드 (개밥먹기)
-├── templates/                ← 프로젝트 생성 템플릿
-│   ├── DESIGN.md.template
-│   ├── REQUIREMENTS.md.template
-│   ├── AGENT.md.template
-│   └── assets/
-│       ├── i18n/             ← 다국어 텍스트 리소스
-│       └── tokens/           ← 디자인 토큰 JSON (W3C DTCG)
-├── design-md-collection/     ← 66개 브랜드 DESIGN.md 레퍼런스
+├── packages/
+│   ├── create-gd-react/      ← npm create gd-react 스캐폴드
+│   ├── gd-cli/               ← pnpm gd 명령 (react / tokens / doctor)
+│   └── gd-skills/            ← npx @gd/skills 스킬 인스톨러
+├── studio/                   ← 컴파일러 엔진 + Paper 미리보기
 ├── docs/
-│   ├── decisions/            ← ADR (아키텍처 결정 기록)
-│   ├── guides/               ← 매핑 규칙, 변환 가이드
-│   └── integrations/         ← 디자인 도구 연동 가이드 (Paper, Stitch, Figma)
-├── agent/                    ← 에이전트 거버넌스 (harness-kit)
+│   ├── handbook.md           ← 실무 진입점 (5분 통독)
+│   ├── motivation.md         ← 프로젝트 배경/동기
+│   └── decisions/            ← ADR (아키텍처 결정 기록)
 ├── backlog/                  ← Phase별 백로그
 └── specs/                    ← Spec 산출물
 ```
 
-## 기술 스택
+</details>
 
-| 영역 | 선택 | 비고 |
-|------|------|------|
-| DESIGN.md 포맷 | Stitch/awesome-design-md 기반 + 자체 확장 | 사실상 표준 채택, 확장만 추가 |
-| 디자인 토큰 | W3C DTCG 포맷 + Style Dictionary | 2025.10 안정판 표준 |
-| 디자인 도구 | Paper, Stitch, Figma | Paper MCP 우선, Figma 차후 연동 |
-| UI 프리미티브 | Radix UI (기본) / React Aria (후보) | Phase 2에서 LoginScene 비교 후 최종 결정 |
-| 컴포넌트 배포 | shadcn/ui registry 모델 참고 | 코드 복사→소유, 커스터마이즈 최적 |
-| 스타일링 | Tailwind CSS | AI 친화적, 유틸리티 퍼스트 |
-| 프레임워크 | React + Vite + TypeScript | studio 및 생성 대상 모두 React |
-| 다국어 | i18n JSON | 텍스트 리소스 외부 관리 |
+<details>
+<summary>기술 스택</summary>
 
-## 로드맵
+| 영역 | 선택 |
+|------|------|
+| 디자인 명세 | DESIGN.md (Stitch 기반 + 자체 확장) |
+| 디자인 토큰 | W3C DTCG + Style Dictionary |
+| UI 컴포넌트 | shadcn/ui + Radix UI |
+| 스타일링 | Tailwind CSS |
+| 프레임워크 | React + Vite + TypeScript |
+| 데이터 페칭 | TanStack Query v5 |
+| 폼 | react-hook-form + zod |
+| 디자인 도구 | Paper MCP (미리보기 렌더링) |
 
-> 원칙: "있는 건 쓰고, 없는 걸 만들자" (→ [ADR-001](docs/decisions/ADR-001-phase-restructure.md))
+</details>
 
-| Phase | 제목 | 핵심 산출물 |
-|:-----:|------|------------|
-| 1 | **Foundation** | DESIGN.md 확장 Schema, React+Tailwind+shadcn/ui 프로젝트, DTCG 토큰 파이프라인 |
-| 2 | **Page Template 시스템** | 3계층 아키텍처, LoginScene (Radix vs Aria 비교 → ADR-002), Dashboard 템플릿 |
-| 3 | **App Blueprint** | 페이지 카탈로그, 질의서, REQUIREMENTS.md 자동 생성 |
-| 4 | **협업 Flow** | 디자이너↔프론트 프로토콜, Paper MCP PoC, Figma 토큰 동기화 PoC |
-| 5 | **PoC 검증** | 앱 A→B 토큰/i18n 교체 재사용성 실증 |
-| 6 | **Studio v1** | 산출물 생성 웹앱 (dogfooding) |
-| 7 | **디자인 도구 연동 심화** | Paper/Stitch/Figma 양방향 파이프라인 안정화 |
+<details>
+<summary>신규 진입자 — 더 읽기</summary>
+
+처음 이 프로젝트를 만나신다면 **[`docs/handbook.md`](docs/handbook.md)** 부터 읽어주세요.
+
+handbook 은 *지금 이 순간의 진실* 을 담은 살아있는 문서입니다.
+§1 (한 줄 요약 + 시각) → §4 (디자이너 워크플로) 까지 *5분 안에* 통독 가능.
+
+프로젝트 배경과 핵심 아이디어: [`docs/motivation.md`](docs/motivation.md)
+
+</details>
