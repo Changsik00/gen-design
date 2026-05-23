@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **spec-x** — ? — 0 spec — 다음: spec-x-01-skills-installer
+없음
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
@@ -105,4 +105,5 @@
 - **08** — ? — completed 2026-05-16
 - **phase-09** — gen-design 활성화 + 외부 alpha — completed 2026-05-22
 - **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — completed 2026-05-23
+- **spec-x-01** — skills-installer — @gen-design/skills npm 배포 + README 개편 — completed 2026-05-23
 <!-- sdd:done:end -->
