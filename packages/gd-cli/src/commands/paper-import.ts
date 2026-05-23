@@ -20,11 +20,11 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { enrichWithIdentity } from "../../src/lib/paper-inference/enrich";
-import { inferChat } from "../../src/lib/paper-inference/infer";
-import type { PaperTreeNode } from "../../src/lib/paper-inference/tree-types";
-import { validateTree, type ValidationError } from "../../src/lib/paper-inference/validate";
-import type { CatalogMap } from "../../src/lib/paper-inference/ast-builder";
+import { enrichWithIdentity } from "../../../../studio/src/lib/paper-inference/enrich";
+import { inferChat } from "../../../../studio/src/lib/paper-inference/infer";
+import type { PaperTreeNode } from "../../../../studio/src/lib/paper-inference/tree-types";
+import { validateTree, type ValidationError } from "../../../../studio/src/lib/paper-inference/validate";
+import type { CatalogMap } from "../../../../studio/src/lib/paper-inference/ast-builder";
 
 export interface PaperImportArgs {
   file?: string;

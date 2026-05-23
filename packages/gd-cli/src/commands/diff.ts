@@ -22,9 +22,9 @@
 import { readFileSync, writeFileSync } from "node:fs";
 import { dirname, join, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
-import { inferChatDiff } from "../../src/lib/paper-inference/diff";
-import type { CatalogMap } from "../../src/lib/paper-inference/ast-builder";
-import type { PaperTreeNode } from "../../src/lib/paper-inference/tree-types";
+import { inferChatDiff } from "../../../../studio/src/lib/paper-inference/diff";
+import type { CatalogMap } from "../../../../studio/src/lib/paper-inference/ast-builder";
+import type { PaperTreeNode } from "../../../../studio/src/lib/paper-inference/tree-types";
 
 export interface DiffArgs {
   chat?: string;

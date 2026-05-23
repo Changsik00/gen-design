@@ -15,7 +15,7 @@
 
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { basename, dirname, extname, join, resolve } from "node:path";
-import { lintFile } from "../../src/lib/chat-md/lint";
+import { lintFile } from "../../../../studio/src/lib/chat-md/lint";
 import { runReact } from "./react";
 import type { RouterResult } from "../gen-design";
 

@@ -3,7 +3,7 @@ import { mkdtempSync, writeFileSync, readFileSync, rmSync } from "node:fs";
 import { join } from "node:path";
 import { tmpdir } from "node:os";
 import { runDiff } from "../diff";
-import type { CatalogMap } from "../../../src/lib/paper-inference/ast-builder";
+import type { CatalogMap } from "../../../../../studio/src/lib/paper-inference/ast-builder";
 
 const catalog: CatalogMap = new Map();
 catalog.set("LoginForm", [
