@@ -248,6 +248,61 @@ B. Tier 3 composite 으로 등재 — 3회 룰 적용
 
 ---
 
+## §5.8 디자인 주문 명세 `.order.md` draft 생성 (spec-12-05)
+
+> §5.5 checklist 5단계 완료 후, `compile` 직전에 실행. **Form + Button 있는 신에서만**.
+
+### 트리거
+
+§5.5 체크리스트 완료 → `gd react` 안내 직전. Form/Input/Button 이 있는 신이면:
+
+```
+decisions.md 에 기록된 내용을 바탕으로 `.order.md` 를 만들어 볼까요?
+이걸 만들면 `gd react` 가 zod schema 와 useForm binding 을 자동 생성해요.
+```
+
+### `.order.md` draft 예시
+
+대화 중 확인한 validation + 버튼 의도를 정리해서 제안:
+
+```yaml
+---
+scene: <slug>
+validation:
+  <field>:
+    - required
+    - <rule>   # email / min(N) / max(N)
+actions:
+  submit:
+    type: form-submit
+    target: <METHOD /endpoint>
+  <button-id>:
+    type: nav
+    target: <route>
+---
+```
+
+### 에이전트 행동
+
+1. decisions.md 의 validation 결정 + 버튼 의도를 draft 로 변환 (에이전트가 직접 파일 작성)
+2. `chats/scenes/<slug>.order.md` 에 저장
+3. 사용자 확인: "이대로 저장할까요?" → 승인 후 commit
+
+### decisions.md 기록 (해당 시)
+
+```markdown
+## YYYY-MM-DD <SceneName> 주문 명세 생성 (§5.8)
+
+- **생성 파일**: `chats/scenes/<slug>.order.md`
+- **validation 필드 수**: N개
+- **actions 수**: M개
+- **출처 스킬**: gd-chat (spec-12-05 §5.8)
+```
+
+> ⚡ Form/Input/Button 없는 신 (예: Dashboard 통계 카드만 있는 신) 은 §5.8 skip OK.
+
+---
+
 ## §6 Narrative (의도) walkthrough
 
 3층 중 1층 — *왜* 이 신이 필요한가, *누가* 보는가.
@@ -488,8 +543,9 @@ chat 작성 중 *주요 결정* 이 있었으면 `.gd/memory/decisions.md` 에 a
   - [ ] (iii) 비슷한 화면 발견 — §5.6 4-옵션 결정 완료 (또는 "유사 없음" 확인)
   - [ ] (iv) Input/Form 있으면 validation 의도 결정 (§7.5)
   - [ ] (v) Button 있으면 버튼 의도 결정 (§7.6)
+- [ ] (해당 시) §5.8 `.order.md` draft 생성 완료 (Form/Button 있는 신)
 - [ ] `pnpm gd react ...` 명령 안내 (또는 실행)
-- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append — §5.6 재사용/확장 + §5.7 토큰 + validation + 버튼 의도
+- [ ] (해당 시) `.gd/memory/decisions.md` 에 주요 결정 append — §5.6 재사용/확장 + §5.7 토큰 + validation + 버튼 의도 + §5.8 order.md 생성 기록
 
 → 사용자가 *시각 확인* 후 수정 필요하면 다시 chat.md 만 편집 → `gd react` 재실행.
 
