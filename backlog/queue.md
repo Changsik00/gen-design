@@ -21,7 +21,7 @@
 ## 📦 진행 중 Phase
 
 <!-- sdd:active:start -->
-- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — 8 spec — 다음: spec-11-08-four-scene-journey
+- **phase-11** — designer-onboarding-skill — npx 스킬 배포 + dogfooding alpha — 8 spec — 다음: (spec 없음)
 <!-- sdd:active:end -->
 
 ## 📥 spec-x 대기
