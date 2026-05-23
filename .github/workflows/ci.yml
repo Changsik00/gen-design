@@ -24,7 +24,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: Install dependencies
-        run: pnpm --filter studio install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Unit tests
         run: pnpm --filter studio test --run
@@ -49,7 +49,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: Install dependencies
-        run: pnpm --filter studio install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install Chromium
         run: pnpm --filter studio exec playwright install --with-deps chromium
@@ -71,7 +71,7 @@ jobs:
       - uses: pnpm/action-setup@v4
 
       - name: Install dependencies
-        run: pnpm --filter studio install --frozen-lockfile
+        run: pnpm install --frozen-lockfile
 
       - name: Install Chromium
         run: pnpm --filter studio exec playwright install --with-deps chromium
