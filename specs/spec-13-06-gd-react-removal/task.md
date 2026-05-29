@@ -47,10 +47,10 @@ react.ts, order.ts 및 관련 테스트 7개 삭제.
 
 - [x] **walkthrough.md 작성**
 - [x] **pr_description.md 작성**
-- [ ] **Ship Commit**: `docs(spec-13-06): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-13-06-gd-react-removal`
-- [ ] **PR 생성**: `phase-13-vertical-slice` 타겟
-- [ ] **사용자 알림**: PR URL 보고
+- [x] **Ship Commit**: `docs(spec-13-06): ship walkthrough and pr description`
+- [x] **Push**: `git push -u origin spec-13-06-gd-react-removal`
+- [x] **PR 생성**: `phase-13-vertical-slice` 타겟
+- [x] **사용자 알림**: PR URL 보고
 
 ---
 
@@ -60,5 +60,5 @@ react.ts, order.ts 및 관련 테스트 7개 삭제.
 |---|---|
 | **총 Task 수** | 4 |
 | **예상 commit 수** | 3 |
-| **현재 단계** | Planning |
+| **현재 단계** | Done |
 | **마지막 업데이트** | 2026-05-29 |
