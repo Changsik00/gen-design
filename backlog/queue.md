@@ -35,6 +35,13 @@
 > 아이디어·보류 항목 보관소. 실행 불가. 관련 항목이 쌓이면 Phase로, 단발이면 spec-x로 승격.
 > 이 섹션은 sdd가 건드리지 않습니다. 자유롭게 편집하세요.
 
+### ✓ create-gd-react preset — shadcn add 가 `@/` 를 리터럴 디렉토리로 생성 (2026-05-29 FF 해결)
+
+- **증상**: preset 으로 만든 프로젝트에서 `pnpm dlx shadcn add <x>` 실행 시 `src/components/ui/` 가 아닌 `<project>/@/components/ui/` 에 파일이 생성됨 → import 실패.
+- **근본 원인**: shadcn CLI 가 root `tsconfig.json` 의 `compilerOptions.paths` 에서 `@/` alias 를 해석하는데, preset 의 root tsconfig 는 `references` 만 있고 paths 가 없었음 (`@/*` → `./src/*` 가 `tsconfig.app.json` 에만 존재).
+- **해결**: `packages/create-gd-react/presets-bundled/default/tsconfig.json` 에 `compilerOptions: { baseUrl, paths }` 추가 (FF). 검증: 신규 스캐폴드 + `shadcn add tooltip` → `src/components/ui/tooltip.tsx` 정상 생성, `@/` 리터럴 디렉토리 미생성 확인.
+- **잔여**: 원격 preset (npm publish 본) 동일 수정은 다음 create-gd-react 배포 시 반영 필요.
+
 ### spec-12-07 이월 — ComponentRegistry 플러그인 인터페이스 (2026-05-23 등재)
 
 - **문서 위치**: `specs/spec-12-07-pluginarch/` (spec.md + plan.md + task.md 작성 완료, 구현 미착수)
