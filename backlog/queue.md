@@ -96,8 +96,10 @@
 | `phase-3` | [App Blueprint](phase-3.md) | Done |
 | `phase-4` | [협업 Flow 정의](phase-4.md) | Done |
 | `phase-5` | [PoC 검증](phase-5.md) | Done |
-| `phase-6` | [Studio v1](phase-6.md) | Queued |
-| `phase-7` | [디자인 도구 연동 심화](phase-7.md) | Queued |
+| `phase-6` | [Studio v1](phase-6.md) | Done |
+| `phase-7` | [디자인 도구 연동 심화](phase-7.md) | Done |
+| `phase-10` | [검증 자동화](phase-10.md) | Dropped |
+| `phase-13` | [chat.md 수직 단면 + LLM-native React 파이프라인](phase-13.md) | Planning |
 <!-- sdd:queued:end -->
 
 ## ✅ 완료
