@@ -894,6 +894,74 @@ npx shadcn@latest add @my-project/login-form
 
 ---
 
+## 10.5 Responsive Strategy — 모바일 우선 (필수) ⭐
+
+> DESIGN.md 의 "모바일 우선 (375px)" 의도를 *agent 가 코드로 강제* 하는 실행 규칙.
+> 모든 화면은 **반응형이어야 한다**. 데스크탑 전용 레이아웃 금지.
+
+### 결정
+
+| 원칙 | 내용 |
+|---|---|
+| ✅ **모바일 우선** | base 클래스 = 375px 기준. breakpoint 는 *위로* 확장 (`sm:` `md:` `lg:`) |
+| ✅ **breakpoint 명시** | 다열 grid / flex 는 *반드시* breakpoint 분기 |
+| ✅ **가로 스크롤 0** | 375px 에서 가로 overflow 금지 |
+| ✅ **터치 타겟** | 인터랙티브 요소 최소 44×44px (`h-11` 이상) |
+
+### Breakpoint 표준 (Tailwind 기본)
+
+```
+base  = 375px+ (모바일, 무접두사)
+sm:   = 640px+ (큰 모바일 / 세로 태블릿)
+md:   = 768px+ (태블릿)
+lg:   = 1024px+ (데스크탑)
+xl:   = 1280px+ (대형)
+```
+
+### 필수 패턴
+
+```tsx
+// ✅ 다열 grid — 모바일 우선 + breakpoint
+<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+// ✅ 페이지 컨테이너 — max-w + 반응형 패딩
+<main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
+
+// ✅ flex 방향 전환 (모바일 세로 → 데스크탑 가로)
+<div className="flex flex-col gap-4 md:flex-row md:items-center">
+
+// ✅ 반응형 타이포
+<h1 className="text-xl font-bold sm:text-2xl lg:text-3xl">
+
+// ✅ 모바일에서 숨김 / 표시
+<aside className="hidden lg:block">      {/* 데스크탑만 */}
+<button className="lg:hidden">메뉴</button>  {/* 모바일만 */}
+```
+
+### 금지 (안티패턴)
+
+```tsx
+// ❌ 다열 grid 단독 (모바일에서 찌그러짐)
+<div className="grid grid-cols-3">
+
+// ❌ 고정 px 폭 (반응형 깨짐)
+<div className="w-[800px]">
+
+// ❌ max-w / px 없는 풀폭 본문 (모바일에서 가장자리 붙음)
+<main className="w-full">
+
+// ❌ 데스크탑 전용 고정 레이아웃 (모바일 미고려)
+<div className="flex flex-row">  {/* 모바일에서도 가로 강제 */}
+```
+
+### 검증
+
+- 개발 중 *반드시* 375px (모바일) + 1024px (데스크탑) 양쪽 확인
+- E2E: 375px 뷰포트에서 가로 스크롤 0 + 주요 그리드 단열 확인
+- `gd doctor` (후속) — 반응형 안티패턴 정적 감지 후보
+
+---
+
 ## 11. 환경변수 — `@env-kit/node-settings`
 
 > 자작 라이브러리 — Vite / Next / dotenv-flow 컨벤션. zod 검증 + 자동 시크릿 감지 + K8s Secret 분리 + CLI.
@@ -1399,6 +1467,8 @@ agent 가 매번 다른 패턴을 생성하지 않도록:
 | 25 | `src/api/` 디렉토리 신설 | `src/lib/http/` (인프라) + `features/<f>/api/` (도메인) |
 | 26 | feature 내부 코드가 *전역* `components/composites/` 컴포넌트를 *수정* | 자체 composite 생성 (도메인 specific) |
 | 27 | MSW handler 가 schema 없이 임의 JSON 반환 | zod schema + `schema.parse()` 자체 검증 |
+| 28 | 다열 `grid-cols-N` 단독 (모바일 미고려) | 모바일 우선 + breakpoint (`grid-cols-1 sm:grid-cols-N`) — §10.5 |
+| 29 | 고정 px 폭 (`w-[800px]`) / 데스크탑 전용 레이아웃 | 반응형 (`max-w-* mx-auto` + breakpoint) — §10.5 |
 
 ---
 
