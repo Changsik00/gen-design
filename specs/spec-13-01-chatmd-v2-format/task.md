@@ -24,10 +24,10 @@
 
 기존 구조를 파악하고 v2 설계 기준선 확보.
 
-- [ ] `packages/gd-cli/src/commands/react.ts` — 파서 구조 분석 (폐기 대상 파악)
-- [ ] `packages/gd-skills/skills/gd-chat.md` — 현재 포맷 기준선 검토
-- [ ] `packages/gd-cli/src/commands/extract.ts` 가 필요로 할 파싱 인터페이스 메모
-- [ ] Commit: `docs(spec-13-01): analysis notes — existing chat.md parser and format baseline`
+- [x] `packages/gd-cli/src/commands/react.ts` — 파서 구조 분석 (폐기 대상 파악)
+- [x] `packages/gd-skills/skills/gd-chat.md` — 현재 포맷 기준선 검토
+- [x] `packages/gd-cli/src/commands/extract.ts` 가 필요로 할 파싱 인터페이스 메모
+- [x] Commit: `docs(spec-13-01): analysis notes — existing chat.md parser and format baseline`
 
 ---
 
