@@ -12,11 +12,12 @@
 
 핵심:
 
-1. **신 (scene) 은 chat.md → TSX 컴파일로만 추가**. 직접 `src/scenes/X.tsx` 작성 금지.
+1. **신 (scene) 은 chat.md v2 → LLM 직접 생성**. chat.md v2 (Narrative/Structure/Data/API/Scenarios) 를 컨텍스트로, DESIGN.md + TOKEN.md + 본 FRONT.md 규칙을 지켜 TSX 생성. (`gd react` 컴파일러는 폐기 — ADR-011)
 2. **컴포넌트 어휘는 카탈로그 안에서만 사용**. 임의 신규 컴포넌트 작명 금지.
-3. **디자이너 surface 3개 (DESIGN.md / TOKEN.md / chat.md) 만 디자이너가 수정**. 그 외는 agent / gd CLI 영역.
-4. **`gd doctor` 가 자동 검증**. 작업 마무리 시 *반드시* 실행.
-5. **shadcn 토큰 이름 절대 변경 금지**. cva variant 정합이 깨짐.
+3. **모든 화면은 반응형** — 모바일 우선 (375px), breakpoint 명시 (FRONT.md §10.5).
+4. **디자이너 surface 3개 (DESIGN.md / TOKEN.md / chat.md) 만 디자이너가 수정**. 그 외는 agent / gd CLI 영역.
+5. **`gd doctor` 가 자동 검증**. 작업 마무리 시 *반드시* 실행.
+6. **shadcn 토큰 이름 절대 변경 금지**. cva variant 정합이 깨짐.
 
 ---
 
@@ -34,7 +35,8 @@
 1. **`pnpm precheck`** — lint + typecheck + test 모두 PASS
 2. **`pnpm gd doctor`** — drift / 어휘 / 대비 / contract 검증
 3. **`.gd/memory/` 갱신** — 새로 알게 된 정보 append (디자이너 / 프로젝트 / 결정 / 피드백)
-4. **chat.md ↔ TSX 정합 확인** — 수정된 chat.md 마다 `gd react` 재실행
+4. **chat.md ↔ TSX 정합 확인** — chat.md v2 수정 시 LLM 이 해당 scene TSX 재생성. Scenarios/API 변경 시 `gd extract` 재실행 (MSW 갱신)
+5. **반응형 확인** — 375px + 1024px 양쪽 레이아웃 정상 (FRONT.md §10.5)
 
 ---
 
@@ -43,24 +45,25 @@
 ```
 디자이너 또는 /gd-chat 스킬과 대화
    ↓
-1. chats/scenes/<name>.chat.md 작성 (Narrative + Structure + History 3층)
+1. chats/scenes/<name>.chat.md 작성 (v2: Narrative / Structure / Data / API / Scenarios)
    ↓
-2. pnpm gd react chats/scenes/<name>.chat.md
+2. LLM 이 chat.md v2 + DESIGN.md + TOKEN.md + FRONT.md 규칙으로 src/scenes/<name>.tsx 직접 생성
+      - 카탈로그 어휘만 / 토큰 클래스만 / shadcn 표준 variant 만
+      - 모바일 우선 반응형 (§10.5) — grid/flex 는 breakpoint 명시
+      - {{i18n.ko.X}} → useTranslation + ko.json 키 추가
    ↓
-3. src/scenes/<name>.tsx 자동 생성 (// @gd: annotation 포함)
+3. (서버 데이터 있으면) pnpm gd extract chats/scenes/<name>.chat.md → MSW 핸들러 + api-spec
    ↓
 4. src/router.tsx 에 라우트 추가
    ↓
-5. pnpm gd doctor (정합 검증)
+5. pnpm gd doctor (정합 검증) + pnpm typecheck
    ↓
-6. pnpm typecheck (타입 PASS)
-   ↓
-7. pnpm dev (시각 확인)
+6. pnpm dev (375px + 1024px 양쪽 시각 확인)
 ```
 
 **금기**:
-- 4단계 (router 추가) 외에는 `src/scenes/*.tsx` 손대지 않음. 손대면 다음 `gd react` 시 덮어쓰기 됨.
-- chat.md 없이 scenes 디렉토리에 파일 직접 작성 금지.
+- chat.md v2 의 의도 / 어휘를 무시하고 임의 컴포넌트 / 색상 생성 금지.
+- 반응형 없이 데스크탑 고정 레이아웃 생성 금지 (§10.5).
 
 ---
 
@@ -68,7 +71,7 @@
 
 ### gen-design 본질 위반
 
-1. **`src/scenes/*.tsx` 직접 수정 금지**. chat.md 만 수정 → `gd react` 컴파일.
+1. **chat.md v2 의 의도를 벗어난 화면 생성 금지**. scene TSX 는 chat.md v2 (Structure/Data/Scenarios) 를 충실히 반영. 임의 화면 구조 X.
 2. **FRONT.md 카탈로그 외 컴포넌트 어휘 사용 금지**. chat.md 에 `<MyCustomBtn>` 같이 임의 명명 X — `Button` (Tier 2) 또는 *Tier 3 composite 으로 승격* 후 사용.
 3. **shadcn 토큰 이름 (`--primary` / `--card` / `--accent` 등) 변경 금지**. cva variant 정합이 깨짐. 값만 `tokens.json` 에서 수정.
 4. **Tier 2 (`src/components/ui/`) 에 *새* 컴포넌트 추가 금지** (shadcn CLI 외). Tier 3 composite 으로 만들 것.
@@ -88,6 +91,12 @@
 12. **jotai 를 *전역* 으로 사용 금지**. jotai 는 Context API 대체 — 항상 Provider 로 *지역 scope*.
 13. **MSW handler 가 zod schema 없이 임의 JSON 반환 금지**. handler 는 *반드시* schema + `schema.parse()` 자체 검증 (FRONT.md §8).
 
+### 반응형 (필수)
+
+14a. **다열 `grid-cols-N` 단독 금지**. 모바일 우선 + breakpoint (`grid-cols-1 sm:grid-cols-2 lg:grid-cols-3`).
+14b. **고정 px 폭 (`w-[800px]`) / 데스크탑 전용 레이아웃 금지**. `max-w-* mx-auto` + 반응형 패딩 (`px-4 sm:px-6`).
+14c. **375px 가로 스크롤 금지**. 모든 화면이 모바일에서 정상 레이아웃.
+
 ### 코드 품질
 
 14. **`import.meta.env.X` 직접 접근 금지**. `src/config/env.ts` 의 `env` 객체만.
@@ -106,7 +115,7 @@
 
 ### gen-design 본질 따르기
 
-1. **신 = chat.md 먼저**. `chats/scenes/<name>.chat.md` 작성 → `pnpm gd react` 로 TSX 생성.
+1. **신 = chat.md v2 먼저**. `chats/scenes/<name>.chat.md` (v2 레이어) 작성 → LLM 이 컨텍스트로 TSX 직접 생성 + 모바일 우선 반응형.
 2. **카탈로그 어휘 사용**. Tier 1 (ARIA) / Tier 2 (shadcn 28종) / Tier 3 (composite) — `pnpm gd lint` 가 검증.
 3. **새 composite = 3회 룰 후 승격**. `src/components/composites/<Name>/index.tsx` + 테스트.
 4. **shadcn 토큰 풀셋 사용**. background / foreground / card / popover / primary / secondary / muted / accent / destructive / border / input / ring / chart-1~5 / sidebar 들 모두 표준 이름 그대로.
@@ -149,7 +158,7 @@
 **agent 가 *절대* 수정하지 않는 파일**:
 - `src/components/ui/**/*` — shadcn (`npx shadcn add` 만 추가 가능, 직접 작성 X)
 - `templates/FRONT.md`, `templates/AGENT.md` — agent 자신의 행동 규칙 (의도적 수정만)
-- `src/scenes/**/*` — `gd react` 의 출력물 (chat.md 수정 후 재컴파일)
+- `src/scenes/**/*` — chat.md v2 기준 LLM 생성물. 직접 손대기보다 chat.md v2 수정 후 재생성 권장 (의도 일관성 유지)
 
 ---
 
@@ -289,7 +298,7 @@ export const handlers = [
 | 디자이너가 카탈로그 외 컴포넌트 요청 | "Tier 3 composite 으로 승격 가능. 어떤 shadcn 조합으로 만들까요?" 질문 후 진행 |
 | DESIGN.md / TOKEN.md 빈 섹션 | 디자이너에게 *1-2 문장으로 채워달라* 요청. 직접 짐작 금지. |
 | 토큰 색 대비 미달 | `gd doctor` 메시지 + 대안 OKLCH 값 제시 |
-| chat.md ↔ TSX drift | `pnpm gd react <chat>` 재실행 안내 |
+| chat.md ↔ TSX drift | chat.md v2 기준으로 scene TSX 재생성 안내 |
 | API 시그니처 불명 | MSW handler 의 zod schema 정의 후 contract 합의 |
 | 기존 카탈로그 변경 필요 | 영향 받는 chat 목록 (`gd doctor`) 출력 후 디자이너 확인 |
 
@@ -300,7 +309,8 @@ export const handlers = [
 ```
 □ pnpm precheck            — lint + typecheck + test
 □ pnpm gd doctor           — drift / 어휘 / 대비 / contract
-□ pnpm gd react <chat>     — 수정된 chat.md 마다 (있다면)
+□ scene TSX 재생성          — chat.md v2 수정 시 LLM 재생성 (의도 반영)
+□ gd extract <chat>        — Scenarios/API 변경 시 MSW 갱신 (있다면)
+□ 반응형 확인              — 375px + 1024px 양쪽 정상 (§10.5)
 □ .gd/memory/ append       — 새 정보 누적
-□ chat.md 수정 시 diff 확인 — 디자이너 의도 보존
 ```
