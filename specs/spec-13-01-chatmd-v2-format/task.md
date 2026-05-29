@@ -79,10 +79,10 @@
 - [x] `pnpm --filter @gen-design/cli typecheck` (타입 체크, 코드 변경 없으나 확인용)
 - [x] **walkthrough.md 작성** — 포맷 설계 과정 + 핵심 결정 기록
 - [x] **pr_description.md 작성** — 템플릿 준수
-- [ ] **Ship Commit**: `docs(spec-13-01): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-13-01-chatmd-v2-format`
-- [ ] **PR 생성**: `phase-13-vertical-slice` 타겟 (첫 spec이므로 base branch 동시 생성)
-- [ ] **사용자 알림**: PR URL 보고
+- [x] **Ship Commit**: `docs(spec-13-01): ship walkthrough and pr description`
+- [x] **Push**: `git push -u origin spec-13-01-chatmd-v2-format`
+- [x] **PR 생성**: `phase-13-vertical-slice` 타겟 (첫 spec이므로 base branch 동시 생성)
+- [x] **사용자 알림**: PR URL 보고
 
 ---
 
@@ -92,5 +92,5 @@
 |---|---|
 | **총 Task 수** | 6 |
 | **예상 commit 수** | 5 |
-| **현재 단계** | Planning |
+| **현재 단계** | Done |
 | **마지막 업데이트** | 2026-05-29 |
