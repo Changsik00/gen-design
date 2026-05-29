@@ -35,7 +35,7 @@
 
 포맷 결정(YAML hybrid) + 레이어별 규칙 문서화.
 
-- [ ] `docs/chatmd-v2-format.md` 신규 작성
+- [x] `docs/chatmd-v2-format.md` 신규 작성
   - 레이어 5개 정의 (UI / Data / API / Scenarios / DB Hints)
   - 필수 / 선택 여부
   - 각 레이어 작성 규칙 + 예시 스니펫
