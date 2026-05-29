@@ -7,7 +7,7 @@
 - [x] Spec ID 확정 및 디렉토리 생성
 - [x] spec.md / plan.md / task.md 작성
 - [x] phase-13.md spec 표 + 성공기준 8 갱신
-- [ ] 사용자 Plan Accept
+- [x] 사용자 Plan Accept
 
 ---
 
@@ -53,11 +53,11 @@
 
 ## Task 6 — Ship
 
-- [ ] **walkthrough.md** (Action 레이어 정의 + todos Query 전환 e2e 증거)
-- [ ] **pr_description.md**
-- [ ] **Ship Commit**: `docs(spec-13-08): ship walkthrough and pr description`
-- [ ] **Push** + **PR 생성** (`phase-13-vertical-slice` 타겟)
-- [ ] 사용자 알림
+- [x] **walkthrough.md** (Action 레이어 정의 + todos Query 전환 e2e 증거)
+- [x] **pr_description.md**
+- [x] **Ship Commit**: `docs(spec-13-08): ship walkthrough and pr description`
+- [x] **Push** + **PR 생성** (`phase-13-vertical-slice` 타겟)
+- [x] 사용자 알림
 
 ---
 
