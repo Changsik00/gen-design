@@ -174,7 +174,7 @@ app (main.tsx, router, scenes)
 src/
 ├── main.tsx                 # entry — StrictMode + Providers + Router
 ├── router.tsx               # React Router 설정 (lazy + Suspense)
-├── scenes/                  # 🤖 gd react 자동 출력 — // @gd: chats/scenes/X
+├── scenes/                  # 🤖 LLM 생성 (chat.md v2 컨텍스트) — 화면별 TSX
 │
 ├── features/                # 도메인 묶음 (대부분의 코드가 여기)
 │   └── auth/
@@ -532,19 +532,21 @@ new QueryClient({
 ### 8.2 흐름
 
 ```
-chat.md (화면 명세 — 디자이너)
+chat.md v2 (수직 단면 명세 — 디자이너 + agent)
    │
-   ├── gd react   → src/scenes/X.tsx (UI 코드)
+   ├── LLM 직접 생성   → src/scenes/X.tsx (UI 코드)
+   │                     DESIGN.md + TOKEN.md 컨텍스트 + 본 FRONT.md 규칙 준수
    │
-   └── gd api     → src/mocks/handlers/<domain>.ts (MSW handler + zod schema)
+   └── gd extract      → src/mocks/handlers/<domain>.ts (MSW handler) + api-spec.md
+                         (chat.md v2 의 Scenarios / API 레이어 파싱)
                          │
                          ├── 개발 (dev / test 에서 MSW 가 응답)
                          ├── 프로토타이핑 (백엔드 없이 화면 동작)
                          ├── e2e 테스트 (Playwright + MSW)
-                         └── 백엔드 contract (schema → OpenAPI export 가능)
+                         └── 백엔드 contract (api-spec.md → OpenAPI 후보)
 ```
 
-> 💡 `gd api` 는 phase-12 후속 명령. spec-11-01 은 *MSW 셋업과 contract 정책* 만 박음.
+> 💡 `gd react` 컴파일러는 phase-13 에서 폐기 (ADR-011). 화면 코드는 *LLM 이 chat.md v2 + DESIGN.md + TOKEN.md 를 컨텍스트로 직접 생성*. `gd extract` 는 Scenarios/API 레이어에서 MSW 핸들러 스텁을 생성.
 
 ### 8.3 MSW handler 표준 구조
 
@@ -844,7 +846,7 @@ export function StatCard({ label, value, variant }: StatCardProps) {
 자체 composite 를 다른 프로젝트로 공유:
 
 ```bash
-pnpm gd react --registry > registry.json
+# shadcn registry 포맷으로 composite export (후속 명령 후보)
 # 또는 별도 npm package 로 publish
 
 # 소비 측에서:
@@ -1193,16 +1195,20 @@ pre-push:
 - **표준 위치**: `src/i18n/index.ts` + `src/i18n/locales/{ko,en}.json`
 - 키 명명: `<도메인>.<액션>.<속성>` — `auth.login.email-label`
 
-### chat.md ↔ React 자동 변환
+### chat.md ↔ React 변환 (LLM 생성)
+
+chat.md v2 의 `{{i18n.ko.X}}` placeholder 는 LLM 이 TSX 생성 시 `useTranslation` 으로 변환:
 
 ```chat
 <Button>{{i18n.ko.welcome.cta}}</Button>
 ```
-↓ `gd react` 컴파일
+↓ LLM 생성 (placeholder → i18n 키)
 ```tsx
 const { t } = useTranslation();
 <Button>{t("welcome.cta")}</Button>
 ```
+
+→ 동시에 `src/i18n/locales/ko.json` 에 키 추가. 하드코딩 텍스트 금지.
 
 ### 금지
 
@@ -1428,7 +1434,8 @@ agent 가 매번 다른 패턴을 생성하지 않도록:
 - *모든* HTTP → `src/lib/http/client.ts` 의 `api` 인스턴스
 - *모든* 서버 상태 → TanStack Query 훅
 - *모든* form → react-hook-form + zod
-- *모든* 신 → chat.md → `gd react` 컴파일
+- *모든* 신 → chat.md v2 작성 → LLM 이 DESIGN.md + TOKEN.md + 본 FRONT.md 규칙으로 직접 생성
+- *모든* 레이아웃 → 모바일 우선 반응형 (§10.5)
 
 → FRONT.md 의 결정이 *모든* 코드에 적용. *예외 만들지 않음*.
 
