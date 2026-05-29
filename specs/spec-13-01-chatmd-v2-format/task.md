@@ -76,9 +76,9 @@
 
 ## Task 6 — Ship
 
-- [ ] `pnpm --filter @gen-design/cli typecheck` (타입 체크, 코드 변경 없으나 확인용)
-- [ ] **walkthrough.md 작성** — 포맷 설계 과정 + 핵심 결정 기록
-- [ ] **pr_description.md 작성** — 템플릿 준수
+- [x] `pnpm --filter @gen-design/cli typecheck` (타입 체크, 코드 변경 없으나 확인용)
+- [x] **walkthrough.md 작성** — 포맷 설계 과정 + 핵심 결정 기록
+- [x] **pr_description.md 작성** — 템플릿 준수
 - [ ] **Ship Commit**: `docs(spec-13-01): ship walkthrough and pr description`
 - [ ] **Push**: `git push -u origin spec-13-01-chatmd-v2-format`
 - [ ] **PR 생성**: `phase-13-vertical-slice` 타겟 (첫 spec이므로 base branch 동시 생성)
