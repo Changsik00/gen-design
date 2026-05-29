@@ -71,10 +71,10 @@
 - [x] 전체 테스트 PASS 확인
 - [x] **walkthrough.md 작성**
 - [x] **pr_description.md 작성**
-- [ ] **Ship Commit**: `docs(spec-13-04): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-13-04-gd-extract`
-- [ ] **PR 생성**: `phase-13-vertical-slice` 타겟
-- [ ] **사용자 알림**: PR URL 보고
+- [x] **Ship Commit**: `docs(spec-13-04): ship walkthrough and pr description`
+- [x] **Push**: `git push -u origin spec-13-04-gd-extract`
+- [x] **PR 생성**: `phase-13-vertical-slice` 타겟
+- [x] **사용자 알림**: PR URL 보고
 
 ---
 
@@ -84,5 +84,5 @@
 |---|---|
 | **총 Task 수** | 6 |
 | **예상 commit 수** | 5 |
-| **현재 단계** | Planning |
+| **현재 단계** | Done |
 | **마지막 업데이트** | 2026-05-29 |
