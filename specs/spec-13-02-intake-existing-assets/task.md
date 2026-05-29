@@ -24,10 +24,10 @@
 
 gd-start.md와 연관 스킬 흐름을 검토하고 변경 기준선 확보.
 
-- [ ] `packages/gd-skills/skills/gd-start.md` 전체 검토 (이미 컨텍스트에 있음)
-- [ ] `packages/gd-skills/skills/gd-design.md` §2 빈 섹션 스캔 로직 확인 (재활용 대상)
-- [ ] `packages/gd-skills/skills/gd-token.md` §3 색 입력 처리 로직 확인 (재활용 대상)
-- [ ] Commit: `docs(spec-13-02): analysis — gd-start intake redesign baseline`
+- [x] `packages/gd-skills/skills/gd-start.md` 전체 검토 (이미 컨텍스트에 있음)
+- [x] `packages/gd-skills/skills/gd-design.md` §2 빈 섹션 스캔 로직 확인 (재활용 대상)
+- [x] `packages/gd-skills/skills/gd-token.md` §3 색 입력 처리 로직 확인 (재활용 대상)
+- [x] Commit: `docs(spec-13-02): analysis — gd-start intake redesign baseline`
 
 ---
 
@@ -35,7 +35,7 @@ gd-start.md와 연관 스킬 흐름을 검토하고 변경 기준선 확보.
 
 자산 감지 + 4가지 intake 경로 + 기존 온보딩 흐름 통합.
 
-- [ ] `packages/gd-skills/skills/gd-start.md` 업데이트:
+- [x] `packages/gd-skills/skills/gd-start.md` 업데이트:
   - §1 자동 로딩 컨텍스트 — 기존 자산 파일 포함
   - §2 환영 메시지 — intake 가능 언급
   - **§3 자산 감지 (신규)** — AskUserQuestion 4가지 타입
@@ -50,8 +50,8 @@ gd-start.md와 연관 스킬 흐름을 검토하고 변경 기준선 확보.
 
 ## Task 4 — Ship
 
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
 - [ ] **Ship Commit**: `docs(spec-13-02): ship walkthrough and pr description`
 - [ ] **Push**: `git push -u origin spec-13-02-intake-existing-assets`
 - [ ] **PR 생성**: `phase-13-vertical-slice` 타겟
