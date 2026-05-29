@@ -29,52 +29,12 @@ jobs:
       - name: Unit tests
         run: pnpm --filter studio test --run
 
-      - name: gen-design lint (--no-compile)
-        run: pnpm --filter studio exec gen-design lint --chat-root playground/chats --no-compile
+      # gen-design lint + dogfooding: playground/ 삭제(phase-13 정리)로 임시 비활성화
+      # spec-13-05 (e2e 재설계) 완료 후 새 경로로 복원 예정
+      # - name: gen-design lint (--no-compile)
+      #   run: pnpm --filter studio exec gen-design lint --chat-root playground/chats --no-compile
+      # - name: Dogfooding score
+      #   run: pnpm --filter studio dogfooding
 
-      - name: Dogfooding score
-        run: pnpm --filter studio dogfooding
-
-  e2e:
-    name: E2E Smoke
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
-      - uses: pnpm/action-setup@v4
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Chromium
-        run: pnpm --filter studio exec playwright install --with-deps chromium
-
-      - name: E2E smoke tests
-        run: pnpm --filter studio test:e2e
-
-  a11y:
-    name: A11y Check
-    runs-on: ubuntu-latest
-
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 24
-
-      - uses: pnpm/action-setup@v4
-
-      - name: Install dependencies
-        run: pnpm install --frozen-lockfile
-
-      - name: Install Chromium
-        run: pnpm --filter studio exec playwright install --with-deps chromium
-
-      - name: A11y check
-        run: pnpm --filter studio test:a11y
+  # e2e / a11y: 기존 smoke.spec.ts + a11y.spec.ts 삭제됨 (phase-13 정리)
+  # spec-13-05 (시나리오 기반 e2e 재설계)에서 재구성 예정
