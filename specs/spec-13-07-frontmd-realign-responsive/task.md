@@ -60,12 +60,12 @@
 
 ## Task 7 — Ship
 
-- [ ] **walkthrough.md 작성** (gd react 잔재 0 확인 + 375px E2E 증거)
-- [ ] **pr_description.md 작성**
-- [ ] **Ship Commit**: `docs(spec-13-07): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-13-07-frontmd-realign-responsive`
-- [ ] **PR 생성**: `phase-13-vertical-slice` 타겟
-- [ ] **사용자 알림**: PR URL 보고
+- [x] **walkthrough.md 작성** (gd react 잔재 0 확인 + 375px E2E 증거)
+- [x] **pr_description.md 작성**
+- [x] **Ship Commit**: `docs(spec-13-07): ship walkthrough and pr description`
+- [x] **Push**: `git push -u origin spec-13-07-frontmd-realign-responsive`
+- [x] **PR 생성**: `phase-13-vertical-slice` 타겟
+- [x] **사용자 알림**: PR URL 보고
 
 ---
 
