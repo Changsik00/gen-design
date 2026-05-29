@@ -51,9 +51,9 @@ Chat Viewer 3개 시나리오.
 
 ## Task 5 — Ship
 
-- [ ] `pnpm --filter studio test:e2e` 전체 PASS
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
+- [x] `pnpm --filter studio test:e2e` 전체 PASS (9개)
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
 - [ ] **Ship Commit**: `docs(spec-13-05): ship walkthrough and pr description`
 - [ ] **Push**: `git push -u origin spec-13-05-e2e-scenario-based`
 - [ ] **PR 생성**: `phase-13-vertical-slice` 타겟
