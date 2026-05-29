@@ -23,4 +23,4 @@
 
 - [x] walkthrough.md 작성
 - [x] pr_description.md 작성
-- [ ] push + PR (target: main)
+- [x] push + PR (target: main)
