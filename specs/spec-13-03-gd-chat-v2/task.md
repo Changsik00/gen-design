@@ -40,8 +40,8 @@ v2 레이어 안내 추가 + 컴파일러 참조 제거.
 
 ## Task 3 — Ship
 
-- [ ] **walkthrough.md 작성**
-- [ ] **pr_description.md 작성**
+- [x] **walkthrough.md 작성**
+- [x] **pr_description.md 작성**
 - [ ] **Ship Commit**: `docs(spec-13-03): ship walkthrough and pr description`
 - [ ] **Push**: `git push -u origin spec-13-03-gd-chat-v2`
 - [ ] **PR 생성**: `phase-13-vertical-slice` 타겟
