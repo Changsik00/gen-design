@@ -11,7 +11,7 @@
  */
 
 import { describe, it, expect, beforeAll } from "vitest";
-import { readFileSync, readdirSync, writeFileSync } from "node:fs";
+import { readFileSync, readdirSync, writeFileSync, existsSync } from "node:fs";
 import { join } from "node:path";
 import { parse } from "../../chat-md/parser/index";
 import { inferChat } from "../infer";
@@ -33,13 +33,15 @@ beforeAll(() => {
   const raw = JSON.parse(readFileSync(CATALOG_PATH, "utf-8")) as VocabularyCatalog;
   catalogMap = buildCatalogMap(raw);
 
-  const collect = (dir: string) =>
-    readdirSync(dir)
+  const collect = (dir: string) => {
+    if (!existsSync(dir)) return [];
+    return readdirSync(dir)
       .filter((f) => f.endsWith(".chat.md"))
       .map((f) => ({
         name: f.replace(".chat.md", ""),
         text: readFileSync(join(dir, f), "utf-8"),
       }));
+  };
   fixtures = [...collect(SCENES_DIR), ...collect(COMPONENTS_DIR)];
 });
 
