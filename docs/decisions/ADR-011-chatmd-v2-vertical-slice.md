@@ -19,7 +19,8 @@ phase-12까지 시스템은 `chat.md → gd react 컴파일러 → src/scenes/*.
 
 ## 🎯 Decision
 
-1. **chat.md v2 포맷 채택**: 기존 3층(Narrative / Structure / History)에 Data / API / Scenarios / DB Hints 레이어를 추가한 5+3층 수직 단면 스펙으로 재정의한다. 구조화 레이어(Data, API, Scenarios, DB Hints)는 YAML fenced block으로 작성한다.
+1. **chat.md v2 포맷 채택**: 기존 3층(Narrative / Structure / History)에 Data / API / Actions / Scenarios / DB Hints 레이어를 추가한 수직 단면 스펙으로 재정의한다. 구조화 레이어(Data, API, Actions, Scenarios, DB Hints)는 YAML fenced block으로 작성한다.
+   - **Actions 레이어** (spec-13-08 추가): 폼 검증 / 인터랙션(클릭·토글·삭제) / Query 연결 / 네비게이션을 명세. 없으면 LLM이 동작을 즉흥 구현하고 FRONT.md의 TanStack Query 규칙을 어기므로, 동작 결정성을 위해 사실상 필수다.
 
 2. **gd react 컴파일러 폐기**: `packages/gd-cli/src/commands/react.ts` 와 `studio/src/lib/chat-md-compiler/` 를 제거한다. TSX 생성은 LLM이 chat.md + DESIGN.md + TOKEN.md를 컨텍스트로 직접 수행한다.
 

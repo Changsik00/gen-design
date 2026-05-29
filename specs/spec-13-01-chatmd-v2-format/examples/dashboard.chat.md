@@ -100,6 +100,20 @@ recent_orders:
     total: number
 ```
 
+## ⚡ Actions
+
+```yaml
+queries:
+  stats:
+    source: GET /api/stats
+    staleTime: 30000
+  orders.recent:
+    source: GET /api/orders?limit=10
+
+navigation:
+  - { trigger: "row[order] click", to: /orders/:id }
+```
+
 ## 🎬 Scenarios
 
 ```yaml

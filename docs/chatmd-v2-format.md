@@ -17,6 +17,7 @@ chat.md v2
 ├── ## 🧩 Structure       필수  UI 컴포넌트 (bare Markdown)
 ├── ## 📦 Data            권장  화면에 필요한 데이터 shape
 ├── ## 🔌 API             권장  필요한 API 엔드포인트
+├── ## ⚡ Actions         권장  동작 명세 (폼 검증 / 인터랙션 / Query 연결 / 네비게이션)
 ├── ## 🎬 Scenarios       권장  MSW 시나리오 (gd extract 소스)
 ├── ## 🗄️ DB Hints        선택  DB 스키마 초안 힌트
 └── ## 📜 History         필수  변경 이력
@@ -147,6 +148,90 @@ recent_orders:
     total: number
 ```
 ````
+
+---
+
+### ⚡ Actions (권장)
+
+> **동작 명세** — "버튼을 누르면 무슨 일이 일어나는가". 이 레이어가 없으면 LLM 이 동작 로직을 즉흥 구현하여 비결정적이고 FRONT.md 의 TanStack Query 규칙을 어긴다.
+> Scenarios(서버 mock 데이터)와 구분 — Actions 는 *클라이언트 동작*.
+
+데이터를 다루거나 인터랙션이 있는 화면에서 작성. 4개 하위 블록:
+
+| 블록 | 역할 |
+|---|---|
+| `forms` | 폼별 검증 규칙 + 제출 동작 (v1 `.order.md` 의 validation 흡수) |
+| `interactions` | 클릭/토글/삭제 등 → API 호출 + 효과 (optimistic / invalidate / client-state) |
+| `queries` | Data 레이어의 `source` → TanStack Query queryKey 매핑 |
+| `navigation` | 버튼/링크 → 라우트 이동 |
+
+````markdown
+## ⚡ Actions
+
+```yaml
+forms:
+  todo-add:
+    fields:
+      title: [required, max:100]
+    submit:
+      action: POST /api/todos
+      effect: optimistic-append      # 낙관적 추가
+      invalidate: [todos.list, todos.stats]
+  login:
+    fields:
+      email: [required, email]
+      password: [required, min:8]
+    submit:
+      action: POST /api/auth/login
+      onSuccess: { navigate: /todos, store: user }
+      onError: { show: "이메일 또는 비밀번호가 올바르지 않아요." }
+
+interactions:
+  toggle-todo:
+    trigger: checkbox change
+    action: PATCH /api/todos/:id
+    effect: optimistic-toggle
+    invalidate: [todos.list, todos.stats]
+  delete-todo:
+    trigger: button[trash] click
+    action: DELETE /api/todos/:id
+    effect: optimistic-remove
+    invalidate: [todos.list, todos.stats]
+  filter:
+    trigger: badge click
+    type: client-state             # 서버 호출 없음 (URL 또는 local state)
+
+queries:
+  todos.list:
+    source: GET /api/todos          # Data.todos.source 와 매칭
+    staleTime: 30000
+  todos.stats:
+    source: GET /api/todos/stats
+
+navigation:
+  - { trigger: "button[mypage]", to: /mypage }
+  - { trigger: "button[back]", to: /todos }
+```
+````
+
+**Action 스키마 핵심 필드**:
+
+| 필드 | 값 | 설명 |
+|---|---|---|
+| `forms.<id>.fields.<f>` | `[required, email, min:N, max:N, url]` | zod 검증 규칙 → react-hook-form + zodResolver |
+| `forms.<id>.submit.action` | `<METHOD> <path>` | 제출 시 호출 API → `useMutation` |
+| `forms.<id>.submit.onSuccess` | `{navigate, store, show}` | 성공 후 플로우 |
+| `interactions.<id>.effect` | `optimistic-* / invalidate` | 캐시 갱신 전략 |
+| `interactions.<id>.type` | `client-state` | 서버 호출 없는 순수 UI 상태 |
+| `queries.<key>.source` | `GET <path>` | `useQuery` queryKey ↔ API 매핑 |
+
+**LLM 생성 규칙** (FRONT.md §5·§7 연결):
+- `queries.*` → `useQuery({ queryKey, queryFn })` — **`useState` 로 서버 데이터 보관 금지**
+- `forms.*.submit` / `interactions.*` (client-state 아닌 것) → `useMutation` + `onSuccess: invalidateQueries`
+- `forms.*.fields` → `react-hook-form` + `zodResolver(zod schema)`
+- `navigation` → `<Link to>` 또는 `navigate()`
+
+→ Action 레이어가 있으면 동작이 **명세에서 결정** — LLM 즉흥 + useState 위반이 사라진다.
 
 ---
 
