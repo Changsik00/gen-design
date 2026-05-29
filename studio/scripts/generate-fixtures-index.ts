@@ -27,12 +27,16 @@ interface FixtureSource {
 
 function loadCategory(category: "scenes" | "components"): FixtureSource[] {
   const dir = join(FIXTURES_ROOT, category);
-  const files = readdirSync(dir).filter((f) => f.endsWith(".chat.md")).sort();
-  return files.map((file) => ({
-    category,
-    name: file.replace(/\.chat\.md$/, ""),
-    text: readFileSync(join(dir, file), "utf-8"),
-  }));
+  try {
+    const files = readdirSync(dir).filter((f) => f.endsWith(".chat.md")).sort();
+    return files.map((file) => ({
+      category,
+      name: file.replace(/\.chat\.md$/, ""),
+      text: readFileSync(join(dir, file), "utf-8"),
+    }));
+  } catch {
+    return [];
+  }
 }
 
 function main(): void {
