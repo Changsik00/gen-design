@@ -1,6 +1,6 @@
 ---
 name: gd-chat
-description: chat.md v2 작성 가이드. 수직 단면 포맷(UI + Data + API + Scenarios + DB Hints) + 카탈로그 어휘 추천 + frontmatter 자동. 새 화면 / component chat 만들 때, 또는 기존 v1을 v2로 업그레이드할 때 호출.
+description: chat.md v2 작성 가이드. 수직 단면 포맷(UI + Data + API + Actions + Scenarios + DB Hints) + 카탈로그 어휘 추천 + frontmatter 자동. 새 화면 / component chat 만들 때, 또는 기존 v1을 v2로 업그레이드할 때 호출.
 ---
 
 # gd-chat — chat.md v2 작성 가이드
@@ -143,6 +143,7 @@ created: YYYY-MM-DD
 5. **버튼 의도** — Button 있으면 §7.6 묻기 (4 옵션)
 6. **서버 데이터 여부** — `{{data.X}}` 바인딩이 있으면 §5.8 Data 레이어 작성
 7. **시나리오 여부** — 서버 데이터 있으면 §5.10 Scenarios 작성 (최소 3개)
+8. **동작 명세** — Button/Form/Checkbox/Link 있으면 §5.10.5 Actions 레이어 작성 (forms/interactions/queries/navigation) — **이게 없으면 LLM 즉흥 + Query 규칙 위반**
 
 ---
 
@@ -306,6 +307,64 @@ chat.md의 `## 🎬 Scenarios` 섹션에 YAML fenced block 추가.
 
 ---
 
+## §5.10.5 Actions 레이어 작성 (동작 명세)
+
+> §5.5 체크 — Structure에 Button/Form/Checkbox 등 인터랙션이 있으면 **필수**. 이게 없으면 LLM이 동작을 즉흥 구현하고 FRONT.md의 TanStack Query 규칙을 어긴다.
+
+### 트리거
+
+Structure에 인터랙티브 요소(`<Button>`, `<Form>`, `<Checkbox>`, `<Link>`)가 있거나, 서버 데이터(`{{data.X}}`)를 다룰 때.
+
+### 작성 흐름
+
+각 인터랙티브 요소마다 "무슨 일이 일어나는가"를 물어 4개 블록으로 정리:
+
+```
+1. 폼이 있으면 → forms: 검증 규칙 + 제출 시 API + onSuccess/onError
+2. 클릭/토글/삭제 → interactions: trigger + action(API) + effect(optimistic/invalidate)
+   또는 type: client-state (서버 호출 없는 순수 UI 상태 — 필터 등)
+3. 서버 데이터 → queries: Data.source 를 queryKey 로 매핑 (TanStack Query)
+4. 화면 이동 버튼 → navigation: trigger → to(라우트)
+```
+
+### 생성 결과
+
+chat.md의 `## ⚡ Actions` 섹션에 YAML fenced block 추가. 포맷은 `docs/chatmd-v2-format.md` §Actions 참조.
+
+예시 (todos 화면):
+
+```yaml
+forms:
+  todo-add:
+    fields: { title: [required, max:100] }
+    submit: { action: POST /api/todos, effect: optimistic-append, invalidate: [todos.list] }
+interactions:
+  toggle-todo: { trigger: checkbox change, action: PATCH /api/todos/:id, effect: optimistic-toggle, invalidate: [todos.list] }
+  filter: { trigger: badge click, type: client-state }
+queries:
+  todos.list: { source: GET /api/todos }
+navigation:
+  - { trigger: "button[mypage]", to: /mypage }
+```
+
+### LLM 생성 시 (이 명세가 강제하는 것)
+
+- `queries.*` → `useQuery` (❌ useState 로 서버 데이터 보관 금지)
+- `forms.submit` / `interactions` (client-state 아닌 것) → `useMutation` + `onSuccess: invalidateQueries`
+- `forms.fields` → react-hook-form + zod
+- `navigation` → `<Link>` / `navigate()`
+
+### decisions.md 기록
+
+```markdown
+## YYYY-MM-DD <SceneName> Actions 레이어 결정
+
+- **forms**: <폼 수> / **interactions**: <개수> / **queries**: <개수>
+- **출처 스킬**: gd-chat (spec-13-08 §5.10.5)
+```
+
+---
+
 ## §5.11 DB Hints 레이어 (선택)
 
 > 서버 데이터가 있고 백엔드 설계가 아직 없을 때 선택적으로 제안.
@@ -410,7 +469,7 @@ Structure에 `<Button>`이 있으면 반드시 (4 옵션):
   D) modal/dialog open — 모달 열기
 ```
 
-→ Scenarios의 submit 액션에 반영.
+→ **§5.10.5 Actions 레이어의 `forms.submit` / `navigation` 에 반영** (어느 API 호출, 어디로 이동). 버튼 의도가 Actions 명세로 결정되어야 LLM이 동작을 즉흥하지 않는다.
 
 ---
 
