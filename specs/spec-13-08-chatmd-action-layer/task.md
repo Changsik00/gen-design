@@ -13,39 +13,39 @@
 
 ## Task 1 — 브랜치 생성
 
-- [ ] `git checkout -b spec-13-08-chatmd-action-layer`
+- [x] `git checkout -b spec-13-08-chatmd-action-layer`
 - Commit: 없음
 
 ---
 
 ## Task 2 — Action 레이어 포맷 정의
 
-- [ ] `docs/chatmd-v2-format.md` — `## ⚡ Actions` 섹션 (forms / interactions / navigation / queries)
+- [x] `docs/chatmd-v2-format.md` — `## ⚡ Actions` 섹션 (forms / interactions / navigation / queries)
 - [ ] Commit: `docs(spec-13-08): define Actions layer in chat.md v2 format`
 
 ---
 
 ## Task 3 — gd-chat 스킬 Action 가이드
 
-- [ ] `packages/gd-skills/skills/gd-chat.md` — Action 레이어 작성 가이드 (버튼 type 4종 → Actions 산출, Query/Mutation 연결 안내)
+- [x] `packages/gd-skills/skills/gd-chat.md` — Action 레이어 작성 가이드 (버튼 type 4종 → Actions 산출, Query/Mutation 연결 안내)
 - [ ] Commit: `docs(spec-13-08): add Actions layer authoring guide to gd-chat`
 
 ---
 
 ## Task 4 — ADR-011 갱신 + 예시
 
-- [ ] `docs/decisions/ADR-011-...md` — v2 레이어에 Actions 추가
-- [ ] `specs/spec-13-01-chatmd-v2-format/examples/dashboard.chat.md` — Actions 예시
+- [x] `docs/decisions/ADR-011-...md` — v2 레이어에 Actions 추가
+- [x] `specs/spec-13-01-chatmd-v2-format/examples/dashboard.chat.md` — Actions 예시
 - [ ] Commit: `docs(spec-13-08): update ADR-011 + dashboard example with Actions`
 
 ---
 
 ## Task 5 — 실증: todos Action 명세 + Query 재생성
 
-- [ ] todo-persona `chats/scenes/todos.chat.md` + `login.chat.md` 에 Actions 레이어 추가
-- [ ] `gd extract` → MSW 핸들러 생성
-- [ ] `src/scenes/todos.tsx` 재생성 — TanStack Query useQuery/useMutation (useState 제거)
-- [ ] MSW + Query 통합 e2e PASS
+- [x] todo-persona `chats/scenes/todos.chat.md` + `login.chat.md` 에 Actions 레이어 추가
+- [x] `gd extract` → MSW 핸들러 생성
+- [x] `src/scenes/todos.tsx` 재생성 — TanStack Query useQuery/useMutation (useState 제거)
+- [x] MSW + Query 통합 e2e PASS
 - [ ] Commit: `test(spec-13-08): todos action-spec → MSW + TanStack Query 실증 (e2e)`
   - 참고: todo-persona 미추적 — e2e 로그를 walkthrough 첨부
 
@@ -67,5 +67,5 @@
 |---|---|
 | **총 Task 수** | 6 |
 | **예상 commit 수** | 5 |
-| **현재 단계** | Planning |
+| **현재 단계** | Ship |
 | **마지막 업데이트** | 2026-05-29 |
