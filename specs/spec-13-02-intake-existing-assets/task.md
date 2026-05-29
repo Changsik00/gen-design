@@ -52,10 +52,10 @@ gd-start.md와 연관 스킬 흐름을 검토하고 변경 기준선 확보.
 
 - [x] **walkthrough.md 작성**
 - [x] **pr_description.md 작성**
-- [ ] **Ship Commit**: `docs(spec-13-02): ship walkthrough and pr description`
-- [ ] **Push**: `git push -u origin spec-13-02-intake-existing-assets`
-- [ ] **PR 생성**: `phase-13-vertical-slice` 타겟
-- [ ] **사용자 알림**: PR URL 보고
+- [x] **Ship Commit**: `docs(spec-13-02): ship walkthrough and pr description`
+- [x] **Push**: `git push -u origin spec-13-02-intake-existing-assets`
+- [x] **PR 생성**: `phase-13-vertical-slice` 타겟
+- [x] **사용자 알림**: PR URL 보고
 
 ---
 
@@ -65,5 +65,5 @@ gd-start.md와 연관 스킬 흐름을 검토하고 변경 기준선 확보.
 |---|---|
 | **총 Task 수** | 4 |
 | **예상 commit 수** | 3 |
-| **현재 단계** | Planning |
+| **현재 단계** | Done |
 | **마지막 업데이트** | 2026-05-29 |
