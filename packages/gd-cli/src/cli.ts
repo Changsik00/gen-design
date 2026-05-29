@@ -23,6 +23,7 @@ import { runMerge } from "./commands/merge";
 import { runLint } from "./commands/lint";
 import { runDoctor } from "./commands/doctor";
 import { runTokens } from "./commands/tokens";
+import { runExtract } from "./commands/extract";
 
 type Handler = (argv: string[]) => Promise<{ exitCode: number; stdout: string; stderr: string }>;
 
@@ -34,6 +35,7 @@ const COMMANDS: Record<string, Handler> = {
   "lint": runLint,
   "doctor": runDoctor,
   "tokens": runTokens,
+  "extract": runExtract,
 };
 
 const COMMAND_DESCRIPTIONS: Record<string, string> = {
@@ -44,6 +46,7 @@ const COMMAND_DESCRIPTIONS: Record<string, string> = {
   "lint": "Validate chat.md consistency — 6 categories (spec-09-02, ADR-009)",
   "doctor": "DESIGN/TOKEN/chat 정합 + drift 감지 + WCAG AA — 12 categories (spec-11-03)",
   "tokens": "토큰 조회 — list / find / show (spec-12-03)",
+  "extract": "chat.md v2 Scenarios+API → MSW 핸들러 스텁 + API spec 생성 (spec-13-04)",
 };
 
 export interface RouterResult {
