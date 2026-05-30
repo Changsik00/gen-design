@@ -46,6 +46,7 @@ phase-12까지 `chat.md → gd react → TSX` 결정론적 컴파일 파이프�
 6. **preset FRONT.md/AGENT.md 가 phase-13 방향(chat.md v2 + LLM 생성)으로 정합** — 폐기된 `gd react` 컴파일 워크플로 잔재 0
 7. **FRONT.md 가 반응형을 강제** — 모바일 우선 규칙 + 안티패턴 명시. 실증: todo 앱 5화면이 375px 모바일에서 레이아웃 정상 (E2E 통과)
 8. **chat.md v2 가 Action/Interaction 을 명세** — 버튼/폼/인터랙션 동작 + API+상태변화 + TanStack Query 연결을 담아 LLM 이 동작을 즉흥하지 않음. 실증: todos 화면이 Action 명세 → MSW + Query 기반으로 생성 (동작 e2e 통과)
+9. **TOKEN.md/DESIGN.md 가 React 에 강제로 흐름** — preset 에 토큰 빌드 파이프라인(tokens.json → globals.css) 추가. 실증: todo 앱에서 primary 토큰 값만 바꾸면 React 코드 변경 0 으로 전체 색 전환. DESIGN.md 컨벤션은 FRONT.md 가 생성 규칙으로 연결 + raw hex 금지
 
 ## 🧩 작업 단위 (SPECs)
 
@@ -60,6 +61,7 @@ phase-12까지 `chat.md → gd react → TSX` 결정론적 컴파일 파이프�
 | `spec-13-06` | gd-react-removal | P3 | Backlog | `specs/spec-13-06-gd-react-removal/` |
 | `spec-13-07` | frontmd-realign-responsive | P0 | Backlog | `specs/spec-13-07-frontmd-realign-responsive/` |
 | `spec-13-08` | chatmd-action-layer | P0 | Backlog | `specs/spec-13-08-chatmd-action-layer/` |
+| `spec-13-09` | token-design-pipeline | P0 | Backlog | `specs/spec-13-09-token-design-pipeline/` |
 <!-- sdd:specs:end -->
 
 ### spec-13-01 — chat.md v2 포맷 설계 (Research + ADR)

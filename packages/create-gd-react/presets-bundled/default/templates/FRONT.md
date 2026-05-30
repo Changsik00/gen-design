@@ -896,6 +896,56 @@ npx shadcn@latest add @my-project/login-form
 
 ---
 
+## 10.3 Token Pipeline — TOKEN.md → React 자동 반영 ⭐
+
+> **디자이너가 정한 토큰이 React 에 강제로 흐르는 메커니즘.** 색을 바꾸려면 코드가 아니라 *토큰 값* 을 바꾼다.
+
+### 단일 소스 → 자동 생성
+
+```
+templates/assets/tokens/tokens.json   ← 소스 (디자이너가 값만 수정)
+        │  pnpm tokens  (tokens/build.mjs, 무의존)
+        ▼
+src/styles/globals.css 의 :root / .dark   ← 생성물 (/* tokens:start ~ end */)
+        │  Tailwind @theme inline
+        ▼
+bg-primary / text-foreground / border-input ...   ← 모든 화면에 반영
+```
+
+### 규칙
+
+- **색/radius 변경은 `tokens.json` 에서만.** `globals.css` 의 `/* tokens:start ~ end */` 영역은 **직접 편집 금지** (다음 `pnpm tokens` 에 덮어쓰임).
+- 변경 후 **반드시 `pnpm tokens` 실행** → `globals.css` 재생성.
+- React 코드는 토큰 *클래스*(`bg-primary`)만 쓰므로, 토큰 값이 바뀌면 **코드 변경 0 으로 전체 색 전환**.
+- shadcn 24 토큰 *이름* 은 불변 (cva variant 정합). 값만 조정.
+
+### 워크플로
+
+```bash
+# 1. 브랜드 색 변경
+#    tokens.json 의 color.primary.$value.light / .dark 수정
+# 2. 재생성
+pnpm tokens
+# 3. 확인 — 모든 bg-primary 가 새 색으로 (dev 새로고침)
+pnpm dev
+```
+
+> `/gd-token` 스킬이 색 입력 → OKLCH 변환 → WCAG 대비 검증 → tokens.json 갱신 → `pnpm tokens` 까지 안내.
+
+---
+
+## 10.4 DESIGN.md — 디자인 컨벤션 반영 (생성 규칙)
+
+> `DESIGN.md` 는 디자이너의 *의도/컨벤션* (Brand 톤, Typography, Layout, Elevation 등). LLM 은 화면 생성 시 이를 *반드시 컨텍스트로 읽고 반영* 한다.
+
+- 색은 **DESIGN.md §Colors 의 의도 → TOKEN.md 토큰** 으로만 표현 (raw hex 금지 — §26).
+- Typography / spacing / radius 의 톤은 DESIGN.md 결정을 따름 (임의 값 금지 — Tailwind 스케일 + 토큰).
+- DESIGN.md 빈 섹션이면 `/gd-design` 으로 채운 뒤 생성 (짐작 금지).
+
+→ DESIGN.md(의도) → TOKEN.md(값) → globals.css(생성) → React. 디자인 시스템이 코드까지 일관 강제.
+
+---
+
 ## 10.5 Responsive Strategy — 모바일 우선 (필수) ⭐
 
 > DESIGN.md 의 "모바일 우선 (375px)" 의도를 *agent 가 코드로 강제* 하는 실행 규칙.
