@@ -51,11 +51,11 @@
 
 ## Task 5 — Ship
 
-- [ ] **walkthrough.md** (파이프라인 + before/after 증거)
-- [ ] **pr_description.md**
-- [ ] **Ship Commit**: `docs(spec-13-09): ship walkthrough and pr description`
-- [ ] **Push** + **PR 생성** (`phase-13-vertical-slice` 타겟)
-- [ ] 사용자 알림
+- [x] **walkthrough.md** (파이프라인 + before/after 증거)
+- [x] **pr_description.md**
+- [x] **Ship Commit**: `docs(spec-13-09): ship walkthrough and pr description`
+- [x] **Push** + **PR 생성** (`phase-13-vertical-slice` 타겟)
+- [x] 사용자 알림
 
 ---
 
