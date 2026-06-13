@@ -16,7 +16,6 @@
 import { existsSync, readdirSync, readFileSync } from "node:fs";
 import { basename, dirname, extname, join, resolve } from "node:path";
 import { lintFile } from "../../../../studio/src/lib/chat-md/lint";
-import { runReact } from "./react";
 import type { RouterResult } from "../cli";
 
 // ---------------------------------------------------------------------------
@@ -28,12 +27,10 @@ export type LintCategory =
   | "grammar"
   | "catalog-ref"
   | "shell-inherit"
-  | "naming"
-  | "compile";
+  | "naming";
 
 export interface LintArgs {
   chatRoot?: string;
-  noCompile?: boolean;
   help?: boolean;
 }
 
@@ -55,13 +52,11 @@ export interface ChatLintDiag {
 // ---------------------------------------------------------------------------
 
 export function parseLintArgs(argv: string[]): LintArgs | { error: string } {
-  const args: LintArgs = { noCompile: false, help: false };
+  const args: LintArgs = { help: false };
   for (let i = 0; i < argv.length; i++) {
     const a = argv[i];
     if (a === "--help" || a === "-h") {
       args.help = true;
-    } else if (a === "--no-compile") {
-      args.noCompile = true;
     } else if (a === "--chat-root") {
       const next = argv[++i];
       if (!next || next.startsWith("--")) {
@@ -431,37 +426,6 @@ export function checkNaming(files: ChatFile[]): ChatLintDiag[] {
   return diags;
 }
 
-// ---------------------------------------------------------------------------
-// Category: compile
-// ---------------------------------------------------------------------------
-
-export async function checkCompile(
-  files: ChatFile[],
-  chatRoot: string,
-): Promise<ChatLintDiag[]> {
-  const diags: ChatLintDiag[] = [];
-
-  for (const f of files) {
-    if (f.fileType !== "scene") continue;
-
-    const raw = readFileSync(f.path, "utf-8");
-    if (!raw.includes("## 🏗 Structure") && !raw.includes("## Structure")) {
-      continue;
-    }
-
-    const slug = basename(f.path, ".chat.md");
-    const result = await runReact([slug, "--chat-root", chatRoot]);
-    if (result.exitCode !== 0) {
-      diags.push({
-        category: "compile",
-        file: f.relPath,
-        message: `TSX compile failed: ${result.stderr.trim() || "unknown error"}`,
-        line: 0,
-      });
-    }
-  }
-  return diags;
-}
 
 // ---------------------------------------------------------------------------
 // Report formatting
@@ -500,14 +464,14 @@ export function formatLintReport(diags: ChatLintDiag[], fileCount: number): stri
 
 function lintHelp(): string {
   return [
-    "Usage: gen-design lint [--chat-root <dir>] [--no-compile]",
+    "Usage: gen-design lint [--chat-root <dir>]",
     "",
     "Options:",
     "  --chat-root <dir>   chat.md 루트 디렉토리 (기본: cwd)",
-    "  --no-compile        compile 카테고리 skip (속도 우선)",
+
     "  --help, -h          도움말",
     "",
-    "검증 카테고리: frontmatter / grammar / catalog-ref / shell-inherit / naming / compile",
+    "검증 카테고리: frontmatter / grammar / catalog-ref / shell-inherit / naming",
   ].join("\n") + "\n";
 }
 
@@ -536,10 +500,6 @@ export async function runLint(argv: string[]): Promise<RouterResult> {
     ...checkShellInherit(files, chatRoot, catalogPath),
     ...checkNaming(files),
   ];
-
-  if (!parsed.noCompile) {
-    diags.push(...(await checkCompile(files, chatRoot)));
-  }
 
   const report = formatLintReport(diags, files.length);
   const exitCode = diags.length === 0 ? 0 : 1;

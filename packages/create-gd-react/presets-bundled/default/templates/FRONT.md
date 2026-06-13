@@ -174,7 +174,7 @@ app (main.tsx, router, scenes)
 src/
 ├── main.tsx                 # entry — StrictMode + Providers + Router
 ├── router.tsx               # React Router 설정 (lazy + Suspense)
-├── scenes/                  # 🤖 gd react 자동 출력 — // @gd: chats/scenes/X
+├── scenes/                  # 🤖 LLM 생성 (chat.md v2 컨텍스트) — 화면별 TSX
 │
 ├── features/                # 도메인 묶음 (대부분의 코드가 여기)
 │   └── auth/
@@ -532,19 +532,21 @@ new QueryClient({
 ### 8.2 흐름
 
 ```
-chat.md (화면 명세 — 디자이너)
+chat.md v2 (수직 단면 명세 — 디자이너 + agent)
    │
-   ├── gd react   → src/scenes/X.tsx (UI 코드)
+   ├── LLM 직접 생성   → src/scenes/X.tsx (UI 코드)
+   │                     DESIGN.md + TOKEN.md 컨텍스트 + 본 FRONT.md 규칙 준수
    │
-   └── gd api     → src/mocks/handlers/<domain>.ts (MSW handler + zod schema)
+   └── gd extract      → src/mocks/handlers/<domain>.ts (MSW handler) + api-spec.md
+                         (chat.md v2 의 Scenarios / API 레이어 파싱)
                          │
                          ├── 개발 (dev / test 에서 MSW 가 응답)
                          ├── 프로토타이핑 (백엔드 없이 화면 동작)
                          ├── e2e 테스트 (Playwright + MSW)
-                         └── 백엔드 contract (schema → OpenAPI export 가능)
+                         └── 백엔드 contract (api-spec.md → OpenAPI 후보)
 ```
 
-> 💡 `gd api` 는 phase-12 후속 명령. spec-11-01 은 *MSW 셋업과 contract 정책* 만 박음.
+> 💡 `gd react` 컴파일러는 phase-13 에서 폐기 (ADR-011). 화면 코드는 *LLM 이 chat.md v2 + DESIGN.md + TOKEN.md 를 컨텍스트로 직접 생성*. `gd extract` 는 Scenarios/API 레이어에서 MSW 핸들러 스텁을 생성.
 
 ### 8.3 MSW handler 표준 구조
 
@@ -844,7 +846,7 @@ export function StatCard({ label, value, variant }: StatCardProps) {
 자체 composite 를 다른 프로젝트로 공유:
 
 ```bash
-pnpm gd react --registry > registry.json
+# shadcn registry 포맷으로 composite export (후속 명령 후보)
 # 또는 별도 npm package 로 publish
 
 # 소비 측에서:
@@ -891,6 +893,74 @@ npx shadcn@latest add @my-project/login-form
 // ✅ 좋음 — 토큰 + cn
 <div className={cn("p-4 text-muted-foreground", isActive && "bg-primary")}>...
 ```
+
+---
+
+## 10.5 Responsive Strategy — 모바일 우선 (필수) ⭐
+
+> DESIGN.md 의 "모바일 우선 (375px)" 의도를 *agent 가 코드로 강제* 하는 실행 규칙.
+> 모든 화면은 **반응형이어야 한다**. 데스크탑 전용 레이아웃 금지.
+
+### 결정
+
+| 원칙 | 내용 |
+|---|---|
+| ✅ **모바일 우선** | base 클래스 = 375px 기준. breakpoint 는 *위로* 확장 (`sm:` `md:` `lg:`) |
+| ✅ **breakpoint 명시** | 다열 grid / flex 는 *반드시* breakpoint 분기 |
+| ✅ **가로 스크롤 0** | 375px 에서 가로 overflow 금지 |
+| ✅ **터치 타겟** | 인터랙티브 요소 최소 44×44px (`h-11` 이상) |
+
+### Breakpoint 표준 (Tailwind 기본)
+
+```
+base  = 375px+ (모바일, 무접두사)
+sm:   = 640px+ (큰 모바일 / 세로 태블릿)
+md:   = 768px+ (태블릿)
+lg:   = 1024px+ (데스크탑)
+xl:   = 1280px+ (대형)
+```
+
+### 필수 패턴
+
+```tsx
+// ✅ 다열 grid — 모바일 우선 + breakpoint
+<div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+// ✅ 페이지 컨테이너 — max-w + 반응형 패딩
+<main className="mx-auto max-w-4xl px-4 py-6 sm:px-6 sm:py-8">
+
+// ✅ flex 방향 전환 (모바일 세로 → 데스크탑 가로)
+<div className="flex flex-col gap-4 md:flex-row md:items-center">
+
+// ✅ 반응형 타이포
+<h1 className="text-xl font-bold sm:text-2xl lg:text-3xl">
+
+// ✅ 모바일에서 숨김 / 표시
+<aside className="hidden lg:block">      {/* 데스크탑만 */}
+<button className="lg:hidden">메뉴</button>  {/* 모바일만 */}
+```
+
+### 금지 (안티패턴)
+
+```tsx
+// ❌ 다열 grid 단독 (모바일에서 찌그러짐)
+<div className="grid grid-cols-3">
+
+// ❌ 고정 px 폭 (반응형 깨짐)
+<div className="w-[800px]">
+
+// ❌ max-w / px 없는 풀폭 본문 (모바일에서 가장자리 붙음)
+<main className="w-full">
+
+// ❌ 데스크탑 전용 고정 레이아웃 (모바일 미고려)
+<div className="flex flex-row">  {/* 모바일에서도 가로 강제 */}
+```
+
+### 검증
+
+- 개발 중 *반드시* 375px (모바일) + 1024px (데스크탑) 양쪽 확인
+- E2E: 375px 뷰포트에서 가로 스크롤 0 + 주요 그리드 단열 확인
+- `gd doctor` (후속) — 반응형 안티패턴 정적 감지 후보
 
 ---
 
@@ -1125,16 +1195,20 @@ pre-push:
 - **표준 위치**: `src/i18n/index.ts` + `src/i18n/locales/{ko,en}.json`
 - 키 명명: `<도메인>.<액션>.<속성>` — `auth.login.email-label`
 
-### chat.md ↔ React 자동 변환
+### chat.md ↔ React 변환 (LLM 생성)
+
+chat.md v2 의 `{{i18n.ko.X}}` placeholder 는 LLM 이 TSX 생성 시 `useTranslation` 으로 변환:
 
 ```chat
 <Button>{{i18n.ko.welcome.cta}}</Button>
 ```
-↓ `gd react` 컴파일
+↓ LLM 생성 (placeholder → i18n 키)
 ```tsx
 const { t } = useTranslation();
 <Button>{t("welcome.cta")}</Button>
 ```
+
+→ 동시에 `src/i18n/locales/ko.json` 에 키 추가. 하드코딩 텍스트 금지.
 
 ### 금지
 
@@ -1360,7 +1434,8 @@ agent 가 매번 다른 패턴을 생성하지 않도록:
 - *모든* HTTP → `src/lib/http/client.ts` 의 `api` 인스턴스
 - *모든* 서버 상태 → TanStack Query 훅
 - *모든* form → react-hook-form + zod
-- *모든* 신 → chat.md → `gd react` 컴파일
+- *모든* 신 → chat.md v2 작성 → LLM 이 DESIGN.md + TOKEN.md + 본 FRONT.md 규칙으로 직접 생성
+- *모든* 레이아웃 → 모바일 우선 반응형 (§10.5)
 
 → FRONT.md 의 결정이 *모든* 코드에 적용. *예외 만들지 않음*.
 
@@ -1399,6 +1474,8 @@ agent 가 매번 다른 패턴을 생성하지 않도록:
 | 25 | `src/api/` 디렉토리 신설 | `src/lib/http/` (인프라) + `features/<f>/api/` (도메인) |
 | 26 | feature 내부 코드가 *전역* `components/composites/` 컴포넌트를 *수정* | 자체 composite 생성 (도메인 specific) |
 | 27 | MSW handler 가 schema 없이 임의 JSON 반환 | zod schema + `schema.parse()` 자체 검증 |
+| 28 | 다열 `grid-cols-N` 단독 (모바일 미고려) | 모바일 우선 + breakpoint (`grid-cols-1 sm:grid-cols-N`) — §10.5 |
+| 29 | 고정 px 폭 (`w-[800px]`) / 데스크탑 전용 레이아웃 | 반응형 (`max-w-* mx-auto` + breakpoint) — §10.5 |
 
 ---
 

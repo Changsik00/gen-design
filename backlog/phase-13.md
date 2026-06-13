@@ -43,6 +43,9 @@ phase-12까지 `chat.md → gd react → TSX` 결정론적 컴파일 파이프�
 3. `gd extract <chat.md>` → MSW 핸들러 스텁 + API spec 파일 자동 생성
 4. MSW 시나리오 기반 e2e 테스트 3개 이상 PASS (CI 통합)
 5. `gd react` 명령 제거 완료 (gd-cli에서 삭제 또는 deprecated 처리)
+6. **preset FRONT.md/AGENT.md 가 phase-13 방향(chat.md v2 + LLM 생성)으로 정합** — 폐기된 `gd react` 컴파일 워크플로 잔재 0
+7. **FRONT.md 가 반응형을 강제** — 모바일 우선 규칙 + 안티패턴 명시. 실증: todo 앱 5화면이 375px 모바일에서 레이아웃 정상 (E2E 통과)
+8. **chat.md v2 가 Action/Interaction 을 명세** — 버튼/폼/인터랙션 동작 + API+상태변화 + TanStack Query 연결을 담아 LLM 이 동작을 즉흥하지 않음. 실증: todos 화면이 Action 명세 → MSW + Query 기반으로 생성 (동작 e2e 통과)
 
 ## 🧩 작업 단위 (SPECs)
 
@@ -55,6 +58,8 @@ phase-12까지 `chat.md → gd react → TSX` 결정론적 컴파일 파이프�
 | `spec-13-04` | gd-extract | P2 | Backlog | `specs/spec-13-04-gd-extract/` |
 | `spec-13-05` | e2e-scenario-based | P2 | Backlog | `specs/spec-13-05-e2e-scenario-based/` |
 | `spec-13-06` | gd-react-removal | P3 | Backlog | `specs/spec-13-06-gd-react-removal/` |
+| `spec-13-07` | frontmd-realign-responsive | P0 | Backlog | `specs/spec-13-07-frontmd-realign-responsive/` |
+| `spec-13-08` | chatmd-action-layer | P0 | Backlog | `specs/spec-13-08-chatmd-action-layer/` |
 <!-- sdd:specs:end -->
 
 ### spec-13-01 — chat.md v2 포맷 설계 (Research + ADR)

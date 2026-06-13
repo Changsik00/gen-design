@@ -10,8 +10,7 @@ export default defineConfig({
     tailwindcss(),
     react(),
     chatApiPlugin([
-      path.resolve(__dirname, "../chats"),
-      path.resolve(__dirname, "../playground/chats"),
+      path.resolve(__dirname, "../fixtures/chats"),
     ]),
   ],
   resolve: {
